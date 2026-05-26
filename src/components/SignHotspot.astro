@@ -1,0 +1,48 @@
+---
+interface Props {
+  label: string;
+  href: string;
+  color: "work" | "about" | "hearsay";
+  ariaLabel: string;
+  /* percentages of the image container */
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+}
+const { label, href, color, ariaLabel, top, left, width, height } = Astro.props;
+---
+<a
+  href={href}
+  class:list={["sign-hotspot", `tint-${color}`, "magnetic"]}
+  style={`top: ${top}; left: ${left}; width: ${width}; height: ${height};`}
+  aria-label={ariaLabel}
+  data-astro-prefetch
+>
+  <span class="sr-only">{label}</span>
+</a>
+
+<style>
+  .sign-hotspot {
+    position: absolute;
+    display: block;
+    border-radius: 6px;
+    transition: box-shadow 0.4s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
+    cursor: pointer;
+    will-change: transform, box-shadow;
+  }
+  .sign-hotspot:hover {
+    box-shadow: 0 0 0 1px currentColor, 0 0 32px 4px currentColor, 0 0 80px 16px currentColor;
+  }
+  .sign-hotspot:focus-visible {
+    outline: 2px solid var(--color-cream);
+    outline-offset: 6px;
+  }
+  .tint-work { color: var(--color-neon-work); }
+  .tint-about { color: var(--color-neon-about); }
+  .tint-hearsay { color: var(--color-neon-hearsay); }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0,0,0,0);
+  }
+</style>
