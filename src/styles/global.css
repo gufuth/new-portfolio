@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/lexend";
+@import "@fontsource/geist-mono/400.css";
+@import "@fontsource/geist-mono/500.css";
+
+@theme {
+  /* Paris Texas palette — sky gradient */
+  --color-sky-top: #0F1B2E;
+  --color-sky-mid: #1F2A4A;
+  --color-sky-warm: #3A2B3F;
+  --color-sky-horizon: #A8493D;
+  --color-silhouette: #0A0908;
+
+  /* Sodium street-lamp key light */
+  --color-key-green: #3E5B3A;
+  --color-key-green-hi: #7BAF6F;
+  --color-key-green-lo: #1A2A1A;
+
+  /* Neon accents */
+  --color-neon-work: #5BFF6A;
+  --color-neon-about: #FF3B30;
+  --color-neon-hearsay: #42B0FF;
+  --color-marquee-warm: #FFEAB0;
+
+  /* Editorial */
+  --color-cream: #F2EDE6;
+  --color-ink: #1A1A1A;
+  --color-muted: #8C8478;
+
+  /* Typography */
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-body: "Lexend Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  /* Easing */
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html, body {
+  background: linear-gradient(180deg,
+    var(--color-sky-top) 0%,
+    var(--color-sky-mid) 45%,
+    var(--color-sky-warm) 80%,
+    var(--color-sky-horizon) 95%,
+    var(--color-silhouette) 100%);
+  background-attachment: fixed;
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--color-neon-work);
+  color: var(--color-silhouette);
+}
