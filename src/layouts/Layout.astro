@@ -1,10 +1,9 @@
 ---
 import "@/styles/global.css";
-interface Props {
-  title?: string;
-  description?: string;
-}
-const { title = "Ian Luna", description = "" } = Astro.props;
+import Payphone from "@/components/Payphone.astro";
+import { ClientRouter } from "astro:transitions";
+interface Props { title?: string; description?: string; noPayphone?: boolean; }
+const { title = "Ian Luna", description = "", noPayphone = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -17,8 +16,43 @@ const { title = "Ian Luna", description = "" } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <ClientRouter />
   </head>
   <body>
+    <a href="#main" class="skip-link">Skip to content</a>
     <slot />
+    {!noPayphone && <Payphone email="ianr.luna@gmail.com" linkedIn="https://www.linkedin.com/in/ian-luna-464931163/" />}
+
+    <script>
+      // Magnetic cursor (kill switch: change MAGNETIC_ON to false to disable)
+      const MAGNETIC_ON = true;
+      if (MAGNETIC_ON && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.addEventListener('astro:page-load', () => {
+          document.querySelectorAll('.magnetic').forEach(el => {
+            const elem = el as HTMLElement;
+            const pull = 0.18;
+            const reset = () => { elem.style.transform = ''; };
+            elem.addEventListener('mousemove', (e) => {
+              const rect = elem.getBoundingClientRect();
+              const x = (e as MouseEvent).clientX - rect.left - rect.width / 2;
+              const y = (e as MouseEvent).clientY - rect.top - rect.height / 2;
+              elem.style.transform = `translate(${x * pull}px, ${y * pull}px)`;
+            });
+            elem.addEventListener('mouseleave', reset);
+          });
+        });
+        document.dispatchEvent(new Event('astro:page-load'));
+      }
+    </script>
+
+    <style>
+      .skip-link {
+        position: absolute; top: -40px; left: 0;
+        background: var(--color-cream); color: var(--color-ink);
+        padding: 0.5rem 1rem; z-index: 100;
+        font-family: var(--font-mono); font-size: 0.85rem;
+      }
+      .skip-link:focus { top: 0; }
+    </style>
   </body>
 </html>

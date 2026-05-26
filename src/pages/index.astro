@@ -1,12 +1,59 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Marquee from "@/components/Marquee.astro";
+import HeroPlate from "@/components/HeroPlate.astro";
+import NeonSign from "@/components/NeonSign.astro";
+import TodaysSpecial from "@/components/TodaysSpecial.astro";
+
+const taglines = [
+  "Beast Mode Banking.",
+  "Earth is the most beautiful thing you'll ever leave.",
+  "Hours later.",
+  "Built for the kid in the parking lot.",
+  "Born in Tequila. Brought up everywhere.",
+];
 ---
-<Layout title="Ian Luna">
-  <main class="min-h-screen flex flex-col items-center justify-center px-6">
-    <div class="text-center">
-      <p style="font-family: var(--font-mono); color: var(--color-muted); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;">
-        build pipeline ok
-      </p>
+<Layout title="Ian Luna" description="Creative leader. Writer. Storyteller.">
+  <main id="main" class="diner">
+    <Marquee primary="IAN LUNA" tagline="Creative leader. Writer. Storyteller." />
+
+    <HeroPlate alt="The Last Stop Diner at dusk, neon signs lit, parking lot empty." />
+
+    <nav class="signs" aria-label="Primary">
+      <NeonSign label="WORK" color="work" href="/work" ariaLabel="WORK. Case studies." flickerDelay="500ms" large={true} />
+      <NeonSign label="ABOUT" color="about" href="/about" ariaLabel="ABOUT. Bio and resume." flickerDelay="650ms" />
+      <NeonSign label="HEARSAY" color="hearsay" href="/hearsay" ariaLabel="HEARSAY. Testimonials." flickerDelay="800ms" />
+    </nav>
+
+    <TodaysSpecial taglines={taglines} intervalMs={7000} />
+
+    <div class="open-row fade-up" style="animation-delay: 900ms;">
+      <NeonSign label="OPEN" color="open" href="#main" ariaLabel="OPEN. Taking new work." flickerDelay="900ms" />
     </div>
   </main>
 </Layout>
+
+<style>
+  .diner {
+    padding: 1rem 1rem 6rem;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .signs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem 2.5rem;
+    padding: 2rem 1rem 1rem;
+  }
+  .open-row {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+    opacity: 0.85;
+  }
+  @media (max-width: 768px) {
+    .signs { flex-direction: column; gap: 1rem; }
+  }
+</style>

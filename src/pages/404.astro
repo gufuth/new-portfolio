@@ -1,0 +1,45 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+<Layout title="Off the map" description="">
+  <main class="four-oh-four">
+    <p class="label">404</p>
+    <h1 class="line">Off the map.</h1>
+    <p class="hint">The payphone is in the corner.</p>
+  </main>
+</Layout>
+
+<style>
+  .four-oh-four {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1rem;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--color-muted);
+    margin: 0;
+  }
+  .line {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--color-marquee-warm);
+    margin: 0;
+    text-shadow: 0 0 24px rgba(255, 234, 176, 0.4);
+  }
+  .hint {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-cream);
+    opacity: 0.6;
+    margin: 1rem 0 0;
+  }
+</style>

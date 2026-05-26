@@ -1,0 +1,33 @@
+---
+interface Props { primary: string; tagline?: string; }
+const { primary, tagline } = Astro.props;
+---
+<div class="marquee fade-up" style="animation-delay: 200ms;">
+  <h1 class="primary">{primary}</h1>
+  {tagline && <p class="tagline">{tagline}</p>}
+</div>
+
+<style>
+  .marquee { text-align: center; padding: 2rem 1rem 1rem; }
+  .primary {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    letter-spacing: 0.02em;
+    color: var(--color-marquee-warm);
+    text-shadow:
+      0 0 12px var(--color-marquee-warm),
+      0 0 32px rgba(255, 234, 176, 0.6),
+      0 0 64px rgba(255, 234, 176, 0.3);
+    margin: 0;
+    line-height: 1;
+  }
+  .tagline {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin: 0.75rem 0 0;
+  }
+</style>

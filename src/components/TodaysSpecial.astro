@@ -1,0 +1,72 @@
+---
+interface Props { taglines: string[]; intervalMs?: number; }
+const { taglines, intervalMs = 7000 } = Astro.props;
+---
+<div class="todays-special fade-up" style="animation-delay: 1200ms;" data-interval={intervalMs}>
+  <p class="label">Today's Special</p>
+  <div class="display">
+    {taglines.map((line, i) => (
+      <p class:list={["tagline", i === 0 && "active"]} data-idx={i}>{line}</p>
+    ))}
+  </div>
+</div>
+
+<style>
+  .todays-special {
+    max-width: 520px;
+    margin: 2rem auto 0;
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(255, 234, 176, 0.2);
+    border-radius: 4px;
+    background: rgba(15, 27, 46, 0.4);
+    backdrop-filter: blur(8px);
+    text-align: center;
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-marquee-warm);
+    opacity: 0.7;
+    margin: 0 0 0.5rem;
+  }
+  .display {
+    position: relative;
+    min-height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tagline {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    color: var(--color-cream);
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-cinematic);
+    margin: 0;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  .tagline.active { opacity: 1; }
+</style>
+
+<script>
+  const board = document.querySelector('.todays-special');
+  if (board && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const taglines = board.querySelectorAll('.tagline');
+    const interval = parseInt(board.getAttribute('data-interval') || '7000');
+    let active = 0;
+    setInterval(() => {
+      taglines[active].classList.remove('active');
+      active = (active + 1) % taglines.length;
+      taglines[active].classList.add('active');
+    }, interval);
+  }
+</script>

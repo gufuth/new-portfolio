@@ -1,0 +1,42 @@
+---
+import { Image } from "astro:assets";
+import diner from "@/assets/hero/diner-night.png";
+
+interface Props { alt: string; }
+const { alt } = Astro.props;
+---
+<div class="hero-plate fade-up" style="animation-delay: 0ms;">
+  <Image src={diner} alt={alt} widths={[640, 1280, 1920, 2560]} sizes="100vw" formats={["avif", "webp"]} loading="eager" fetchpriority="high" />
+  <div class="vignette" aria-hidden="true"></div>
+</div>
+
+<style>
+  .hero-plate {
+    position: relative;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+  }
+  .hero-plate img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 50%, rgba(10, 9, 8, 0.5) 100%),
+      linear-gradient(to bottom, transparent 70%, rgba(10, 9, 8, 0.7) 100%);
+    pointer-events: none;
+  }
+  @media (max-width: 768px) {
+    .hero-plate { aspect-ratio: 3 / 4; }
+    .hero-plate img { object-position: center; }
+  }
+</style>

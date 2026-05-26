@@ -1,0 +1,88 @@
+---
+interface Props { email: string; linkedIn?: string; }
+const { email, linkedIn } = Astro.props;
+---
+<div class="payphone fade-up" style="animation-delay: 1000ms;">
+  <button class="trigger" aria-label="Contact Ian" id="payphone-trigger">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  </button>
+  <div class="menu" id="payphone-menu" hidden>
+    <a href={`mailto:${email}`} class="menu-item">Email</a>
+    {linkedIn && <a href={linkedIn} target="_blank" rel="noopener" class="menu-item">LinkedIn</a>}
+  </div>
+</div>
+
+<style>
+  .payphone {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 50;
+  }
+  .trigger {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 234, 176, 0.3);
+    background: rgba(15, 27, 46, 0.7);
+    backdrop-filter: blur(12px);
+    color: var(--color-marquee-warm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s var(--ease-cinematic);
+    box-shadow: 0 0 16px rgba(255, 234, 176, 0.15);
+  }
+  .trigger:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 24px rgba(255, 234, 176, 0.4);
+    border-color: rgba(255, 234, 176, 0.6);
+  }
+  .trigger:focus-visible {
+    outline: 2px solid var(--color-cream);
+    outline-offset: 4px;
+  }
+  .menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: rgba(15, 27, 46, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 234, 176, 0.2);
+    border-radius: 4px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 160px;
+  }
+  .menu-item {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-cream);
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .menu-item:hover { background: rgba(91, 255, 106, 0.15); }
+</style>
+
+<script>
+  const trigger = document.getElementById('payphone-trigger');
+  const menu = document.getElementById('payphone-menu');
+  if (trigger && menu) {
+    trigger.addEventListener('click', () => {
+      const isHidden = menu.hasAttribute('hidden');
+      if (isHidden) menu.removeAttribute('hidden');
+      else menu.setAttribute('hidden', '');
+    });
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.payphone')) menu.setAttribute('hidden', '');
+    });
+  }
+</script>
