@@ -4,13 +4,13 @@ interface Props {
   href: string;
   color: "work" | "about" | "hearsay";
   ariaLabel: string;
-  /* percentages of the image container */
   top: string;
   left: string;
   width: string;
   height: string;
+  pulseDelay?: string;
 }
-const { label, href, color, ariaLabel, top, left, width, height } = Astro.props;
+const { label, href, color, ariaLabel, top, left, width, height, pulseDelay = "0s" } = Astro.props;
 ---
 <a
   href={href}
@@ -19,6 +19,7 @@ const { label, href, color, ariaLabel, top, left, width, height } = Astro.props;
   aria-label={ariaLabel}
   data-astro-prefetch
 >
+  <span class="glow" style={`animation-delay: ${pulseDelay};`} aria-hidden="true"></span>
   <span class="sr-only">{label}</span>
 </a>
 
@@ -26,13 +27,29 @@ const { label, href, color, ariaLabel, top, left, width, height } = Astro.props;
   .sign-hotspot {
     position: absolute;
     display: block;
-    border-radius: 6px;
-    transition: box-shadow 0.4s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
     cursor: pointer;
-    will-change: transform, box-shadow;
+    transition: transform 0.4s var(--ease-cinematic);
+    will-change: transform;
+  }
+  .glow {
+    position: absolute;
+    inset: -8%;
+    border-radius: 12%;
+    background: radial-gradient(ellipse at center, currentColor 0%, transparent 60%);
+    opacity: 0.35;
+    filter: blur(20px);
+    mix-blend-mode: screen;
+    animation: sign-pulse 4.5s var(--ease-cinematic) infinite;
+    pointer-events: none;
+    will-change: opacity, filter;
+  }
+  .sign-hotspot:hover .glow {
+    opacity: 0.7;
+    filter: blur(28px);
+    animation-duration: 2s;
   }
   .sign-hotspot:hover {
-    box-shadow: 0 0 0 1px currentColor, 0 0 32px 4px currentColor, 0 0 80px 16px currentColor;
+    transform: scale(1.02);
   }
   .sign-hotspot:focus-visible {
     outline: 2px solid var(--color-cream);
@@ -44,5 +61,16 @@ const { label, href, color, ariaLabel, top, left, width, height } = Astro.props;
   .sr-only {
     position: absolute; width: 1px; height: 1px;
     overflow: hidden; clip: rect(0,0,0,0);
+  }
+
+  @keyframes sign-pulse {
+    0%, 100% { opacity: 0.30; filter: blur(20px); }
+    45% { opacity: 0.55; filter: blur(24px); }
+    50% { opacity: 0.50; filter: blur(22px); }
+    55% { opacity: 0.60; filter: blur(26px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow { animation: none; opacity: 0.4; }
   }
 </style>

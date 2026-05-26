@@ -71,3 +71,21 @@ html, body {
   }
   .fade-up { opacity: 1; }
 }
+
+@keyframes ambient-world-pulse {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.04); }
+}
+
+.stage-img {
+  animation: world-fade-in 1.2s var(--ease-cinematic) backwards, ambient-world-pulse 8s ease-in-out infinite;
+}
+
+@keyframes world-fade-in {
+  from { opacity: 0; filter: brightness(0.6); }
+  to { opacity: 1; filter: brightness(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-img { animation: none; }
+}
