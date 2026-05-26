@@ -10,7 +10,7 @@ const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
   <main id="main" class="stage">
     <div class="frame">
       <video
-        class="hero-video stage-img"
+        class="hero-video"
         autoplay
         muted
         loop
@@ -22,13 +22,13 @@ const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
         <source src="/video/diner-loop.mp4" type="video/mp4" />
       </video>
 
-      <!-- Hotspots positioned as % of the image container. Coordinates tuned for the Veo video crop. -->
       <SignHotspot
         label="WORK"
         href="/work"
         color="work"
         ariaLabel="WORK. Case studies."
         top="59%" left="32%" width="22%" height="18%"
+        labelPosition="below"
         pulseDelay="0s"
       />
       <SignHotspot
@@ -37,16 +37,20 @@ const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
         color="about"
         ariaLabel="ABOUT. Bio and resume."
         top="62%" left="55%" width="14%" height="11%"
-        pulseDelay="1.5s"
+        labelPosition="below"
+        pulseDelay="1.2s"
       />
       <SignHotspot
         label="HEARSAY"
         href="/hearsay"
         color="hearsay"
-        ariaLabel="HEARSAY. Testimonials. (sign in current video reads DIRT; spec-correct version pending re-render)"
+        ariaLabel="HEARSAY. Testimonials."
         top="58%" left="15%" width="12%" height="10%"
-        pulseDelay="3s"
+        labelPosition="below"
+        pulseDelay="2.4s"
       />
+
+      <p class="enter-hint" id="enter-hint">Click any sign to enter</p>
     </div>
   </main>
 </Layout>
@@ -63,7 +67,7 @@ const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
   .frame {
     position: relative;
     width: 100vw;
-    max-width: min(177vh, 100vw); /* 16:9 cap */
+    max-width: min(177vh, 100vw);
     aspect-ratio: 16 / 9;
     margin: 0 auto;
   }
@@ -73,18 +77,46 @@ const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
     display: block;
     object-fit: cover;
   }
-  @media (max-width: 768px) {
-    .frame { max-width: 100vw; aspect-ratio: 16 / 9; }
+  .enter-hint {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-cream);
+    text-shadow: 0 0 12px rgba(242, 237, 230, 0.6), 0 0 24px rgba(242, 237, 230, 0.3);
+    opacity: 0;
+    margin: 0;
+    pointer-events: none;
+    animation: hint-show 6s var(--ease-cinematic) 1.2s 1 both;
   }
-
+  @keyframes hint-show {
+    0% { opacity: 0; transform: translate(-50%, 12px); }
+    15%, 70% { opacity: 0.9; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -8px); }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .hero-video { animation: none; }
+    .enter-hint { animation: none; opacity: 0.7; }
   }
 </style>
 
 <script>
-  /* If autoplay is blocked or reduced-motion preferred, pause the video and let poster carry the page. */
+  // Hide hint once user has interacted
+  const hint = document.getElementById('enter-hint');
+  const hideHint = () => { if (hint) hint.style.display = 'none'; };
+  document.querySelectorAll('.sign-hotspot').forEach(el => {
+    el.addEventListener('mouseenter', hideHint, { once: true });
+    el.addEventListener('click', hideHint, { once: true });
+  });
+
+  // Reduced motion: pause video
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('video').forEach(v => { (v as HTMLVideoElement).pause(); (v as HTMLVideoElement).removeAttribute('autoplay'); });
+    document.querySelectorAll('video').forEach(v => {
+      (v as HTMLVideoElement).pause();
+      (v as HTMLVideoElement).removeAttribute('autoplay');
+    });
   }
 </script>

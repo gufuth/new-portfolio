@@ -8,9 +8,15 @@ interface Props {
   left: string;
   width: string;
   height: string;
+  labelPosition?: "above" | "below" | "right";
   pulseDelay?: string;
 }
-const { label, href, color, ariaLabel, top, left, width, height, pulseDelay = "0s" } = Astro.props;
+const {
+  label, href, color, ariaLabel,
+  top, left, width, height,
+  labelPosition = "below",
+  pulseDelay = "0s"
+} = Astro.props;
 ---
 <a
   href={href}
@@ -19,7 +25,10 @@ const { label, href, color, ariaLabel, top, left, width, height, pulseDelay = "0
   aria-label={ariaLabel}
   data-astro-prefetch
 >
-  <span class="glow" style={`animation-delay: ${pulseDelay};`} aria-hidden="true"></span>
+  <span class="outline" style={`animation-delay: ${pulseDelay};`} aria-hidden="true"></span>
+  <span class:list={["hint", `hint-${labelPosition}`]} aria-hidden="true">
+    {label} <span class="arrow">→</span>
+  </span>
   <span class="sr-only">{label}</span>
 </a>
 
@@ -30,31 +39,67 @@ const { label, href, color, ariaLabel, top, left, width, height, pulseDelay = "0
     cursor: pointer;
     transition: transform 0.4s var(--ease-cinematic);
     will-change: transform;
+    color: var(--color-cream);
   }
-  .glow {
+
+  /* Visible neon outline — persistent, pulsing */
+  .outline {
     position: absolute;
-    inset: -8%;
-    border-radius: 12%;
-    background: radial-gradient(ellipse at center, currentColor 0%, transparent 60%);
-    opacity: 0.35;
-    filter: blur(20px);
-    mix-blend-mode: screen;
-    animation: sign-pulse 4.5s var(--ease-cinematic) infinite;
+    inset: -4%;
+    border: 1.5px solid currentColor;
+    border-radius: 6px;
+    box-shadow:
+      0 0 12px currentColor,
+      0 0 24px currentColor,
+      inset 0 0 8px rgba(255, 255, 255, 0.15);
+    opacity: 0.85;
+    animation: outline-breathe 3.6s var(--ease-cinematic) infinite;
     pointer-events: none;
-    will-change: opacity, filter;
+    will-change: opacity, box-shadow;
   }
-  .sign-hotspot:hover .glow {
-    opacity: 0.7;
-    filter: blur(28px);
-    animation-duration: 2s;
+
+  /* Visible hint label */
+  .hint {
+    position: absolute;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(0.75rem, 1.4vw, 1rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: currentColor;
+    text-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0.85;
   }
+  .hint-below { top: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+  .hint-above { bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+  .hint-right { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
+  .arrow { display: inline-block; margin-left: 0.25em; }
+
+  /* Hover state — intensify */
   .sign-hotspot:hover {
     transform: scale(1.02);
   }
+  .sign-hotspot:hover .outline {
+    opacity: 1;
+    box-shadow:
+      0 0 18px currentColor,
+      0 0 40px currentColor,
+      0 0 72px currentColor,
+      inset 0 0 12px rgba(255, 255, 255, 0.3);
+    animation-duration: 1.6s;
+  }
+  .sign-hotspot:hover .hint {
+    opacity: 1;
+    text-shadow: 0 0 12px currentColor, 0 0 30px currentColor;
+  }
   .sign-hotspot:focus-visible {
     outline: 2px solid var(--color-cream);
-    outline-offset: 6px;
+    outline-offset: 8px;
   }
+
   .tint-work { color: var(--color-neon-work); }
   .tint-about { color: var(--color-neon-about); }
   .tint-hearsay { color: var(--color-neon-hearsay); }
@@ -63,14 +108,18 @@ const { label, href, color, ariaLabel, top, left, width, height, pulseDelay = "0
     overflow: hidden; clip: rect(0,0,0,0);
   }
 
-  @keyframes sign-pulse {
-    0%, 100% { opacity: 0.30; filter: blur(20px); }
-    45% { opacity: 0.55; filter: blur(24px); }
-    50% { opacity: 0.50; filter: blur(22px); }
-    55% { opacity: 0.60; filter: blur(26px); }
+  @keyframes outline-breathe {
+    0%, 100% {
+      opacity: 0.70;
+      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, inset 0 0 6px rgba(255, 255, 255, 0.12);
+    }
+    50% {
+      opacity: 0.95;
+      box-shadow: 0 0 16px currentColor, 0 0 32px currentColor, 0 0 56px currentColor, inset 0 0 10px rgba(255, 255, 255, 0.2);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .glow { animation: none; opacity: 0.4; }
+    .outline { animation: none; opacity: 0.85; }
   }
 </style>
