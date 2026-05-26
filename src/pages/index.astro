@@ -1,30 +1,34 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import SignHotspot from "@/components/SignHotspot.astro";
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import diner from "@/assets/hero/diner-night.png";
+
+const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
 ---
 <Layout title="Ian Luna" description="Creative leader. Writer. Storyteller.">
   <main id="main" class="stage">
     <div class="frame">
-      <Image
-        src={diner}
-        alt="The Last Stop Diner at dusk. Neon signs lit, station wagon parked in the lot. Click any sign to enter."
-        widths={[640, 1280, 1920, 2560]}
-        sizes="(max-width: 768px) 100vw, min(100vh, 100vw)"
-        formats={["avif", "webp"]}
-        loading="eager"
-        fetchpriority="high"
-        class="hero-img stage-img"
-      />
+      <video
+        class="hero-video stage-img"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster={posterImage.src}
+        aria-label="The Last Stop Diner at dusk. Neon signs lit, station wagon parked in the lot."
+      >
+        <source src="/video/diner-loop.mp4" type="video/mp4" />
+      </video>
 
-      <!-- Hotspots positioned as % of the image container. Coordinates tuned for 1769149471685.png. -->
+      <!-- Hotspots positioned as % of the image container. Coordinates tuned for the Veo video crop. -->
       <SignHotspot
         label="WORK"
         href="/work"
         color="work"
         ariaLabel="WORK. Case studies."
-        top="62%" left="36%" width="30%" height="17%"
+        top="59%" left="32%" width="22%" height="18%"
         pulseDelay="0s"
       />
       <SignHotspot
@@ -32,15 +36,15 @@ import diner from "@/assets/hero/diner-night.png";
         href="/about"
         color="about"
         ariaLabel="ABOUT. Bio and resume."
-        top="51%" left="3%" width="18%" height="11%"
+        top="62%" left="55%" width="14%" height="11%"
         pulseDelay="1.5s"
       />
       <SignHotspot
         label="HEARSAY"
         href="/hearsay"
         color="hearsay"
-        ariaLabel="HEARSAY. Testimonials."
-        top="62%" left="8%" width="14%" height="6%"
+        ariaLabel="HEARSAY. Testimonials. (sign in current video reads DIRT; spec-correct version pending re-render)"
+        top="58%" left="15%" width="12%" height="10%"
         pulseDelay="3s"
       />
     </div>
@@ -54,21 +58,33 @@ import diner from "@/assets/hero/diner-night.png";
     align-items: center;
     justify-content: center;
     padding: 0;
+    background: var(--color-silhouette);
   }
   .frame {
     position: relative;
     width: 100vw;
-    max-width: min(100vh, 100vw);
-    aspect-ratio: 1 / 1;
+    max-width: min(177vh, 100vw); /* 16:9 cap */
+    aspect-ratio: 16 / 9;
     margin: 0 auto;
   }
-  .hero-img {
+  .hero-video {
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: contain;
+    object-fit: cover;
   }
   @media (max-width: 768px) {
-    .frame { max-width: 100vw; }
+    .frame { max-width: 100vw; aspect-ratio: 16 / 9; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video { animation: none; }
   }
 </style>
+
+<script>
+  /* If autoplay is blocked or reduced-motion preferred, pause the video and let poster carry the page. */
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video').forEach(v => { (v as HTMLVideoElement).pause(); (v as HTMLVideoElement).removeAttribute('autoplay'); });
+  }
+</script>
