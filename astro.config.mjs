@@ -3,19 +3,14 @@ import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 
-import cloudflare from '@astrojs/cloudflare';
-
 export default defineConfig({
-  site: 'https://new-portfolio.pages.dev',
+  site: 'https://new-portfolio.ianr-luna.workers.dev',
+  output: 'static',
   integrations: [react(), mdx()],
-
   vite: {
     plugins: [tailwindcss()],
   },
-
   experimental: {
     clientPrerender: true,
   },
-
-  adapter: cloudflare(),
 });
