@@ -8,118 +8,139 @@ interface Props {
   left: string;
   width: string;
   height: string;
-  labelPosition?: "above" | "below" | "right";
-  pulseDelay?: string;
+  pulseDelay?: string;     /* for first-visit sequential pulse */
+  hintPosition?: "above" | "below" | "right" | "left";
 }
 const {
   label, href, color, ariaLabel,
   top, left, width, height,
-  labelPosition = "below",
-  pulseDelay = "0s"
+  pulseDelay = "0s",
+  hintPosition = "below"
 } = Astro.props;
 ---
 <a
   href={href}
-  class:list={["sign-hotspot", `tint-${color}`, "magnetic"]}
+  class:list={["hotspot", `tint-${color}`]}
   style={`top: ${top}; left: ${left}; width: ${width}; height: ${height};`}
   aria-label={ariaLabel}
   data-astro-prefetch
 >
-  <span class="outline" style={`animation-delay: ${pulseDelay};`} aria-hidden="true"></span>
-  <span class:list={["hint", `hint-${labelPosition}`]} aria-hidden="true">
+  <!-- Color-matched glow that intensifies the painted neon underneath. Uses screen blend. -->
+  <span class="glow" style={`animation-delay: ${pulseDelay};`} aria-hidden="true"></span>
+
+  <!-- Tiny corner indicator — persistent but subtle -->
+  <span class="corner-tick" aria-hidden="true">→</span>
+
+  <!-- Hover label — neon-styled, appears outside the painted sign -->
+  <span class:list={["hover-label", `hint-${hintPosition}`]} aria-hidden="true">
     {label} <span class="arrow">→</span>
   </span>
+
   <span class="sr-only">{label}</span>
 </a>
 
 <style>
-  .sign-hotspot {
+  .hotspot {
     position: absolute;
     display: block;
     cursor: pointer;
-    transition: transform 0.4s var(--ease-cinematic);
-    will-change: transform;
-    color: var(--color-cream);
+    text-decoration: none;
   }
 
-  /* Visible neon outline — persistent, pulsing */
-  .outline {
+  /* Color-matched halo that intensifies the painted neon. mix-blend-mode: screen so it brightens. */
+  .glow {
     position: absolute;
-    inset: -4%;
-    border: 1.5px solid currentColor;
-    border-radius: 6px;
-    box-shadow:
-      0 0 12px currentColor,
-      0 0 24px currentColor,
-      inset 0 0 8px rgba(255, 255, 255, 0.15);
-    opacity: 0.85;
-    animation: outline-breathe 3.6s var(--ease-cinematic) infinite;
+    inset: -15%;
+    background: radial-gradient(ellipse at center, currentColor 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(24px);
+    mix-blend-mode: screen;
+    opacity: 0;
     pointer-events: none;
-    will-change: opacity, box-shadow;
+    transition: opacity 0.4s var(--ease-cinematic), filter 0.4s var(--ease-cinematic);
+    will-change: opacity, filter;
+    animation: first-pulse 1.4s var(--ease-cinematic) 1 both;
   }
 
-  /* Visible hint label */
-  .hint {
+  /* First-visit pulse: each hotspot briefly glows on page load (sequential via animation-delay) */
+  @keyframes first-pulse {
+    0%   { opacity: 0; filter: blur(28px); }
+    40%  { opacity: 0.6; filter: blur(20px); }
+    100% { opacity: 0; filter: blur(28px); }
+  }
+
+  /* Tiny corner indicator: small arrow at top-right of hotspot, color-matched */
+  .corner-tick {
+    position: absolute;
+    top: -6%;
+    right: -2%;
+    font-family: var(--font-mono);
+    font-size: clamp(0.65rem, 1vw, 0.85rem);
+    color: currentColor;
+    opacity: 0;
+    text-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
+    pointer-events: none;
+    animation: tick-in 1.2s var(--ease-cinematic) 2.2s 1 both;
+  }
+  @keyframes tick-in {
+    from { opacity: 0; transform: translate(-4px, 4px); }
+    to   { opacity: 0.55; transform: translate(0, 0); }
+  }
+
+  /* Hover label: neon-styled, appears outside the painted sign */
+  .hover-label {
     position: absolute;
     font-family: var(--font-display);
     font-style: italic;
-    font-weight: 600;
-    font-size: clamp(0.75rem, 1.4vw, 1rem);
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: clamp(0.7rem, 1.3vw, 1rem);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: currentColor;
-    text-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
+    text-shadow: 0 0 8px currentColor, 0 0 18px currentColor, 0 0 36px color-mix(in srgb, currentColor 50%, transparent);
     white-space: nowrap;
     pointer-events: none;
-    opacity: 0.85;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
   }
-  .hint-below { top: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
-  .hint-above { bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
-  .hint-right { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
-  .arrow { display: inline-block; margin-left: 0.25em; }
+  .hint-below  { top: calc(100% + 6px);    left: 50%;            transform: translateX(-50%) translateY(4px); }
+  .hint-above  { bottom: calc(100% + 6px); left: 50%;            transform: translateX(-50%) translateY(-4px); }
+  .hint-right  { left: calc(100% + 8px);   top: 50%;             transform: translateY(-50%) translateX(4px); }
+  .hint-left   { right: calc(100% + 8px);  top: 50%;             transform: translateY(-50%) translateX(-4px); }
+  .arrow       { display: inline-block; margin-left: 0.2em; }
 
-  /* Hover state — intensify */
-  .sign-hotspot:hover {
-    transform: scale(1.02);
+  /* Hover state — intensify glow, surface label, brighten tick */
+  .hotspot:hover .glow {
+    opacity: 0.85;
+    filter: blur(18px);
+    animation: none;
   }
-  .sign-hotspot:hover .outline {
+  .hotspot:hover .hover-label {
     opacity: 1;
-    box-shadow:
-      0 0 18px currentColor,
-      0 0 40px currentColor,
-      0 0 72px currentColor,
-      inset 0 0 12px rgba(255, 255, 255, 0.3);
-    animation-duration: 1.6s;
+    transform: translateX(-50%) translateY(0);
   }
-  .sign-hotspot:hover .hint {
+  .hotspot:hover .corner-tick {
     opacity: 1;
-    text-shadow: 0 0 12px currentColor, 0 0 30px currentColor;
+    animation: none;
   }
-  .sign-hotspot:focus-visible {
+
+  .hotspot:focus-visible {
     outline: 2px solid var(--color-cream);
     outline-offset: 8px;
   }
 
-  .tint-work { color: var(--color-neon-work); }
-  .tint-about { color: var(--color-neon-about); }
+  /* Color tints */
+  .tint-work    { color: var(--color-neon-work); }
+  .tint-about   { color: var(--color-neon-about); }
   .tint-hearsay { color: var(--color-neon-hearsay); }
+
   .sr-only {
     position: absolute; width: 1px; height: 1px;
-    overflow: hidden; clip: rect(0,0,0,0);
-  }
-
-  @keyframes outline-breathe {
-    0%, 100% {
-      opacity: 0.70;
-      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, inset 0 0 6px rgba(255, 255, 255, 0.12);
-    }
-    50% {
-      opacity: 0.95;
-      box-shadow: 0 0 16px currentColor, 0 0 32px currentColor, 0 0 56px currentColor, inset 0 0 10px rgba(255, 255, 255, 0.2);
-    }
+    overflow: hidden; clip: rect(0, 0, 0, 0);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .outline { animation: none; opacity: 0.85; }
+    .glow { animation: none; opacity: 0; }
+    .corner-tick { animation: none; opacity: 0.55; }
   }
 </style>
