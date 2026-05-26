@@ -1,0 +1,53 @@
+---
+interface Props {
+  text: string;
+  color: "work" | "about" | "hearsay" | "marquee";
+  font?: "display" | "mono";
+  weight?: number;
+  italic?: boolean;
+  size: string;     /* e.g. "clamp(1rem, 3vw, 2.5rem)" */
+  tracking?: string;
+  flickerDelay?: string;
+}
+const {
+  text, color, font = "display", weight = 900,
+  italic = false, size, tracking = "0.05em", flickerDelay = "0s"
+} = Astro.props;
+---
+<span
+  class:list={["neon", `tint-${color}`, italic && "italic"]}
+  style={`font-family: var(--font-${font}); font-weight: ${weight}; font-size: ${size}; letter-spacing: ${tracking}; animation-delay: ${flickerDelay};`}
+>{text}</span>
+
+<style>
+  .neon {
+    display: inline-block;
+    line-height: 1;
+    text-shadow:
+      0 0 3px currentColor,
+      0 0 6px currentColor,
+      0 0 12px currentColor,
+      0 0 24px currentColor,
+      0 0 48px color-mix(in srgb, currentColor 70%, transparent),
+      0 0 96px color-mix(in srgb, currentColor 40%, transparent);
+    animation: neon-breathe 5.5s var(--ease-cinematic) infinite;
+    will-change: opacity, text-shadow;
+  }
+  .italic { font-style: italic; }
+  .tint-work { color: var(--color-neon-work); }
+  .tint-about { color: var(--color-neon-about); }
+  .tint-hearsay { color: var(--color-neon-hearsay); }
+  .tint-marquee { color: var(--color-marquee-warm); }
+
+  @keyframes neon-breathe {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    47% { opacity: 0.93; filter: brightness(0.96); }
+    49% { opacity: 1; filter: brightness(1.02); }
+    51% { opacity: 0.96; filter: brightness(0.98); }
+    53% { opacity: 1; filter: brightness(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .neon { animation: none; }
+  }
+</style>

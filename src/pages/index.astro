@@ -1,53 +1,65 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import SignHotspot from "@/components/SignHotspot.astro";
-import { Image, getImage } from "astro:assets";
-import diner from "@/assets/hero/diner-night.png";
-
-const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
+import NeonText from "@/components/NeonText.astro";
+import NeonSign from "@/components/NeonSign.astro";
+import { Image } from "astro:assets";
+import diner from "@/assets/hero/diner-clean.png";
 ---
 <Layout title="Ian Luna" description="Creative leader. Writer. Storyteller.">
   <main id="main" class="stage">
     <div class="frame">
-      <video
-        class="hero-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-        poster={posterImage.src}
-        aria-label="The Last Stop Diner at dusk. Neon signs lit, station wagon parked in the lot."
-      >
-        <source src="/video/diner-loop.mp4" type="video/mp4" />
-      </video>
+      <Image
+        src={diner}
+        alt="Last Stop Diner exterior at dusk, sodium-green parking lot, blank illuminated marquee, single station wagon parked at right."
+        widths={[640, 1280, 1920, 2560]}
+        sizes="(max-width: 768px) 100vw, min(177vh, 100vw)"
+        formats={["avif", "webp"]}
+        loading="eager"
+        fetchpriority="high"
+        class="backdrop"
+      />
 
-      <SignHotspot
+      <!-- IAN LUNA marquee — overlaid on the blank illuminated marquee box on the roof -->
+      <div class="marquee-mount" aria-hidden="false">
+        <NeonText
+          text="IAN LUNA"
+          color="marquee"
+          size="clamp(0.9rem, 2.3vw, 1.9rem)"
+          tracking="0.18em"
+          weight={900}
+        />
+      </div>
+
+      <!-- Three navigation neon signs positioned on the building front -->
+      <NeonSign
         label="WORK"
         href="/work"
         color="work"
-        ariaLabel="WORK. Case studies."
-        top="59%" left="32%" width="22%" height="18%"
-        labelPosition="below"
-        pulseDelay="0s"
+        size="clamp(1.4rem, 4.2vw, 3.4rem)"
+        top="56%" left="48%"
+        weight={900}
+        tracking="0.12em"
+        flickerDelay="0s"
       />
-      <SignHotspot
+      <NeonSign
         label="ABOUT"
         href="/about"
         color="about"
-        ariaLabel="ABOUT. Bio and resume."
-        top="62%" left="55%" width="14%" height="11%"
-        labelPosition="below"
-        pulseDelay="1.2s"
+        size="clamp(0.7rem, 1.7vw, 1.4rem)"
+        top="58%" left="72%"
+        weight={900}
+        tracking="0.18em"
+        flickerDelay="1.4s"
       />
-      <SignHotspot
+      <NeonSign
         label="HEARSAY"
         href="/hearsay"
         color="hearsay"
-        ariaLabel="HEARSAY. Testimonials."
-        top="58%" left="15%" width="12%" height="10%"
-        labelPosition="below"
-        pulseDelay="2.4s"
+        size="clamp(0.7rem, 1.7vw, 1.4rem)"
+        top="58%" left="26%"
+        weight={900}
+        tracking="0.18em"
+        flickerDelay="2.8s"
       />
 
       <p class="enter-hint" id="enter-hint">Click any sign to enter</p>
@@ -63,6 +75,7 @@ const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
     justify-content: center;
     padding: 0;
     background: var(--color-silhouette);
+    overflow: hidden;
   }
   .frame {
     position: relative;
@@ -71,52 +84,52 @@ const posterImage = await getImage({ src: diner, format: "webp", width: 1280 });
     aspect-ratio: 16 / 9;
     margin: 0 auto;
   }
-  .hero-video {
+  .backdrop {
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
+    object-position: center;
+  }
+  .marquee-mount {
+    position: absolute;
+    top: 26%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
   }
   .enter-hint {
     position: absolute;
-    bottom: 3%;
+    bottom: 4%;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-mono);
-    font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+    font-size: clamp(0.65rem, 1vw, 0.78rem);
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--color-cream);
-    text-shadow: 0 0 12px rgba(242, 237, 230, 0.6), 0 0 24px rgba(242, 237, 230, 0.3);
+    text-shadow: 0 0 12px rgba(242, 237, 230, 0.5);
     opacity: 0;
     margin: 0;
     pointer-events: none;
-    animation: hint-show 6s var(--ease-cinematic) 1.2s 1 both;
+    animation: hint-show 6s var(--ease-cinematic) 1.4s 1 both;
   }
   @keyframes hint-show {
     0% { opacity: 0; transform: translate(-50%, 12px); }
-    15%, 70% { opacity: 0.9; transform: translate(-50%, 0); }
+    15%, 75% { opacity: 0.85; transform: translate(-50%, 0); }
     100% { opacity: 0; transform: translate(-50%, -8px); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .enter-hint { animation: none; opacity: 0.7; }
+    .enter-hint { animation: none; opacity: 0.6; }
   }
 </style>
 
 <script>
-  // Hide hint once user has interacted
   const hint = document.getElementById('enter-hint');
-  const hideHint = () => { if (hint) hint.style.display = 'none'; };
-  document.querySelectorAll('.sign-hotspot').forEach(el => {
-    el.addEventListener('mouseenter', hideHint, { once: true });
-    el.addEventListener('click', hideHint, { once: true });
+  const hide = () => { if (hint) hint.style.display = 'none'; };
+  document.querySelectorAll('.neon-sign').forEach(el => {
+    el.addEventListener('mouseenter', hide, { once: true });
+    el.addEventListener('click', hide, { once: true });
   });
-
-  // Reduced motion: pause video
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('video').forEach(v => {
-      (v as HTMLVideoElement).pause();
-      (v as HTMLVideoElement).removeAttribute('autoplay');
-    });
-  }
 </script>

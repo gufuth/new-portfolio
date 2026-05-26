@@ -1,55 +1,57 @@
 ---
+import NeonText from "@/components/NeonText.astro";
 interface Props {
   label: string;
-  color: "work" | "about" | "hearsay" | "open";
   href: string;
-  ariaLabel: string;
+  color: "work" | "about" | "hearsay";
+  size: string;
+  top: string;
+  left: string;
+  italic?: boolean;
+  tracking?: string;
+  weight?: number;
   flickerDelay?: string;
-  large?: boolean;
 }
-const { label, color, href, ariaLabel, flickerDelay = "0s", large = false } = Astro.props;
+const {
+  label, href, color, size, top, left,
+  italic = false, tracking = "0.08em", weight = 900,
+  flickerDelay = "0s"
+} = Astro.props;
 ---
 <a
   href={href}
-  class:list={["neon-sign", `neon-${color}`, "magnetic", "fade-up", large && "neon-large"]}
-  style={`animation-delay: ${flickerDelay};`}
-  aria-label={ariaLabel}
+  class:list={["neon-sign", "magnetic", `tint-${color}`]}
+  style={`top: ${top}; left: ${left};`}
+  aria-label={`${label}. Navigate.`}
   data-astro-prefetch
 >
-  <span class="label flicker" style={`animation-delay: ${flickerDelay};`}>{label}</span>
+  <NeonText
+    text={label}
+    color={color}
+    size={size}
+    italic={italic}
+    tracking={tracking}
+    weight={weight}
+    flickerDelay={flickerDelay}
+  />
 </a>
 
 <style>
   .neon-sign {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.6rem 1.6rem;
-    border-radius: 2px;
+    position: absolute;
+    transform: translate(-50%, -50%);
     text-decoration: none;
-    transition: transform 0.3s var(--ease-cinematic);
-    will-change: transform;
+    cursor: pointer;
+    transition: transform 0.3s var(--ease-cinematic), filter 0.3s var(--ease-cinematic);
+    padding: 0.4em 0.8em;
+    border-radius: 4px;
   }
-  .neon-large { padding: 1.2rem 3.2rem; }
-  .neon-sign:hover { transform: scale(1.05); }
+  .neon-sign:hover { transform: translate(-50%, -50%) scale(1.04); filter: brightness(1.15); }
   .neon-sign:focus-visible {
     outline: 2px solid var(--color-cream);
-    outline-offset: 4px;
+    outline-offset: 6px;
   }
-  .label {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: clamp(1.2rem, 3vw, 2rem);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-  .neon-large .label { font-size: clamp(2rem, 6vw, 4rem); }
-  .neon-work .label { color: var(--color-neon-work); }
-  .neon-about .label { color: var(--color-neon-about); }
-  .neon-hearsay .label { color: var(--color-neon-hearsay); }
-  .neon-open .label {
-    color: var(--color-neon-work);
-    font-size: 0.85rem;
-    letter-spacing: 0.3em;
-  }
+  .tint-work { color: var(--color-neon-work); }
+  .tint-about { color: var(--color-neon-about); }
+  .tint-hearsay { color: var(--color-neon-hearsay); }
 </style>
