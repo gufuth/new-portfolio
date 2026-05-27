@@ -1,0 +1,135 @@
+---
+---
+<canvas class="sky-atmosphere" aria-hidden="true"></canvas>
+<div class="lightning-veil" id="lightning-veil" aria-hidden="true"></div>
+
+<style>
+  .sky-atmosphere {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: screen;
+  }
+  .lightning-veil {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    background: rgba(255, 255, 255, 0);
+    transition: background 80ms ease-out;
+  }
+  .lightning-veil.flash { background: rgba(255, 255, 255, 0.42); }
+  @media (prefers-reduced-motion: reduce) {
+    .sky-atmosphere { display: none; }
+    .lightning-veil { display: none; }
+  }
+</style>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const canvas = document.querySelector('.sky-atmosphere') as HTMLCanvasElement;
+    const veil = document.getElementById('lightning-veil');
+    if (canvas) {
+      const ctx = canvas.getContext('2d')!;
+      let w = 0, h = 0;
+      type Star = { x: number; y: number; r: number; a: number; phase: number; speed: number };
+      type Headlight = { x: number; y: number; vx: number; intensity: number; trail: number; active: boolean; cooldown: number };
+      const stars: Star[] = [];
+      let headlight: Headlight = { x: -50, y: 0, vx: 0.3, intensity: 0, trail: 0, active: false, cooldown: 60 };
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = w = Math.floor(rect.width * devicePixelRatio);
+        canvas.height = h = Math.floor(rect.height * devicePixelRatio);
+      }
+      function initStars() {
+        stars.length = 0;
+        const count = 90;
+        for (let i = 0; i < count; i++) {
+          const yMax = h * 0.55; // confine stars to upper 55% (sky area)
+          stars.push({
+            x: Math.random() * w,
+            y: Math.random() * yMax,
+            r: (0.4 + Math.random() * 1.6) * devicePixelRatio,
+            a: 0.3 + Math.random() * 0.55,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.4 + Math.random() * 0.8,
+          });
+        }
+      }
+
+      let t = 0;
+      function tick() {
+        t += 1;
+        ctx.clearRect(0, 0, w, h);
+
+        // Stars
+        for (const s of stars) {
+          const tw = Math.sin(t * 0.018 * s.speed + s.phase) * 0.4 + 0.6;
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(242, 237, 230, ${s.a * tw})`;
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Distant headlights — pair of small dots traversing horizon area
+        if (!headlight.active) {
+          headlight.cooldown -= 1/60;
+          if (headlight.cooldown <= 0) {
+            headlight.active = true;
+            headlight.x = -50;
+            headlight.y = h * 0.62 + (Math.random() - 0.5) * h * 0.04; // along horizon band
+            headlight.vx = (0.35 + Math.random() * 0.35) * devicePixelRatio;
+            headlight.intensity = 0.9;
+          }
+        } else {
+          headlight.x += headlight.vx;
+          const sep = 5 * devicePixelRatio;
+          ctx.fillStyle = `rgba(255, 234, 176, ${headlight.intensity * 0.9})`;
+          ctx.beginPath();
+          ctx.arc(headlight.x, headlight.y, 1.4 * devicePixelRatio, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(headlight.x + sep, headlight.y, 1.4 * devicePixelRatio, 0, Math.PI * 2);
+          ctx.fill();
+          // soft glow
+          const grad = ctx.createRadialGradient(headlight.x + sep/2, headlight.y, 0, headlight.x + sep/2, headlight.y, 24 * devicePixelRatio);
+          grad.addColorStop(0, `rgba(255, 234, 176, ${headlight.intensity * 0.4})`);
+          grad.addColorStop(1, 'rgba(255, 234, 176, 0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(headlight.x + sep/2, headlight.y, 24 * devicePixelRatio, 0, Math.PI * 2);
+          ctx.fill();
+          if (headlight.x > w + 50) {
+            headlight.active = false;
+            headlight.cooldown = 35 + Math.random() * 40; // 35-75s
+          }
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      // Lightning flash every 90-150s, asymmetric drop+recover
+      function scheduleLightning() {
+        const delay = (90 + Math.random() * 60) * 1000;
+        setTimeout(() => {
+          if (veil) {
+            veil.classList.add('flash');
+            setTimeout(() => { veil.classList.remove('flash'); }, 80);
+            setTimeout(() => {
+              veil.classList.add('flash');
+              setTimeout(() => { veil.classList.remove('flash'); }, 45);
+            }, 180);
+          }
+          scheduleLightning();
+        }, delay);
+      }
+
+      resize(); initStars(); tick(); scheduleLightning();
+      window.addEventListener('resize', () => { resize(); initStars(); });
+    }
+  }
+</script>
