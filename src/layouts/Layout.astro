@@ -23,27 +23,15 @@ const { title = "Ian Luna", description = "", noPayphone = false } = Astro.props
     <slot />
     {!noPayphone && <Payphone email="ianr.luna@gmail.com" linkedIn="https://www.linkedin.com/in/ian-luna-464931163/" />}
 
-    <script>
-      // Magnetic cursor (kill switch: change MAGNETIC_ON to false to disable)
-      const MAGNETIC_ON = true;
-      if (MAGNETIC_ON && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.addEventListener('astro:page-load', () => {
-          document.querySelectorAll('.magnetic').forEach(el => {
-            const elem = el as HTMLElement;
-            const pull = 0.18;
-            const reset = () => { elem.style.transform = ''; };
-            elem.addEventListener('mousemove', (e) => {
-              const rect = elem.getBoundingClientRect();
-              const x = (e as MouseEvent).clientX - rect.left - rect.width / 2;
-              const y = (e as MouseEvent).clientY - rect.top - rect.height / 2;
-              elem.style.transform = `translate(${x * pull}px, ${y * pull}px)`;
-            });
-            elem.addEventListener('mouseleave', reset);
-          });
-        });
-        document.dispatchEvent(new Event('astro:page-load'));
+    <style is:global>
+      /* Tinted normal cursor — cream arrow with subtle dark outline */
+      body, a, button, input, [role="button"], .hotspot {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M2 1.5 L2 15 L6 11.4 L8.2 16.2 L10.4 15.3 L8.2 10.5 L13 10.5 Z' fill='%23F2EDE6' stroke='%230A0908' stroke-width='0.8' stroke-linejoin='round'/></svg>") 2 2, default;
       }
-    </script>
+      a, button, .hotspot {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M8 2 L8 16.5 C8 17.3 8.7 18 9.5 18 L11 18 L11 13 L14 13 C14.8 13 15.5 12.3 15.5 11.5 L15.5 6.5 L13 7 L13 4 L10.5 4.5 L10.5 2 Z' fill='%23FFEAB0' stroke='%230A0908' stroke-width='0.8' stroke-linejoin='round'/></svg>") 11 2, pointer;
+      }
+    </style>
 
     <style>
       .skip-link {
