@@ -7,48 +7,17 @@ import diner from "@/assets/hero/diner-night.png";
 <Layout title="Ian Luna" description="Creative leader. Writer. Storyteller.">
   <main id="main" class="stage">
     <div class="frame">
-      <Image
-        src={diner}
-        alt="The Last Stop Diner at dusk. Painted neon signs reading IAN LUNA on the roof, WORK in green, ABOUT, and HEARSAY on the building. Single station wagon parked in the lot."
-        widths={[640, 1280, 1920, 2560]}
-        sizes="(max-width: 768px) 100vw, min(100vh, 100vw)"
-        formats={["avif", "webp"]}
-        loading="eager"
-        fetchpriority="high"
-        class="backdrop"
-      />
+      <Image src={diner} alt="The Last Stop Diner at dusk. Painted neon signs reading IAN LUNA on the roof, WORK in green, ABOUT, and HEARSAY on the building. Single station wagon parked in the lot."
+        widths={[640, 1280, 1920, 2560]} sizes="(max-width: 768px) 100vw, min(100vh, 100vw)"
+        formats={["avif", "webp"]} loading="eager" fetchpriority="high"
+        class="backdrop world-breathe" />
 
-      <!-- Hotspots over painted signs. Coords measured for 1769149471685.png (~590x589 square). -->
-
-      <SignHotspot
-        label="WORK"
-        href="/work"
-        color="work"
-        ariaLabel="WORK. Case studies."
-        top="67%" left="35%" width="30%" height="14%"
-        pulseDelay="0.6s"
-        hintPosition="below"
-      />
-
-      <SignHotspot
-        label="ABOUT"
-        href="/about"
-        color="about"
-        ariaLabel="ABOUT. Bio and resume."
-        top="51%" left="0%" width="18%" height="10%"
-        pulseDelay="1.2s"
-        hintPosition="right"
-      />
-
-      <SignHotspot
-        label="HEARSAY"
-        href="/hearsay"
-        color="hearsay"
-        ariaLabel="HEARSAY. Testimonials."
-        top="64%" left="8%" width="14%" height="6%"
-        pulseDelay="1.8s"
-        hintPosition="right"
-      />
+      <SignHotspot label="WORK" href="/work" color="work" ariaLabel="WORK. Case studies."
+        top="67%" left="35%" width="30%" height="14%" pulseDelay="0s" hintPosition="below" />
+      <SignHotspot label="ABOUT" href="/about" color="about" ariaLabel="ABOUT. Bio and resume."
+        top="51%" left="0%" width="18%" height="10%" pulseDelay="1.2s" hintPosition="right" />
+      <SignHotspot label="HEARSAY" href="/hearsay" color="hearsay" ariaLabel="HEARSAY. Testimonials."
+        top="64%" left="8%" width="14%" height="6%" pulseDelay="2.4s" hintPosition="right" />
 
       <p class="enter-hint" id="enter-hint">Click any sign to enter</p>
     </div>
@@ -56,61 +25,32 @@ import diner from "@/assets/hero/diner-night.png";
 </Layout>
 
 <style>
-  .stage {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    background: var(--color-silhouette);
-    overflow: hidden;
-  }
-  .frame {
-    position: relative;
-    width: 100vw;
-    max-width: min(100vh, 100vw);
-    aspect-ratio: 1 / 1;
-    margin: 0 auto;
-  }
-  .backdrop {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: center;
-  }
+  .stage { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 0; background: var(--color-silhouette); overflow: hidden; }
+  .frame { position: relative; width: 100vw; max-width: min(100vh, 100vw); aspect-ratio: 1 / 1; margin: 0 auto; }
+  .backdrop { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
+  .world-breathe { animation: world-pulse 9s ease-in-out infinite; }
+  @keyframes world-pulse { 0%, 100% { filter: brightness(1) contrast(1); } 50% { filter: brightness(1.06) contrast(1.02); } }
   .enter-hint {
-    position: absolute;
-    bottom: 3%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-mono);
-    font-size: clamp(0.65rem, 1vw, 0.78rem);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
+    position: absolute; bottom: 3.5%; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: clamp(0.7rem, 1.1vw, 0.85rem);
+    letter-spacing: 0.3em; text-transform: uppercase;
     color: var(--color-cream);
-    text-shadow: 0 0 12px rgba(242, 237, 230, 0.5), 0 0 24px rgba(242, 237, 230, 0.3);
-    opacity: 0;
-    margin: 0;
-    pointer-events: none;
-    animation: hint-show 6s var(--ease-cinematic) 2.6s 1 both;
+    text-shadow: 0 0 12px rgba(242, 237, 230, 0.6), 0 0 24px rgba(242, 237, 230, 0.35);
+    opacity: 0; margin: 0; pointer-events: none;
+    animation: hint-in 1.2s var(--ease-cinematic) 1.4s 1 forwards, hint-breathe 3.5s ease-in-out 2.6s infinite;
   }
-  @keyframes hint-show {
-    0% { opacity: 0; transform: translate(-50%, 8px); }
-    20%, 75% { opacity: 0.9; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -8px); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .enter-hint { animation: none; opacity: 0.6; }
-  }
+  @keyframes hint-in { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 0.85; transform: translate(-50%, 0); } }
+  @keyframes hint-breathe { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.9; } }
+  .enter-hint.dismissed { animation: hint-out 0.5s var(--ease-cinematic) forwards; }
+  @keyframes hint-out { to { opacity: 0; transform: translate(-50%, -6px); } }
+  @media (prefers-reduced-motion: reduce) { .world-breathe { animation: none; } .enter-hint { animation: none; opacity: 0.7; } }
 </style>
 
 <script>
-  /* Hide enter hint once user has interacted with any hotspot */
   const hint = document.getElementById('enter-hint');
-  const hide = () => { if (hint) hint.style.display = 'none'; };
+  const dismiss = () => { if (hint) hint.classList.add('dismissed'); };
   document.querySelectorAll('.hotspot').forEach(el => {
-    el.addEventListener('mouseenter', hide, { once: true });
-    el.addEventListener('click', hide, { once: true });
+    el.addEventListener('mouseenter', dismiss, { once: true });
+    el.addEventListener('click', dismiss, { once: true });
   });
 </script>
