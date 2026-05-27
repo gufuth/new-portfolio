@@ -13,17 +13,18 @@ import diner from "@/assets/hero/diner-night.png";
         formats={["avif", "webp"]} loading="eager" fetchpriority="high"
         class="backdrop" />
 
+      <!-- Coords tuned for W3 (low hero angle, painted-signs-on-cinematic-widescreen). -->
       <SignHotspot label="WORK" href="/work" color="work"
         ariaLabel="WORK. Case studies."
-        top="67%" left="35%" width="30%" height="14%"
+        top="60%" left="33%" width="22%" height="9%"
         flickerDelay="0s" hoverCopy="See the work" hintPosition="above" />
       <SignHotspot label="ABOUT" href="/about" color="about"
         ariaLabel="ABOUT. Bio and resume."
-        top="51%" left="0%" width="18%" height="10%"
+        top="50%" left="19%" width="11%" height="6%"
         flickerDelay="2.1s" hoverCopy="Who he is" hintPosition="right" />
       <SignHotspot label="HEARSAY" href="/hearsay" color="hearsay"
         ariaLabel="HEARSAY. Testimonials."
-        top="64%" left="8%" width="14%" height="6%"
+        top="60%" left="8%" width="13%" height="6%"
         flickerDelay="4.3s" hoverCopy="What they say" hintPosition="right" />
     </div>
   </main>
@@ -40,11 +41,12 @@ import diner from "@/assets/hero/diner-night.png";
   }
   .frame {
     position: relative;
-    width: 100vh; max-width: 100vw; height: 100%;
+    width: 100vw; height: 100%;
     margin: 0 auto; overflow: hidden;
   }
   .backdrop {
     width: 100%; height: 100%; display: block;
-    object-fit: cover; object-position: center; z-index: 1;
+    object-fit: cover; object-position: center;
+    z-index: 1;
   }
 </style>
