@@ -11,9 +11,11 @@ import diner from "@/assets/hero/diner-night.png";
         alt="The Last Stop Diner at dusk. IAN LUNA marquee, WORK in green, ABOUT, HEARSAY signs lit on the building."
         widths={[640, 1280, 1920, 2560]} sizes="100vw"
         formats={["avif", "webp"]} loading="eager" fetchpriority="high"
-        class="backdrop" />
+        class="backdrop dolly" />
 
-      <!-- Tuned to W3 deployed crop -->
+      <!-- Wet pavement reflection overlay — gradient hint of mirrored neon at the bottom -->
+      <div class="reflection" aria-hidden="true"></div>
+
       <SignHotspot label="WORK" href="/work" color="work"
         ariaLabel="WORK. Case studies."
         top="35%" left="47%" width="25%" height="22%"
@@ -21,11 +23,11 @@ import diner from "@/assets/hero/diner-night.png";
       <SignHotspot label="ABOUT" href="/about" color="about"
         ariaLabel="ABOUT. Bio and resume."
         top="36%" left="32%" width="9%" height="9%"
-        flickerDelay="2.1s" hoverCopy="Who he is" hintPosition="above" />
+        flickerDelay="2.6s" hoverCopy="Who he is" hintPosition="above" />
       <SignHotspot label="HEARSAY" href="/hearsay" color="hearsay"
         ariaLabel="HEARSAY. Testimonials."
         top="46%" left="18%" width="10%" height="8%"
-        flickerDelay="4.3s" hoverCopy="What they say" hintPosition="right" />
+        flickerDelay="5.2s" hoverCopy="What they say" hintPosition="right" />
     </div>
   </main>
 </Layout>
@@ -48,11 +50,35 @@ import diner from "@/assets/hero/diner-night.png";
     width: 100%; height: 100%; display: block;
     object-fit: cover; object-position: center;
     z-index: 1;
-    animation: world-breathe 14s ease-in-out infinite;
+    transform-origin: 55% 50%;
   }
-  @keyframes world-breathe {
-    0%, 100% { filter: brightness(1) saturate(1.02); }
-    50%      { filter: brightness(1.04) saturate(1.05); }
+  /* Slow ken-burns dolly — matches the Veo camera push-in */
+  .dolly {
+    animation: dolly-in 60s var(--ease-cinematic) infinite alternate;
   }
-  @media (prefers-reduced-motion: reduce) { .backdrop { animation: none; } }
+  @keyframes dolly-in {
+    0%   { transform: scale(1.00); }
+    100% { transform: scale(1.04); }
+  }
+
+  /* Wet-pavement reflection overlay — gradient blur of the lower image strip */
+  .reflection {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 22%;
+    pointer-events: none;
+    z-index: 2;
+    background:
+      linear-gradient(to top,
+        rgba(91, 255, 106, 0.10) 0%,
+        rgba(91, 255, 106, 0.04) 30%,
+        transparent 70%
+      );
+    mix-blend-mode: screen;
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dolly { animation: none; }
+  }
 </style>
