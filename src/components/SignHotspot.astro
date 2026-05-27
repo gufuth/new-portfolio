@@ -10,7 +10,7 @@ interface Props {
   height: string;
   flickerDelay?: string;
   hoverCopy?: string;
-  hintPosition?: "above" | "below";
+  hintPosition?: "above" | "below" | "right" | "left";
 }
 const { label, href, color, ariaLabel, top, left, width, height, flickerDelay = "0s", hoverCopy = "Step inside", hintPosition = "above" } = Astro.props;
 ---
@@ -28,37 +28,37 @@ const { label, href, color, ariaLabel, top, left, width, height, flickerDelay = 
     text-decoration: none;
     z-index: 5;
   }
+  /* Always-on real-neon flicker — color-matched glow on top of painted neon */
   .flicker {
     position: absolute;
     inset: -22%;
-    background: radial-gradient(ellipse at center, currentColor 0%, transparent 62%);
+    background: radial-gradient(ellipse at center, currentColor 0%, transparent 60%);
     border-radius: 50%;
-    filter: blur(30px);
+    filter: blur(32px);
     mix-blend-mode: screen;
-    opacity: 0.55;
+    opacity: 0.4;
     pointer-events: none;
     will-change: opacity;
     animation: neon-flicker 7s linear infinite;
   }
   @keyframes neon-flicker {
-    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 0.55; }
-    19% { opacity: 0.22; }
-    20% { opacity: 0.65; }
-    21% { opacity: 0.25; }
-    23% { opacity: 0.60; }
-    54% { opacity: 0.15; }
-    55% { opacity: 0.70; }
-    56% { opacity: 0.30; }
-    62% { opacity: 0.85; }
-    64% { opacity: 0.50; }
-    66% { opacity: 0.78; }
-    80% { opacity: 0.65; }
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 0.40; }
+    19% { opacity: 0.15; }
+    20% { opacity: 0.55; }
+    21% { opacity: 0.18; }
+    23% { opacity: 0.48; }
+    54% { opacity: 0.10; }
+    55% { opacity: 0.58; }
+    56% { opacity: 0.22; }
+    62% { opacity: 0.65; }
+    64% { opacity: 0.38; }
+    66% { opacity: 0.60; }
+    80% { opacity: 0.50; }
   }
   .hover-copy {
     position: absolute;
-    left: 50%;
     font-family: var(--font-mono);
-    font-size: clamp(0.65rem, 1vw, 0.78rem);
+    font-size: var(--text-2xs);
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: currentColor;
@@ -68,25 +68,23 @@ const { label, href, color, ariaLabel, top, left, width, height, flickerDelay = 
     pointer-events: none;
     transition: opacity 0.3s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
   }
-  .hint-above { bottom: calc(100% + 10px); transform: translateX(-50%) translateY(-4px); }
-  .hint-below { top: calc(100% + 10px); transform: translateX(-50%) translateY(4px); }
+  .hint-above { bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(-4px); }
+  .hint-below { top: calc(100% + 10px); left: 50%; transform: translateX(-50%) translateY(4px); }
+  .hint-right { left: calc(100% + 10px); top: 50%; transform: translateY(-50%) translateX(4px); }
+  .hint-left { right: calc(100% + 10px); top: 50%; transform: translateY(-50%) translateX(-4px); }
 
-  .hotspot:hover .flicker {
-    opacity: 1;
-    filter: blur(18px);
-    animation-duration: 3.5s;
-  }
+  .hotspot:hover .flicker { opacity: 1; filter: blur(20px); animation-duration: 3.5s; }
   .hotspot:hover .hover-copy {
-    opacity: 0.95;
+    opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+  .hotspot:hover .hint-right { transform: translateY(-50%) translateX(0); }
+  .hotspot:hover .hint-left { transform: translateY(-50%) translateX(0); }
   .hotspot:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 8px; }
 
   .tint-work { color: var(--color-neon-work); }
   .tint-about { color: var(--color-neon-about); }
   .tint-hearsay { color: var(--color-neon-hearsay); }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-  @media (prefers-reduced-motion: reduce) {
-    .flicker { animation: none; opacity: 0.6; }
-  }
+  @media (prefers-reduced-motion: reduce) { .flicker { animation: none; opacity: 0.5; } }
 </style>
