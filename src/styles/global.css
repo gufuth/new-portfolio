@@ -5,6 +5,7 @@
 @import "@fontsource/geist-mono/500.css";
 
 @theme {
+  /* Paris Texas palette */
   --color-sky-top: #0F1B2E;
   --color-sky-mid: #1F2A4A;
   --color-sky-warm: #3A2B3F;
@@ -20,72 +21,59 @@
   --color-cream: #F2EDE6;
   --color-ink: #1A1A1A;
   --color-muted: #8C8478;
+  --color-frame-bar: #050403;
+
+  /* Typography */
   --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-body: "Lexend Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
+
+  /* Type scale (modular 1.25 ratio) */
+  --text-3xs: 0.6rem;
+  --text-2xs: 0.7rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.85rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5rem;
+  --text-xl: 2rem;
+  --text-2xl: 3rem;
+  --text-3xl: 4.5rem;
+  --text-4xl: 6rem;
+
+  /* Spacing scale (rem) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Letterbox */
+  --frame-bar-h: 4.5vh;
+
+  /* Easing */
   --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html, body {
-  background: linear-gradient(180deg,
-    var(--color-sky-top) 0%,
-    var(--color-sky-mid) 45%,
-    var(--color-sky-warm) 80%,
-    var(--color-sky-horizon) 95%,
-    var(--color-silhouette) 100%);
-  background-attachment: fixed;
+  background: var(--color-silhouette);
   color: var(--color-cream);
   font-family: var(--font-body);
   min-height: 100vh;
   overflow-x: hidden;
+  margin: 0;
 }
 
 ::selection { background: var(--color-neon-work); color: var(--color-silhouette); }
 
-/* Entry animations */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes neon-flicker {
-  0%, 100% { opacity: 1; filter: drop-shadow(0 0 24px currentColor) drop-shadow(0 0 48px currentColor); }
-  50% { opacity: 0.85; filter: drop-shadow(0 0 18px currentColor) drop-shadow(0 0 36px currentColor); }
-  52% { opacity: 1; }
-  54% { opacity: 0.88; }
-}
-
-@keyframes ambient-glow {
-  0%, 100% { opacity: 0.9; }
-  50% { opacity: 1; }
-}
-
-.fade-up { opacity: 0; animation: fade-up 0.9s var(--ease-cinematic) forwards; }
-.flicker { animation: neon-flicker 4.5s ease-in-out infinite; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .fade-up { opacity: 1; }
-}
-
-@keyframes ambient-world-pulse {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.04); }
-}
-
-.stage-img {
-  animation: world-fade-in 1.2s var(--ease-cinematic) backwards, ambient-world-pulse 8s ease-in-out infinite;
-}
-
-@keyframes world-fade-in {
-  from { opacity: 0; filter: brightness(0.6); }
-  to { opacity: 1; filter: brightness(1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stage-img { animation: none; }
+/* View Transitions — persistent elements morph across pages instead of flashing */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }

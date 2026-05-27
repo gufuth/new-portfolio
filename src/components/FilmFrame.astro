@@ -1,0 +1,67 @@
+---
+interface Props {
+  sceneName?: string;
+  frameNumber?: string;
+}
+const { sceneName = "EXT. DINER — DUSK", frameNumber = "001" } = Astro.props;
+const now = new Date();
+const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}`;
+---
+<div class="film-frame" data-transition-name="film-frame">
+  <div class="bar top" data-transition-name="frame-top">
+    <span class="meta meta-left">Ian Luna · 2026</span>
+    <span class="meta meta-right">Frame {frameNumber}</span>
+  </div>
+  <div class="stage-content">
+    <slot />
+  </div>
+  <div class="bar bottom" data-transition-name="frame-bottom">
+    <span class="meta meta-left">{sceneName}</span>
+    <span class="meta meta-right">T {timestamp} UTC</span>
+  </div>
+</div>
+
+<style>
+  .film-frame {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 80;
+    display: flex;
+    flex-direction: column;
+  }
+  .bar {
+    pointer-events: auto;
+    height: var(--frame-bar-h);
+    min-height: 28px;
+    background: var(--color-frame-bar);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+    flex: 0 0 auto;
+  }
+  .stage-content {
+    flex: 1 1 auto;
+    position: relative;
+    pointer-events: none;
+  }
+  /* Children of stage-content can re-enable pointer events */
+  .stage-content > :global(*) { pointer-events: auto; }
+
+  .meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-3xs);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    opacity: 0.78;
+  }
+  .meta-left { text-align: left; }
+  .meta-right { text-align: right; }
+
+  /* View Transitions name for persistent morph across pages */
+  .bar { view-transition-name: var(--vt-name, none); }
+  .bar.top { view-transition-name: frame-top; }
+  .bar.bottom { view-transition-name: frame-bottom; }
+</style>

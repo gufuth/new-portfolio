@@ -6,7 +6,7 @@ import SkyAtmosphere from "@/components/SkyAtmosphere.astro";
 import { Image } from "astro:assets";
 import diner from "@/assets/hero/diner-scene.png";
 ---
-<Layout title="Ian Luna" description="Creative leader. Writer. Storyteller.">
+<Layout title="Ian Luna" description="Creative leader. Writer. Storyteller." sceneName="EXT. THE LAST STOP DINER — DUSK" frameNumber="001">
   <main id="main" class="stage">
     <div class="frame">
       <Image src={diner}
@@ -18,25 +18,18 @@ import diner from "@/assets/hero/diner-scene.png";
       <SkyAtmosphere />
       <ParticlesField count={50} />
 
-      <!-- Hotspots tuned to the painted-signs-on-E render. -->
       <SignHotspot label="WORK" href="/work" color="work"
         ariaLabel="WORK. Case studies."
         top="62%" left="40%" width="22%" height="9%"
-        flickerDelay="0s"
-        hoverCopy="See the work"
-        hintPosition="above" />
+        flickerDelay="0s" hoverCopy="See the work" hintPosition="above" />
       <SignHotspot label="ABOUT" href="/about" color="about"
         ariaLabel="ABOUT. Bio and resume."
         top="55%" left="16%" width="12%" height="6%"
-        flickerDelay="2.1s"
-        hoverCopy="Who he is"
-        hintPosition="above" />
+        flickerDelay="2.1s" hoverCopy="Who he is" hintPosition="above" />
       <SignHotspot label="HEARSAY" href="/hearsay" color="hearsay"
         ariaLabel="HEARSAY. Testimonials."
         top="64%" left="13%" width="14%" height="6%"
-        flickerDelay="4.3s"
-        hoverCopy="What they say"
-        hintPosition="below" />
+        flickerDelay="4.3s" hoverCopy="What they say" hintPosition="below" />
 
       <div class="entry-veil" aria-hidden="true"></div>
       <p class="enter-hint" id="enter-hint">— Step into the diner —</p>
@@ -46,30 +39,18 @@ import diner from "@/assets/hero/diner-scene.png";
 
 <style>
   .stage {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    background: var(--color-silhouette);
-    overflow: hidden;
-    position: relative;
+    height: calc(100vh - var(--frame-bar-h) * 2);
+    min-height: 240px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0; background: var(--color-silhouette);
+    overflow: hidden; position: relative;
+    margin-top: var(--frame-bar-h);
   }
   .frame {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    margin: 0 auto;
-    overflow: hidden;
+    position: relative; width: 100vw; height: 100%;
+    margin: 0 auto; overflow: hidden;
   }
-  .backdrop {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: center;
-    z-index: 1;
-  }
+  .backdrop { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; z-index: 1; }
   .world-breathe { animation: world-pulse 12s ease-in-out infinite; }
   @keyframes world-pulse {
     0%, 100% { filter: brightness(1) saturate(1.02); }
@@ -84,7 +65,7 @@ import diner from "@/assets/hero/diner-scene.png";
   @keyframes entry-fade { from { opacity: 1; } to { opacity: 0; } }
   .enter-hint {
     position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%);
-    font-family: var(--font-mono); font-size: clamp(0.7rem, 1.05vw, 0.85rem);
+    font-family: var(--font-mono); font-size: var(--text-sm);
     letter-spacing: 0.28em; text-transform: uppercase;
     color: var(--color-cream);
     text-shadow: 0 0 12px rgba(242, 237, 230, 0.55), 0 0 24px rgba(242, 237, 230, 0.3);
@@ -95,7 +76,6 @@ import diner from "@/assets/hero/diner-scene.png";
   @keyframes hint-breathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.85; } }
   .enter-hint.dismissed { animation: hint-out 0.5s var(--ease-cinematic) forwards; }
   @keyframes hint-out { to { opacity: 0; transform: translate(-50%, -8px); } }
-
   @media (prefers-reduced-motion: reduce) {
     .world-breathe, .entry-veil, .enter-hint { animation: none; }
     .entry-veil { display: none; }
