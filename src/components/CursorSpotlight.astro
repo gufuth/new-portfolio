@@ -1,0 +1,31 @@
+---
+---
+<div class="spotlight-veil" id="spotlight-veil" aria-hidden="true"></div>
+
+<style>
+  .spotlight-veil {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: radial-gradient(circle 280px at var(--mx, 50%) var(--my, 50%), transparent 0%, rgba(10, 9, 8, 0.45) 70%, rgba(10, 9, 8, 0.65) 100%);
+    transition: opacity 0.6s var(--ease-cinematic);
+    will-change: background;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spotlight-veil { background: rgba(10, 9, 8, 0.2); }
+  }
+</style>
+
+<script>
+  const veil = document.getElementById('spotlight-veil');
+  if (veil && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.addEventListener('mousemove', (e) => {
+      const rect = veil.getBoundingClientRect();
+      const mx = ((e.clientX - rect.left) / rect.width) * 100;
+      const my = ((e.clientY - rect.top) / rect.height) * 100;
+      veil.style.setProperty('--mx', mx + '%');
+      veil.style.setProperty('--my', my + '%');
+    });
+  }
+</script>

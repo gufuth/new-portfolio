@@ -1,0 +1,75 @@
+---
+interface Props { count?: number; }
+const { count = 60 } = Astro.props;
+---
+<canvas class="particles" data-count={count} aria-hidden="true"></canvas>
+
+<style>
+  .particles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+    mix-blend-mode: screen;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .particles { display: none; }
+  }
+</style>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const canvas = document.querySelector('.particles') as HTMLCanvasElement;
+    if (canvas) {
+      const ctx = canvas.getContext('2d')!;
+      const count = parseInt(canvas.dataset.count || '60');
+      let w = 0, h = 0;
+      const particles: Array<{x:number,y:number,vx:number,vy:number,r:number,a:number,tint:string}> = [];
+      const tints = ['rgba(123,175,111,', 'rgba(255,234,176,', 'rgba(242,237,230,'];
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = w = rect.width * devicePixelRatio;
+        canvas.height = h = rect.height * devicePixelRatio;
+      }
+
+      function init() {
+        particles.length = 0;
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.15,
+            vy: -0.05 - Math.random() * 0.2,
+            r: 0.5 + Math.random() * 1.8,
+            a: 0.15 + Math.random() * 0.45,
+            tint: tints[Math.floor(Math.random() * tints.length)],
+          });
+        }
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, w, h);
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+          if (p.x < -10) p.x = w + 10;
+          if (p.x > w + 10) p.x = -10;
+          ctx.beginPath();
+          ctx.fillStyle = p.tint + p.a + ')';
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        requestAnimationFrame(tick);
+      }
+
+      resize();
+      init();
+      tick();
+      window.addEventListener('resize', () => { resize(); init(); });
+    }
+  }
+</script>

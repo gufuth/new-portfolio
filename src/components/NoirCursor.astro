@@ -1,0 +1,86 @@
+---
+---
+<div class="noir-cursor" id="noir-cursor" aria-hidden="true">
+  <div class="dot"></div>
+  <div class="halo"></div>
+</div>
+
+<style>
+  .noir-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    pointer-events: none;
+    z-index: 100;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform, --cx, --cy;
+  }
+  .dot {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--color-cream);
+    box-shadow: 0 0 12px var(--color-cream), 0 0 24px rgba(242, 237, 230, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.25s var(--ease-cinematic), height 0.25s var(--ease-cinematic), background 0.25s var(--ease-cinematic), box-shadow 0.25s var(--ease-cinematic);
+  }
+  .halo {
+    position: absolute;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(242, 237, 230, 0.35);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-cinematic), width 0.3s var(--ease-cinematic), height 0.3s var(--ease-cinematic);
+  }
+  .noir-cursor.on-target .dot {
+    width: 4px; height: 4px;
+  }
+  .noir-cursor.on-target .halo {
+    opacity: 1;
+    width: 72px; height: 72px;
+  }
+  .noir-cursor.on-work .dot,
+  .noir-cursor.on-work .halo { background: var(--color-neon-work); border-color: var(--color-neon-work); box-shadow: 0 0 16px var(--color-neon-work); }
+  .noir-cursor.on-about .dot,
+  .noir-cursor.on-about .halo { background: var(--color-neon-about); border-color: var(--color-neon-about); box-shadow: 0 0 16px var(--color-neon-about); }
+  .noir-cursor.on-hearsay .dot,
+  .noir-cursor.on-hearsay .halo { background: var(--color-neon-hearsay); border-color: var(--color-neon-hearsay); box-shadow: 0 0 16px var(--color-neon-hearsay); }
+
+  @media (hover: none), (prefers-reduced-motion: reduce) {
+    .noir-cursor { display: none; }
+  }
+  @media (hover: none) {
+    body { cursor: auto !important; }
+    .hotspot { cursor: pointer !important; }
+  }
+</style>
+
+<script>
+  const cursor = document.getElementById('noir-cursor');
+  if (cursor && window.matchMedia('(hover: hover)').matches) {
+    document.body.style.cursor = 'none';
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+    document.addEventListener('mousemove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+    });
+    function tick() {
+      cx += (tx - cx) * 0.22;
+      cy += (ty - cy) * 0.22;
+      cursor!.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    document.addEventListener('mouseover', (e) => {
+      const target = (e.target as HTMLElement)?.closest('.hotspot') as HTMLElement;
+      cursor.classList.remove('on-target', 'on-work', 'on-about', 'on-hearsay');
+      if (target) {
+        cursor.classList.add('on-target');
+        const c = target.dataset.color;
+        if (c) cursor.classList.add(`on-${c}`);
+      }
+    });
+  }
+</script>
