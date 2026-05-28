@@ -2,15 +2,30 @@
 interface Props {
   sceneName?: string;
   frameNumber?: string;
+  role?: string;
+  yearRange?: string;
 }
-const { sceneName = "EXT. DINER — DUSK", frameNumber = "001" } = Astro.props;
+const {
+  sceneName = "EXT. DINER — DUSK",
+  frameNumber = "001",
+  role = "Creative Director · Brand Strategist",
+  yearRange = "MMX — MMXXVI",
+} = Astro.props;
 const now = new Date();
 const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}`;
 ---
 <div class="film-frame" data-transition-name="film-frame">
   <div class="bar top" data-transition-name="frame-top">
-    <span class="meta meta-left">Ian Luna · 2026</span>
-    <span class="meta meta-right">Frame {frameNumber}</span>
+    <span class="meta meta-left">
+      <span class="primary">Ian Luna</span>
+      <span class="separator">·</span>
+      <span class="role">{role}</span>
+    </span>
+    <span class="meta meta-right">
+      <span class="years">{yearRange}</span>
+      <span class="separator">·</span>
+      <span class="frame">Frame {frameNumber}</span>
+    </span>
   </div>
   <div class="stage-content">
     <slot />
@@ -46,7 +61,6 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
     position: relative;
     pointer-events: none;
   }
-  /* Children of stage-content can re-enable pointer events */
   .stage-content > :global(*) { pointer-events: auto; }
 
   .meta {
@@ -56,11 +70,23 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
     text-transform: uppercase;
     color: var(--color-muted);
     opacity: 0.78;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
   }
   .meta-left { text-align: left; }
   .meta-right { text-align: right; }
+  .primary { color: var(--color-cream); opacity: 1; }
+  .separator { opacity: 0.4; }
+  .role { font-style: normal; }
+  .years { letter-spacing: 0.28em; }
 
-  /* View Transitions name for persistent morph across pages */
+  /* On small screens, hide the secondary half of each bar to keep the primary readable */
+  @media (max-width: 640px) {
+    .role, .years { display: none; }
+    .meta .separator:first-of-type { display: none; }
+  }
+
   .bar { view-transition-name: var(--vt-name, none); }
   .bar.top { view-transition-name: frame-top; }
   .bar.bottom { view-transition-name: frame-bottom; }

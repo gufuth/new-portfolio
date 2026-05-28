@@ -8,28 +8,50 @@ interface Props {
   hoverCopy?: string;
   hintPosition?: "above" | "below" | "right" | "left";
 }
-const { label, href, color, ariaLabel, top, left, width, height, flickerDelay = "0s", hoverCopy = "Step inside", hintPosition = "above" } = Astro.props;
+const {
+  label, href, color, ariaLabel,
+  top, left, width, height,
+  flickerDelay = "0s",
+  hoverCopy = "Step inside",
+  hintPosition = "above",
+} = Astro.props;
 ---
-<a href={href} class:list={["hotspot", `tint-${color}`]} style={`top: ${top}; left: ${left}; width: ${width}; height: ${height};`} aria-label={ariaLabel} data-astro-prefetch>
-  <span class="flicker" style={`animation-delay: ${flickerDelay};`} aria-hidden="true"></span>
+<a href={href}
+   class:list={["hotspot", `tint-${color}`]}
+   style={`top: ${top}; left: ${left}; width: ${width}; height: ${height}; --flicker-delay: ${flickerDelay};`}
+   aria-label={ariaLabel}
+   data-astro-prefetch>
+  <span class="flicker" aria-hidden="true"></span>
   <span class:list={["hover-copy", `hint-${hintPosition}`]} aria-hidden="true">{hoverCopy}</span>
   <span class="sr-only">{label}</span>
 </a>
 
 <style>
   .hotspot { position: absolute; display: block; cursor: pointer; text-decoration: none; z-index: 5; }
-  /* RESTRAINED flicker — mostly steady, occasional brief dims (per Veo source pattern) */
+
+  /* Flicker layer — starts hidden, entry-pulse fires once at --flicker-delay, then ambient flicker loops */
   .flicker {
     position: absolute; inset: -22%;
     background: radial-gradient(ellipse at center, currentColor 0%, transparent 60%);
     border-radius: 50%;
     filter: blur(32px);
     mix-blend-mode: screen;
-    opacity: 0.32;
-    pointer-events: none; will-change: opacity;
-    animation: neon-flicker 9s linear infinite;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+    animation:
+      entry-pulse 1.5s var(--ease-cinematic) var(--flicker-delay, 0s) 1 forwards,
+      neon-flicker 9s linear calc(var(--flicker-delay, 0s) + 1.5s) infinite;
+  }
+  @keyframes entry-pulse {
+    /* The sign wakes up: dark → flash bright (alive, interactive) → settle to ambient glow */
+    0%   { opacity: 0; }
+    30%  { opacity: 0.92; }
+    60%  { opacity: 0.40; }
+    100% { opacity: 0.32; }
   }
   @keyframes neon-flicker {
+    /* RESTRAINED ambient flicker per Veo source pattern */
     0%, 100% { opacity: 0.32; }
     34% { opacity: 0.34; }
     35% { opacity: 0.12; }
@@ -40,7 +62,8 @@ const { label, href, color, ariaLabel, top, left, width, height, flickerDelay = 
     73% { opacity: 0.18; }
     74% { opacity: 0.40; }
   }
-  /* Hover copy — backdrop for contrast on any wall color */
+
+  /* Hover copy */
   .hover-copy {
     position: absolute;
     font-family: var(--font-mono);
@@ -63,7 +86,11 @@ const { label, href, color, ariaLabel, top, left, width, height, flickerDelay = 
   .hint-right { left: calc(100% + 12px); top: 50%; transform: translateY(-50%) translateX(4px); }
   .hint-left  { right: calc(100% + 12px); top: 50%; transform: translateY(-50%) translateX(-4px); }
 
-  .hotspot:hover .flicker { opacity: 0.85; filter: blur(20px); animation-duration: 4s; }
+  .hotspot:hover .flicker {
+    opacity: 0.85 !important;
+    filter: blur(20px);
+    animation-duration: 4s, 4s;
+  }
   .hotspot:hover .hover-copy { opacity: 1; transform: translateX(-50%) translateY(0); }
   .hotspot:hover .hint-right { transform: translateY(-50%) translateX(0); }
   .hotspot:hover .hint-left { transform: translateY(-50%) translateX(0); }
@@ -73,5 +100,8 @@ const { label, href, color, ariaLabel, top, left, width, height, flickerDelay = 
   .tint-about { color: var(--color-neon-about); }
   .tint-hearsay { color: var(--color-neon-hearsay); }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-  @media (prefers-reduced-motion: reduce) { .flicker { animation: none; opacity: 0.4; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flicker { animation: none; opacity: 0.4; }
+  }
 </style>

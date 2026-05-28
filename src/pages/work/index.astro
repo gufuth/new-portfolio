@@ -1,0 +1,288 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+// Case studies, sourced from drafts/sidequest_portfolio_site/case_studies_v1.md
+// HOUSE SPECIALS / MAINS / SIDES are editorial categorization tags from the diner metaphor —
+// kept as section headers, NOT as a kitschy chalkboard-menu visual treatment.
+
+interface Entry {
+  slug?: string;            // present = case study page exists. absent = WIP placeholder.
+  title: string;
+  client: string;
+  role: string;
+  year: string;
+  teaser: string;
+}
+
+const houseSpecials: Entry[] = [
+  { slug: "mrbeast", title: "Beast Mode Banking", client: "MoneyLion × Beast Games (Amazon Prime)", role: "Associate Creative Director, Copy", year: "2024–25", teaser: "From #33 to #1 most-downloaded finance app in a single day." },
+  { title: "GO", client: "Virgin Galactic", role: "ACD, Copy", year: "2023", teaser: "Launch positioning for commercial spaceflight." },
+  { title: "Air Force 1: Hometown", client: "Nike", role: "Senior Copywriter", year: "2022", teaser: "The shoe and the city. Identity built on place." },
+  { title: "The Quiet Issue", client: "The Atlantic × Audi", role: "Senior Copywriter", year: "2022", teaser: "Editorial-grade brand integration. Silence as a luxury." },
+];
+
+const mains: Entry[] = [
+  { title: "Hours Later", client: "1800 Tequila", role: "Senior Copywriter", year: "2021", teaser: "The honest aftermath of a good night." },
+  { title: "Born in Tequila", client: "Jose Cuervo", role: "Senior Copywriter", year: "2021", teaser: "Origin story as positioning anchor." },
+  { title: "Apex Predator", client: "Audi", role: "Senior Copywriter", year: "2020", teaser: "Performance language for the RS lineup." },
+  { title: "Doing Things, Off-Season", client: "Outdoor Voices", role: "Copywriter", year: "2019", teaser: "Activewear for the in-between months." },
+  { title: "Parking Lot Tour", client: "Vans", role: "Copywriter", year: "2019", teaser: "Skating as architecture." },
+  { title: "Roar Money", client: "MoneyLion (Fintech)", role: "Senior Copywriter", year: "2023", teaser: "Banking product naming and voice." },
+];
+
+const sides: Entry[] = [
+  { title: "Swipe Right, Drive Away", client: "car2go × Tinder", role: "Copywriter", year: "2017", teaser: "Cross-brand campaign." },
+  { title: "Internal Voice", client: "SCOOBA Love", role: "Creative Lead", year: "2018", teaser: "Tonal exploration." },
+  { title: "ROSEBUD", client: "Citizen Kane (spec)", role: "Writer", year: "2024", teaser: "Spec frame. Built to spec." },
+];
+---
+<Layout
+  title="Work — Ian Luna"
+  description="Selected case studies. Beast Mode Banking, Virgin Galactic, Nike, The Atlantic × Audi, and others."
+  sceneName="INT. THE LAST STOP DINER — BOOTH"
+  frameNumber="002"
+>
+  <main id="main" class="page">
+    <div class="content">
+      <header class="page-head">
+        <a href="/" class="back-link" aria-label="Back to landing">
+          <span class="back-glyph" aria-hidden="true">←</span>
+          <span class="back-text">Step back outside</span>
+        </a>
+        <h1 class="page-title">The Work</h1>
+        <p class="page-sub">Selected campaigns, copy systems, and brand voice work. Sixteen years of writing for brands that want to be seen.</p>
+      </header>
+
+      <section class="section">
+        <header class="section-head">
+          <span class="section-tag">House Specials</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-note">Featured</span>
+        </header>
+        <ul class="list">
+          {houseSpecials.map(e => (
+            <li class:list={["entry", !e.slug && "pending"]}>
+              {e.slug ? (
+                <a href={`/work/${e.slug}`} class="entry-link" data-astro-prefetch>
+                  <span class="entry-title">{e.title}</span>
+                  <span class="entry-meta">
+                    <span class="entry-client">{e.client}</span>
+                    <span class="entry-role">{e.role}</span>
+                    <span class="entry-year">{e.year}</span>
+                  </span>
+                  <span class="entry-teaser">{e.teaser}</span>
+                </a>
+              ) : (
+                <div class="entry-link entry-link-pending" aria-disabled="true">
+                  <span class="entry-title">{e.title}</span>
+                  <span class="entry-meta">
+                    <span class="entry-client">{e.client}</span>
+                    <span class="entry-role">{e.role}</span>
+                    <span class="entry-year">{e.year}</span>
+                  </span>
+                  <span class="entry-teaser">{e.teaser}</span>
+                  <span class="entry-status" aria-hidden="true">In preparation</span>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="section">
+        <header class="section-head">
+          <span class="section-tag">Mains</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-note">Standard menu</span>
+        </header>
+        <ul class="list">
+          {mains.map(e => (
+            <li class="entry">
+              <div class="entry-link entry-link-pending" aria-disabled="true">
+                <span class="entry-title">{e.title}</span>
+                <span class="entry-meta">
+                  <span class="entry-client">{e.client}</span>
+                  <span class="entry-role">{e.role}</span>
+                  <span class="entry-year">{e.year}</span>
+                </span>
+                <span class="entry-teaser">{e.teaser}</span>
+                <span class="entry-status" aria-hidden="true">In preparation</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="section">
+        <header class="section-head">
+          <span class="section-tag">Sides</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-note">Shorter cuts</span>
+        </header>
+        <ul class="list">
+          {sides.map(e => (
+            <li class="entry">
+              <div class="entry-link entry-link-pending" aria-disabled="true">
+                <span class="entry-title">{e.title}</span>
+                <span class="entry-meta">
+                  <span class="entry-client">{e.client}</span>
+                  <span class="entry-role">{e.role}</span>
+                  <span class="entry-year">{e.year}</span>
+                </span>
+                <span class="entry-teaser">{e.teaser}</span>
+                <span class="entry-status" aria-hidden="true">In preparation</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .page {
+    min-height: calc(100vh - var(--frame-bar-h) * 2);
+    margin-top: var(--frame-bar-h);
+    padding: var(--space-16) var(--space-6) var(--space-32);
+    background: var(--color-silhouette);
+    color: var(--color-cream);
+    display: flex;
+    justify-content: center;
+  }
+  .content {
+    width: 100%;
+    max-width: 920px;
+  }
+
+  .page-head {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 14%, transparent);
+    padding-bottom: var(--space-10);
+    margin-bottom: var(--space-16);
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: none;
+    margin-bottom: var(--space-8);
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--color-cream); }
+  .back-glyph { font-size: 1.1em; }
+
+  .page-title {
+    font-family: var(--font-display, "Fraunces", "Newsreader", serif);
+    font-weight: 900;
+    font-size: clamp(var(--text-4xl), 7vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-4);
+    color: var(--color-cream);
+  }
+  .page-sub {
+    font-family: var(--font-body, "Lexend", sans-serif);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    color: var(--color-muted);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .section { margin-bottom: var(--space-20); }
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-marquee-warm);
+    flex-shrink: 0;
+  }
+  .section-rule {
+    flex: 1 1 auto;
+    height: 1px;
+    background: color-mix(in srgb, var(--color-cream) 14%, transparent);
+  }
+  .section-note {
+    font-family: var(--font-mono);
+    font-size: var(--text-3xs);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .entry { border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 8%, transparent); }
+  .entry:last-child { border-bottom: none; }
+  .entry-link {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    padding: var(--space-5) 0;
+    text-decoration: none;
+    color: var(--color-cream);
+    transition: padding 0.25s var(--ease-cinematic), background 0.25s;
+  }
+  .entry-link:hover {
+    padding-left: var(--space-3);
+    background: linear-gradient(to right, color-mix(in srgb, var(--color-neon-work) 8%, transparent), transparent 30%);
+  }
+  .entry-link-pending {
+    color: color-mix(in srgb, var(--color-cream) 60%, transparent);
+    cursor: default;
+  }
+  .entry-link-pending:hover { padding-left: 0; background: transparent; }
+
+  .entry-title {
+    font-family: var(--font-display, "Fraunces", "Newsreader", serif);
+    font-weight: 700;
+    font-size: clamp(var(--text-xl), 3vw, var(--text-3xl));
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .entry-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em 1em;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .entry-client { color: var(--color-cream); opacity: 0.7; }
+  .entry-teaser {
+    font-family: var(--font-body, "Lexend", sans-serif);
+    font-size: var(--text-base);
+    line-height: 1.45;
+    color: var(--color-cream);
+    opacity: 0.85;
+    max-width: 56ch;
+  }
+  .entry-link-pending .entry-teaser { opacity: 0.55; }
+  .entry-status {
+    font-family: var(--font-mono);
+    font-size: var(--text-3xs);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-marquee-warm);
+    opacity: 0.6;
+    margin-top: var(--space-1);
+  }
+</style>

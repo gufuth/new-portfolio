@@ -4,27 +4,34 @@ import SignHotspot from "@/components/SignHotspot.astro";
 import { Image } from "astro:assets";
 import diner from "@/assets/hero/diner-night.png";
 ---
-<Layout title="Ian Luna" description="Creative leader. Writer. Storyteller." sceneName="EXT. THE LAST STOP DINER — DUSK" frameNumber="001">
+<Layout
+  title="Ian Luna"
+  description="Creative Director and Brand Strategist. Sixteen years writing for brands that want to be seen."
+  sceneName="EXT. THE LAST STOP DINER — DUSK"
+  frameNumber="001"
+>
   <main id="main" class="stage">
     <div class="frame">
       <Image src={diner}
-        alt="The Last Stop Diner at dusk. IAN LUNA marquee, WORK in green, ABOUT in red, HEARSAY in magenta on the building."
+        alt="The Last Stop Diner at dusk. WORK painted in lime-green block neon on the front window, IAN LUNA marquee on the roof, ABOUT marquee at front-left, magenta-lit back-door at the side alley. A vintage station wagon parked close in the left foreground. One figure visible inside through the windows."
         widths={[640, 1280, 1920, 2560]} sizes="100vw"
         formats={["avif", "webp"]} loading="eager" fetchpriority="high"
-        class="backdrop dolly" />
+        class="backdrop entry-zoom" />
 
       <SignHotspot label="WORK" href="/work" color="work"
         ariaLabel="WORK. Case studies."
-        top="40%" left="26%" width="17%" height="11%"
-        flickerDelay="0s" hoverCopy="The work" hintPosition="above" />
+        top="32%" left="32%" width="38%" height="22%"
+        flickerDelay="2.5s" hoverCopy="The work" hintPosition="above" />
       <SignHotspot label="ABOUT" href="/about" color="about"
         ariaLabel="ABOUT. Bio and resume."
-        top="43%" left="55%" width="12%" height="10%"
-        flickerDelay="2.6s" hoverCopy="The man" hintPosition="above" />
+        top="26%" left="13%" width="13%" height="9%"
+        flickerDelay="3.1s" hoverCopy="The man" hintPosition="above" />
       <SignHotspot label="HEARSAY" href="/hearsay" color="hearsay"
         ariaLabel="HEARSAY. Testimonials."
-        top="46%" left="74%" width="11%" height="8%"
-        flickerDelay="5.2s" hoverCopy="What they say" hintPosition="above" />
+        top="40%" left="76%" width="13%" height="30%"
+        flickerDelay="3.7s" hoverCopy="What they say" hintPosition="left" />
+
+      <span class="entry-hint" aria-hidden="true">Click any sign to enter</span>
     </div>
   </main>
 </Layout>
@@ -43,12 +50,74 @@ import diner from "@/assets/hero/diner-night.png";
     width: 100%; height: 100%; display: block;
     object-fit: cover; object-position: center;
     z-index: 1;
-    transform-origin: 50% 50%;
+    transform-origin: 50% 55%;
   }
-  .dolly { animation: dolly-in 60s var(--ease-cinematic) infinite alternate; }
-  @keyframes dolly-in {
+
+  /* ENTRY ZOOM — page lands wider, settles into hero crop over 2.5s, then ambient dolly continues. */
+  .entry-zoom {
+    animation:
+      entry-dolly 2.5s var(--ease-cinematic) 1 forwards,
+      ambient-dolly 60s var(--ease-cinematic) 2.5s infinite alternate;
+  }
+  @keyframes entry-dolly {
+    0%   { transform: scale(1.15); }
+    100% { transform: scale(1.00); }
+  }
+  @keyframes ambient-dolly {
     0%   { transform: scale(1.00); }
     100% { transform: scale(1.03); }
   }
-  @media (prefers-reduced-motion: reduce) { .dolly { animation: none; } }
+
+  /* Entry hint — persistent low-opacity prompt; fades on first interaction (handled by JS below). */
+  .entry-hint {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-cream);
+    opacity: 0;
+    z-index: 6;
+    pointer-events: none;
+    text-shadow: 0 0 12px rgba(10, 9, 8, 0.8), 0 1px 0 rgba(0, 0, 0, 0.4);
+    animation: hint-rise 1.4s var(--ease-cinematic) 4.8s 1 forwards,
+               hint-breathe 4.5s ease-in-out 6.4s infinite;
+  }
+  @keyframes hint-rise {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    100% { opacity: 0.55; transform: translateX(-50%) translateY(0); }
+  }
+  @keyframes hint-breathe {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 0.35; }
+  }
+  .frame.interacted .entry-hint {
+    animation: hint-fade 0.4s linear forwards !important;
+  }
+  @keyframes hint-fade {
+    to { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entry-zoom { animation: none; }
+    .entry-hint { animation: hint-rise-rm 0.4s linear 0s 1 forwards; }
+    @keyframes hint-rise-rm { to { opacity: 0.55; } }
+  }
 </style>
+
+<script>
+  // Hide entry hint on first interaction with any hotspot
+  document.addEventListener('DOMContentLoaded', () => {
+    const frameEl = document.querySelector('.frame');
+    if (!frameEl) return;
+    const hideHint = () => frameEl.classList.add('interacted');
+    document.querySelectorAll('.hotspot').forEach(h => {
+      h.addEventListener('mouseenter', hideHint, { once: true });
+      h.addEventListener('focus', hideHint, { once: true });
+      h.addEventListener('click', hideHint, { once: true });
+    });
+  });
+</script>
