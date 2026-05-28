@@ -5,15 +5,11 @@ interface Props {
   ariaLabel: string;
   top: string; left: string; width: string; height: string;
   flickerDelay?: string;
-  hoverCopy?: string;
-  hintPosition?: "above" | "below" | "right" | "left";
 }
 const {
   label, href, color, ariaLabel,
   top, left, width, height,
   flickerDelay = "0s",
-  hoverCopy = "Step inside",
-  hintPosition = "above",
 } = Astro.props;
 ---
 <a href={href}
@@ -22,14 +18,13 @@ const {
    aria-label={ariaLabel}
    data-astro-prefetch>
   <span class="flicker" aria-hidden="true"></span>
-  <span class:list={["hover-copy", `hint-${hintPosition}`]} aria-hidden="true">{hoverCopy}</span>
   <span class="sr-only">{label}</span>
 </a>
 
 <style>
   .hotspot { position: absolute; display: block; cursor: pointer; text-decoration: none; z-index: 5; }
 
-  /* Flicker layer — starts hidden, entry-pulse fires once at --flicker-delay, then ambient flicker loops */
+  /* Diegetic affordance: glow on the sign itself. No text labels. No tooltips. */
   .flicker {
     position: absolute; inset: -22%;
     background: radial-gradient(ellipse at center, currentColor 0%, transparent 60%);
@@ -44,14 +39,14 @@ const {
       neon-flicker 9s linear calc(var(--flicker-delay, 0s) + 1.5s) infinite;
   }
   @keyframes entry-pulse {
-    /* The sign wakes up: dark → flash bright (alive, interactive) → settle to ambient glow */
+    /* Sign wakes up on entry zoom: dark → flash bright → settle to ambient */
     0%   { opacity: 0; }
     30%  { opacity: 0.92; }
     60%  { opacity: 0.40; }
     100% { opacity: 0.32; }
   }
   @keyframes neon-flicker {
-    /* RESTRAINED ambient flicker per Veo source pattern */
+    /* Restrained ambient flicker — per Veo source pattern, mostly steady with sharp drops */
     0%, 100% { opacity: 0.32; }
     34% { opacity: 0.34; }
     35% { opacity: 0.12; }
@@ -63,37 +58,12 @@ const {
     74% { opacity: 0.40; }
   }
 
-  /* Hover copy */
-  .hover-copy {
-    position: absolute;
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-cream);
-    background: rgba(10, 9, 8, 0.7);
-    backdrop-filter: blur(8px);
-    padding: 0.35rem 0.7rem;
-    border: 1px solid color-mix(in srgb, currentColor 60%, transparent);
-    border-radius: 2px;
-    white-space: nowrap;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
-    box-shadow: 0 0 12px color-mix(in srgb, currentColor 40%, transparent);
-  }
-  .hint-above { bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-4px); }
-  .hint-below { top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(4px); }
-  .hint-right { left: calc(100% + 12px); top: 50%; transform: translateY(-50%) translateX(4px); }
-  .hint-left  { right: calc(100% + 12px); top: 50%; transform: translateY(-50%) translateX(-4px); }
-
+  /* On hover: the SIGN intensifies. No text label. No tooltip. The world reacts. */
   .hotspot:hover .flicker {
     opacity: 0.85 !important;
-    filter: blur(20px);
+    filter: blur(18px);
     animation-duration: 4s, 4s;
   }
-  .hotspot:hover .hover-copy { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .hotspot:hover .hint-right { transform: translateY(-50%) translateX(0); }
-  .hotspot:hover .hint-left { transform: translateY(-50%) translateX(0); }
   .hotspot:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 8px; }
 
   .tint-work { color: var(--color-neon-work); }

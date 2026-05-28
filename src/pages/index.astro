@@ -13,23 +13,23 @@ import diner from "@/assets/hero/diner-night.png";
   <main id="main" class="stage">
     <div class="frame">
       <Image src={diner}
-        alt="The Last Stop Diner at dusk. WORK painted in lime-green block neon on the front window, IAN LUNA marquee on the roof, ABOUT marquee at front-left, magenta-lit back-door at the side alley. A vintage station wagon parked close in the left foreground. One figure visible inside through the windows."
-        widths={[640, 1280, 1920, 2560]} sizes="100vw"
+        alt="The Last Stop Diner at dusk. WORK painted in lime-green block neon across the front plate-glass window. IAN LUNA marquee fully visible on the roof. ABOUT marquee at front-left. Magenta-lit back-door at the right side where the building turns. A vintage station wagon parked close in the left foreground. One figure visible inside through the windows."
+        widths={[768, 1280, 1536, 2048, 2560]} sizes="100vw"
         formats={["avif", "webp"]} loading="eager" fetchpriority="high"
         class="backdrop entry-zoom" />
 
       <SignHotspot label="WORK" href="/work" color="work"
         ariaLabel="WORK. Case studies."
-        top="32%" left="32%" width="38%" height="22%"
-        flickerDelay="2.5s" hoverCopy="The work" hintPosition="above" />
+        top="34%" left="30%" width="40%" height="38%"
+        flickerDelay="2.5s" />
       <SignHotspot label="ABOUT" href="/about" color="about"
         ariaLabel="ABOUT. Bio and resume."
-        top="26%" left="13%" width="13%" height="9%"
-        flickerDelay="3.1s" hoverCopy="The man" hintPosition="above" />
+        top="14%" left="6%" width="13%" height="10%"
+        flickerDelay="3.1s" />
       <SignHotspot label="HEARSAY" href="/hearsay" color="hearsay"
         ariaLabel="HEARSAY. Testimonials."
-        top="40%" left="76%" width="13%" height="30%"
-        flickerDelay="3.7s" hoverCopy="What they say" hintPosition="left" />
+        top="32%" left="80%" width="14%" height="38%"
+        flickerDelay="3.7s" />
 
       <span class="entry-hint" aria-hidden="true">Click any sign to enter</span>
     </div>
@@ -50,10 +50,10 @@ import diner from "@/assets/hero/diner-night.png";
     width: 100%; height: 100%; display: block;
     object-fit: cover; object-position: center;
     z-index: 1;
-    transform-origin: 50% 55%;
+    transform-origin: 50% 50%;
   }
 
-  /* ENTRY ZOOM — page lands wider, settles into hero crop over 2.5s, then ambient dolly continues. */
+  /* ENTRY ZOOM — lands wider, settles into hero crop over 2.5s, then ambient dolly continues. */
   .entry-zoom {
     animation:
       entry-dolly 2.5s var(--ease-cinematic) 1 forwards,
@@ -68,10 +68,10 @@ import diner from "@/assets/hero/diner-night.png";
     100% { transform: scale(1.03); }
   }
 
-  /* Entry hint — persistent low-opacity prompt; fades on first interaction (handled by JS below). */
+  /* Entry hint — persistent low-opacity prompt; fades on first interaction. */
   .entry-hint {
     position: absolute;
-    bottom: 12%;
+    bottom: 8%;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-mono);
@@ -82,7 +82,7 @@ import diner from "@/assets/hero/diner-night.png";
     opacity: 0;
     z-index: 6;
     pointer-events: none;
-    text-shadow: 0 0 12px rgba(10, 9, 8, 0.8), 0 1px 0 rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 12px rgba(10, 9, 8, 0.85), 0 1px 0 rgba(0, 0, 0, 0.4);
     animation: hint-rise 1.4s var(--ease-cinematic) 4.8s 1 forwards,
                hint-breathe 4.5s ease-in-out 6.4s infinite;
   }
@@ -92,7 +92,7 @@ import diner from "@/assets/hero/diner-night.png";
   }
   @keyframes hint-breathe {
     0%, 100% { opacity: 0.55; }
-    50%      { opacity: 0.35; }
+    50%      { opacity: 0.32; }
   }
   .frame.interacted .entry-hint {
     animation: hint-fade 0.4s linear forwards !important;
@@ -110,14 +110,14 @@ import diner from "@/assets/hero/diner-night.png";
 
 <script>
   // Hide entry hint on first interaction with any hotspot
-  document.addEventListener('DOMContentLoaded', () => {
-    const frameEl = document.querySelector('.frame');
+  document.addEventListener("DOMContentLoaded", () => {
+    const frameEl = document.querySelector(".frame");
     if (!frameEl) return;
-    const hideHint = () => frameEl.classList.add('interacted');
-    document.querySelectorAll('.hotspot').forEach(h => {
-      h.addEventListener('mouseenter', hideHint, { once: true });
-      h.addEventListener('focus', hideHint, { once: true });
-      h.addEventListener('click', hideHint, { once: true });
+    const hideHint = () => frameEl.classList.add("interacted");
+    document.querySelectorAll(".hotspot").forEach((h) => {
+      h.addEventListener("mouseenter", hideHint, { once: true });
+      h.addEventListener("focus", hideHint, { once: true });
+      h.addEventListener("click", hideHint, { once: true });
     });
   });
 </script>
