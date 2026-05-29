@@ -115,13 +115,13 @@ html, body {
 }
 @keyframes frame-top-close {
   0%   { transform: scaleY(1); background: var(--color-frame-bar); }
-  44%  { transform: scaleY(14); background: #000; }
-  56%  { transform: scaleY(14); background: #000; }
+  40%  { transform: scaleY(14); background: #000; }
+  60%  { transform: scaleY(14); background: #000; }
   100% { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 @keyframes frame-top-open {
-  0%, 44%   { transform: scaleY(14); background: #000; }
-  56%       { transform: scaleY(14); background: #000; }
+  0%, 40%   { transform: scaleY(14); background: #000; }
+  60%       { transform: scaleY(14); background: #000; }
   100%      { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 
@@ -140,13 +140,13 @@ html, body {
 }
 @keyframes frame-bottom-close {
   0%   { transform: scaleY(1); background: var(--color-frame-bar); }
-  44%  { transform: scaleY(14); background: #000; }
-  56%  { transform: scaleY(14); background: #000; }
+  40%  { transform: scaleY(14); background: #000; }
+  60%  { transform: scaleY(14); background: #000; }
   100% { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 @keyframes frame-bottom-open {
-  0%, 44%   { transform: scaleY(14); background: #000; }
-  56%       { transform: scaleY(14); background: #000; }
+  0%, 40%   { transform: scaleY(14); background: #000; }
+  60%       { transform: scaleY(14); background: #000; }
   100%      { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 
