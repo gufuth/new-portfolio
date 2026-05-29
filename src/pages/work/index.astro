@@ -3,37 +3,55 @@ import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import booth from "@/assets/work/booth-billboards.png";
 
-// Case studies sourced from drafts/sidequest_portfolio_site/case_studies_v1.md
-// Architecture per design_system_and_throughline_2026_05_27.md:
-// /work = booth interior view through window to highway with case-study billboards.
-// Featured 3-4 case studies are billboards visible IN the hero image (clickable via SignHotspot).
-// Full case study index lives BELOW the hero as editorial type — no menu metaphor, no kitsch.
+// Each billboard's title displayed on top of the asset's painted billboard.
+// The visible billboard element is the SOURCE of the shared-element morph.
+// When the user clicks BEAST MODE BANKING, this element morphs into the case study hero.
 
-interface Entry {
-  slug?: string;          // present = case study page exists. absent = WIP placeholder.
+interface Billboard {
+  slug?: string;       // present = live case study
   title: string;
   client: string;
   role: string;
   year: string;
+  bg: string;          // matches the painted billboard bg in the asset
+  ink: string;         // text color matching the painted lettering
+  // Position over the painted billboard in the asset (approximate to v_work_v2 Look 2)
+  top: string;
+  left: string;
+  width: string;
+  height: string;
 }
 
-const featured: Entry[] = [
-  { slug: "mrbeast", title: "Beast Mode Banking", client: "MoneyLion × Beast Games (Amazon Prime)", role: "ACD, Copy", year: "2024–25" },
-  { title: "GO",                       client: "Virgin Galactic",                role: "ACD, Copy",       year: "2023" },
-  { title: "Hometown",                 client: "Nike — Air Force 1",             role: "Senior Copy",     year: "2022" },
-  { title: "The Quiet Issue",          client: "The Atlantic × Audi",            role: "Senior Copy",     year: "2022" },
+const billboards: Billboard[] = [
+  { slug: "mrbeast", title: "BEAST MODE BANKING", client: "MoneyLion × Beast Games",
+    role: "ACD, Copy", year: "2024–25",
+    bg: "#0F1B2E", ink: "var(--color-neon-work)",
+    top: "30%", left: "18%", width: "16%", height: "20%" },
+  { title: "GO", client: "Virgin Galactic",
+    role: "ACD, Copy", year: "2023",
+    bg: "#7A1F1F", ink: "var(--color-cream)",
+    top: "30%", left: "38%", width: "11%", height: "20%" },
+  { title: "HOMETOWN", client: "Nike — Air Force 1",
+    role: "Senior Copy", year: "2022",
+    bg: "#E8DCC0", ink: "var(--color-neon-about)",
+    top: "30%", left: "53%", width: "14%", height: "20%" },
+  { title: "THE QUIET ISSUE", client: "The Atlantic × Audi",
+    role: "Senior Copy", year: "2022",
+    bg: "#1F1F1F", ink: "#C9C2B2",
+    top: "30%", left: "70%", width: "13%", height: "20%" },
 ];
 
-const more: Entry[] = [
-  { title: "Hours Later",                 client: "1800 Tequila",          role: "Senior Copy",  year: "2021" },
-  { title: "Born in Tequila",             client: "Jose Cuervo",           role: "Senior Copy",  year: "2021" },
-  { title: "Apex Predator",               client: "Audi",                  role: "Senior Copy",  year: "2020" },
-  { title: "Doing Things, Off-Season",    client: "Outdoor Voices",        role: "Copy",         year: "2019" },
-  { title: "Parking Lot Tour",            client: "Vans",                  role: "Copy",         year: "2019" },
-  { title: "Roar Money",                  client: "MoneyLion",             role: "Senior Copy",  year: "2023" },
-  { title: "Swipe Right, Drive Away",     client: "car2go × Tinder",       role: "Copy",         year: "2017" },
-  { title: "Internal Voice",              client: "SCOOBA Love",           role: "Creative Lead", year: "2018" },
-  { title: "ROSEBUD",                     client: "Citizen Kane (spec)",   role: "Writer",       year: "2024" },
+// Selected (the other nine) — render as editorial list below
+const more = [
+  { title: "Hours Later",                client: "1800 Tequila",       role: "Senior Copy",   year: "2021" },
+  { title: "Born in Tequila",            client: "Jose Cuervo",        role: "Senior Copy",   year: "2021" },
+  { title: "Apex Predator",              client: "Audi",               role: "Senior Copy",   year: "2020" },
+  { title: "Doing Things, Off-Season",   client: "Outdoor Voices",     role: "Copy",          year: "2019" },
+  { title: "Parking Lot Tour",           client: "Vans",               role: "Copy",          year: "2019" },
+  { title: "Roar Money",                 client: "MoneyLion",          role: "Senior Copy",   year: "2023" },
+  { title: "Swipe Right, Drive Away",    client: "car2go × Tinder",    role: "Copy",          year: "2017" },
+  { title: "Internal Voice",             client: "SCOOBA Love",        role: "Creative Lead", year: "2018" },
+  { title: "ROSEBUD",                    client: "Citizen Kane (spec)", role: "Writer",       year: "2024" },
 ];
 ---
 <Layout
@@ -43,27 +61,34 @@ const more: Entry[] = [
   frameNumber="002"
 >
   <main id="main" class="page">
-    <!-- HERO: booth interior, billboards visible through plate-glass window on the highway -->
     <section class="hero">
       <div class="hero-frame">
         <Image src={booth}
-          alt="Inside a 1950s American diner booth at 3am. Coffee cup on the formica table, newspaper, red vinyl bench. Through the plate-glass window: a wet desert highway at dusk with four lit billboards visible at different distances — BEAST MODE BANKING in green, GO, HOMETOWN, THE QUIET ISSUE. The WORK painted neon from the front face is visible in reverse on the inside of the glass."
+          alt="Inside a 1950s American diner booth at 3am. Foreground: edge of a red vinyl booth, formica table, coffee cup. Through the plate-glass window with a faint KROW reflection: a sodium-vapor green streetlamp on the curb, wet asphalt road, and four painted billboards on the far shoulder of the highway — BEAST MODE BANKING, GO, HOMETOWN, THE QUIET ISSUE — each lit by its own spotlight."
           widths={[768, 1280, 1536, 2048, 2560]} sizes="100vw"
           formats={["avif", "webp"]} loading="eager" fetchpriority="high"
           class="hero-img" />
 
-        <a href="/work/mrbeast" class="bb bb-1" aria-label="Beast Mode Banking — MoneyLion × Beast Games" data-astro-prefetch>
-          <span class="sr-only">Beast Mode Banking</span>
-        </a>
-        <div class="bb bb-2 disabled" aria-label="GO — Virgin Galactic (in preparation)" aria-disabled="true">
-          <span class="sr-only">GO — Virgin Galactic</span>
-        </div>
-        <div class="bb bb-3 disabled" aria-label="Hometown — Nike (in preparation)" aria-disabled="true">
-          <span class="sr-only">Hometown — Nike</span>
-        </div>
-        <div class="bb bb-4 disabled" aria-label="The Quiet Issue — The Atlantic × Audi (in preparation)" aria-disabled="true">
-          <span class="sr-only">The Quiet Issue</span>
-        </div>
+        {billboards.map(b => {
+          const styleVars = `top: ${b.top}; left: ${b.left}; width: ${b.width}; height: ${b.height}; --bb-bg: ${b.bg}; --bb-ink: ${b.ink};`;
+          const vtName = b.slug ? `case-study-${b.slug}` : `case-study-pending-${b.title.replace(/\s+/g,'-').toLowerCase()}`;
+          return b.slug ? (
+            <a href={`/work/${b.slug}`}
+               class="billboard"
+               style={`${styleVars} view-transition-name: ${vtName};`}
+               aria-label={`${b.title} — ${b.client}, ${b.role}, ${b.year}`}
+               data-astro-prefetch>
+              <span class="bb-title">{b.title}</span>
+            </a>
+          ) : (
+            <div class="billboard pending"
+                 style={`${styleVars} view-transition-name: ${vtName};`}
+                 aria-label={`${b.title} — ${b.client} (in preparation)`}
+                 aria-disabled="true">
+              <span class="bb-title">{b.title}</span>
+            </div>
+          );
+        })}
       </div>
 
       <div class="hero-meta">
@@ -75,11 +100,10 @@ const more: Entry[] = [
       </div>
     </section>
 
-    <!-- EDITORIAL INDEX: every case study listed cleanly, no menu metaphor -->
     <section class="index">
       <header class="index-head">
         <h1 class="index-title">The Work</h1>
-        <p class="index-sub">Sixteen years writing for brands that want to be seen. Below are the campaigns and copy systems that anchored the work.</p>
+        <p class="index-sub">Sixteen years writing for brands that want to be seen.</p>
       </header>
 
       <section class="block">
@@ -88,18 +112,18 @@ const more: Entry[] = [
           <span class="block-rule" aria-hidden="true"></span>
         </header>
         <ol class="list">
-          {featured.map((e, i) => (
-            <li class:list={["entry", !e.slug && "pending"]}>
+          {billboards.map((b, i) => (
+            <li class:list={["entry", !b.slug && "pending"]}>
               <span class="num">{String(i + 1).padStart(2, "0")}</span>
-              {e.slug ? (
-                <a href={`/work/${e.slug}`} class="entry-body" data-astro-prefetch>
-                  <span class="entry-title">{e.title}</span>
-                  <span class="entry-line">{e.client}<span class="dot">·</span>{e.role}<span class="dot">·</span>{e.year}</span>
+              {b.slug ? (
+                <a href={`/work/${b.slug}`} class="entry-body" data-astro-prefetch>
+                  <span class="entry-title">{b.title}</span>
+                  <span class="entry-line">{b.client}<span class="dot">·</span>{b.role}<span class="dot">·</span>{b.year}</span>
                 </a>
               ) : (
                 <div class="entry-body" aria-disabled="true">
-                  <span class="entry-title">{e.title}</span>
-                  <span class="entry-line">{e.client}<span class="dot">·</span>{e.role}<span class="dot">·</span>{e.year}</span>
+                  <span class="entry-title">{b.title}</span>
+                  <span class="entry-line">{b.client}<span class="dot">·</span>{b.role}<span class="dot">·</span>{b.year}</span>
                   <span class="entry-status">In preparation</span>
                 </div>
               )}
@@ -113,10 +137,10 @@ const more: Entry[] = [
           <span class="block-tag">Selected</span>
           <span class="block-rule" aria-hidden="true"></span>
         </header>
-        <ol class="list" start={featured.length + 1}>
+        <ol class="list" start={billboards.length + 1}>
           {more.map((e, i) => (
             <li class="entry pending">
-              <span class="num">{String(featured.length + i + 1).padStart(2, "0")}</span>
+              <span class="num">{String(billboards.length + i + 1).padStart(2, "0")}</span>
               <div class="entry-body" aria-disabled="true">
                 <span class="entry-title">{e.title}</span>
                 <span class="entry-line">{e.client}<span class="dot">·</span>{e.role}<span class="dot">·</span>{e.year}</span>
@@ -131,193 +155,73 @@ const more: Entry[] = [
 </Layout>
 
 <style>
-  .page {
-    min-height: calc(100vh - var(--frame-bar-h) * 2);
-    margin-top: var(--frame-bar-h);
-    background: var(--color-silhouette);
-    color: var(--color-cream);
-  }
+  .page { min-height: calc(100vh - var(--frame-bar-h) * 2); margin-top: var(--frame-bar-h); background: var(--color-silhouette); color: var(--color-cream); }
 
-  /* HERO — booth view with clickable billboards */
-  .hero {
-    height: calc(100vh - var(--frame-bar-h) * 2);
-    min-height: 480px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  .hero-frame {
-    flex: 1 1 auto;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-img {
-    width: 100%; height: 100%; display: block;
-    object-fit: cover; object-position: center;
-    z-index: 1;
-  }
+  .hero { height: calc(100vh - var(--frame-bar-h) * 2); min-height: 480px; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+  .hero-frame { flex: 1 1 auto; position: relative; overflow: hidden; }
+  .hero-img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; z-index: 1; }
 
-  /* Billboard hotspots — positioned on the billboards visible through the window in the asset.
-     Coords are approximate to v_work_booth_billboards.png — operator tunes if needed. */
-  .bb {
+  /* Billboard hotspots — visible billboard-styled overlays sitting ON the painted billboards in the asset.
+     This element is the SOURCE of the shared-element morph: it morphs into the case study hero. */
+  .billboard {
     position: absolute;
     z-index: 5;
-    display: block;
-    text-decoration: none;
-    cursor: pointer;
-    border: 1px solid transparent;
-    background: transparent;
-    transition: background 0.3s var(--ease-cinematic), border 0.3s var(--ease-cinematic), box-shadow 0.3s var(--ease-cinematic);
-  }
-  .bb:not(.disabled):hover {
-    background: rgba(91, 255, 106, 0.05);
-    border-color: color-mix(in srgb, var(--color-neon-work) 50%, transparent);
-    box-shadow: 0 0 24px color-mix(in srgb, var(--color-neon-work) 40%, transparent);
-  }
-  .bb:focus-visible {
-    outline: 2px solid var(--color-cream);
-    outline-offset: 4px;
-  }
-  .bb.disabled { cursor: default; opacity: 0.6; }
-
-  /* Approximate billboard coords on the v_work asset — adjust if the asset is regenerated */
-  .bb-1 { top: 18%; left: 12%; width: 18%; height: 28%; }   /* BEAST MODE BANKING — closest, left */
-  .bb-2 { top: 22%; left: 33%; width: 11%; height: 22%; }   /* GO — mid-distance, center-left */
-  .bb-3 { top: 24%; left: 48%; width: 14%; height: 22%; }   /* HOMETOWN — center-right */
-  .bb-4 { top: 22%; left: 65%; width: 20%; height: 24%; }   /* WORK / Quiet Issue — far distance, large */
-
-  .hero-meta {
-    flex: 0 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: var(--space-4);
-    padding: var(--space-4) var(--space-6);
-    background: var(--color-silhouette);
-    border-top: 1px solid color-mix(in srgb, var(--color-cream) 10%, transparent);
-  }
-  .back-link {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--color-muted);
+    justify-content: center;
+    background: var(--bb-bg);
+    color: var(--bb-ink);
     text-decoration: none;
-    display: inline-flex;
-    gap: 0.5em;
-    transition: color 0.2s;
+    border: 1px solid color-mix(in srgb, var(--bb-ink) 25%, transparent);
+    box-shadow: 0 0 18px color-mix(in srgb, var(--bb-ink) 30%, transparent);
+    padding: 0.5em;
+    overflow: hidden;
+    transition: box-shadow 0.3s var(--ease-cinematic), border-color 0.3s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
+    contain: layout style;
   }
-  .back-link:hover { color: var(--color-cream); }
-  .hero-cue {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-marquee-warm);
-    opacity: 0.7;
+  .billboard:not(.pending):hover {
+    box-shadow: 0 0 32px color-mix(in srgb, var(--bb-ink) 60%, transparent);
+    border-color: color-mix(in srgb, var(--bb-ink) 80%, transparent);
+    transform: scale(1.02);
   }
+  .billboard.pending { cursor: default; opacity: 0.85; }
+  .billboard:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 4px; }
 
-  /* EDITORIAL INDEX — clean type, no menu metaphor, no kitsch */
-  .index {
-    padding: var(--space-24) var(--space-6) var(--space-32);
-    max-width: 920px;
-    margin: 0 auto;
-  }
-  .index-head {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 14%, transparent);
-    padding-bottom: var(--space-10);
-    margin-bottom: var(--space-16);
-  }
-  .index-title {
+  .bb-title {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(var(--text-3xl), 7vw, var(--text-4xl));
+    font-size: clamp(0.65rem, 1.6cqi, 1.6rem);
     line-height: 0.95;
-    letter-spacing: -0.02em;
-    margin: 0 0 var(--space-4);
-  }
-  .index-sub {
-    font-family: var(--font-body);
-    font-size: var(--text-base);
-    line-height: 1.55;
-    color: var(--color-muted);
-    max-width: 60ch;
-    margin: 0;
-  }
-
-  .block { margin-bottom: var(--space-20); }
-  .block-head {
-    display: flex; align-items: center; gap: var(--space-3);
-    margin-bottom: var(--space-6);
-  }
-  .block-tag {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--color-marquee-warm);
-  }
-  .block-rule {
-    flex: 1 1 auto;
-    height: 1px;
-    background: color-mix(in srgb, var(--color-cream) 14%, transparent);
-  }
-
-  .list { list-style: none; padding: 0; margin: 0; }
-  .entry {
-    display: grid;
-    grid-template-columns: 60px 1fr;
-    gap: var(--space-4);
-    padding: var(--space-5) 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 8%, transparent);
-    align-items: baseline;
-  }
-  .entry:last-child { border-bottom: none; }
-  .num {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: 0.18em;
-    color: var(--color-muted);
-    padding-top: 0.5em;
-  }
-  .entry-body {
-    display: flex; flex-direction: column; gap: 0.3em;
-    text-decoration: none; color: var(--color-cream);
-    transition: padding 0.25s var(--ease-cinematic), background 0.25s;
-    padding: 0;
-  }
-  a.entry-body:hover {
-    padding-left: var(--space-3);
-    background: linear-gradient(to right, color-mix(in srgb, var(--color-neon-work) 8%, transparent), transparent 30%);
-  }
-  .pending .entry-body {
-    color: color-mix(in srgb, var(--color-cream) 55%, transparent);
-    cursor: default;
-  }
-  .entry-title {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(var(--text-xl), 3vw, var(--text-3xl));
-    line-height: 1.05;
     letter-spacing: -0.01em;
-  }
-  .entry-line {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-muted);
-  }
-  .dot { margin: 0 0.5em; opacity: 0.4; }
-  .entry-status {
-    font-family: var(--font-mono);
-    font-size: var(--text-3xs);
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--color-marquee-warm);
-    opacity: 0.55;
+    text-align: center;
+    text-shadow: 0 0 8px color-mix(in srgb, var(--bb-ink) 50%, transparent);
   }
 
+  .hero-meta { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-6); background: var(--color-silhouette); border-top: 1px solid color-mix(in srgb, var(--color-cream) 10%, transparent); }
+  .back-link { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-muted); text-decoration: none; display: inline-flex; gap: 0.5em; transition: color 0.2s; }
+  .back-link:hover { color: var(--color-cream); }
+  .hero-cue { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-marquee-warm); opacity: 0.7; }
+
+  /* INDEX — editorial type, no menu metaphor */
+  .index { padding: var(--space-24) var(--space-6) var(--space-32); max-width: 920px; margin: 0 auto; }
+  .index-head { border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 14%, transparent); padding-bottom: var(--space-10); margin-bottom: var(--space-16); }
+  .index-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(var(--text-3xl), 7vw, var(--text-4xl)); line-height: 0.95; letter-spacing: -0.02em; margin: 0 0 var(--space-4); }
+  .index-sub { font-family: var(--font-body); font-size: var(--text-base); line-height: 1.55; color: var(--color-muted); max-width: 60ch; margin: 0; }
+  .block { margin-bottom: var(--space-20); }
+  .block-head { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .block-tag { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.32em; text-transform: uppercase; color: var(--color-marquee-warm); }
+  .block-rule { flex: 1 1 auto; height: 1px; background: color-mix(in srgb, var(--color-cream) 14%, transparent); }
+  .list { list-style: none; padding: 0; margin: 0; }
+  .entry { display: grid; grid-template-columns: 60px 1fr; gap: var(--space-4); padding: var(--space-5) 0; border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 8%, transparent); align-items: baseline; }
+  .entry:last-child { border-bottom: none; }
+  .num { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.18em; color: var(--color-muted); padding-top: 0.5em; }
+  .entry-body { display: flex; flex-direction: column; gap: 0.3em; text-decoration: none; color: var(--color-cream); transition: padding 0.25s var(--ease-cinematic), background 0.25s; padding: 0; }
+  a.entry-body:hover { padding-left: var(--space-3); background: linear-gradient(to right, color-mix(in srgb, var(--color-neon-work) 8%, transparent), transparent 30%); }
+  .pending .entry-body { color: color-mix(in srgb, var(--color-cream) 55%, transparent); cursor: default; }
+  .entry-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(var(--text-xl), 3vw, var(--text-3xl)); line-height: 1.05; letter-spacing: -0.01em; }
+  .entry-line { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); }
+  .dot { margin: 0 0.5em; opacity: 0.4; }
+  .entry-status { font-family: var(--font-mono); font-size: var(--text-3xs); letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-marquee-warm); opacity: 0.55; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 </style>

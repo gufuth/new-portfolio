@@ -9,17 +9,25 @@ import Layout from "@/layouts/Layout.astro";
 >
   <main id="main" class="case">
     <div class="content">
+      <a href="/work" class="back-link-floating" aria-label="Back to the booth">
+        <span class="back-glyph" aria-hidden="true">←</span>
+        <span class="back-text">Back to the booth</span>
+      </a>
+
+      <!-- HERO PANEL — shared-element morph destination. The BEAST MODE BANKING billboard
+           in /work has view-transition-name: case-study-mrbeast; this panel matches it.
+           Browser handles the morph. -->
+      <section class="case-hero-billboard">
+        <h1 class="billboard-title">BEAST MODE BANKING</h1>
+        <p class="billboard-meta">MoneyLion × Beast Games · Amazon Prime · 2024 — 2025</p>
+      </section>
+
       <header class="case-head">
-        <a href="/work" class="back-link" aria-label="Back to all work">
-          <span class="back-glyph" aria-hidden="true">←</span>
-          <span class="back-text">Back to the booth</span>
-        </a>
         <div class="case-meta">
-          <span class="meta-pill">House Special · 01</span>
+          <span class="meta-pill">Featured · 01</span>
           <span class="meta-divider" aria-hidden="true">·</span>
           <span class="meta-pill">2024 — 2025</span>
         </div>
-        <h1 class="case-title">Beast Mode Banking</h1>
         <p class="case-deck">A finance app meets the biggest show on streaming. The integration that didn't feel like an integration.</p>
         <dl class="credits">
           <div class="credit"><dt>Brand</dt><dd>MoneyLion × Beast Games (Amazon Prime)</dd></div>
@@ -130,7 +138,62 @@ END FRAME: BEAST MODE BANKING. MoneyLion.</pre>
   </main>
 </Layout>
 
-<style>
+
+  /* Shared-element morph DESTINATION — matches the billboard in /work */
+  .case-hero-billboard {
+    view-transition-name: case-study-mrbeast;
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    background: #0F1B2E;
+    color: var(--color-neon-work);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-neon-work) 30%, transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: var(--space-12) var(--space-6);
+    margin: 0 0 var(--space-12) calc(var(--space-6) * -1);
+    box-shadow: 0 0 60px color-mix(in srgb, var(--color-neon-work) 25%, transparent);
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 760px) {
+    .case-hero-billboard { aspect-ratio: 4 / 3; }
+  }
+  .billboard-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.2rem, 9vw, 7rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    color: var(--color-neon-work);
+    text-shadow: 0 0 30px color-mix(in srgb, var(--color-neon-work) 70%, transparent);
+  }
+  .billboard-meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-neon-work) 70%, var(--color-cream) 30%);
+    margin: 0;
+    text-align: center;
+  }
+
+  .back-link-floating {
+    display: inline-flex; align-items: center; gap: 0.5em;
+    font-family: var(--font-mono); font-size: var(--text-2xs);
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--color-muted); text-decoration: none;
+    margin-bottom: var(--space-6); padding-top: var(--space-4);
+  }
+  .back-link-floating:hover { color: var(--color-cream); }
+
+  /* Older .back-link rule still used elsewhere; keep harmless */
+
   .case {
     min-height: calc(100vh - var(--frame-bar-h) * 2);
     margin-top: var(--frame-bar-h);

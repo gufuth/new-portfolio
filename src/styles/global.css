@@ -176,3 +176,27 @@ html, body {
     animation-duration: 1ms; /* no letterbox choreography for reduced-motion */
   }
 }
+
+
+/* ============================================================================
+   SHARED-ELEMENT MORPH — billboard in /work → case study hero panel
+   The BEAST MODE BANKING billboard has view-transition-name: case-study-mrbeast.
+   The matching hero panel in /work/mrbeast has the same name. Browser handles
+   the morph: position/size animate over 800ms, content blends in.
+   ============================================================================ */
+::view-transition-old(case-study-mrbeast),
+::view-transition-new(case-study-mrbeast) {
+  animation-duration: 800ms;
+  animation-timing-function: var(--ease-cinematic);
+  mix-blend-mode: normal;
+  /* Override the global root crossfade so the billboard morph dominates the eye */
+  height: 100%; width: 100%;
+}
+
+/* Reduced motion — instant swap, no morph animation */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(case-study-mrbeast),
+  ::view-transition-new(case-study-mrbeast) {
+    animation-duration: 200ms;
+  }
+}
