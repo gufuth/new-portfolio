@@ -71,9 +71,108 @@ html, body {
 
 ::selection { background: var(--color-neon-work); color: var(--color-silhouette); }
 
-/* View Transitions — persistent elements morph across pages instead of flashing */
+/* ============================================================================
+   VIEW TRANSITIONS — Cinematic letterbox scene-change between pages.
+   Click WORK on landing → FilmFrame bars close to black (the scene change) →
+   bars retract revealing the new scene. Scene marker text crossfades EXT.→INT.
+   during the black moment. Reduced-motion users get an instant cut.
+   ============================================================================ */
+
+/* Root content crossfade — under the bars, the page content fades through black */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.6s;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-duration: 700ms;
+  animation-timing-function: var(--ease-cinematic);
+}
+::view-transition-old(root) {
+  animation-name: scene-out;
+}
+::view-transition-new(root) {
+  animation-name: scene-in;
+  animation-delay: 350ms;
+}
+@keyframes scene-out {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.04); }
+}
+@keyframes scene-in {
+  0%   { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* FilmFrame top bar — closes downward toward the center, then retracts */
+::view-transition-old(frame-top),
+::view-transition-new(frame-top) {
+  animation-duration: 900ms;
+  animation-timing-function: var(--ease-cinematic);
+  transform-origin: top center;
+}
+::view-transition-old(frame-top) {
+  animation-name: frame-top-close;
+}
+::view-transition-new(frame-top) {
+  animation-name: frame-top-open;
+}
+@keyframes frame-top-close {
+  0%   { transform: scaleY(1); }
+  45%  { transform: scaleY(12); }
+  55%  { transform: scaleY(12); }
+  100% { transform: scaleY(1); }
+}
+@keyframes frame-top-open {
+  0%, 45%   { transform: scaleY(12); }
+  55%       { transform: scaleY(12); }
+  100%      { transform: scaleY(1); }
+}
+
+/* FilmFrame bottom bar — closes upward toward the center, then retracts */
+::view-transition-old(frame-bottom),
+::view-transition-new(frame-bottom) {
+  animation-duration: 900ms;
+  animation-timing-function: var(--ease-cinematic);
+  transform-origin: bottom center;
+}
+::view-transition-old(frame-bottom) {
+  animation-name: frame-bottom-close;
+}
+::view-transition-new(frame-bottom) {
+  animation-name: frame-bottom-open;
+}
+@keyframes frame-bottom-close {
+  0%   { transform: scaleY(1); }
+  45%  { transform: scaleY(12); }
+  55%  { transform: scaleY(12); }
+  100% { transform: scaleY(1); }
+}
+@keyframes frame-bottom-open {
+  0%, 45%   { transform: scaleY(12); }
+  55%       { transform: scaleY(12); }
+  100%      { transform: scaleY(1); }
+}
+
+/* Persistent payphone — view-transition-name: payphone is already set in Layout.astro.
+   Stays put across the transition, no flash. */
+::view-transition-old(payphone),
+::view-transition-new(payphone) {
+  animation-duration: 1ms; /* effectively no animation, stays in place */
+}
+
+/* Reduced motion — instant cut, no letterbox close, just a quick fade */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 200ms;
+    animation-delay: 0ms;
+  }
+  ::view-transition-old(root) { animation-name: rm-out; }
+  ::view-transition-new(root) { animation-name: rm-in; }
+  @keyframes rm-out { to { opacity: 0; } }
+  @keyframes rm-in  { from { opacity: 0; } to { opacity: 1; } }
+
+  ::view-transition-old(frame-top),
+  ::view-transition-new(frame-top),
+  ::view-transition-old(frame-bottom),
+  ::view-transition-new(frame-bottom) {
+    animation-duration: 1ms; /* no letterbox choreography for reduced-motion */
+  }
 }
