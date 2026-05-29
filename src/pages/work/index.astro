@@ -2,10 +2,6 @@
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import booth from "@/assets/work/booth-billboards.png";
-import bbMrbeast from "@/assets/work/billboards/mrbeast.png";
-import bbGo from "@/assets/work/billboards/go.png";
-import bbHometown from "@/assets/work/billboards/hometown.png";
-import bbQuietIssue from "@/assets/work/billboards/quiet_issue.png";
 
 interface Billboard {
   slug?: string;
@@ -13,25 +9,25 @@ interface Billboard {
   client: string;
   role: string;
   year: string;
-  img: typeof bbMrbeast;
-  top: string;   // viewport %
-  left: string;  // viewport %
-  width: string; // viewport % — controls visual scale (closer = bigger)
+  top: string;
+  left: string;
+  width: string;
+  height: string;
 }
 
 const billboards: Billboard[] = [
   { slug: "mrbeast", title: "BEAST MODE BANKING", client: "MoneyLion × Beast Games",
     role: "ACD, Copy", year: "2024–25",
-    img: bbMrbeast, top: "37%", left: "36%", width: "16%" },
+    top: "30%", left: "8%", width: "18%", height: "18%" },
   { title: "GO", client: "Virgin Galactic",
     role: "ACD, Copy", year: "2023",
-    img: bbGo, top: "35%", left: "53%", width: "12%" },
+    top: "28%", left: "32%", width: "16%", height: "20%" },
   { title: "HOMETOWN", client: "Nike — Air Force 1",
     role: "Senior Copy", year: "2022",
-    img: bbHometown, top: "33%", left: "68%", width: "10%" },
+    top: "30%", left: "56%", width: "14%", height: "16%" },
   { title: "THE QUIET ISSUE", client: "The Atlantic × Audi",
     role: "Senior Copy", year: "2022",
-    img: bbQuietIssue, top: "31%", left: "81%", width: "8%" },
+    top: "32%", left: "78%", width: "12%", height: "14%" },
 ];
 
 const more = [
@@ -62,23 +58,19 @@ const more = [
           class="hero-img" />
 
         {billboards.map(b => {
-          const positionStyle = `top: ${b.top}; left: ${b.left}; width: ${b.width};`;
+          const positionStyle = `top: ${b.top}; left: ${b.left}; width: ${b.width}; height: ${b.height};`;
           const vtName = b.slug ? `case-study-${b.slug}` : `case-study-pending-${b.title.replace(/\s+/g, "-").toLowerCase()}`;
           return b.slug ? (
             <a href={`/work/${b.slug}`}
-               class="bb"
+               class="bb-hit"
                style={`${positionStyle} view-transition-name: ${vtName};`}
                aria-label={`${b.title} — ${b.client}`}
-               data-astro-prefetch>
-              <Image src={b.img} alt={b.title} widths={[256, 384, 512, 768]} sizes={b.width} format="png" class="bb-img" />
-            </a>
+               data-astro-prefetch />
           ) : (
-            <div class="bb pending"
+            <div class="bb-hit pending"
                  style={`${positionStyle} view-transition-name: ${vtName};`}
                  aria-label={`${b.title} — ${b.client} (in preparation)`}
-                 aria-disabled="true">
-              <Image src={b.img} alt={b.title} widths={[256, 384, 512, 768]} sizes={b.width} format="png" class="bb-img" />
-            </div>
+                 aria-disabled="true" />
           );
         })}
       </div>
@@ -144,29 +136,22 @@ const more = [
   .hero-frame { flex: 1 1 auto; position: relative; overflow: hidden; }
   .hero-img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; z-index: 1; }
 
-  /* Photographic billboard PNGs — composited onto the highway scene */
-  .bb {
+  /* Invisible hotspots over painted-in billboards. Diegetic hover affordance: subtle glow on the billboard itself via radial gradient. */
+  .bb-hit {
     position: absolute;
     z-index: 5;
     display: block;
     text-decoration: none;
     cursor: pointer;
-    transform-origin: bottom center;
-    transition: filter 0.3s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
-    filter: brightness(0.92) saturate(0.95) drop-shadow(0 8px 12px rgba(0,0,0,0.5));
+    background: radial-gradient(ellipse at center, rgba(255, 244, 220, 0.0) 0%, rgba(255, 244, 220, 0.0) 100%);
+    transition: background 0.4s var(--ease-cinematic);
+    border-radius: 2px;
   }
-  .bb.pending { cursor: default; opacity: 0.85; }
-  .bb:not(.pending):hover {
-    filter: brightness(1.1) saturate(1.05) drop-shadow(0 10px 16px rgba(0,0,0,0.6));
-    transform: scale(1.04);
+  .bb-hit.pending { cursor: default; }
+  .bb-hit:not(.pending):hover {
+    background: radial-gradient(ellipse at center, rgba(255, 244, 220, 0.18) 0%, rgba(255, 244, 220, 0.04) 60%, rgba(255, 244, 220, 0) 100%);
   }
-  .bb:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 6px; border-radius: 4px; }
-  .bb-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    pointer-events: none;
-  }
+  .bb-hit:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 4px; }
 
   .hero-meta { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-6); background: var(--color-silhouette); border-top: 1px solid color-mix(in srgb, var(--color-cream) 10%, transparent); }
   .back-link { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-muted); text-decoration: none; display: inline-flex; gap: 0.5em; transition: color 0.2s; }
