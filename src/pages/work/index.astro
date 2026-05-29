@@ -3,45 +3,41 @@ import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import booth from "@/assets/work/booth-billboards.png";
 
-// Each billboard's title displayed on top of the asset's painted billboard.
-// The visible billboard element is the SOURCE of the shared-element morph.
-// When the user clicks BEAST MODE BANKING, this element morphs into the case study hero.
-
 interface Billboard {
-  slug?: string;       // present = live case study
+  slug?: string;
   title: string;
   client: string;
   role: string;
   year: string;
-  bg: string;          // matches the painted billboard bg in the asset
-  ink: string;         // text color matching the painted lettering
-  // Position over the painted billboard in the asset (approximate to v_work_v2 Look 2)
+  bg: string;
+  ink: string;
+  // Position on the highway view
   top: string;
   left: string;
   width: string;
-  height: string;
+  scale: number; // simulates distance — closer ones larger
 }
 
+// Billboards positioned along the highway, receding into the distance from left to right
 const billboards: Billboard[] = [
   { slug: "mrbeast", title: "BEAST MODE BANKING", client: "MoneyLion × Beast Games",
     role: "ACD, Copy", year: "2024–25",
-    bg: "#0F1B2E", ink: "var(--color-neon-work)",
-    top: "23%", left: "44%", width: "7%", height: "14%" },
+    bg: "#0F1B2E", ink: "#5BFF6A",
+    top: "38%", left: "42%", width: "12%", scale: 1.0 },
   { title: "GO", client: "Virgin Galactic",
     role: "ACD, Copy", year: "2023",
-    bg: "#7A1F1F", ink: "var(--color-cream)",
-    top: "23%", left: "56%", width: "7%", height: "14%" },
+    bg: "#6A1818", ink: "#F2EDE6",
+    top: "37%", left: "58%", width: "10%", scale: 0.85 },
   { title: "HOMETOWN", client: "Nike — Air Force 1",
     role: "Senior Copy", year: "2022",
-    bg: "#E8DCC0", ink: "var(--color-neon-about)",
-    top: "20%", left: "65%", width: "11%", height: "18%" },
+    bg: "#DCD0B0", ink: "#A82828",
+    top: "36%", left: "72%", width: "9%", scale: 0.72 },
   { title: "THE QUIET ISSUE", client: "The Atlantic × Audi",
     role: "Senior Copy", year: "2022",
-    bg: "#1F1F1F", ink: "#C9C2B2",
-    top: "18%", left: "78%", width: "10%", height: "20%" },
+    bg: "#1A1A1A", ink: "#BFB6A0",
+    top: "35%", left: "84%", width: "8%", scale: 0.6 },
 ];
 
-// Selected (the other nine) — render as editorial list below
 const more = [
   { title: "Hours Later",                client: "1800 Tequila",       role: "Senior Copy",   year: "2021" },
   { title: "Born in Tequila",            client: "Jose Cuervo",        role: "Senior Copy",   year: "2021" },
@@ -56,7 +52,7 @@ const more = [
 ---
 <Layout
   title="Work — Ian Luna"
-  description="Selected campaigns and copy systems. Beast Mode Banking, Virgin Galactic, Nike, The Atlantic × Audi, and others."
+  description="Selected campaigns and copy systems."
   sceneName="INT. THE LAST STOP DINER — BOOTH"
   frameNumber="002"
 >
@@ -64,39 +60,46 @@ const more = [
     <section class="hero">
       <div class="hero-frame">
         <Image src={booth}
-          alt="Inside a 1950s American diner booth at 3am. Foreground: edge of a red vinyl booth, formica table, coffee cup. Through the plate-glass window with a faint KROW reflection: a sodium-vapor green streetlamp on the curb, wet asphalt road, and four painted billboards on the far shoulder of the highway — BEAST MODE BANKING, GO, HOMETOWN, THE QUIET ISSUE — each lit by its own spotlight."
-          widths={[768, 1280, 1536, 2048, 2560]} sizes="100vw"
+          alt="Inside a diner booth at 3am. Red vinyl seat, coffee cup steaming, folded newspaper on a formica table. Through the plate-glass window: a wet desert highway extending into the distance, a sodium-vapor green streetlamp on the curb, distant mountains, dusk sky. KROW lettering reflected on the inside of the window glass."
+          widths={[768, 1280, 1536, 2048]} sizes="100vw"
           formats={["avif", "webp"]} loading="eager" fetchpriority="high"
           class="hero-img" />
 
         {billboards.map(b => {
-          const styleVars = `top: ${b.top}; left: ${b.left}; width: ${b.width}; height: ${b.height}; --bb-bg: ${b.bg}; --bb-ink: ${b.ink};`;
+          const styleVars = `top: ${b.top}; left: ${b.left}; width: ${b.width}; --bb-bg: ${b.bg}; --bb-ink: ${b.ink}; --bb-scale: ${b.scale};`;
           const vtName = b.slug ? `case-study-${b.slug}` : `case-study-pending-${b.title.replace(/\s+/g,'-').toLowerCase()}`;
+          const inner = (
+            <>
+              <span class="bb-light"></span>
+              <span class="bb-face"><span class="bb-text">{b.title}</span></span>
+              <span class="bb-pole"></span>
+            </>
+          );
           return b.slug ? (
             <a href={`/work/${b.slug}`}
                class="billboard"
                style={`${styleVars} view-transition-name: ${vtName};`}
-               aria-label={`${b.title} — ${b.client}, ${b.role}, ${b.year}`}
+               aria-label={`${b.title} — ${b.client}`}
                data-astro-prefetch>
-              <span class="bb-title">{b.title}</span>
+              {inner}
             </a>
           ) : (
             <div class="billboard pending"
                  style={`${styleVars} view-transition-name: ${vtName};`}
                  aria-label={`${b.title} — ${b.client} (in preparation)`}
                  aria-disabled="true">
-              <span class="bb-title">{b.title}</span>
+              {inner}
             </div>
           );
         })}
       </div>
 
       <div class="hero-meta">
-        <a href="/" class="back-link" aria-label="Back to the diner exterior">
+        <a href="/" class="back-link" aria-label="Back outside">
           <span aria-hidden="true">←</span>
           <span>Back outside</span>
         </a>
-        <span class="hero-cue">Click a billboard to enter, or scroll for the full index.</span>
+        <span class="hero-cue">Click a billboard, or scroll for the full index</span>
       </div>
     </section>
 
@@ -105,12 +108,8 @@ const more = [
         <h1 class="index-title">The Work</h1>
         <p class="index-sub">Sixteen years writing for brands that want to be seen.</p>
       </header>
-
       <section class="block">
-        <header class="block-head">
-          <span class="block-tag">Featured</span>
-          <span class="block-rule" aria-hidden="true"></span>
-        </header>
+        <header class="block-head"><span class="block-tag">Featured</span><span class="block-rule" aria-hidden="true"></span></header>
         <ol class="list">
           {billboards.map((b, i) => (
             <li class:list={["entry", !b.slug && "pending"]}>
@@ -131,12 +130,8 @@ const more = [
           ))}
         </ol>
       </section>
-
       <section class="block">
-        <header class="block-head">
-          <span class="block-tag">Selected</span>
-          <span class="block-rule" aria-hidden="true"></span>
-        </header>
+        <header class="block-head"><span class="block-tag">Selected</span><span class="block-rule" aria-hidden="true"></span></header>
         <ol class="list" start={billboards.length + 1}>
           {more.map((e, i) => (
             <li class="entry pending">
@@ -156,46 +151,86 @@ const more = [
 
 <style>
   .page { min-height: calc(100vh - var(--frame-bar-h) * 2); margin-top: var(--frame-bar-h); background: var(--color-silhouette); color: var(--color-cream); }
-
   .hero { height: calc(100vh - var(--frame-bar-h) * 2); min-height: 480px; position: relative; overflow: hidden; display: flex; flex-direction: column; }
   .hero-frame { flex: 1 1 auto; position: relative; overflow: hidden; }
   .hero-img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; z-index: 1; }
 
-  /* Billboard hotspots — visible billboard-styled overlays sitting ON the painted billboards in the asset.
-     This element is the SOURCE of the shared-element morph: it morphs into the case study hero. */
+  /* Billboards as DOM elements — face + pole + light. Realistic structure. */
   .billboard {
     position: absolute;
     z-index: 5;
+    aspect-ratio: 4 / 3;
+    text-decoration: none;
+    cursor: pointer;
+    transform: scale(var(--bb-scale, 1));
+    transform-origin: bottom center;
+    transition: filter 0.3s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
+    filter: brightness(0.92) saturate(0.92);
+  }
+  .billboard.pending { cursor: default; }
+  .billboard:not(.pending):hover {
+    filter: brightness(1.08) saturate(1.05);
+    transform: scale(calc(var(--bb-scale, 1) * 1.04));
+  }
+  .billboard:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 6px; }
+
+  /* The billboard face — solid colored painted face with text */
+  .bb-face {
+    position: absolute;
+    inset: 0 0 18% 0;
+    background: var(--bb-bg);
+    color: var(--bb-ink);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bb-bg);
-    color: var(--bb-ink);
-    text-decoration: none;
-    border: 1px solid color-mix(in srgb, var(--bb-ink) 25%, transparent);
-    box-shadow: 0 0 18px color-mix(in srgb, var(--bb-ink) 30%, transparent);
-    padding: 0.5em;
+    padding: 0.35em 0.5em;
+    box-shadow:
+      0 6px 18px rgba(0,0,0,0.55),
+      inset 0 2px 0 rgba(255,255,255,0.06),
+      inset 0 -2px 0 rgba(0,0,0,0.25);
+    border: 1px solid rgba(0,0,0,0.4);
     overflow: hidden;
-    transition: box-shadow 0.3s var(--ease-cinematic), border-color 0.3s var(--ease-cinematic), transform 0.3s var(--ease-cinematic);
-    contain: layout style;
   }
-  .billboard:not(.pending):hover {
-    box-shadow: 0 0 32px color-mix(in srgb, var(--bb-ink) 60%, transparent);
-    border-color: color-mix(in srgb, var(--bb-ink) 80%, transparent);
-    transform: scale(1.02);
-  }
-  .billboard.pending { cursor: default; opacity: 0.85; }
-  .billboard:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 4px; }
-
-  .bb-title {
+  .bb-text {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(0.65rem, 1.6cqi, 1.6rem);
+    font-size: clamp(0.55rem, 1.1cqi, 1.2rem);
     line-height: 0.95;
     letter-spacing: -0.01em;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0 0 8px color-mix(in srgb, var(--bb-ink) 50%, transparent);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+
+  /* Steel pole supporting the billboard */
+  .bb-pole {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4%;
+    height: 18%;
+    background: linear-gradient(to bottom,
+      rgba(45,40,35,0.85) 0%,
+      rgba(30,26,22,0.95) 50%,
+      rgba(20,16,14,1) 100%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  }
+
+  /* Soft spotlight cast on the face from above */
+  .bb-light {
+    position: absolute;
+    top: -8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 14%;
+    background: radial-gradient(ellipse at center bottom,
+      color-mix(in srgb, var(--bb-ink) 50%, transparent) 0%,
+      transparent 70%);
+    filter: blur(6px);
+    z-index: -1;
+    pointer-events: none;
   }
 
   .hero-meta { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-6); background: var(--color-silhouette); border-top: 1px solid color-mix(in srgb, var(--color-cream) 10%, transparent); }
@@ -203,7 +238,6 @@ const more = [
   .back-link:hover { color: var(--color-cream); }
   .hero-cue { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-marquee-warm); opacity: 0.7; }
 
-  /* INDEX — editorial type, no menu metaphor */
   .index { padding: var(--space-24) var(--space-6) var(--space-32); max-width: 920px; margin: 0 auto; }
   .index-head { border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 14%, transparent); padding-bottom: var(--space-10); margin-bottom: var(--space-16); }
   .index-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(var(--text-3xl), 7vw, var(--text-4xl)); line-height: 0.95; letter-spacing: -0.02em; margin: 0 0 var(--space-4); }
