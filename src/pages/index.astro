@@ -18,6 +18,14 @@ import diner from "@/assets/hero/diner-night.png";
         formats={["avif", "webp"]} loading="eager" fetchpriority="high"
         class="backdrop entry-zoom" />
 
+      <video
+        class="backdrop-video entry-zoom"
+        autoplay muted loop playsinline
+        preload="metadata"
+        aria-hidden="true">
+        <source src="/video/diner-ambient.mp4" type="video/mp4" />
+      </video>
+
       <SignHotspot label="WORK" href="/work" color="work"
         ariaLabel="WORK. Case studies."
         top="55%" left="33%" width="32%" height="20%"
@@ -51,6 +59,20 @@ import diner from "@/assets/hero/diner-night.png";
     object-fit: cover; object-position: center center;
     z-index: 1;
     transform-origin: 50% 50%;
+  }
+
+  .backdrop-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center center;
+    z-index: 2;
+    transform-origin: 50% 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: video-fade-in 1.2s var(--ease-cinematic) 2.4s 1 forwards;
+  }
+  @keyframes video-fade-in {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
   }
 
   /* ENTRY ZOOM — lands wider, settles into hero crop over 2.5s, then ambient dolly continues. */
