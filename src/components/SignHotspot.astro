@@ -39,23 +39,23 @@ const {
       neon-flicker 9s linear calc(var(--flicker-delay, 0s) + 1.5s) infinite;
   }
   @keyframes entry-pulse {
-    /* Sign wakes up on entry zoom: dark → flash bright → settle to ambient */
+    /* Sign wakes up on entry zoom: dark → flash bright → settle to silence */
     0%   { opacity: 0; }
-    30%  { opacity: 0.92; }
-    60%  { opacity: 0.40; }
-    100% { opacity: 0.32; }
+    30%  { opacity: 0.85; }
+    60%  { opacity: 0.20; }
+    100% { opacity: 0.04; }
   }
   @keyframes neon-flicker {
-    /* Restrained ambient flicker — per Veo source pattern, mostly steady with sharp drops */
-    0%, 100% { opacity: 0.32; }
-    34% { opacity: 0.34; }
-    35% { opacity: 0.12; }
-    36% { opacity: 0.30; }
-    37% { opacity: 0.20; }
-    38% { opacity: 0.34; }
-    72% { opacity: 0.34; }
-    73% { opacity: 0.18; }
-    74% { opacity: 0.40; }
+    /* SILENT ambient — sign is invisible at rest. Only flickers in occasional brief moments. */
+    0%, 100% { opacity: 0.04; }
+    34% { opacity: 0.06; }
+    35% { opacity: 0.02; }
+    36% { opacity: 0.05; }
+    37% { opacity: 0.04; }
+    38% { opacity: 0.06; }
+    72% { opacity: 0.05; }
+    73% { opacity: 0.02; }
+    74% { opacity: 0.06; }
   }
 
   /* On hover: the SIGN intensifies. No text label. No tooltip. The world reacts. */

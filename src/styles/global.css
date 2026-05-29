@@ -114,15 +114,15 @@ html, body {
   animation-name: frame-top-open;
 }
 @keyframes frame-top-close {
-  0%   { transform: scaleY(1); }
-  45%  { transform: scaleY(12); }
-  55%  { transform: scaleY(12); }
-  100% { transform: scaleY(1); }
+  0%   { transform: scaleY(1); background: var(--color-frame-bar); }
+  44%  { transform: scaleY(14); background: #000; }
+  56%  { transform: scaleY(14); background: #000; }
+  100% { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 @keyframes frame-top-open {
-  0%, 45%   { transform: scaleY(12); }
-  55%       { transform: scaleY(12); }
-  100%      { transform: scaleY(1); }
+  0%, 44%   { transform: scaleY(14); background: #000; }
+  56%       { transform: scaleY(14); background: #000; }
+  100%      { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 
 /* FilmFrame bottom bar — closes upward toward the center, then retracts */
@@ -139,15 +139,15 @@ html, body {
   animation-name: frame-bottom-open;
 }
 @keyframes frame-bottom-close {
-  0%   { transform: scaleY(1); }
-  45%  { transform: scaleY(12); }
-  55%  { transform: scaleY(12); }
-  100% { transform: scaleY(1); }
+  0%   { transform: scaleY(1); background: var(--color-frame-bar); }
+  44%  { transform: scaleY(14); background: #000; }
+  56%  { transform: scaleY(14); background: #000; }
+  100% { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 @keyframes frame-bottom-open {
-  0%, 45%   { transform: scaleY(12); }
-  55%       { transform: scaleY(12); }
-  100%      { transform: scaleY(1); }
+  0%, 44%   { transform: scaleY(14); background: #000; }
+  56%       { transform: scaleY(14); background: #000; }
+  100%      { transform: scaleY(1); background: var(--color-frame-bar); }
 }
 
 /* Reduced motion — instant cut, no letterbox close, just a quick fade */
