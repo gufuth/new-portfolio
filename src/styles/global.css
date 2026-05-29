@@ -150,13 +150,6 @@ html, body {
   100%      { transform: scaleY(1); }
 }
 
-/* Persistent payphone — view-transition-name: payphone is already set in Layout.astro.
-   Stays put across the transition, no flash. */
-::view-transition-old(payphone),
-::view-transition-new(payphone) {
-  animation-duration: 1ms; /* effectively no animation, stays in place */
-}
-
 /* Reduced motion — instant cut, no letterbox close, just a quick fade */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
