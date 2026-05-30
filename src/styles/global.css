@@ -193,3 +193,65 @@ html, body {
     animation-duration: 200ms;
   }
 }
+
+
+/* ============================================================ */
+/* Film-strip edge tracking lines — R-K '26 cinematic pattern  */
+/* Two persistent vertical accent lines at viewport edges,     */
+/* implying the page is a frame from a longer film.            */
+/* ============================================================ */
+.film-edges {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+.film-edges::before,
+.film-edges::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(200, 180, 150, 0.10) 8%,
+    rgba(200, 180, 150, 0.12) 50%,
+    rgba(200, 180, 150, 0.10) 92%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+.film-edges::before { left: 14px; }
+.film-edges::after  { right: 14px; }
+
+@media (max-width: 768px) {
+  .film-edges::before { left: 6px; }
+  .film-edges::after  { right: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Edges stay — they're not motion, they're frame */
+}
+
+
+/* Film-strip edge tracking lines — R-K '26 cinematic pattern */
+.film-edges { position: fixed; inset: 0; pointer-events: none; z-index: 100; }
+.film-edges::before,
+.film-edges::after {
+  content: ""; position: fixed; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(200, 180, 150, 0.10) 8%,
+    rgba(200, 180, 150, 0.12) 50%,
+    rgba(200, 180, 150, 0.10) 92%,
+    transparent 100%);
+  pointer-events: none;
+}
+.film-edges::before { left: 14px; }
+.film-edges::after  { right: 14px; }
+@media (max-width: 768px) {
+  .film-edges::before { left: 6px; }
+  .film-edges::after  { right: 6px; }
+}
