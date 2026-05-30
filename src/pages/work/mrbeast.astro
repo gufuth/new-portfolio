@@ -1,5 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+import mrbeastHero from "@/assets/work/mrbeast_hero.png";
 ---
 <Layout
   title="Beast Mode Banking — MoneyLion × Beast Games"
@@ -17,9 +19,16 @@ import Layout from "@/layouts/Layout.astro";
       <!-- HERO PANEL — shared-element morph destination. The BEAST MODE BANKING billboard
            in /work has view-transition-name: case-study-mrbeast; this panel matches it.
            Browser handles the morph. -->
-      <section class="case-hero-billboard">
-        <h1 class="billboard-title">BEAST MODE BANKING</h1>
-        <p class="billboard-meta">MoneyLion × Beast Games · Amazon Prime · 2024 — 2025</p>
+      <section class="case-hero-billboard" style="view-transition-name: case-study-mrbeast;">
+        <Image src={mrbeastHero}
+          alt="A weathered roadside billboard at night reading BEAST MODE BANKING in chunky red commercial typography. Painted on green-and-cream wood. Lit by a single sodium-vapor pole lamp. Deep indigo sky, atmospheric haze, distant telephone-pole silhouettes."
+          widths={[768, 1280, 1536, 2048, 2560]} sizes="100vw"
+          formats={["avif", "webp"]} loading="eager" fetchpriority="high"
+          class="hero-photo" />
+        <div class="hero-titlecard">
+          <h1 class="billboard-title">BEAST MODE BANKING</h1>
+          <p class="billboard-meta">MoneyLion × Beast Games · Amazon Prime · 2024 — 2025</p>
+        </div>
       </section>
 
       <header class="case-head">
@@ -139,49 +148,64 @@ END FRAME: BEAST MODE BANKING. MoneyLion.</pre>
 </Layout>
 
 <style>
-  /* Shared-element morph DESTINATION — matches the billboard in /work */
   .case-hero-billboard {
-    view-transition-name: case-study-mrbeast;
+    position: relative;
     width: 100%;
-    aspect-ratio: 16 / 7;
-    background: #0F1B2E;
-    color: var(--color-neon-work);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-neon-work) 30%, transparent);
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    margin-bottom: var(--space-12);
+    border-radius: 4px;
+  }
+  .hero-photo {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center center;
+    display: block;
+  }
+  .hero-titlecard {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--space-4);
-    padding: var(--space-12) var(--space-6);
-    margin: 0 0 var(--space-12) calc(var(--space-6) * -1);
-    box-shadow: 0 0 60px color-mix(in srgb, var(--color-neon-work) 25%, transparent);
-    position: relative;
-    overflow: hidden;
-  }
-  @media (max-width: 760px) {
-    .case-hero-billboard { aspect-ratio: 4 / 3; }
+    padding: var(--space-6);
+    background: linear-gradient(to bottom,
+      rgba(10, 9, 8, 0.0) 0%,
+      rgba(10, 9, 8, 0.0) 50%,
+      rgba(10, 9, 8, 0.65) 100%);
+    pointer-events: none;
   }
   .billboard-title {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(2.2rem, 9vw, 7rem);
-    line-height: 0.92;
+    font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+    line-height: 0.95;
     letter-spacing: -0.02em;
-    text-transform: uppercase;
-    text-align: center;
-    margin: 0;
     color: var(--color-neon-work);
-    text-shadow: 0 0 30px color-mix(in srgb, var(--color-neon-work) 70%, transparent);
+    text-shadow: 0 0 28px rgba(82, 240, 90, 0.55),
+                 0 0 8px rgba(82, 240, 90, 0.7),
+                 0 2px 8px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    margin: 0 0 var(--space-4);
   }
   .billboard-meta {
     font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: 0.32em;
+    font-size: var(--text-xs);
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: color-mix(in srgb, var(--color-neon-work) 70%, var(--color-cream) 30%);
-    margin: 0;
+    color: var(--color-cream);
+    opacity: 0.85;
     text-align: center;
+    margin: 0;
   }
+
+  /* Shared-element morph DESTINATION — matches the billboard in /work */
+  
+  @media (max-width: 760px) {
+    .case-hero-billboard { aspect-ratio: 4 / 3; }
+  }
+  
+  
 
   .back-link-floating {
     display: inline-flex; align-items: center; gap: 0.5em;

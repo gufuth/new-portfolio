@@ -255,3 +255,39 @@ html, body {
   .film-edges::before { left: 6px; }
   .film-edges::after  { right: 6px; }
 }
+
+
+/* === Hide screenplay meta during transition close === */
+::view-transition-old(frame-top),
+::view-transition-new(frame-top),
+::view-transition-old(frame-bottom),
+::view-transition-new(frame-bottom) {
+  /* Bars expand to scaleY(14) — we need the META TEXT inside them to fade out
+     so it doesn't read as giant debug-text during the black hold */
+}
+
+/* Animate the meta inside bars during transition */
+.film-frame .bar .meta {
+  transition: opacity 0.3s ease-out;
+}
+
+/* During a navigation, JS adds .transitioning class which fades the meta text */
+.film-frame.transitioning .meta {
+  opacity: 0;
+}
+
+/* === Strengthen film-strip edges to readable === */
+.film-edges::before,
+.film-edges::after {
+  width: 2px !important;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(200, 180, 150, 0.20) 6%,
+    rgba(200, 180, 150, 0.28) 50%,
+    rgba(200, 180, 150, 0.20) 94%,
+    transparent 100%
+  ) !important;
+}
+.film-edges::before { left: 18px !important; }
+.film-edges::after  { right: 18px !important; }

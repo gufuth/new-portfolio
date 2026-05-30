@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import FilmFrame from "@/components/FilmFrame.astro";
+import AmbientAudio from "@/components/AmbientAudio.astro";
 import GlobalGrain from "@/components/GlobalGrain.astro";
 import { ClientRouter } from "astro:transitions";
 interface Props {
@@ -32,6 +33,7 @@ const { title = "Ian Luna", description = "", sceneName, frameNumber } = Astro.p
 
     <GlobalGrain />
     <FilmFrame sceneName={sceneName} frameNumber={frameNumber} />
+    <AmbientAudio />
 
     <style is:global>
       /* Tinted normal cursor */
