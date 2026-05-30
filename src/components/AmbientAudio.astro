@@ -115,8 +115,109 @@
     rumble.start();
     built.push({ stop: () => { rumble.stop(); } });
 
+    // Layer 4: Cicada / insect bed — high-frequency narrow-band noise
+    const cicadaBufSize = ctx.sampleRate * 3;
+    const cicadaBuffer = ctx.createBuffer(1, cicadaBufSize, ctx.sampleRate);
+    const cd = cicadaBuffer.getChannelData(0);
+    for (let i = 0; i < cicadaBufSize; i++) cd[i] = (Math.random() * 2 - 1);
+    const cicada = ctx.createBufferSource();
+    cicada.buffer = cicadaBuffer; cicada.loop = true;
+    const cFilt = ctx.createBiquadFilter();
+    cFilt.type = "bandpass"; cFilt.frequency.value = 2000; cFilt.Q.value = 12;
+    const gCicada = ctx.createGain(); gCicada.gain.value = 0.012;
+    // Subtle LFO modulation on cicada — gives natural chirp pulse
+    const cLFO = ctx.createOscillator();
+    cLFO.type = "sine"; cLFO.frequency.value = 2.5;
+    const cLFOGain = ctx.createGain(); cLFOGain.gain.value = 0.008;
+    cLFO.connect(cLFOGain); cLFOGain.connect(gCicada.gain);
+    cicada.connect(cFilt); cFilt.connect(gCicada); gCicada.connect(masterGain);
+    cicada.start(); cLFO.start();
+    built.push({ stop: () => { cicada.stop(); cLFO.stop(); } });
+
+    // Layer 5: Doppler-passing-car — scheduled every 25-40s
+    let carTimer: number | null = null;
+    const scheduleCar = () => {
+      const delay = 25000 + Math.random() * 15000; // 25-40s
+      carTimer = window.setTimeout(() => {
+        if (!audioCtx || !masterGain) return;
+        const t0 = audioCtx.currentTime;
+        // Filtered noise burst — pitch sweeps via filter freq sweep
+        const carBuf = audioCtx.createBuffer(1, audioCtx.sampleRate * 4, audioCtx.sampleRate);
+        const cdata = carBuf.getChannelData(0);
+        for (let i=0; i<cdata.length; i++) cdata[i] = (Math.random()*2-1) * 0.5;
+        const car = audioCtx.createBufferSource();
+        car.buffer = carBuf;
+        const carFilt = audioCtx.createBiquadFilter();
+        carFilt.type = "bandpass"; carFilt.frequency.value = 200; carFilt.Q.value = 1.2;
+        const carGain = audioCtx.createGain(); carGain.gain.value = 0;
+        const carPan = audioCtx.createStereoPanner(); carPan.pan.value = -1;
+        car.connect(carFilt); carFilt.connect(carGain); carGain.connect(carPan); carPan.connect(masterGain);
+        // Envelope
+        carGain.gain.setValueAtTime(0, t0);
+        carGain.gain.linearRampToValueAtTime(0.18, t0 + 1.5);
+        carGain.gain.linearRampToValueAtTime(0.22, t0 + 2.0);
+        carGain.gain.linearRampToValueAtTime(0.0, t0 + 3.8);
+        // Doppler — filter freq sweeps up then down
+        carFilt.frequency.setValueAtTime(160, t0);
+        carFilt.frequency.linearRampToValueAtTime(320, t0 + 2.0);
+        carFilt.frequency.linearRampToValueAtTime(140, t0 + 3.5);
+        // Pan sweep left to right
+        carPan.pan.setValueAtTime(-1, t0);
+        carPan.pan.linearRampToValueAtTime(1, t0 + 3.5);
+        car.start(t0); car.stop(t0 + 4);
+        scheduleCar();
+      }, delay);
+    };
+    scheduleCar();
+    built.push({ stop: () => { if (carTimer) clearTimeout(carTimer); } });
+
+    // Layer 6: Cup clink — random rare event every 30-90s
+    let clinkTimer: number | null = null;
+    const scheduleClink = () => {
+      const delay = 30000 + Math.random() * 60000;
+      clinkTimer = window.setTimeout(() => {
+        if (!audioCtx || !masterGain) return;
+        const t0 = audioCtx.currentTime;
+        // Two short FM-ish blips simulating ceramic clink
+        const osc = audioCtx.createOscillator();
+        osc.type = "sine"; osc.frequency.value = 2200;
+        const g = audioCtx.createGain(); g.gain.value = 0;
+        const hpf = audioCtx.createBiquadFilter();
+        hpf.type = "highpass"; hpf.frequency.value = 1500;
+        osc.connect(hpf); hpf.connect(g); g.connect(masterGain);
+        g.gain.setValueAtTime(0, t0);
+        g.gain.linearRampToValueAtTime(0.10, t0 + 0.005);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.35);
+        osc.frequency.setValueAtTime(2200, t0);
+        osc.frequency.exponentialRampToValueAtTime(1800, t0 + 0.35);
+        osc.start(t0); osc.stop(t0 + 0.4);
+        scheduleClink();
+      }, delay);
+    };
+    scheduleClink();
+    built.push({ stop: () => { if (clinkTimer) clearTimeout(clinkTimer); } });
+
     return built;
   }
+
+  // A10: door-bell chime on scene change — exposed for FilmFrame transitions to call
+  (window as any).__playDoorBell = () => {
+    if (!audioCtx || !masterGain || !isOn) return;
+    const t0 = audioCtx.currentTime;
+    // Two sine waves at 1100 and 1650 Hz, harmonic-ish — quick ceramic ring
+    const f1 = 1100, f2 = 1650;
+    [f1, f2].forEach((freq, idx) => {
+      const o = audioCtx!.createOscillator();
+      o.type = "sine"; o.frequency.value = freq;
+      const g = audioCtx!.createGain(); g.gain.value = 0;
+      o.connect(g); g.connect(masterGain!);
+      const peak = idx === 0 ? 0.20 : 0.12;
+      g.gain.setValueAtTime(0, t0);
+      g.gain.linearRampToValueAtTime(peak, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.9);
+      o.start(t0); o.stop(t0 + 1.0);
+    });
+  };
 
   async function turnOn() {
     if (!audioCtx) {

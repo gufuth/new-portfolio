@@ -15,7 +15,17 @@ const now = new Date();
 const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}`;
 ---
 <div class="film-frame" data-transition-name="film-frame">
-  <div class="bar top" data-transition-name="frame-top">
+  <div class="bar top" data-transition-name="frame-top"></div>
+  <div class="stage-content">
+    <slot />
+  </div>
+  <div class="bar bottom" data-transition-name="frame-bottom"></div>
+</div>
+
+<!-- META OVERLAY — sibling of bars, NOT inside them. View Transitions API does NOT
+     snapshot this into the scaling pseudo-element. Bars scale freely; text stays sharp at rest. -->
+<div class="frame-meta-overlay" aria-hidden="true">
+  <div class="meta-row top">
     <span class="meta meta-left">
       <span class="primary">Ian Luna</span>
       <span class="separator">·</span>
@@ -27,16 +37,35 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
       <span class="frame">Frame {frameNumber}</span>
     </span>
   </div>
-  <div class="stage-content">
-    <slot />
-  </div>
-  <div class="bar bottom" data-transition-name="frame-bottom">
+  <div class="meta-row bottom">
     <span class="meta meta-left">{sceneName}</span>
-    <span class="meta meta-right">T {timestamp} UTC</span>
+    <span class="meta meta-right" data-live-time>T {timestamp} UTC</span>
   </div>
 </div>
 
 <style>
+
+  /* META OVERLAY — sits ABOVE bars, NOT inside them, so View Transitions
+     doesn't scale the text with the bars */
+  .frame-meta-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 81;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .meta-row {
+    height: var(--frame-bar-h);
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+    flex: 0 0 auto;
+  }
+
   .film-frame {
     position: fixed;
     inset: 0;
@@ -93,14 +122,22 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
 </style>
 
 <script>
-  // Fade meta text out during page navigation (so it doesn't show as giant text
-  // during the letterbox close-and-hold)
+  function updateLiveTime() {
+    const el = document.querySelector("[data-live-time]");
+    if (!el) return;
+    const now = new Date();
+    const hh = String(now.getUTCHours()).padStart(2, "0");
+    const mm = String(now.getUTCMinutes()).padStart(2, "0");
+    el.textContent = `T ${hh}:${mm} UTC`;
+  }
+  updateLiveTime();
+  setInterval(updateLiveTime, 60000);
+
+  // A10: door bell on scene transition
   document.addEventListener("astro:before-preparation", () => {
-    document.querySelector(".film-frame")?.classList.add("transitioning");
-  });
-  document.addEventListener("astro:after-swap", () => {
-    setTimeout(() => {
-      document.querySelector(".film-frame")?.classList.remove("transitioning");
-    }, 600);
+    const bell = (window as any).__playDoorBell;
+    if (typeof bell === "function") bell();
   });
 </script>
+
+

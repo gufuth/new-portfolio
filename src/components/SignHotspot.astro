@@ -1,4 +1,9 @@
 ---
+import { Image } from "astro:assets";
+import workGlow from "@/assets/glows/work_glow.png";
+import aboutGlow from "@/assets/glows/about_glow.png";
+import hearsayGlow from "@/assets/glows/hearsay_glow.png";
+
 interface Props {
   label: string; href: string;
   color: "work" | "about" | "hearsay";
@@ -11,57 +16,70 @@ const {
   top, left, width, height,
   flickerDelay = "0s",
 } = Astro.props;
+
+const glowMap = { work: workGlow, about: aboutGlow, hearsay: hearsayGlow };
+const glowImg = glowMap[color];
 ---
 <a href={href}
    class:list={["hotspot", `tint-${color}`]}
    style={`top: ${top}; left: ${left}; width: ${width}; height: ${height}; --flicker-delay: ${flickerDelay};`}
    aria-label={ariaLabel}
    data-astro-prefetch>
-  <span class="flicker" aria-hidden="true"></span>
+  <Image src={glowImg} alt="" aria-hidden="true"
+         widths={[400, 600, 900, 1200]} sizes={width}
+         format="webp" class="letterform-glow" loading="eager" />
   <span class="sr-only">{label}</span>
 </a>
 
 <style>
-  .hotspot { position: absolute; display: block; cursor: pointer; text-decoration: none; z-index: 5; }
+  .hotspot {
+    position: absolute; display: block; cursor: pointer; text-decoration: none; z-index: 5;
+    overflow: visible;
+  }
 
-  /* Diegetic affordance: glow on the sign itself. No text labels. No tooltips. */
-  .flicker {
-    position: absolute; inset: -22%;
-    background: radial-gradient(ellipse at center, currentColor 0%, transparent 60%);
-    border-radius: 50%;
-    filter: blur(32px);
+  /* LETTERFORM GLOW — actual neon letters illuminating the sign shape.
+     Replaces the old radial-gradient blob (which read as a generic colored splotch). */
+  .letterform-glow {
+    position: absolute;
+    inset: -15%;
+    width: 130%;
+    height: 130%;
+    object-fit: contain;
+    pointer-events: none;
     mix-blend-mode: screen;
     opacity: 0;
-    pointer-events: none;
-    will-change: opacity;
+    will-change: opacity, filter;
     animation:
       entry-pulse 1.5s var(--ease-cinematic) var(--flicker-delay, 0s) 1 forwards,
       neon-flicker 9s linear calc(var(--flicker-delay, 0s) + 1.5s) infinite;
+    transition: opacity 0.25s var(--ease-cinematic), filter 0.25s var(--ease-cinematic);
+    filter: brightness(1) saturate(1);
   }
   @keyframes entry-pulse {
-    /* Sign wakes up on entry zoom: dark → flash bright → settle to silence */
+    /* Sign wakes up: dark → flash bright → settle to dim ambient */
     0%   { opacity: 0; }
-    30%  { opacity: 0.85; }
-    60%  { opacity: 0.20; }
-    100% { opacity: 0.04; }
+    30%  { opacity: 0.95; }
+    60%  { opacity: 0.30; }
+    100% { opacity: 0.10; }
   }
   @keyframes neon-flicker {
-    /* SILENT ambient — sign is invisible at rest. Only flickers in occasional brief moments. */
-    0%, 100% { opacity: 0.04; }
-    34% { opacity: 0.06; }
-    35% { opacity: 0.02; }
-    36% { opacity: 0.05; }
-    37% { opacity: 0.04; }
-    38% { opacity: 0.06; }
-    72% { opacity: 0.05; }
-    73% { opacity: 0.02; }
-    74% { opacity: 0.06; }
+    /* Subtle ambient — sign sits at low glow with occasional ballast flicker */
+    0%, 100% { opacity: 0.10; }
+    34%      { opacity: 0.18; }
+    34.5%    { opacity: 0.04; }
+    35%      { opacity: 0.14; }
+    36%      { opacity: 0.10; }
+    37%      { opacity: 0.16; }
+    72%      { opacity: 0.14; }
+    72.5%    { opacity: 0.06; }
+    73%      { opacity: 0.18; }
+    74%      { opacity: 0.10; }
   }
 
-  /* On hover: the SIGN intensifies. No text label. No tooltip. The world reacts. */
-  .hotspot:hover .flicker {
-    opacity: 0.85 !important;
-    filter: blur(18px);
+  /* HOVER: the letterforms IGNITE — full neon brightness, intensified glow */
+  .hotspot:hover .letterform-glow {
+    opacity: 1 !important;
+    filter: brightness(1.15) saturate(1.3) drop-shadow(0 0 24px currentColor);
     animation-duration: 4s, 4s;
   }
   .hotspot:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 8px; }
@@ -72,6 +90,6 @@ const {
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 
   @media (prefers-reduced-motion: reduce) {
-    .flicker { animation: none; opacity: 0.4; }
+    .letterform-glow { animation: none; opacity: 0.4; }
   }
 </style>
