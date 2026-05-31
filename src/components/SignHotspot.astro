@@ -60,20 +60,20 @@ const glowImg = glowMap[color];
     0%   { opacity: 0; }
     30%  { opacity: 0.95; }
     60%  { opacity: 0.30; }
-    100% { opacity: 0.10; }
+    100% { opacity: 0; }
   }
   @keyframes neon-flicker {
     /* Subtle ambient — sign sits at low glow with occasional ballast flicker */
-    0%, 100% { opacity: 0.10; }
-    34%      { opacity: 0.18; }
-    34.5%    { opacity: 0.04; }
-    35%      { opacity: 0.14; }
-    36%      { opacity: 0.10; }
-    37%      { opacity: 0.16; }
-    72%      { opacity: 0.14; }
-    72.5%    { opacity: 0.06; }
-    73%      { opacity: 0.18; }
-    74%      { opacity: 0.10; }
+    0%, 100% { opacity: 0; }
+    34%      { opacity: 0; }
+    34.5%    { opacity: 0; }
+    35%      { opacity: 0; }
+    36%      { opacity: 0; }
+    37%      { opacity: 0; }
+    72%      { opacity: 0; }
+    72.5%    { opacity: 0; }
+    73%      { opacity: 0; }
+    74%      { opacity: 0; }
   }
 
   /* HOVER: the letterforms IGNITE — full neon brightness, intensified glow */
@@ -90,6 +90,6 @@ const glowImg = glowMap[color];
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 
   @media (prefers-reduced-motion: reduce) {
-    .letterform-glow { animation: none; opacity: 0.4; }
+    .letterform-glow { animation: none; opacity: 0; }
   }
 </style>

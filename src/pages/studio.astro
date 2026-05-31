@@ -1,0 +1,133 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+import studioBackroom from "@/assets/work/studio-backroom.png";
+
+interface Billboard {
+  slug?: string;
+  title: string;
+  client: string;
+  role: string;
+  year: string;
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+}
+
+const billboards: Billboard[] = [
+  { title: "HOURS LATER", client: "1800 Tequila",
+    role: "Senior Copy", year: "2021",
+    top: "22%", left: "10%", width: "13%", height: "15%" },
+  { title: "BORN IN TEQUILA", client: "Jose Cuervo",
+    role: "Senior Copy", year: "2021",
+    top: "20%", left: "26%", width: "16%", height: "18%" },
+  { title: "APEX PREDATOR", client: "Audi",
+    role: "Senior Copy", year: "2020",
+    top: "21%", left: "45%", width: "14%", height: "16%" },
+  { title: "PARKING LOT TOUR", client: "Vans",
+    role: "Copy", year: "2019",
+    top: "23%", left: "62%", width: "14%", height: "15%" },
+  { title: "ROAR MONEY", client: "MoneyLion",
+    role: "Senior Copy", year: "2023",
+    top: "24%", left: "78%", width: "13%", height: "14%" },
+];
+---
+<Layout
+  title="Studio — Ian Luna"
+  description="The editor's booth. Secondary work, editorial, side projects."
+  sceneName="INT. THE LAST STOP DINER — BACK BOOTH"
+  frameNumber="003"
+>
+  <main id="main" class="page">
+    <section class="hero">
+      <div class="hero-frame">
+        <Image src={studioBackroom}
+          alt="Inside the back booth of the diner. A typewriter rests on the formica table next to a stack of magazines and an open notebook. Green-glass pendant lamp overhead. Side window shows a different stretch of highway with five smaller billboards in the deep distance, lit by sodium-vapor poles. Wood paneling, atmospheric haze, 35mm grain."
+          widths={[768, 1280, 1536, 2048, 2560]} sizes="100vw"
+          formats={["avif", "webp"]} loading="eager" fetchpriority="high"
+          class="hero-img" />
+
+        {billboards.map(b => {
+          const positionStyle = `top: ${b.top}; left: ${b.left}; width: ${b.width}; height: ${b.height};`;
+          const vtName = b.slug ? `case-study-${b.slug}` : `case-study-pending-${b.title.replace(/\s+/g, "-").toLowerCase()}`;
+          return (
+            <div class="bb-hit pending"
+                 style={`${positionStyle} view-transition-name: ${vtName};`}
+                 aria-label={`${b.title} — ${b.client} (in preparation)`}
+                 aria-disabled="true" />
+          );
+        })}
+      </div>
+
+      <div class="hero-meta">
+        <a href="/work" class="back-link" aria-label="Back to the front booth">
+          <span aria-hidden="true">←</span>
+          <span>Back to the front</span>
+        </a>
+        <span class="hero-cue">The editor's booth — secondary work</span>
+      </div>
+    </section>
+
+    <section class="index">
+      <header class="index-head">
+        <h1 class="index-title">The Studio</h1>
+        <p class="index-sub">Sideboards, editorial passes, and the long tail of the work.</p>
+      </header>
+
+      <section class="block">
+        <ul class="block-list">
+          {billboards.map(b => (
+            <li class="block-item">
+              <span class="block-title">{b.title}</span>
+              <span class="block-client">{b.client}</span>
+              <span class="block-role">{b.role}</span>
+              <span class="block-year">{b.year}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .page { display: block; padding-top: 0; min-height: 100vh; }
+  .hero { position: relative; display: flex; flex-direction: column; height: calc(100vh - var(--frame-bar-h) * 2); margin-top: var(--frame-bar-h); }
+  .hero-frame { position: relative; flex: 1 1 auto; overflow: hidden; }
+  .hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
+
+  .bb-hit {
+    position: absolute;
+    z-index: 5;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    background: radial-gradient(ellipse at center, rgba(255, 244, 220, 0.0) 0%, rgba(255, 244, 220, 0.0) 100%);
+    transition: background 0.4s var(--ease-cinematic);
+    border-radius: 2px;
+  }
+  .bb-hit.pending { cursor: default; }
+  .bb-hit:not(.pending):hover {
+    background: radial-gradient(ellipse at center, rgba(255, 244, 220, 0.18) 0%, rgba(255, 244, 220, 0.04) 60%, rgba(255, 244, 220, 0) 100%);
+  }
+  .bb-hit:focus-visible { outline: 2px solid var(--color-cream); outline-offset: 4px; }
+
+  .hero-meta { flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-6); background: var(--color-silhouette); border-top: 1px solid color-mix(in srgb, var(--color-cream) 10%, transparent); }
+  .back-link { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-muted); text-decoration: none; display: inline-flex; gap: 0.5em; transition: color 0.2s; }
+  .back-link:hover { color: var(--color-cream); }
+  .hero-cue { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-marquee-warm); opacity: 0.7; }
+
+  .index { padding: var(--space-24) var(--space-6) var(--space-32); max-width: 920px; margin: 0 auto; }
+  .index-head { border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 14%, transparent); padding-bottom: var(--space-10); margin-bottom: var(--space-16); }
+  .index-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(var(--text-3xl), 7vw, var(--text-4xl)); line-height: 0.95; letter-spacing: -0.02em; margin: 0 0 var(--space-4); }
+  .index-sub { font-family: var(--font-body); font-size: var(--text-base); color: var(--color-muted); margin: 0; }
+
+  .block { margin-bottom: var(--space-16); }
+  .block-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+  .block-item { display: grid; grid-template-columns: 2fr 2fr 1.5fr 0.6fr; gap: var(--space-6); padding: var(--space-4) 0; border-bottom: 1px dashed color-mix(in srgb, var(--color-cream) 12%, transparent); align-items: baseline; }
+  .block-title { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; }
+  .block-client { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-muted); }
+  .block-role { font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-muted); }
+  .block-year { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-muted); text-align: right; }
+</style>

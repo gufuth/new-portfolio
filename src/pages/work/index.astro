@@ -81,6 +81,7 @@ const more = [
           <span>Back outside</span>
         </a>
         <span class="hero-cue">Click a billboard, or scroll for the full index</span>
+        <a href="/studio" class="studio-link" data-astro-prefetch>The studio →</a>
       </div>
     </section>
 
@@ -177,4 +178,11 @@ const more = [
   .entry-line { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); }
   .dot { margin: 0 0.5em; opacity: 0.4; }
   .entry-status { font-family: var(--font-mono); font-size: var(--text-3xs); letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-marquee-warm); opacity: 0.55; }
+
+  .studio-link {
+    font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--color-marquee-warm); text-decoration: none;
+    transition: color 0.2s; padding-left: var(--space-6);
+  }
+  .studio-link:hover { color: var(--color-cream); }
 </style>
