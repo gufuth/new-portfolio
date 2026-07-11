@@ -6,10 +6,10 @@ interface Props {
   yearRange?: string;
 }
 const {
-  sceneName = "EXT. DINER — DUSK",
+  sceneName = "EXT. DINER â€” DUSK",
   frameNumber = "001",
   role = "Creative Director",
-  yearRange = "MMX — MMXXVI",
+  yearRange = "MMX â€” MMXXVI",
 } = Astro.props;
 const now = new Date();
 const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.getUTCMinutes()).padStart(2, "0")}`;
@@ -22,18 +22,18 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
   <div class="bar bottom" data-transition-name="frame-bottom"></div>
 </div>
 
-<!-- META OVERLAY — sibling of bars, NOT inside them. View Transitions API does NOT
+<!-- META OVERLAY â€” sibling of bars, NOT inside them. View Transitions API does NOT
      snapshot this into the scaling pseudo-element. Bars scale freely; text stays sharp at rest. -->
 <div class="frame-meta-overlay" aria-hidden="true">
   <div class="meta-row top">
     <span class="meta meta-left">
       <span class="primary">Ian Luna</span>
-      <span class="separator">·</span>
+      <span class="separator">Â·</span>
       <span class="role">{role}</span>
     </span>
     <span class="meta meta-right">
       <span class="years">{yearRange}</span>
-      <span class="separator">·</span>
+      <span class="separator">Â·</span>
       <span class="frame">Frame {frameNumber}</span>
     </span>
   </div>
@@ -45,7 +45,7 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
 
 <style>
 
-  /* META OVERLAY — sits ABOVE bars, NOT inside them, so View Transitions
+  /* META OVERLAY â€” sits ABOVE bars, NOT inside them, so View Transitions
      doesn't scale the text with the bars */
   .frame-meta-overlay {
     position: fixed;
@@ -116,9 +116,9 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
     .meta .separator:first-of-type { display: none; }
   }
 
-  .bar { view-transition-name: var(--vt-name, none); }
-  .bar.top { view-transition-name: frame-top; }
-  .bar.bottom { view-transition-name: frame-bottom; }
+  /* FILMFRAME_LOCK: view-transition-names stripped from the bars â€” they caused the
+     14x metadata-scale bug (deployed_review_2026_05_30 item 12). Cuts happen behind
+     static bars; the bars never scale. Removed 2026-07-11 (oracle-caught regression). */
 </style>
 
 <script>
@@ -139,5 +139,3 @@ const timestamp = `${String(now.getUTCHours()).padStart(2, "0")}:${String(now.ge
     if (typeof bell === "function") bell();
   });
 </script>
-
-
