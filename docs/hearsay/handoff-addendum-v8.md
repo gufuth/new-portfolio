@@ -1,5 +1,7 @@
 # HEARSAY — v8 addendum (2026-07-10)
 
+> **STATUS: CURRENT HEARSAY DETAIL WITH INTERNAL CHRONOLOGY.** Later sections supersede earlier entries inside this file. Current state: exact-photo v10 plate, live `hearsay.html`, live HTML captions, unlisted surface, and a still-open measuring pass. The v6 master handoff outranks this file on overall project state.
+
 Extends HANDOFF.md (2026-07-09). Read that first; this records the v8 session.
 
 ## What happened

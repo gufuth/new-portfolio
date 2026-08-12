@@ -1,5 +1,7 @@
 # Bleeding-edge stack decision — Last Stop Diner Portfolio
 
+> **STATUS: SUPERSEDED / HISTORICAL.** The current repository is plain HTML/CSS/vanilla JS with no checked-in Astro, Tailwind, MDX, package manifest, Cloudflare config, workers, or dynamic OG system. Do not install tools or rebuild the stack from this document.
+
 **Date:** 2026-05-18
 **Scope:** MCPs to install, AI image tools, runtime augmentations, observability. Beyond the framework + host decision in `host_decision_2026_05_18.md`.
 

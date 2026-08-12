@@ -1,5 +1,7 @@
 # case_copy/ — the canonical copy book (mirrored from Drive 2026-07-11)
 
+> **STATUS: CURRENT COPY SOURCE, NOT PUBLICATION-READY.** Brackets, sources, hooks, credits, and real shipped lines remain open. Use `case-manifest.md` for the consolidated cast conflict.
+
 This folder is the corridor's single source of truth for SITE COPY. Everything here was written
 2026-07-06/07 in the Drive folder "Portfolio Copy" (1J3Qw_NAXjcTWFt69OEGPz9WxazVL9k9n), gauntlet-
 tested (anti-AI gate + Whetstone ×3 + VK pre-check), and mirrored here with supersessions resolved.
@@ -24,19 +26,18 @@ for lineage only.
 - New Case Studies v1 → 1QJr7RGBiNV4t2oYo0CjJkN6fqoYx6jA1xHJ8JiYzbqE
 - Case Page Spec v1 → 1qqwbzS7wEPRRMLOXPN4SQ4CWPXq6iVIH-XnFa3AnSQU
 
-## Reference docs (Drive-only by design — research/baseline, not shippable copy)
-- Site Copy Extraction v1 (all 17 current-site pages, verbatim baseline) → 1PiGhic2rNP1t3jkOgx3YNF8J-YAMVGpgzPY7BDpVV-s
-- Portfolio Copy Audit v1 (the audit that drove the rewrites) → 1hOPyk6cwQ3I-9FNyTHQd8vYF40AurkDzr3YFovbSRXY
-- Hiring Trends Deep Dive v1 (what recruiters screen for, 2026) → 1OEct6pZz_beQJDhv82a7spGa1SVB6o1kAnGgz-o40aU
-- Design Audit — mockup + case layout direction → 1T-qTRu6jE9V_zcD1bnIv8BoqWkAp5aIVq5JtFMxrG2k
+## Reference docs (mirrored here — research/baseline, not shippable copy)
+- `site-copy-extraction-v1.md` — all 17 prior-site pages, verbatim baseline
+- `portfolio-copy-audit-v1.md` — audit that drove the rewrites
+- `hiring-trends-deep-dive-v1.md` — 2025/2026 hiring research
+- Design Audit — mockup + case layout direction remains external: `UNVERIFIED / NOT APPROVED`
 
 ## The cast list this book settles (C0)
 Running order: MrBeast×MoneyLion → Star Wars×Porsche → Virgin Galactic (Unity 22) → Nike SB
 (Pigeon/Panda) → Selsun Blue → Outdoor Voices → Cuervo → Silvercar → car2go → Fox/Alita near close.
 Personality pages: Channel Craft, Citizen Kane, Testimonials (HEARSAY), Who.
 Recommended shape: 9 cases + 2 personality pages; fold Vans into Channel Craft; pick Atlantic OR 1800.
-NOTE: the /work mockup signs (Go/ESPN, Hometown/HBO, Quiet Issue/NYT) are WRONG against this book
-and need rebuilding from this list.
+NOTE: the `/work` implementation signs (Go/ESPN, Hometown/HBO, Quiet Issue/NYT) are wrong against this book. A July 15 real-cast render exists but is **UNAPPROVED / NOT DEPLOYED**. The final book still requires the conflict resolution recorded in `case-manifest.md`.
 
 ## What blocks shipping (owner: Ian — from Verification Report §6)
 1. Name the idea: Cuervo, Atlantic, Vans, SCOOBA. 2. Replace every [bracketed] number with real

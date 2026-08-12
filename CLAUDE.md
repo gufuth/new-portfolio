@@ -1,5 +1,7 @@
 # CLAUDE.md — context for AI agents working in this repo
 
+> **STATUS: CURRENT COMPATIBILITY GUIDE.** `AGENTS.md` and `docs/handoffs/2026-08-11-master-handoff-v6.md` are authoritative. If this file conflicts with either, they win.
+
 Read this before touching anything. Last stop diner is a hand-built, no-framework
 site (plain HTML/CSS/JS, no build step) — not the Astro scaffold this repo used
 to contain (that attempt is archived at `gufuth/new-portfolio-archive-astro-attempt`).
@@ -15,14 +17,13 @@ across the street (the case studies). /about = a motel room. /hearsay = the
 diner's back wall, testimonials as framed photos (unlisted, reached only
 through the pink door).
 
-Live: **https://last-stop-diner.netlify.app**
+Repository metadata points to **https://last-stop-diner.netlify.app**. Current production host/domain approval is `IAN DECISION REQUIRED`.
 
 ## Locked decisions — do not re-litigate
 
 **Stack:** plain HTML/CSS/vanilla JS. No framework, no build step. Each page is
-self-contained (styles and scripts inline). Deploy is `netlify deploy` from the
-`site/` output of a local build script — not GitHub-triggered CI as of this
-writing (see Open questions below).
+self-contained (styles and scripts inline). No `site/` output, build script, or
+verified deployment configuration is checked in. Deployment is `IAN DECISION REQUIRED`.
 
 **FilmFrame bars:** thin black letterbox bars, top and bottom, on every page.
 Carry the identity chrome (name/title, frame number, scene slugline, live
@@ -57,15 +58,15 @@ full text in `docs/design/quality-contract-v1.md`): stranger test, physics
 test, squint test, same-film test, one-motion test, weirdness-budget test,
 honesty test (no placeholder content anywhere a visitor can see it lit up).
 
-## Current status (verified against Drive + local files, 2026-08-11)
+## Current status (verified against checked-in files, 2026-08-11; live host unverified)
 
 | Surface | Status |
 |---|---|
-| Landing | Live. Directed threshold out to /work; quiet fade to About; silent threshold to Hearsay. Arrival settle when coming from inside. |
-| /work | Live. Sign cabinets show **placeholder cast** (Go/ESPN, Hometown/HBO, Quiet Issue/NYT) — this is known-wrong against the real cast list in `docs/case-copy/` and is the top rebuild task. |
-| /about | Live. Foot-of-bed motel plate + TV composite (stand-in face — swap when a real portrait lands). Working bio is placeholder-quality; real bio is a separate writing pass. |
-| /hearsay | Live but unlisted (noindex). Real site photos composited in, 5 confirmed real quotes, speech-adjacent HTML captions in distinct handwriting fonts per speaker. Hotspot coordinates are eyeballed, not measured. |
-| Case study pages | **Not built.** Copy is fully written and gauntlet-tested in `docs/case-copy/` — the page template exists only as a spec, not code. |
+| Landing | Implemented. Directed threshold out to /work; quiet fade to About; silent threshold to Hearsay. Arrival settle when coming from inside. |
+| /work | Implemented. Sign cabinets show the legacy Go/ESPN, Hometown/HBO, Quiet Issue/NYT cast. A July 15 real-cast render exists but is **UNAPPROVED / NOT DEPLOYED**; audit it before planning changes. |
+| /about | Implemented. Foot-of-bed motel plate + TV composite; face is a stand-in and bio is provisional. |
+| /hearsay | Implemented but unlisted (`noindex`). Exact site photos are composited into the plate; five live HTML captions use distinct handwriting fonts. Hotspot coordinates are documented as eyeballed, not measured. |
+| Case study pages | **Not built.** Drafts and a page spec exist, but brackets, sources, hooks, credits, and real shipped lines remain open. |
 
 ## Ship blockers (owner: Ian, not the agent)
 
@@ -73,15 +74,15 @@ honesty test (no placeholder content anywhere a visitor can see it lit up).
 - Name the unnamed ideas: Cuervo, Atlantic, Vans, SCOOBA
 - Replace every `[bracketed]` placeholder number with real, sourced data — if the real number is smaller than the placeholder, the number wins, never the narrative
 - Real "lines I wrote" per case (the highest-value empty slot in the whole book)
-- Rebuild /work's sign cabinets from the real cast list
-- Real testimonial photos for HEARSAY (currently placeholders, though captions/quotes are real)
+- Reconcile the final case manifest and book size
+- Decide whether the July 15 `/work` render is reference-only, a surgical correction base, or rejected
+- Complete factual metadata, credits, source citations, and the final verification gates
 
 ## Known gotchas
 
-- **Deploy target may not match the README.** `wrangler.jsonc` from the old
-  Astro attempt targeted Cloudflare; the actual live site is deployed to
-  Netlify via CLI. A formal domain/host decision for the production build is
-  still an open item (`docs/decisions/`).
+- **Deployment is unresolved.** Historical documents prescribe Cloudflare;
+  root metadata points to Netlify; no deployment configuration is checked in.
+  Treat the host, domain, deploy command, and rollback lane as `IAN DECISION REQUIRED`.
 - **Duplicate keyboard-drill-down script blocks.** Each HTML page currently
   has the same `<script>` block injected twice near the bottom. It's
   harmless (guarded by a `dataset.kbdDrilldown` check) but is dead weight —
@@ -95,15 +96,19 @@ honesty test (no placeholder content anywhere a visitor can see it lit up).
 
 ## Repo layout
 
-- `index.html`, `work.html`, `about.html`, `hearsay.html`, `404.html` — the live pages.
+- `index.html`, `work.html`, `about.html`, `hearsay.html`, `404.html` — the checked-in runtime pages.
 - `*.webp`, `og_*.png`, `favicon.png` — plates and social cards.
-- `docs/decisions/` — locked stack/host calls.
+- `docs/decisions/` — current open decisions and status-labeled historical stack/host records.
+- `docs/handoffs/2026-08-11-master-handoff-v6.md` — current source of truth.
+- `docs/doctrine/` — faithful source transcriptions, subordinate to project law.
+- `docs/runbooks/` — verified local-development procedure and deployment stop conditions.
 - `docs/design/` — quality contract, FilmFrame lock, softlock, build plan, vibe distillation.
 - `docs/case-copy/` — the full, gauntlet-tested case study copy book.
 - `docs/hearsay/` — HEARSAY-specific handoffs.
 - `docs/history/` — project history index, queued next moves.
+- `docs/renders/` — organized render archive, runtime-asset copies, and verification screenshots.
 
-Deeper working history (renders, review logs, scripts, dated iteration notes)
-lives outside this repo in the Project Zero workspace,
-`drafts/pz_portfolio_last_stop_diner/`. This repo holds the site plus the
-distilled, decision-grade documentation — not the full archive.
+Additional review logs, scripts, and dated iteration notes may live outside
+this repo in the Project Zero workspace, `drafts/pz_portfolio_last_stop_diner/`.
+This repo holds the site, the organized render archive, and distilled,
+decision-grade documentation — not necessarily every working artifact.

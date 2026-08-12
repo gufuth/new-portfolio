@@ -1,4 +1,7 @@
 # BUILD PLAN v2 — LAST STOP DINER
+
+> **STATUS: SUPERSEDED / HISTORICAL.** This plan predates the implemented static site, decided HEARSAY wall, July copy-book reset, and July 15 `/work` render. Do not use its phase order, Astro revival, Cloudflare lane, or old cast as current instruction. Use the v6 handoff.
+
 2026-07-03. Supersedes the June "Build Plan and Asset Notes" (Drive). That doc's layer architecture and interaction rules carry forward; this version folds in everything decided since: the /work soft-lock, the FilmFrame lock, the case-page pattern, the mobile grammar, and HEARSAY's content decision.
 
 ## LOCKED DECISIONS (the constitution of the build)

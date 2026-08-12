@@ -1,10 +1,12 @@
 # QUALITY CONTRACT v1 — for any model, any session
+> **STATUS: CURRENT / BINDING QUALITY LAW.** For current state and authority, use `../handoffs/2026-08-11-master-handoff-v6.md`. The references to v3 and old paths below are corrected by this banner and the hierarchy update.
+
 2026-07-04. Model-agnostic operating contract for the Last Stop Diner build. This is not advice. It is the procedure that produced the current quality bar, extracted from working sessions so it no longer depends on which model is running. If the agent reading this follows the rituals below mechanically, the bar holds.
 
 ## THE LAW HIERARCHY (when anything conflicts, higher wins)
-1. LOCKS (MASTER_HANDOFF_v3 "LOCKS" section). Never relitigated silently. If a change genuinely requires touching a lock, STOP, name the lock, give the reason, and ask Ian. Locks carry their reasons in FILMFRAME_LOCK.md, SOFTLOCK.md, and the handoffs; read the reason before proposing the exception.
+1. LOCKS (`../handoffs/2026-08-11-master-handoff-v6.md`, `filmframe-lock.md`, and current surface specs). Never relitigated silently. If a change genuinely requires touching a lock, STOP, name the lock, give the reason, and ask Ian. Read the reason before proposing the exception.
 2. KILL LISTS (Visual Rules doc + handoff non-negotiables). These exist because each item already happened once and was killed. They are scars, not preferences.
-3. BUILD_PLAN_v2 (sequence and scope).
+3. CURRENT HANDOFF AND CURRENT SURFACE SPECS. `build-plan-v2.md` is historical and cannot set current sequence.
 4. Taste and register (deadpan, dry, restrained; the room does the mythology, the words stay dry).
 
 ## THE SEVEN TESTS (run before showing Ian anything substantial)
@@ -40,7 +42,7 @@ Sound only from gestures or thresholds. Never on load, never ambient loops (the 
 The register is dry against a haunted world; the contrast IS the voice. No AI-slop vocabulary. Diner idiom over app idiom ("+ six more on the way", never "+6 more in the pipeline"). Case-study metadata never appears on signage. The bio stays under ~80 words. "The room is paid through Thursday" is the keeper line and the register benchmark.
 
 ## SESSION RITUALS
-- OPEN: read MASTER_HANDOFF_v3, then this contract, then walk all three live pages in a browser before touching anything. State back to Ian in a few bullets what is locked and what tonight's target is. Do not generate images by default.
+- OPEN: read `AGENTS.md`, the v6 handoff, then this contract, then inspect every relevant checked-in surface before touching anything. If a live host is available, verify it separately and say what was directly observed. State back to Ian what is locked and what the target is. Do not generate images by default.
 - DURING: kill-list check on anything new; the seven tests before presenting; cache-bust every verification.
 - CLOSE: update the handoff (new version if substantial), mirror to Drive, list every new file, name any lock added or challenged, and write down any miss that got caught.
 

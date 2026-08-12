@@ -1,4 +1,7 @@
 # SITE VIBE DISTILLATION v1 — 2026-07-11 (overnight run)
+
+> **STATUS: HISTORICAL AUDIT / CURRENT VIBE REFERENCE.** The vibe principles remain useful; the per-surface gap list records an earlier state and is superseded by the v6 handoff and current implementation.
+
 Distilled from walking all surfaces + master docs, for the premium-details pass.
 
 ## The vibe in one paragraph
