@@ -1,5 +1,7 @@
 # FILMFRAME — LOCKED (2026-07-03, operator-explicit)
 
+> **STATUS: CURRENT HARD LOCK.** Source-component and Astro references below are historical lineage. The current checked-in implementation is the root static HTML.
+
 The letterbox film frame is a locked, permanent element of the site. Every surface (landing, /work, ABOUT, HEARSAY, case pages) composes inside it.
 
 ## What it is

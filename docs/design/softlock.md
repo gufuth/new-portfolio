@@ -1,5 +1,7 @@
 # /work page — SOFT-LOCK (2026-07-03)
 
+> **STATUS: HISTORICAL SOFT-LOCK RECORD.** The plate lineage and physical rationale remain useful. The legacy case content and “next” steps are superseded by the v6 handoff, current implementation, `work-real-cast-audit.md`, and `../case-copy/case-manifest.md`.
+
 ## Soft-locked base
 `work_signs_v4_softlock_16x9.png` — 1536x863 (16:9), fills a full screen, no letterbox.
 

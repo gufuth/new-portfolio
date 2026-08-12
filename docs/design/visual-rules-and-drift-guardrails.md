@@ -1,5 +1,7 @@
 # PZ Portfolio Last Stop Diner — Visual Rules and Drift Guardrails
 
+> **STATUS: CURRENT FOR PHYSICAL `/work` GUARDRAILS; CAST REFERENCES SUPERSEDED.** Use `../case-copy/case-manifest.md` for content. The Go/Hometown/Quiet Issue cast below is historical and must not be rebuilt.
+
 ## Current target in one sentence
 
 Same diner, seen from the inside: booth-height, looking straight through the front plate-glass window at an ordinary wet street where the selected case studies live on physical cream sign cabinets across the road.
@@ -9,7 +11,7 @@ Same diner, seen from the inside: booth-height, looking straight through the fro
 - Head-on reverse angle is the active /work branch.
 - Ordinary wet street, not mythic road.
 - Physical cream sign cabinets inspired by the IAN LUNA sign.
-- Beast Games as clear hero; Go, Hometown, and The Quiet Issue as readable supporting signs.
+- Beast Games as clear hero. Supporting signs must come from an Ian-approved final case manifest. Current final cast: `IAN DECISION REQUIRED`.
 - Practical light only: diner pendant, streetlamp, sign lamps.
 - Warm enough interior to read booth/table; not a black cave.
 - Bottom-left nav built live in HTML/CSS.

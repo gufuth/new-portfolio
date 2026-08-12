@@ -1,5 +1,7 @@
 # Host decision — Cloudflare Pages
 
+> **STATUS: SUPERSEDED / HISTORICAL.** This decision assumed an Astro/Cloudflare build that is not present in the current repository. Root metadata points to Netlify, but the current production host, deploy path, and domain are `IAN DECISION REQUIRED`. Do not deploy from this document.
+
 **Date:** 2026-05-18
 **Decision:** Cloudflare Pages, not Netlify, not Vercel.
 

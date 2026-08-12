@@ -1,5 +1,7 @@
 # HEARSAY testimonials — handoff
 
+> **STATUS: SUPERSEDED / HISTORICAL.** This file records the path through v7 and contains stale statements about placeholder photos and no page existing. Read `handoff-addendum-v8.md`, the v6 master handoff, and `hearsay.html` for current state.
+
 Corridor: `pz_portfolio_last_stop_diner`. This subfolder is scoped to one thread of work inside that corridor: designing and generating the HEARSAY (testimonials) wall for the Last Stop Diner portfolio site. Read this file first. Everything referenced below lives in this folder unless a path says otherwise.
 
 Last updated: 2026-07-09.

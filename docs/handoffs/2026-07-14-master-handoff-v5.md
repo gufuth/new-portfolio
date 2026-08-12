@@ -1,4 +1,7 @@
 # PZ PORTFOLIO / LAST STOP DINER — MASTER HANDOFF v5 (the full record)
+
+> **STATUS: SUPERSEDED / HISTORICAL.** Use `2026-08-11-master-handoff-v6.md` for current state, authority, and next actions. This file remains the July 11 record and must not outrank v6.
+
 Written 2026-07-11, end of the July 10–11 session block. Supersedes v4 (same day, compact) and v3 (2026-07-04). Both stay on disk. This is the definitive catch-up: state, files, locks, learnings, and the honest ledger. Operator: Ian Luna (ianr.luna@gmail.com). Workspace: C:\Users\ianrl\Desktop\PROJECT ZERO (R16).
 
 ═══════════════════════════════════════════
