@@ -16,7 +16,11 @@ class AuditParser(HTMLParser):
         self.hrefs: list[str] = []
         self.h1 = 0
         self.images: list[dict[str, str | None]] = []
+        self.visible_text: list[str] = []
+        self._ignored_depth = 0
     def handle_starttag(self, tag, attrs):
+        if tag in {"script", "style"}:
+            self._ignored_depth += 1
         d = dict(attrs)
         if "id" in d:
             self.ids.append(d["id"])
@@ -26,6 +30,12 @@ class AuditParser(HTMLParser):
             self.h1 += 1
         if tag == "img":
             self.images.append({"src": d.get("src"), "alt": d.get("alt")})
+    def handle_endtag(self, tag):
+        if tag in {"script", "style"} and self._ignored_depth:
+            self._ignored_depth -= 1
+    def handle_data(self, data):
+        if not self._ignored_depth and data.strip():
+            self.visible_text.append(data.strip())
 
 errors: list[str] = []
 redirects: dict[str, str] = {}
@@ -49,8 +59,9 @@ for path in HTML_FILES:
     for img in p.images:
         if img["alt"] is None:
             errors.append(f"{rel}: image missing alt: {img['src']}")
-    if re.search(r"\[[^\]]{2,}\]", text):
-        errors.append(f"{rel}: bracketed placeholder-like copy present")
+    visible = " ".join(p.visible_text)
+    if re.search(r"\[[^\]]{2,}\]", visible):
+        errors.append(f"{rel}: bracketed placeholder-like visible copy present")
     for href in p.hrefs:
         if not href or href.startswith(("mailto:", "http://", "https://", "#", "tel:")):
             continue
@@ -107,4 +118,4 @@ if errors:
     for error in errors:
         print(" -", error)
     sys.exit(1)
-print(f"STATIC QA PASSED: {len(HTML_FILES)} HTML surfaces checked; routes, IDs, alts, placeholders, cast counts, billboard motion, Landing sound and Hearsay direction are clean.")
+print(f"STATIC QA PASSED: {len(HTML_FILES)} HTML surfaces checked; routes, IDs, alts, visible placeholders, cast counts, billboard motion, Landing sound and Hearsay direction are clean.")
