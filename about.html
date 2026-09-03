@@ -15,55 +15,35 @@
 <style>
   :root{--bar:#080706;--meta:#968c7a;--meta-hi:#e8dcc4;--bar-h:34px;--cream:#e2d6be;--gold:#c4ad7d;--gold-hi:#f4e3af}
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{background:#000;height:100%;overflow:hidden}
-  body{display:flex;flex-direction:column}
-  .bar{flex:0 0 var(--bar-h);background:var(--bar);z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-family:Consolas,"Courier New",monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--meta)}
-  .bar .hi{color:var(--meta-hi)}.bar span{white-space:nowrap}
-  .scenewrap{flex:1 1 auto;position:relative;overflow:hidden;background:#000}
-  .stage{position:absolute;left:50%;top:50%;width:1536px;height:864px;transform:translate(-50%,-50%) scale(var(--fit,1));transform-origin:center;overflow:hidden;background:#000;user-select:none}
-  #plate{position:absolute;inset:0;z-index:0;background:#000 center/cover no-repeat url('about.webp')}
-  .tv{position:absolute;left:37.6%;top:44.9%;width:13.1%;height:18.6%;border-radius:14px;pointer-events:none}
-  .tv .static{position:absolute;inset:6% 8%;border-radius:10px;pointer-events:none;mix-blend-mode:screen;opacity:.045;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");animation:tvstatic .3s steps(3) infinite}
-  @keyframes tvstatic{0%{opacity:.03;background-position:0 0}50%{opacity:.06;background-position:17px 9px}100%{opacity:.04;background-position:-11px 21px}}
-  .bio{position:absolute;left:69%;top:24.5%;width:24%;color:var(--cream);font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;font-size:15.5px;line-height:1.62;letter-spacing:.012em;text-shadow:0 1px 2px rgba(0,0,0,.9)}
-  .bio .cap{font-family:Consolas,monospace;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--meta);margin-bottom:24px}
-  .bio p{margin-bottom:1.05em}.bio .contact{display:inline-block;margin-top:8px;color:var(--gold-hi);font-family:Consolas,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:12px 0;min-height:44px}.bio .contact:hover,.bio .contact:focus-visible{color:#fff}.bio .contact:focus-visible{outline:2px solid rgba(236,226,198,.9);outline-offset:3px}
+  html,body{background:#000;height:100%;overflow:hidden}body{display:flex;flex-direction:column}
+  .bar{flex:0 0 var(--bar-h);background:var(--bar);z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-family:Consolas,"Courier New",monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--meta)}.bar .hi{color:var(--meta-hi)}.bar span{white-space:nowrap}
+  .scenewrap{flex:1 1 auto;position:relative;overflow:hidden;background:#000}.stage{position:absolute;left:50%;top:50%;width:1536px;height:864px;transform:translate(-50%,-50%) scale(var(--fit,1));transform-origin:center;overflow:hidden;background:#000;user-select:none}
+  #plate{position:absolute;inset:0;z-index:0;background:#000 center/cover no-repeat url('data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQAwCdASoYAA0APulgqE0pJaOiMAgBIB0JYwC7ACHdeau5FtDAAP7vR7iR8rm5osivr8YrOL/4II4Ujt+iaxXykEebmEo2I1HaEwXHK/JgAA==');filter:blur(12px) brightness(.6);transform:scale(1.04);transition:filter .45s ease,transform .45s ease}#plate.resolved{filter:none;transform:none}
+  .tv{position:absolute;left:37.6%;top:44.9%;width:13.1%;height:18.6%;border-radius:14px;pointer-events:none}.tv .static{position:absolute;inset:6% 8%;border-radius:10px;pointer-events:none;mix-blend-mode:screen;opacity:.045;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");animation:tvstatic .3s steps(3) infinite}@keyframes tvstatic{0%{opacity:.03;background-position:0 0}50%{opacity:.06;background-position:17px 9px}100%{opacity:.04;background-position:-11px 21px}}
+  .bio{position:absolute;left:69%;top:27%;width:23.5%;color:var(--cream);font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;font-size:15.5px;line-height:1.68;letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9)}.bio .cap{font-family:Consolas,monospace;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--meta);margin-bottom:26px}.bio p{margin-bottom:1.15em}.bio .contact{display:inline-flex;align-items:center;min-height:44px;color:var(--gold-hi);font-family:Consolas,monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}.bio .contact:hover,.bio .contact:focus-visible{color:#fff}.bio .contact:focus-visible{outline:2px solid rgba(236,226,198,.9);outline-offset:3px}
   .exits{position:absolute;left:40px;bottom:30px;z-index:10;font-family:Georgia,"Times New Roman",serif}.exits a{display:flex;align-items:center;min-height:44px;color:var(--gold);font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;text-shadow:0 1px 1px rgba(0,0,0,.85),0 -1px 0 rgba(255,246,218,.18);transition:color .18s ease,text-shadow .18s ease}.exits a:hover,.exits a:focus-visible{color:var(--gold-hi);text-shadow:0 1px 1px rgba(0,0,0,.85),0 0 14px rgba(232,198,120,.45)}.exits a:focus-visible{outline:2px solid rgba(236,226,198,.85);outline-offset:2px}
-  .mobile-about{display:none}
-  #fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:15;transition:opacity .3s ease}body.leaving #fade{opacity:1}.bar span{transition:opacity .2s ease}body.leaving .bar span{opacity:0}
+  .mobile-about{display:none}#fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:15;transition:opacity .3s ease}body.leaving #fade{opacity:1}.bar span{transition:opacity .2s ease}body.leaving .bar span{opacity:0}
   @media(max-width:719px){html,body{height:auto;min-height:100svh;overflow:auto}.bar{padding:0 14px;font-size:9px;letter-spacing:.18em}.bar.top span:last-child,.bar.bottom span:last-child{display:none}.scenewrap{min-height:calc(100svh - (2 * var(--bar-h)));background:#060505 url('about.webp') center/cover no-repeat}.stage,.exits{display:none}.scenewrap:before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.68)}.mobile-about{display:block;position:relative;z-index:2;padding:52px 22px 78px;color:var(--cream);font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;line-height:1.62}.mobile-about .cap{font:10px Consolas,monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--meta);margin-bottom:22px}.mobile-about p{margin-bottom:1em}.mobile-about nav{margin-top:30px;display:grid;gap:4px}.mobile-about a{display:flex;align-items:center;min-height:44px;color:var(--gold-hi);font:10.5px Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}}
-  @media(prefers-reduced-motion:reduce){.tv .static{animation:none;opacity:.03}.exits a,#fade{transition:none}}
+  @media(prefers-reduced-motion:reduce){#plate,.tv .static,.exits a,#fade{transition:none;animation:none}.tv .static{opacity:.03}}
 </style>
 </head>
 <body>
 <div class="bar top"><span><span class="hi">Ian Luna</span>&nbsp;&nbsp;·&nbsp;&nbsp;Creative Director</span><span>INT. LAST STOP MOTEL · ROOM 3 · NIGHT</span></div>
 <div class="scenewrap" id="wrap">
   <div class="stage" id="stage" role="group" aria-label="A room at the Last Stop Motel at night.">
-    <div id="plate" aria-hidden="true"></div>
-    <div class="tv" aria-hidden="true"><span class="static"></span></div>
-    <div class="bio">
-      <div class="cap">About</div>
-      <p>Ian Luna is a creative director and copywriter. Fifteen years of campaigns, brand voices, launch systems, and the occasional assignment that requires Porsche to build a spaceship or dandruff to develop a personality.</p>
-      <p>Work includes MoneyLion × Beast Games, Virgin Galactic, Nike SB, Jose Cuervo, and The Atlantic. He believes restraint reads as confidence and most brands talk too much.</p>
-      <p>The room is paid through Thursday.</p>
-      <a class="contact" href="mailto:Ianr.luna@gmail.com">Ianr.luna@gmail.com</a>
-    </div>
+    <div id="plate" aria-hidden="true"></div><div class="tv" aria-hidden="true"><span class="static"></span></div>
+    <div class="bio"><div class="cap">About</div><p>Ian Luna is a creative director and copywriter. Fifteen years of campaigns, brand voices, and launch systems for work including MoneyLion × Beast Games, Virgin Galactic, Nike SB, Jose Cuervo, and The Atlantic.</p><p>He believes restraint reads as confidence and most brands talk too much.</p><p>The room is paid through Thursday.</p><a class="contact" href="mailto:Ianr.luna@gmail.com">Ianr.luna@gmail.com</a></div>
   </div>
   <nav class="exits" aria-label="Navigation"><a href="/">← The Diner</a><a href="/work/">Work</a></nav>
-  <div class="mobile-about">
-    <div class="cap">About</div>
-    <p>Ian Luna is a creative director and copywriter. Fifteen years of campaigns, brand voices, launch systems, and the occasional assignment that requires Porsche to build a spaceship or dandruff to develop a personality.</p>
-    <p>Work includes MoneyLion × Beast Games, Virgin Galactic, Nike SB, Jose Cuervo, and The Atlantic. He believes restraint reads as confidence and most brands talk too much.</p>
-    <p>The room is paid through Thursday.</p>
-    <nav aria-label="Navigation"><a href="mailto:Ianr.luna@gmail.com">Ianr.luna@gmail.com</a><a href="/work/">Work</a><a href="/">← The Diner</a></nav>
-  </div>
+  <div class="mobile-about"><div class="cap">About</div><p>Ian Luna is a creative director and copywriter. Fifteen years of campaigns, brand voices, and launch systems for work including MoneyLion × Beast Games, Virgin Galactic, Nike SB, Jose Cuervo, and The Atlantic.</p><p>He believes restraint reads as confidence and most brands talk too much.</p><p>The room is paid through Thursday.</p><nav aria-label="Navigation"><a href="mailto:Ianr.luna@gmail.com">Ianr.luna@gmail.com</a><a href="/work/">Work</a><a href="/">← The Diner</a></nav></div>
   <div id="fade"></div>
 </div>
 <div class="bar bottom"><span>INT. Last Stop Motel — Room 3 — Night</span><span>ABOUT</span></div>
 <script>
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function fit(){const w=document.getElementById('wrap');const s=Math.max(w.clientWidth/1536,w.clientHeight/864);document.getElementById('stage').style.setProperty('--fit',s)}
-  addEventListener('resize',fit);fit();
+  function fit(){const w=document.getElementById('wrap');const s=Math.max(w.clientWidth/1536,w.clientHeight/864);document.getElementById('stage').style.setProperty('--fit',s)}addEventListener('resize',fit);fit();
+  const FROM=sessionStorage.getItem('lsd_from');if(FROM){sessionStorage.removeItem('lsd_from')}if(FROM&&!reduced){window._settled=true;const st=document.getElementById('stage');st.style.filter='brightness(.3)';setTimeout(()=>{st.style.transition='filter .55s ease';st.style.filter='brightness(1)'},60);setTimeout(()=>{st.style.transition='';st.style.filter=''},950)}
+  (function(){const p=document.getElementById('plate'),im=new Image();im.onload=()=>{if(window._settled)p.style.transition='none';p.style.backgroundImage="url('about.webp')";const go=()=>p.classList.add('resolved');requestAnimationFrame(()=>requestAnimationFrame(go));setTimeout(go,450)};im.src='about.webp'})();
   document.querySelectorAll('.exits a').forEach(a=>a.addEventListener('click',e=>{if(reduced)return;e.preventDefault();sessionStorage.setItem('lsd_from','about');const dest=a.href;document.body.classList.add('leaving');setTimeout(()=>location.href=dest,300)}));
   const HOME_TITLE=document.title;document.addEventListener('visibilitychange',()=>{document.title=document.hidden?'( the diner is still open )':HOME_TITLE});
 </script>
