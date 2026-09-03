@@ -15,7 +15,7 @@
 <style>
   :root{--bar:#080706;--meta:#968c7a;--meta-hi:#e8dcc4;--bar-h:34px;--cream:#e2d6be;--gold:#c4ad7d;--gold-hi:#f4e3af}
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{background:#000;height:100%;overflow:hidden}body{display:flex;flex-direction:column}
+  html,body{background:#000;height:100%;overflow:hidden}body{display:flex;flex-direction:column}.sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
   .bar{flex:0 0 var(--bar-h);background:var(--bar);z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-family:Consolas,"Courier New",monospace;font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--meta)}.bar .hi{color:var(--meta-hi)}.bar span{white-space:nowrap}
   .scenewrap{flex:1 1 auto;position:relative;overflow:hidden;background:#000}.stage{position:absolute;left:50%;top:50%;width:1536px;height:864px;transform:translate(-50%,-50%) scale(var(--fit,1));transform-origin:center;overflow:hidden;background:#000;user-select:none}
   #plate{position:absolute;inset:0;z-index:0;background:#000 center/cover no-repeat url('data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAACQAwCdASoYAA0APulgqE0pJaOiMAgBIB0JYwC7ACHdeau5FtDAAP7vR7iR8rm5osivr8YrOL/4II4Ujt+iaxXykEebmEo2I1HaEwXHK/JgAA==');filter:blur(12px) brightness(.6);transform:scale(1.04);transition:filter .45s ease,transform .45s ease}#plate.resolved{filter:none;transform:none}
@@ -28,6 +28,7 @@
 </style>
 </head>
 <body>
+<h1 class="sr">About Ian Luna</h1>
 <div class="bar top"><span><span class="hi">Ian Luna</span>&nbsp;&nbsp;·&nbsp;&nbsp;Creative Director</span><span>INT. LAST STOP MOTEL · ROOM 3 · NIGHT</span></div>
 <div class="scenewrap" id="wrap">
   <div class="stage" id="stage" role="group" aria-label="A room at the Last Stop Motel at night.">
