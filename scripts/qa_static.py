@@ -113,9 +113,15 @@ for required in ("sweets.jpg", "neighbor.jpg", "mother.jpg", "vidal.jpg", "ex.jp
     if required not in hearsay:
         errors.append(f"hearsay.html: missing real portrait {required}")
 
+contact_surfaces = [ROOT / "work.html", ROOT / "more-work.html", ROOT / "hearsay.html", ROOT / "about.html", *sorted(CASE_DIR.glob("*.html"))]
+for path in contact_surfaces:
+    text = path.read_text(encoding="utf-8")
+    if "mailto:Ianr.luna@gmail.com" not in text:
+        errors.append(f"{path.relative_to(ROOT)}: direct Contact path missing")
+
 if errors:
     print("STATIC QA FAILED")
     for error in errors:
         print(" -", error)
     sys.exit(1)
-print(f"STATIC QA PASSED: {len(HTML_FILES)} HTML surfaces checked; routes, IDs, alts, visible placeholders, cast counts, billboard motion, Landing sound and Hearsay direction are clean.")
+print(f"STATIC QA PASSED: {len(HTML_FILES)} HTML surfaces checked; routes, IDs, alts, visible placeholders, case counts, billboard motion, opt-in sound, Hearsay direction and direct Contact are clean.")
