@@ -15,7 +15,7 @@
 <meta name="theme-color" content="#080706">
 <style>
   :root{--bar:#080706;--meta:#968c7a;--meta-hi:#e8dcc4;--bar-h:34px}
-  *{margin:0;padding:0;box-sizing:border-box}html,body{background:#000;height:100%;overflow:hidden}body{display:flex;flex-direction:column}
+  *{margin:0;padding:0;box-sizing:border-box}html,body{background:#000;height:100%;overflow:hidden}body{display:flex;flex-direction:column}.sr{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
   .bar{flex:0 0 var(--bar-h);background:var(--bar);z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-family:Consolas,"Courier New",monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--meta)}.bar .hi{color:var(--meta-hi)}.bar span{white-space:nowrap}
   .scenewrap{flex:1 1 auto;position:relative;overflow:hidden;background:#000}.stage{position:absolute;left:50%;top:0;width:1536px;height:1024px;transform:translate(-50%,var(--shift,0px)) scale(var(--fit,1));transform-origin:top center;overflow:hidden;background:#000;user-select:none}
   #plate{position:absolute;inset:0;z-index:0;background:#000 center/cover no-repeat url('data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAAAQBACdASoYABAAPulgqE2pJaOiMAgBIB0JZAC7ACFrtTlHLrCxiPiLoAD+8quGESIrULtbRFie11GKKISOPc4uGZuav1xlLQ4MJWqa4BG37gbvdlL5MyNmp6nMmw/lVxe32GFOs2l8N7KkS7tRHw3Ao+j9s9gA');filter:blur(12px) brightness(.6);transform:scale(1.04);transition:filter .45s ease,transform .45s ease}#plate.resolved{filter:none;transform:none}
@@ -29,6 +29,7 @@
 </style>
 </head>
 <body>
+<h1 class="sr">Ian Luna — Creative Director and Copywriter</h1>
 <div class="bar top"><span><span class="hi">Ian Luna</span>&nbsp;&nbsp;·&nbsp;&nbsp;Creative Director</span><span>EXTERIOR · THE LAST STOP DINER · NIGHT</span></div>
 <div class="scenewrap" id="wrap">
   <div class="stage" id="stage" role="group" aria-label="The Last Stop Diner at night. The signs are the navigation."><div id="plate" aria-hidden="true"></div><a class="hot" id="hotWork" href="/work/" aria-label="Work — selected projects. The green sign in the front window."><span class="lift"></span></a><a class="hot" id="hotAbout" href="/about/" aria-label="About Ian Luna. The sign on the left."><span class="lift"></span></a><a class="hot" id="hotHearsay" href="/hearsay/" aria-label="Hearsay — what people say about working with Ian. The door on the right."><span class="lift"></span></a><div id="voltage"></div></div>
