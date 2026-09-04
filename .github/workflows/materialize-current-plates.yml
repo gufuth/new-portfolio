@@ -4,8 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'assets/work-panorama-current.b64'
-      - 'assets/more-work-panorama-current.b64'
+      - 'assets/plate-payload/**'
       - '.github/workflows/materialize-current-plates.yml'
 
 permissions:
@@ -20,10 +19,11 @@ jobs:
           fetch-depth: 0
       - name: Decode approved working plates
         run: |
-          base64 --decode assets/work-panorama-current.b64 > assets/work-panorama-current.webp
-          base64 --decode assets/more-work-panorama-current.b64 > assets/more-work-panorama-current.webp
+          cat assets/plate-payload/work-*.b64part | base64 --decode > assets/work-panorama-current.webp
+          cat assets/plate-payload/more-*.b64part | base64 --decode > assets/more-work-panorama-current.webp
           file assets/work-panorama-current.webp
           file assets/more-work-panorama-current.webp
+          identify assets/work-panorama-current.webp assets/more-work-panorama-current.webp || true
       - name: Commit binary plates if changed
         run: |
           if git diff --quiet -- assets/work-panorama-current.webp assets/more-work-panorama-current.webp && git ls-files --error-unmatch assets/work-panorama-current.webp assets/more-work-panorama-current.webp >/dev/null 2>&1; then
@@ -33,5 +33,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add assets/work-panorama-current.webp assets/more-work-panorama-current.webp
-          git commit -m 'Materialize approved current WORK plates'
+          git commit -m 'Materialize clean current WORK plates'
           git push origin HEAD:main
