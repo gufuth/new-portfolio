@@ -14,8 +14,9 @@
 .tour-cut--black{background:#000;opacity:0;transition:opacity 130ms ease-out}
 .tour-cut--black.is-active{opacity:1}
 
-/* Landing WORK window expands into the cut instead of flying the camera through it. */
-.tour-cut--landing::before{content:"";position:absolute;inset:0;background:#000;opacity:0;clip-path:inset(39% 33% 29% 22.5%);transition:clip-path 430ms cubic-bezier(.65,0,.35,1),opacity 70ms linear}
+/* Landing WORK window expands into the cut instead of flying the camera through it.
+   The inset is measured from the rendered #hotWork bounds at click time. */
+.tour-cut--landing::before{content:"";position:absolute;inset:0;background:#000;opacity:0;clip-path:inset(var(--tour-cut-top,39%) var(--tour-cut-right,33%) var(--tour-cut-bottom,29%) var(--tour-cut-left,22.5%));transition:clip-path 430ms cubic-bezier(.65,0,.35,1),opacity 70ms linear}
 .tour-cut--landing.is-active::before{opacity:1;clip-path:inset(0)}
 
 /* WORK <-> MORE WORK: one dark mullion becomes the edit. */
