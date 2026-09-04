@@ -14,10 +14,14 @@
 .tour-cut--black{background:#000;opacity:0;transition:opacity 130ms ease-out}
 .tour-cut--black.is-active{opacity:1}
 
-/* Landing WORK window expands into the cut instead of flying the camera through it.
-   The inset is measured from the rendered #hotWork bounds at click time. */
-.tour-cut--landing::before{content:"";position:absolute;inset:0;background:#000;opacity:0;clip-path:inset(var(--tour-cut-top,39%) var(--tour-cut-right,33%) var(--tour-cut-bottom,29%) var(--tour-cut-left,22.5%));transition:clip-path 430ms cubic-bezier(.65,0,.35,1),opacity 70ms linear}
-.tour-cut--landing.is-active::before{opacity:1;clip-path:inset(0)}
+/* Landing -> WORK is a match cut, not a black wipe or camera move.
+   The destination diner-interior plate already sits at its final stage geometry behind
+   the physical WORK window, then the window aperture opens to reveal it. */
+.tour-cut--landing::before{content:"";position:absolute;inset:0;background-color:#000;background-image:linear-gradient(90deg,rgba(0,0,0,.05),transparent 24%,transparent 76%,rgba(0,0,0,.05)),url('/assets/work-panorama-current.webp');background-position:center;background-size:100% auto;background-repeat:no-repeat;opacity:.26;filter:brightness(.72) saturate(.9);clip-path:inset(var(--tour-cut-top,39%) var(--tour-cut-right,33%) var(--tour-cut-bottom,29%) var(--tour-cut-left,22.5%));transition:clip-path 410ms cubic-bezier(.65,0,.35,1),opacity 150ms ease-out,filter 410ms ease-out}
+.tour-cut--landing.is-active::before{opacity:1;filter:brightness(1) saturate(1);clip-path:inset(0)}
+/* On the destination page, the landing-specific green spill identifies this arrival.
+   Do not insert a second black fade between two already matched frames. */
+body[data-tour-surface="work"] .tour-cut--black:has(+ .tour-arrival-spill){opacity:0!important;transition:none!important}
 
 /* WORK <-> MORE WORK: one dark mullion becomes the edit. */
 .tour-cut--mullion::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:7vw;min-width:56px;background:#000;transform:translateX(-50%) scaleX(.035);transform-origin:center;transition:transform 175ms cubic-bezier(.7,0,.3,1)}
