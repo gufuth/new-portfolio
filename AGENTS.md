@@ -1,6 +1,6 @@
 # Last Stop Diner — agent operating instructions
 
-> **STATUS: CURRENT / BINDING FOR AGENT WORK.** Last updated 2026-09-02. Read this file before changing anything in this repository.
+> **STATUS: CURRENT / BINDING FOR AGENT WORK.** Last updated 2026-09-03. Read this file before changing anything in this repository.
 
 ## Scope
 
@@ -10,7 +10,7 @@ These instructions govern how agents acquire context, resolve conflicts, preserv
 
 ## Two kinds of truth
 
-- **What currently exists:** the checked-in implementation is authoritative. Inspect `index.html`, `work.html`, `more-work.html`, `about.html`, `hearsay.html`, `404.html`, `cases/`, and the root runtime assets before describing the current site.
+- **What currently exists:** the checked-in implementation is authoritative. Inspect `index.html`, `work.html`, `more-work.html`, `about.html`, `hearsay.html`, `404.html`, `cases/`, `tour-runtime.css`, `tour-runtime.js`, and the relevant assets before describing the current site.
 - **What should govern future work:** use the decision hierarchy below. Existing code can be known-wrong without becoming creative law.
 
 Never use an old plan to claim that something exists in code. Never use existing code to silently overturn a documented lock.
@@ -18,7 +18,7 @@ Never use an old plan to claim that something exists in code. Never use existing
 ## Required read order
 
 1. `AGENTS.md`
-2. `docs/handoffs/2026-09-02-master-handoff-v7.md`
+2. `docs/handoffs/2026-09-03-master-handoff-v8.md`
 3. `docs/design/quality-contract-v1.md`
 4. `docs/case-copy/README.md`
 5. Current v1.1 case-copy files relevant to the task
@@ -34,7 +34,7 @@ Then inspect the actual implementation and the exact assets relevant to the requ
 When documents disagree, higher wins:
 
 1. Explicit current Ian decision
-2. `docs/handoffs/2026-09-02-master-handoff-v7.md`
+2. `docs/handoffs/2026-09-03-master-handoff-v8.md`
 3. `docs/design/quality-contract-v1.md`
 4. Current case-copy README and v1.1 files
 5. Current HEARSAY addendum when HEARSAY is involved
@@ -46,25 +46,36 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 
 ## Current repository state
 
-- The implementation is plain HTML and CSS with legacy vanilla JavaScript on the older surfaces.
-- LANDING, WORK, MORE WORK, ABOUT, HEARSAY, 404, and nine direct case pages now exist.
+- The implementation is plain HTML/CSS/vanilla JavaScript.
+- LANDING, WORK, MORE WORK, ABOUT, HEARSAY, 404, and nine direct case pages exist.
+- `tour-runtime.css` + `tour-runtime.js` now provide the shared connective tour behavior across LANDING, WORK, MORE WORK, ABOUT, and all nine cases.
+- LANDING → WORK uses a measured physical-window exposure cut, not a camera fly-through.
+- WORK ↔ MORE WORK uses a short architectural/mullion cut with fixed rails.
+- Billboard → case and case → case navigation use restrained short cuts.
+- WORK/MORE WORK restore the correct visible billboard/card focus after case return.
+- Sound defaults OFF and is a shared opt-in preference.
+- WORK/MORE WORK have one rare passing-road-light event family; first event ~38–75s, later events ~90–210s. Optional car sound only occurs when sound is enabled. No decorative loop.
+- Top/bottom FilmFrame navigation is now harmonized across LANDING, WORK, MORE WORK, ABOUT, and cases. CONTACT and SOUND are shared controls.
 - WORK contains five cases: Nike SB, Virgin Galactic, Porsche × Lucasfilm, Selsun Blue, MoneyLion × Beast Games.
 - MORE WORK contains four: TE Connectivity × Alita, Jose Cuervo, Outdoor Voices, The Atlantic.
 - Case pages are under `cases/` and use the shared recruiter-first editorial system in `case-system.css`.
 - Mobile WORK / MORE WORK is index-first.
 - The current billboard/case imagery is explicitly good-enough working art, not a final image lock. Assets must remain easy to replace.
-- LANDING, ABOUT, and HEARSAY were not rebuilt during the 2026-09-02 WORK/case implementation.
+- ABOUT is now an honest finished state: no fake reel/coming-soon interaction; Room 3 plate preserved.
+- **HEARSAY remains the exception:** Ian is actively building the current apparition-in-dark direction separately. The checked-in framed-wall implementation is superseded and must not be polished or treated as current.
 - A separate Netlify staging project exists, but a successful new deploy has not yet been verified. Do not call the new build live until Netlify reports a ready deploy.
+- `scripts/verify-tour-runtime.mjs` and `.github/workflows/verify-tour.yml` provide executable source-level regression checks. A post-runtime GitHub Actions run has passed both JavaScript parsing and tour wiring audit.
 
 ## Core world and surface locks
 
 - One coherent physical world. LANDING is the exterior; WORK / MORE WORK are interior diner views; ABOUT and HEARSAY retain their locked/project-specific directions; case pages are the quiet evidence mode.
 - Specific before polished. Physical logic beats attractive impossibility.
-- FilmFrame bars never animate or scale. Their text goes silent during cuts.
-- Cuts, not crossfades.
+- FilmFrame bars never animate or scale. **The rails remain stable through tour cuts; the scene changes beneath them.**
+- Cuts, not camera travel. No fly-through, walking simulation, or 3D ride.
 - Signs do not grow.
 - One ambient-motion source per surface. Interaction feedback is separate. Nothing loops decoratively.
 - Practical light only.
+- Sound is OFF by default and opt-in.
 - Mobile is index-first.
 - No readable WORK reflection: no W, O, fragments, or reflected green typography. Only faint non-letter contamination is allowed where the current direction calls for it.
 - WORK remains a booth-height view across an ordinary street, not a mythic highway or billboard field.
@@ -72,6 +83,7 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 - Case pages show work before explanation and stay recruiter-readable. Do not turn them into nine themed rooms or microsites.
 - **Palette firewall:** Last Stop can frame the work. It does not recolor the work.
 - The bell belongs to the diner door only.
+- The passing-road-light/car event must remain missable. Do not turn it into recurring entertainment.
 
 ## Content and evidence rules
 
@@ -100,6 +112,7 @@ During work:
 - Make one correction before adding a system.
 - Do not edit unrelated files in a dirty worktree.
 - Keep project artwork independent from environment plates so later image swaps remain cheap.
+- If touching tour behavior, run `node --check tour-runtime.js` and `node scripts/verify-tour-runtime.mjs`; GitHub Actions should remain green.
 
 For implementation changes, verification should include rendered pixels at relevant viewport sizes, cache-busted reloads, console inspection, keyboard/focus behavior, reduced-motion behavior, and a diff proving the intended file scope. If the execution environment prevents rendered-pixel verification, state that limitation explicitly and do not silently mark the visual QA complete.
 
@@ -117,6 +130,6 @@ Do **not** stop merely because a billboard image is not perfect. Ian explicitly 
 
 ## Current next move
 
-The architecture is built. Do not restart concepting or reopen the nine-case cast.
+The transition/runtime architecture is built in source. Do not restart concepting or reopen the nine-case cast.
 
-Current sequence: **deploy staging → rendered-pixel audit → surgical layout/registration fixes → final asset/metadata pass → production cutover.**
+Current sequence: **Git-connect Netlify staging → rendered-pixel/audio audit → surgical transition/layout/registration fixes → merge Ian's current HEARSAY → final production-media/metadata/accessibility/performance pass → production cutover.**
