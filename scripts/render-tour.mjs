@@ -250,17 +250,23 @@ try {
 
   await context.close();
 
-  // Reduced-motion navigation should not sit through cinematic delay.
+  // Reduced-motion must request zero intentional tour delay. Page-load time is not animation time.
   {
     const reducedContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
     const page = await reducedContext.newPage();
     await page.goto(base + '/', { waitUntil: 'domcontentloaded' });
-    const start = Date.now();
+    await page.evaluate(() => {
+      const nativeSetTimeout = window.setTimeout.bind(window);
+      window.setTimeout = function(fn, ms, ...args) {
+        sessionStorage.setItem('__tour_qa_nav_delay', String(Number(ms) || 0));
+        return nativeSetTimeout(fn, ms, ...args);
+      };
+    });
     await page.locator('#hotWork').click({ noWaitAfter: true });
     await page.waitForURL(/\/work\/$/, { timeout: 3000 });
-    const elapsed = Date.now() - start;
-    report.transitions.reducedLandingToWorkMs = elapsed;
-    assert('Reduced-motion LANDING -> WORK is immediate', elapsed < 350, `${elapsed}ms`);
+    const requestedDelay = await page.evaluate(() => Number(sessionStorage.getItem('__tour_qa_nav_delay')));
+    report.transitions.reducedLandingIntentDelayMs = requestedDelay;
+    assert('Reduced-motion LANDING -> WORK requests zero tour delay', requestedDelay === 0, `${requestedDelay}ms`);
     await page.close();
     await reducedContext.close();
   }
