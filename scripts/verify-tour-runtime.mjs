@@ -54,6 +54,16 @@ expect('more-work.html', more, '/tour-runtime.css', 'shared tour CSS is not load
 expect('about.html', about, '/tour-runtime.css', 'shared tour CSS is not loaded');
 expect('case-system.css', caseCss, "@import url('/tour-runtime.css')", 'case pages do not inherit tour CSS');
 
+// Clean-route asset safety. Netlify rewrites keep /work/... in the browser URL, so page-critical local assets must be root-absolute.
+expect('work.html', work, 'href="/work-system.css"', 'WORK CSS is not root-absolute for /work/');
+expect('work.html', work, 'href="/assets/work-panorama.webp"', 'WORK panorama is not root-absolute for /work/');
+expect('more-work.html', more, 'href="/work-system.css"', 'MORE WORK CSS is not root-absolute for /work/more/');
+expect('more-work.html', more, 'href="/assets/more-work-panorama.webp"', 'MORE WORK panorama is not root-absolute for /work/more/');
+expect('about.html', about, 'src="/about.webp"', 'ABOUT plate is not root-absolute for /about/');
+reject('work.html', work, 'href="work-system.css"', 'relative WORK CSS would break on clean routes');
+reject('more-work.html', more, 'href="work-system.css"', 'relative MORE WORK CSS would break on clean routes');
+reject('about.html', about, 'src="about.webp"', 'relative ABOUT plate would break on clean routes');
+
 // Landing must no longer contain the superseded runtime/UI.
 for (const [needle, label] of [
   ['Sound · On', 'sound-on default'],
@@ -74,12 +84,17 @@ const expectedMore = ['alita-te-connectivity','jose-cuervo','outdoor-voices','th
 for (const id of expectedWork) if (!workIds.has(id)) errors.push(`work.html: missing desktop case ${id}`);
 for (const id of expectedMore) if (!moreIds.has(id)) errors.push(`more-work.html: missing desktop case ${id}`);
 
-// Every case participates in the runtime and keeps direct recruiter navigation.
+// Every case participates in the runtime, is clean-route safe, and keeps direct recruiter navigation.
 for (const [rel, slug] of cases) {
   const html = read(rel);
   expect(rel, html, 'data-tour-surface="case"', 'case surface flag missing');
   expect(rel, html, `data-case-id="${slug}"`, `case id ${slug} missing`);
   expect(rel, html, '/tour-runtime.js', 'shared tour runtime missing');
+  expect(rel, html, 'href="/case-system.css"', 'case CSS must be root-absolute under /work/<slug>/');
+  expect(rel, html, 'href="/favicon.png"', 'case favicon must be root-absolute under /work/<slug>/');
+  reject(rel, html, '../case-system.css', 'relative case CSS breaks clean routes');
+  reject(rel, html, '../favicon.png', 'relative favicon breaks clean routes');
+  reject(rel, html, '../assets/', 'relative local asset path breaks clean routes');
   expect(rel, html, 'class="case-nav"', 'Previous / All Work / Next navigation missing');
   reject(rel, html, 'IAN DECISION REQUIRED', 'visitor-visible unresolved marker');
   reject(rel, html, 'UNVERIFIED / NOT APPROVED', 'visitor-visible unresolved marker');
@@ -114,7 +129,7 @@ for (const route of [
 ]) expect('_redirects', redirects, route, `missing route ${route}`);
 
 notes.push('HEARSAY is intentionally excluded: Ian is actively building the current direction; repo version is known superseded.');
-notes.push('This audit is source-level only. Rendered-pixel QA remains a staging gate.');
+notes.push('This audit is source-level only. Rendered-pixel QA is handled separately by the Chromium render workflow.');
 
 if (errors.length) {
   console.error(`Tour runtime audit FAILED (${errors.length})`);
