@@ -1,0 +1,47 @@
+name: Render Last Stop tour
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'work.html'
+      - 'more-work.html'
+      - 'about.html'
+      - 'work-system.css'
+      - 'case-system.css'
+      - 'tour-runtime.css'
+      - 'tour-runtime.js'
+      - 'cases/**'
+      - 'assets/**'
+      - 'scripts/render-tour.mjs'
+      - '.github/workflows/render-tour.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  render-tour:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Render and exercise tour
+        run: node scripts/render-tour.mjs
+      - name: Upload screenshots and metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-stop-tour-render
+          path: artifacts/tour-render
+          if-no-files-found: error
+          retention-days: 7
