@@ -2,9 +2,10 @@
 :root{--tour-bar-h:34px;--tour-cream:#ece2c6;--tour-meta:#918877;--tour-black:#050504}
 
 /* Global rail additions. The rails orient; they never participate in scene motion. */
-.filmbar.bottom .rail{min-width:0}
+.filmbar.bottom{gap:16px}
+.filmbar.bottom .rail{min-width:0;margin-right:auto}
 .filmbar.bottom .rail a{flex:0 0 auto}
-.tour-sound{flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-height:44px;margin-left:14px;padding:0 2px;border:0;background:transparent;color:var(--tour-meta);font:inherit;letter-spacing:inherit;text-transform:uppercase;cursor:pointer;position:relative}
+.tour-sound{flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-height:44px;margin-left:0;padding:0 2px;border:0;background:transparent;color:var(--tour-meta);font:inherit;letter-spacing:inherit;text-transform:uppercase;cursor:pointer;position:relative}
 .tour-sound:hover,.tour-sound:focus-visible,.tour-sound[aria-pressed="true"]{color:var(--tour-cream)}
 .tour-sound:focus-visible{outline:2px solid var(--tour-cream);outline-offset:3px}
 
@@ -52,7 +53,7 @@ html.tour-prepaint-case .paper{visibility:hidden}
 @media(max-width:760px){
   .filmbar.bottom{gap:8px}
   .filmbar.bottom .rail{gap:12px}
-  .tour-sound{margin-left:6px;font-size:9px;min-height:44px}
+  .tour-sound{font-size:9px;min-height:44px}
   .tour-cut{top:var(--tour-bar-h);bottom:var(--tour-bar-h)}
   .tour-road-life{display:none}
 }
