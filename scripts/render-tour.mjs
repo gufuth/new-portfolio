@@ -151,7 +151,6 @@ async function snap(browserContext, { name, url, width, height, wait = 1300, ful
 try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
 
-  // Static visual matrix.
   const landing = await snap(context, { name: 'landing-1440x900', url: '/', width: 1440, height: 900 });
   const work1440 = await snap(context, { name: 'work-1440x900', url: '/work/', width: 1440, height: 900, wait: 1800 });
   const more1440 = await snap(context, { name: 'more-work-1440x900', url: '/work/more/', width: 1440, height: 900, wait: 1800 });
@@ -174,7 +173,6 @@ try {
   assert('390 case retains paper/evidence surface', Boolean(porsche390.paper));
   assert('No visible broken images in static matrix', report.brokenImages.length === 0, `${report.brokenImages.length} broken`);
 
-  // LANDING -> WORK transition frames.
   {
     const page = await context.newPage();
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -185,7 +183,7 @@ try {
     await page.locator('#hotWork').click({ noWaitAfter: true });
     await page.waitForTimeout(210);
     await page.screenshot({ path: path.join(outDir, 'transition-landing-work-mid.png') });
-    await page.waitForURL(/\/work\/$/, { timeout: 4000 });
+    await page.waitForURL(/\/work\/$/, { timeout: 4000, waitUntil: 'domcontentloaded' });
     report.transitions.landingToWorkMs = Date.now() - start;
     await page.waitForTimeout(70);
     await page.screenshot({ path: path.join(outDir, 'transition-work-arrival-early.png') });
@@ -194,7 +192,6 @@ try {
     await page.close();
   }
 
-  // WORK -> MORE WORK architectural cut.
   {
     const page = await context.newPage();
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -204,7 +201,7 @@ try {
     await page.locator('.filmbar.bottom a[href="/work/more/"]').click({ noWaitAfter: true });
     await page.waitForTimeout(95);
     await page.screenshot({ path: path.join(outDir, 'transition-work-more-mid.png') });
-    await page.waitForURL(/\/work\/more\/$/, { timeout: 4000 });
+    await page.waitForURL(/\/work\/more\/$/, { timeout: 4000, waitUntil: 'domcontentloaded' });
     report.transitions.workToMoreMs = Date.now() - start;
     await page.waitForTimeout(70);
     await page.screenshot({ path: path.join(outDir, 'transition-more-arrival-early.png') });
@@ -213,7 +210,6 @@ try {
     await page.close();
   }
 
-  // Billboard -> case and Back-state focus restoration.
   {
     const page = await context.newPage();
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -223,7 +219,7 @@ try {
     await porsche.click({ noWaitAfter: true });
     await page.waitForTimeout(100);
     await page.screenshot({ path: path.join(outDir, 'transition-billboard-case-mid.png') });
-    await page.waitForURL(/porsche-lucasfilm-designer-alliance/, { timeout: 4000 });
+    await page.waitForURL(/porsche-lucasfilm-designer-alliance/, { timeout: 4000, waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(260);
     await page.screenshot({ path: path.join(outDir, 'transition-case-arrival.png') });
     await page.goBack({ waitUntil: 'domcontentloaded' });
@@ -235,7 +231,6 @@ try {
     await page.close();
   }
 
-  // Rare road-life event accelerated only through the hidden QA query.
   {
     const page = await context.newPage();
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -250,7 +245,6 @@ try {
 
   await context.close();
 
-  // Reduced-motion must request zero intentional tour delay. Page-load time is not animation time.
   {
     const reducedContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
     const page = await reducedContext.newPage();
@@ -263,7 +257,7 @@ try {
       };
     });
     await page.locator('#hotWork').click({ noWaitAfter: true });
-    await page.waitForURL(/\/work\/$/, { timeout: 3000 });
+    await page.waitForURL(/\/work\/$/, { timeout: 3000, waitUntil: 'domcontentloaded' });
     const requestedDelay = await page.evaluate(() => Number(sessionStorage.getItem('__tour_qa_nav_delay')));
     report.transitions.reducedLandingIntentDelayMs = requestedDelay;
     assert('Reduced-motion LANDING -> WORK requests zero tour delay', requestedDelay === 0, `${requestedDelay}ms`);
