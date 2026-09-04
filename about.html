@@ -14,6 +14,8 @@
 <meta property="og:description" content="About Ian Luna, creative director and copywriter.">
 <meta property="og:image" content="https://www.ianrluna.com/og_about.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/tour-runtime.css">
+<script src="/tour-runtime.js"></script>
 <style>
 :root{--bar:#080706;--meta:#968c7a;--meta-hi:#e8dcc4;--bar-h:34px;--cream:#e2d6be;--gold:#c4ad7d;--gold-hi:#f4e3af}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -22,30 +24,27 @@ body{height:100svh;overflow:hidden;padding:var(--bar-h) 0}
 a{color:inherit}.skip{position:fixed;left:8px;top:-60px;z-index:100;background:var(--cream);color:#111;padding:10px 12px}.skip:focus{top:8px}
 .filmbar{height:var(--bar-h);position:fixed;left:0;right:0;background:var(--bar);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-family:Consolas,"Courier New",monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--meta)}
 .filmbar.top{top:0}.filmbar.bottom{bottom:0}.filmbar .hi{color:var(--meta-hi)}
+.rail{display:flex;gap:26px;align-items:center;height:100%}.rail a{position:relative;display:flex;align-items:center;min-height:44px;text-decoration:none;color:var(--meta);padding:0 2px}.rail a:after{content:"";position:absolute;left:0;right:.22em;bottom:7px;height:1px;background:transparent}.rail a:hover,.rail a:focus-visible,.rail a[aria-current=page]{color:var(--cream)}.rail a[aria-current=page]:after{background:var(--cream)}.rail a:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
 .scenewrap{position:relative;height:calc(100svh - (2 * var(--bar-h)));overflow:hidden;background:#000}
 .stage{position:absolute;left:50%;top:50%;width:1536px;height:864px;transform:translate(-50%,-50%) scale(var(--fit,1));transform-origin:center;overflow:hidden;background:#000;user-select:none}
 .plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .bio{position:absolute;left:69%;top:27%;width:23.5%;color:var(--cream);font-size:15.5px;line-height:1.68;letter-spacing:.015em;text-shadow:0 1px 2px rgba(0,0,0,.9)}
 .bio h1{font-family:Consolas,"Courier New",monospace;font-size:11px;font-weight:400;letter-spacing:.34em;text-transform:uppercase;color:var(--meta);margin:0 0 26px}
 .bio p{margin:0 0 1.15em}
-.exits{position:fixed;left:40px;bottom:52px;z-index:60;display:flex;gap:18px;font-family:Consolas,"Courier New",monospace}
-.exits a{min-height:44px;display:flex;align-items:center;color:var(--gold);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;position:relative}
-.exits a:hover,.exits a:focus-visible{color:var(--gold-hi)}
-.exits a:focus-visible{outline:2px solid rgba(236,226,198,.9);outline-offset:3px}
 @media(max-width:760px){
  body{height:auto;min-height:100svh;overflow:auto}
  .filmbar{padding:0 14px}.filmbar.top>span:last-child,.filmbar.bottom>span:last-child{display:none}
+ .rail{gap:12px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.rail::-webkit-scrollbar{display:none}.rail a{font-size:9px}
  .scenewrap{height:auto;min-height:calc(100svh - (2 * var(--bar-h)));overflow:visible}
  .stage{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none;overflow:visible}
  .plate{position:relative;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center;filter:brightness(.72);display:block}
- .bio{position:relative;left:auto;top:auto;width:auto;padding:30px 22px 92px;background:#070706;color:var(--cream);font-size:17px;line-height:1.62;text-shadow:none}
+ .bio{position:relative;left:auto;top:auto;width:auto;padding:30px 22px 44px;background:#070706;color:var(--cream);font-size:17px;line-height:1.62;text-shadow:none}
  .bio h1{margin-bottom:20px}
- .exits{left:14px;right:14px;bottom:34px;background:linear-gradient(to top,#070706 60%,rgba(7,7,6,0));padding-top:18px;gap:16px}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 </head>
-<body>
+<body data-tour-surface="about">
 <a class="skip" href="#bio">Skip to bio</a>
 <div class="filmbar top"><span><span class="hi">IAN LUNA</span> · CREATIVE DIRECTOR</span><span>INT. LAST STOP MOTEL · ROOM 3 · NIGHT</span></div>
 <main class="scenewrap" id="about">
@@ -59,12 +58,7 @@ a{color:inherit}.skip{position:fixed;left:8px;top:-60px;z-index:100;background:v
     </section>
   </div>
 </main>
-<nav class="exits" aria-label="Primary">
-  <a href="/">← Home</a>
-  <a href="/work/">Work</a>
-  <a href="/hearsay/">Hearsay</a>
-</nav>
-<div class="filmbar bottom"><span>ABOUT · IAN LUNA</span><span>SELECTED WORK / BIO</span></div>
+<div class="filmbar bottom"><nav aria-label="Primary" class="rail"><a href="/">HOME</a><a href="/work/">WORK</a><a href="/work/more/">MORE WORK</a><a aria-current="page" href="/about/">ABOUT</a><a href="/hearsay/">HEARSAY</a></nav><span>ABOUT · IAN LUNA</span></div>
 <script>
 (function(){
   const stage=document.getElementById('stage');
