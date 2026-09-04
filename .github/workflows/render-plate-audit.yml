@@ -1,0 +1,36 @@
+name: Audit diner plates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/render-plate-audit.mjs'
+      - '.github/workflows/render-plate-audit.yml'
+      - 'docs/renders/02_Work_Billboards/**'
+      - 'docs/renders/10_Chat_Session_Renders/**'
+
+permissions:
+  contents: read
+
+jobs:
+  audit-plates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Render plate candidates
+        run: node scripts/render-plate-audit.mjs
+      - name: Upload plate audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-stop-plate-audit
+          path: artifacts/plate-audit
+          if-no-files-found: error
+          retention-days: 7
