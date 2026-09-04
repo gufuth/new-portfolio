@@ -1,0 +1,62 @@
+/* Last Stop shared tour runtime — transitions, rails, ambient road life. */
+:root{--tour-bar-h:34px;--tour-cream:#ece2c6;--tour-meta:#918877;--tour-black:#050504}
+
+/* Global rail additions. The rails orient; they never participate in scene motion. */
+.filmbar.bottom .rail{min-width:0}
+.filmbar.bottom .rail a{flex:0 0 auto}
+.tour-sound{flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-height:44px;margin-left:14px;padding:0 2px;border:0;background:transparent;color:var(--tour-meta);font:inherit;letter-spacing:inherit;text-transform:uppercase;cursor:pointer;position:relative}
+.tour-sound:hover,.tour-sound:focus-visible,.tour-sound[aria-pressed="true"]{color:var(--tour-cream)}
+.tour-sound:focus-visible{outline:2px solid var(--tour-cream);outline-offset:3px}
+
+/* Scene-only transition layer. Top and bottom rails stay fixed and legible. */
+.tour-cut{position:fixed;left:0;right:0;top:var(--tour-bar-h);bottom:var(--tour-bar-h);z-index:45;pointer-events:none;overflow:hidden}
+.tour-cut--black{background:#000;opacity:0;transition:opacity 130ms ease-out}
+.tour-cut--black.is-active{opacity:1}
+
+/* Landing WORK window expands into the cut instead of flying the camera through it. */
+.tour-cut--landing::before{content:"";position:absolute;inset:0;background:#000;opacity:0;clip-path:inset(39% 33% 29% 22.5%);transition:clip-path 430ms cubic-bezier(.65,0,.35,1),opacity 70ms linear}
+.tour-cut--landing.is-active::before{opacity:1;clip-path:inset(0)}
+
+/* WORK <-> MORE WORK: one dark mullion becomes the edit. */
+.tour-cut--mullion::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:7vw;min-width:56px;background:#000;transform:translateX(-50%) scaleX(.035);transform-origin:center;transition:transform 175ms cubic-bezier(.7,0,.3,1)}
+.tour-cut--mullion.is-active::before{transform:translateX(-50%) scaleX(18)}
+
+/* Arrival from the exterior: local green contamination, not readable reflection. */
+.tour-arrival-spill{position:fixed;left:0;right:0;top:var(--tour-bar-h);bottom:var(--tour-bar-h);z-index:44;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(57,86,48,.13),rgba(57,86,48,.04) 10%,transparent 25%);animation:tourSpill 520ms ease-out both}
+@keyframes tourSpill{0%{opacity:.85}35%{opacity:.35}100%{opacity:0}}
+
+/* Billboard departure: acknowledge selection, do not turn the wall into a carousel. */
+body.tour-case-selecting .billboard:not(.is-tour-selected),body.tour-case-selecting .mobile-card:not(.is-tour-selected){filter:brightness(.94)}
+body.tour-case-selecting .is-tour-selected{filter:brightness(1.08) contrast(1.02)}
+
+/* One ambient-motion family on WORK surfaces: a rare off-axis passing-road-light event. */
+.tour-road-life{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden;mix-blend-mode:screen}
+.tour-road-life .tour-headlight{position:absolute;left:-42%;top:42%;width:38%;height:33%;opacity:0;transform:skewX(-10deg);background:radial-gradient(ellipse at 58% 56%,rgba(255,235,197,.22) 0%,rgba(255,220,166,.10) 21%,rgba(255,214,153,.035) 44%,transparent 70%);filter:blur(5px)}
+.tour-road-life .tour-glass-glint{position:absolute;left:-35%;top:8%;width:26%;height:84%;opacity:0;transform:skewX(-13deg);background:linear-gradient(90deg,transparent,rgba(255,238,203,.045) 45%,rgba(255,238,203,.085) 52%,transparent 61%);filter:blur(2px)}
+.tour-road-life.is-passing .tour-headlight{animation:tourHeadlightPass 3.6s cubic-bezier(.35,0,.65,1) both}
+.tour-road-life.is-passing .tour-glass-glint{animation:tourGlintPass 3.6s cubic-bezier(.35,0,.65,1) both}
+@keyframes tourHeadlightPass{0%{left:-42%;opacity:0}16%{opacity:.22}48%{opacity:.55}72%{opacity:.16}100%{left:108%;opacity:0}}
+@keyframes tourGlintPass{0%{left:-35%;opacity:0}25%{opacity:.1}50%{opacity:.32}72%{opacity:.08}100%{left:112%;opacity:0}}
+
+/* Hide only the scene while a destination cut is being prepared; rails remain stable. */
+html.tour-prepaint-landing-work .scene-stage,
+html.tour-prepaint-mullion .scene-stage,
+html.tour-prepaint-case-return .scene-stage,
+html.tour-prepaint-case .paper{visibility:hidden}
+
+@media(max-width:1100px){
+  .filmbar.bottom>span{display:none}
+  .filmbar.bottom .rail{flex:1;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .filmbar.bottom .rail::-webkit-scrollbar{display:none}
+}
+@media(max-width:760px){
+  .filmbar.bottom{gap:8px}
+  .filmbar.bottom .rail{gap:12px}
+  .tour-sound{margin-left:6px;font-size:9px;min-height:44px}
+  .tour-cut{top:var(--tour-bar-h);bottom:var(--tour-bar-h)}
+  .tour-road-life{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tour-cut,.tour-cut::before,.tour-arrival-spill,.tour-road-life *{transition:none!important;animation:none!important}
+  .tour-arrival-spill,.tour-road-life{display:none!important}
+}
