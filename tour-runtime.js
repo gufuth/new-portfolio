@@ -112,6 +112,15 @@
   function startLandingWork(href){
     if(reduced){navigate(href,'landing-work',0);return;}
     var cut=makeCut('landing',false);
+    var hot=document.getElementById('hotWork');
+    if(hot){
+      var r=hot.getBoundingClientRect();
+      var bar=34;
+      cut.style.setProperty('--tour-cut-top',Math.max(0,r.top-bar)+'px');
+      cut.style.setProperty('--tour-cut-right',Math.max(0,window.innerWidth-r.right)+'px');
+      cut.style.setProperty('--tour-cut-bottom',Math.max(0,(window.innerHeight-bar)-r.bottom)+'px');
+      cut.style.setProperty('--tour-cut-left',Math.max(0,r.left)+'px');
+    }
     requestAnimationFrame(function(){cut.classList.add('is-active');});
     navigate(href,'landing-work',445);
   }
@@ -275,7 +284,7 @@
   }
 
   function init(){
-    var surface=document.body.getAttribute('data-tour-surface')|| (document.querySelector('.paper')?'case':'');
+    var surface=document.body.getAttribute('data-tour-surface')||(document.querySelector('.paper')?'case':'');
     if(!storageGet(localStorage,SOUND_KEY)){storageSet(localStorage,SOUND_KEY,'off');}
     ensureGlobalRail();
     setupNavigation(surface);
