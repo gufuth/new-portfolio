@@ -16,6 +16,7 @@
   var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var audioCtx=null;
   var ambientTimer=0;
+  var moreCaseIds=['alita-te-connectivity','jose-cuervo','outdoor-voices','the-atlantic'];
 
   function storageGet(store,key){try{return store.getItem(key);}catch(e){return null;}}
   function storageSet(store,key,val){try{store.setItem(key,val);}catch(e){}}
@@ -79,6 +80,7 @@
     storageRemove(sessionStorage,ARRIVAL_KEY);
     var kind=arrival;
     arrival='';
+    if(reduced){cleanPrepaint(kind);return;}
     var cut;
     if(kind==='landing-work'){
       cut=makeCut('black',true);
@@ -144,6 +146,8 @@
       return p.split('/').pop();
     }catch(e){return '';}
   }
+
+  function surfaceForCase(id){return moreCaseIds.indexOf(id)>=0?'more':'work';}
 
   function prepareCaseLinks(surface){
     document.querySelectorAll('.billboard,.mobile-card').forEach(function(link){
@@ -216,11 +220,24 @@
       }
       if(surface==='case'&&(isWork(u)||isMore(u))){
         e.preventDefault();
+        if(!a.closest('.case-nav')){
+          storageRemove(sessionStorage,RESTORE_PENDING);
+          storageRemove(sessionStorage,RESTORE_CASE);
+          storageRemove(sessionStorage,RESTORE_SURFACE);
+        }
+        if(reduced){navigate(a.href,'case-return',0);return;}
         var cut=makeCut('black',false);requestAnimationFrame(function(){cut.classList.add('is-active');});
         navigate(a.href,'case-return',135);return;
       }
       if(surface==='case'&&isCase(u)){
         e.preventDefault();
+        var targetId=caseIdFromHref(a.href);
+        if(targetId){
+          storageSet(sessionStorage,RESTORE_CASE,targetId);
+          storageSet(sessionStorage,RESTORE_SURFACE,surfaceForCase(targetId));
+          storageSet(sessionStorage,RESTORE_PENDING,'1');
+        }
+        if(reduced){navigate(a.href,'case',0);return;}
         var cut2=makeCut('black',false);requestAnimationFrame(function(){cut2.classList.add('is-active');});
         navigate(a.href,'case',135);return;
       }
@@ -296,7 +313,6 @@
     }
     if(surface==='case'){configureCaseReturn();}
     revealArrival();
-    if(soundOn()){primeAudio();}
 
     document.addEventListener('pointerdown',function(){if(soundOn()) primeAudio();},{once:true,capture:true});
     document.addEventListener('keydown',function(){if(soundOn()) primeAudio();},{once:true,capture:true});
