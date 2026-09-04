@@ -163,7 +163,10 @@
     if(storageGet(sessionStorage,RESTORE_SURFACE)!==surface) return;
     var id=storageGet(sessionStorage,RESTORE_CASE);
     if(!id) return;
-    var target=document.querySelector('[data-case-id="'+id+'"]');
+    var candidates=document.querySelectorAll('[data-case-id="'+id+'"]');
+    var target=null;
+    candidates.forEach(function(node){if(!target&&node.getClientRects().length){target=node;}});
+    if(!target&&candidates.length){target=candidates[0];}
     if(target){
       setTimeout(function(){try{target.focus({preventScroll:true});}catch(e){target.focus();}},80);
       storageRemove(sessionStorage,RESTORE_PENDING);
@@ -272,7 +275,7 @@
   }
 
   function init(){
-    var surface=document.body.getAttribute('data-tour-surface')||'';
+    var surface=document.body.getAttribute('data-tour-surface')|| (document.querySelector('.paper')?'case':'');
     if(!storageGet(localStorage,SOUND_KEY)){storageSet(localStorage,SOUND_KEY,'off');}
     ensureGlobalRail();
     setupNavigation(surface);
@@ -284,6 +287,7 @@
     }
     if(surface==='case'){configureCaseReturn();}
     revealArrival();
+    if(soundOn()){primeAudio();}
 
     document.addEventListener('pointerdown',function(){if(soundOn()) primeAudio();},{once:true,capture:true});
     document.addEventListener('keydown',function(){if(soundOn()) primeAudio();},{once:true,capture:true});
