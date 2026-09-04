@@ -17,6 +17,8 @@
   var audioCtx=null;
   var ambientTimer=0;
   var moreCaseIds=['alita-te-connectivity','jose-cuervo','outdoor-voices','the-atlantic'];
+  var roadTest=false;
+  try{roadTest=new URLSearchParams(window.location.search).get('tourTest')==='road';}catch(e){}
 
   function storageGet(store,key){try{return store.getItem(key);}catch(e){return null;}}
   function storageSet(store,key,val){try{store.setItem(key,val);}catch(e){}}
@@ -277,6 +279,7 @@
   function scheduleRoadLife(surface,first){
     if(reduced||window.matchMedia('(max-width:760px)').matches||!(surface==='work'||surface==='more')) return;
     window.clearTimeout(ambientTimer);
+    var delay=first?(roadTest?5000:rand(38000,75000)):rand(90000,210000);
     ambientTimer=window.setTimeout(function fire(){
       if(document.hidden){scheduleRoadLife(surface,false);return;}
       var life=document.querySelector('.tour-road-life');
@@ -286,7 +289,7 @@
         setTimeout(function(){life.classList.remove('is-passing');},3700);
       }
       scheduleRoadLife(surface,false);
-    },first?rand(38000,75000):rand(90000,210000));
+    },delay);
   }
 
   function ensureRoadLife(surface){
