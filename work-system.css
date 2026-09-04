@@ -6,7 +6,6 @@
   --paper:#ded5c0;
   --ink:#171612;
   --bar-h:34px;
-  --stage-ratio:2.802919708;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--cream);font-family:Consolas,"Courier New",monospace}
@@ -24,11 +23,11 @@ a{color:inherit}
 .rail a:focus-visible,.billboard:focus-visible,.mobile-card:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 
-/* The panorama is deliberately allowed to sit inside darkness instead of being stretched.
-   That protects the billboard proportions and makes the two scenes feel like frames from one film. */
-.scene-stage{position:fixed;left:50%;top:50%;width:min(100vw,calc((100svh - (var(--bar-h) * 2)) * var(--stage-ratio)));aspect-ratio:1536/548;transform:translate(-50%,-50%);overflow:hidden;background-color:#080807;background-position:center;background-size:100% 100%;background-repeat:no-repeat}
-.work-scene{background-image:url('assets/work-panorama-current.webp')}
-.more-scene{background-image:url('assets/more-work-panorama-current.webp')}
+/* Each scene keeps the aspect ratio of its approved working plate. Darkness is
+   allowed around the image rather than stretching either booth to fill a screen. */
+.scene-stage{position:fixed;left:50%;top:50%;width:min(100vw,calc((100svh - (var(--bar-h) * 2)) * var(--stage-ratio)));aspect-ratio:var(--stage-ratio);transform:translate(-50%,-50%);overflow:hidden;background-color:#080807;background-position:center;background-size:100% 100%;background-repeat:no-repeat}
+.work-scene{--stage-ratio:2.572115385;background-image:url('assets/work-panorama-current.webp')}
+.more-scene{--stage-ratio:3.222891566;background-image:url('assets/more-work-panorama-current.webp')}
 .scene-wash{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.08),transparent 28%,transparent 72%,rgba(0,0,0,.08));z-index:1}
 .billboard{position:absolute;z-index:2;display:block;text-decoration:none;overflow:hidden;background:#111;border:1px solid rgba(221,208,174,.30);box-shadow:0 0 12px rgba(226,194,124,.08);transition:filter .15s ease,box-shadow .15s ease}
 .billboard:hover,.billboard:focus-visible{filter:brightness(1.07) contrast(1.01);box-shadow:0 0 20px rgba(231,200,132,.18)}
@@ -38,18 +37,18 @@ a{color:inherit}
 .id b{font-family:Arial,Helvetica,sans-serif;font-size:clamp(6.8px,.66vw,11px);font-weight:650;letter-spacing:.015em}
 .id span{font-size:clamp(6px,.57vw,9.5px);margin-top:2px}
 
-/* WORK — measured from the current 1536×548 working panorama. */
-.work-scene .b1{left:7.812%;top:22.810%;width:13.997%;height:32.847%}
-.work-scene .b2{left:23.958%;top:23.358%;width:13.672%;height:32.117%}
-.work-scene .b3{left:39.583%;top:25.365%;width:13.997%;height:30.292%}
-.work-scene .b4{left:55.729%;top:27.190%;width:13.672%;height:28.467%}
-.work-scene .b5{left:71.745%;top:28.650%;width:13.281%;height:27.007%}
+/* WORK — measured against the clean 1070×416 working plate. */
+.work-scene .b1{left:7.29%;top:21.88%;width:15.05%;height:32.45%}
+.work-scene .b2{left:24.39%;top:22.12%;width:13.93%;height:32.21%}
+.work-scene .b3{left:40.47%;top:22.60%;width:14.49%;height:31.25%}
+.work-scene .b4{left:56.45%;top:23.08%;width:14.30%;height:31.01%}
+.work-scene .b5{left:72.90%;top:23.80%;width:14.11%;height:30.29%}
 
-/* MORE WORK — measured from the current 1536×548 working panorama. */
-.more-scene .b1{left:8.073%;top:22.993%;width:13.932%;height:35.949%}
-.more-scene .b2{left:26.172%;top:23.175%;width:14.323%;height:35.766%}
-.more-scene .b3{left:43.099%;top:23.358%;width:14.193%;height:35.584%}
-.more-scene .b4{left:59.245%;top:23.358%;width:14.193%;height:35.949%}
+/* MORE WORK — measured against the clean 1070×332 working plate. */
+.more-scene .b1{left:10.47%;top:18.07%;width:14.58%;height:47.29%}
+.more-scene .b2{left:28.13%;top:18.37%;width:14.58%;height:46.99%}
+.more-scene .b3{left:45.33%;top:18.67%;width:14.30%;height:46.69%}
+.more-scene .b4{left:61.87%;top:18.37%;width:14.11%;height:47.29%}
 
 .mobile-title,.mobile-list{display:none}
 @media(max-width:760px){
