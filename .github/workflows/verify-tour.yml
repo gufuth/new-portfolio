@@ -22,3 +22,4 @@ jobs:
         run: node --check tour-runtime.js
       - name: Audit tour wiring
         run: node scripts/verify-tour-runtime.mjs
+      # This workflow intentionally excludes HEARSAY until Ian merges the current apparition build.
