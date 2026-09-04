@@ -27,8 +27,8 @@ a{color:inherit}
 /* The panorama is deliberately allowed to sit inside darkness instead of being stretched.
    That protects the billboard proportions and makes the two scenes feel like frames from one film. */
 .scene-stage{position:fixed;left:50%;top:50%;width:min(100vw,calc((100svh - (var(--bar-h) * 2)) * var(--stage-ratio)));aspect-ratio:1536/548;transform:translate(-50%,-50%);overflow:hidden;background-color:#080807;background-position:center;background-size:100% 100%;background-repeat:no-repeat}
-.work-scene{background-image:url('assets/work-panorama.webp')}
-.more-scene{background-image:url('assets/more-work-panorama.webp')}
+.work-scene{background-image:url('assets/work-panorama-current.webp')}
+.more-scene{background-image:url('assets/more-work-panorama-current.webp')}
 .scene-wash{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.08),transparent 28%,transparent 72%,rgba(0,0,0,.08));z-index:1}
 .billboard{position:absolute;z-index:2;display:block;text-decoration:none;overflow:hidden;background:#111;border:1px solid rgba(221,208,174,.30);box-shadow:0 0 12px rgba(226,194,124,.08);transition:filter .15s ease,box-shadow .15s ease}
 .billboard:hover,.billboard:focus-visible{filter:brightness(1.07) contrast(1.01);box-shadow:0 0 20px rgba(231,200,132,.18)}
