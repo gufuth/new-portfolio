@@ -12,6 +12,8 @@ on:
       - 'case-system.css'
       - 'tour-runtime.css'
       - 'tour-runtime.js'
+      - 'transition-lab.css'
+      - 'transition-lab.js'
       - 'cases/**'
       - 'assets/**'
       - 'scripts/render-tour.mjs'
