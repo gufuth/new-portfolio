@@ -1,0 +1,44 @@
+name: Render ambient lab
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tour-runtime.css'
+      - 'tour-runtime.js'
+      - 'transition-lab.css'
+      - 'transition-lab.js'
+      - 'work.html'
+      - 'more-work.html'
+      - 'assets/work-panorama-current.webp'
+      - 'assets/more-work-panorama-current.webp'
+      - 'scripts/render-ambient-lab.mjs'
+      - '.github/workflows/render-ambient-lab.yml'
+
+permissions:
+  contents: read
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  render-ambient-lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Render ambient detail trials
+        run: node scripts/render-ambient-lab.mjs
+      - name: Upload ambient frames
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-stop-ambient-lab
+          path: artifacts/ambient-lab
+          if-no-files-found: error
+          retention-days: 7
