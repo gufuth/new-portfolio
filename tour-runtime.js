@@ -67,7 +67,14 @@
     syncSoundButtons();
   }
 
+  function beginCut(){if(!reduced){document.body.classList.add('tour-cutting');}}
+  function endCut(delay){
+    if(reduced){document.body.classList.remove('tour-cutting');return;}
+    setTimeout(function(){document.body.classList.remove('tour-cutting');},delay||0);
+  }
+
   function makeCut(kind,active){
+    beginCut();
     var cut=document.createElement('div');
     cut.className='tour-cut tour-cut--'+kind+(active?' is-active':'');
     cut.setAttribute('aria-hidden','true');
@@ -82,29 +89,42 @@
     storageRemove(sessionStorage,ARRIVAL_KEY);
     var kind=arrival;
     arrival='';
-    if(reduced){cleanPrepaint(kind);return;}
+    if(reduced){cleanPrepaint(kind);document.body.classList.remove('tour-cutting');return;}
     var cut;
     if(kind==='landing-work'){
+      document.body.classList.add('tour-arriving-work');
       cut=makeCut('black',true);
       cleanPrepaint(kind);
       var spill=document.createElement('div');
       spill.className='tour-arrival-spill';
       spill.setAttribute('aria-hidden','true');
       document.body.appendChild(spill);
-      requestAnimationFrame(function(){requestAnimationFrame(function(){cut.classList.remove('is-active');});});
-      setTimeout(function(){cut.remove();spill.remove();},560);
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          document.body.classList.add('tour-arrival-settling');
+          cut.classList.remove('is-active');
+        });
+      });
+      endCut(230);
+      setTimeout(function(){
+        document.body.classList.remove('tour-arriving-work','tour-arrival-settling');
+        cut.remove();spill.remove();
+      },560);
     }else if(kind==='mullion'){
       cut=makeCut('mullion',true);
       cleanPrepaint(kind);
       requestAnimationFrame(function(){requestAnimationFrame(function(){cut.classList.remove('is-active');});});
+      endCut(120);
       setTimeout(function(){cut.remove();},230);
     }else if(kind==='case'||kind==='case-return'){
       cut=makeCut('black',true);
       cleanPrepaint(kind);
       requestAnimationFrame(function(){requestAnimationFrame(function(){cut.classList.remove('is-active');});});
+      endCut(120);
       setTimeout(function(){cut.remove();},210);
     }else{
       cleanPrepaint(kind);
+      endCut(0);
     }
   }
 
