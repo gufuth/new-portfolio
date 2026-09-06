@@ -9,6 +9,12 @@
 .tour-sound:hover,.tour-sound:focus-visible,.tour-sound[aria-pressed="true"]{color:var(--tour-cream)}
 .tour-sound:focus-visible{outline:2px solid var(--tour-cream);outline-offset:3px}
 
+/* FilmFrame lock: the black bars stay physically fixed while their metadata goes
+   silent during an edit, then returns only after the destination has settled. */
+.filmbar>*,.filmbar .rail,.tour-sound{transition:opacity 105ms ease-out,color 120ms ease-out}
+body.tour-cutting .filmbar>*{opacity:0}
+body.tour-cutting .tour-sound{opacity:0}
+
 /* Scene-only transition layer. Top and bottom rails stay fixed and legible. */
 .tour-cut{position:fixed;left:0;right:0;top:var(--tour-bar-h);bottom:var(--tour-bar-h);z-index:45;pointer-events:none;overflow:hidden}
 .tour-cut--black{background:#000;opacity:0;transition:opacity 130ms ease-out}
@@ -22,6 +28,11 @@
 /* On the destination page, the landing-specific green spill identifies this arrival.
    Do not insert a second black fade between two already matched frames. */
 body[data-tour-surface="work"] .tour-cut--black:has(+ .tour-arrival-spill){opacity:0!important;transition:none!important}
+
+/* The destination arrives a fraction underexposed, then the eye catches up. This is
+   intentionally small: it should feel photographic, not like a CSS reveal. */
+body.tour-arriving-work .scene-stage{filter:brightness(.92) saturate(.97)}
+body.tour-arriving-work.tour-arrival-settling .scene-stage{filter:brightness(1) saturate(1);transition:filter 390ms cubic-bezier(.2,.7,.2,1)}
 
 /* WORK <-> MORE WORK: one dark mullion becomes the edit. */
 .tour-cut--mullion::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:7vw;min-width:56px;background:#000;transform:translateX(-50%) scaleX(.035);transform-origin:center;transition:transform 175ms cubic-bezier(.7,0,.3,1)}
@@ -63,6 +74,7 @@ html.tour-prepaint-case .paper{visibility:hidden}
   .tour-road-life{display:none}
 }
 @media(prefers-reduced-motion:reduce){
+  .filmbar>*,.filmbar .rail,.tour-sound,.scene-stage{transition:none!important}
   .tour-cut,.tour-cut::before,.tour-arrival-spill,.tour-road-life *{transition:none!important;animation:none!important}
   .tour-arrival-spill,.tour-road-life{display:none!important}
 }
