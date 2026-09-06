@@ -14,10 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build clean source archive
+      - name: Build deploy-only source archive
         run: |
           zip -qr /tmp/last-stop-staging-source.zip . \
-            -x '.git/*' 'artifacts/*' 'node_modules/*' '.DS_Store'
+            -x '.git/*' '.github/*' 'docs/*' 'scripts/*' 'artifacts/*' 'node_modules/*' \
+               'AGENTS.md' 'CLAUDE.md' 'README.md' 'assets/plate-payload/*' 'assets/*.b64' '.DS_Store'
+          unzip -l /tmp/last-stop-staging-source.zip | tail -n 2
       - uses: actions/upload-artifact@v4
         with:
           name: last-stop-staging-source
