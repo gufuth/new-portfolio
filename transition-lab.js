@@ -1,13 +1,14 @@
 /* Last Stop transition lab.
    Stable trial URLs: /?cut=a, /?cut=b, /?cut=c
+   Default is B: hard editorial cut / electrical catch.
    detailTest=1 accelerates the one-time electrical imperfection for QA. */
 (function(){
   'use strict';
 
   function init(){
     var params=new URLSearchParams(location.search);
-    var variant=(params.get('cut')||sessionStorage.getItem('lsd_lab_cut')||'a').toLowerCase();
-    if(['a','b','c'].indexOf(variant)<0) variant='a';
+    var variant=(params.get('cut')||sessionStorage.getItem('lsd_lab_cut')||'b').toLowerCase();
+    if(['a','b','c'].indexOf(variant)<0) variant='b';
     try{sessionStorage.setItem('lsd_lab_cut',variant);}catch(e){}
     document.documentElement.setAttribute('data-lab-cut',variant);
 
