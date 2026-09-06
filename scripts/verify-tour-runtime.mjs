@@ -56,9 +56,9 @@ expect('case-system.css', caseCss, "@import url('/tour-runtime.css')", 'case pag
 
 // Clean-route asset safety. Netlify rewrites keep /work/... in the browser URL, so page-critical local assets must be root-absolute.
 expect('work.html', work, 'href="/work-system.css"', 'WORK CSS is not root-absolute for /work/');
-expect('work.html', work, 'href="/assets/work-panorama.webp"', 'WORK panorama is not root-absolute for /work/');
+expect('work.html', work, 'href="/assets/work-panorama-current.webp"', 'WORK panorama is not root-absolute for /work/');
 expect('more-work.html', more, 'href="/work-system.css"', 'MORE WORK CSS is not root-absolute for /work/more/');
-expect('more-work.html', more, 'href="/assets/more-work-panorama.webp"', 'MORE WORK panorama is not root-absolute for /work/more/');
+expect('more-work.html', more, 'href="/assets/more-work-panorama-current.webp"', 'MORE WORK panorama is not root-absolute for /work/more/');
 expect('about.html', about, 'src="/about.webp"', 'ABOUT plate is not root-absolute for /about/');
 reject('work.html', work, 'href="work-system.css"', 'relative WORK CSS would break on clean routes');
 reject('more-work.html', more, 'href="work-system.css"', 'relative MORE WORK CSS would break on clean routes');
