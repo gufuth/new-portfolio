@@ -17,6 +17,11 @@ on:
       - 'scripts/render-tour.mjs'
       - '.github/workflows/render-tour.yml'
 
+env:
+  # Playwright otherwise waits indefinitely for webfont readiness in CI before
+  # taking a screenshot. The tour itself does not depend on those fonts to run.
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
 permissions:
   contents: read
 
