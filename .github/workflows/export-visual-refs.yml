@@ -1,0 +1,28 @@
+name: Export visual refs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/export-visual-refs.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export-refs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload candidate WORK plates and reference renders
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-stop-visual-refs
+          path: |
+            work.webp
+            assets/work-panorama-current.webp
+            assets/work-panorama.webp
+            docs/renders/02_Work_Billboards/*.png
+            docs/renders/07_Live_Screens_and_Verify/work*.png
+          if-no-files-found: error
+          retention-days: 2
