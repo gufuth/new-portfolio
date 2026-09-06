@@ -1,0 +1,51 @@
+name: Deploy Netlify staging
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'work.html'
+      - 'more-work.html'
+      - 'about.html'
+      - 'hearsay.html'
+      - '404.html'
+      - '*.css'
+      - '*.js'
+      - 'cases/**'
+      - 'assets/**'
+      - '_redirects'
+      - '_headers'
+      - '.github/workflows/deploy-staging.yml'
+
+permissions:
+  contents: read
+
+env:
+  NETLIFY_SITE_ID: a01e14a9-cc73-4b33-a657-6bc4671a59a3
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require stored Netlify credential
+        shell: bash
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
+            echo 'NETLIFY_AUTH_TOKEN is not configured in this repository.'
+            exit 2
+          fi
+      - name: Assemble deploy directory
+        shell: bash
+        run: |
+          mkdir -p /tmp/last-stop-deploy
+          rsync -a ./ /tmp/last-stop-deploy/ \
+            --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
+            --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
+            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
+            --exclude 'assets/*.b64' --exclude '.DS_Store'
+      - name: Deploy current main to staging
+        run: npx --yes netlify-cli@latest deploy --prod --dir=/tmp/last-stop-deploy --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN" --message="Last Stop staging ${GITHUB_SHA}"
