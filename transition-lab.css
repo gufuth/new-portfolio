@@ -1,0 +1,36 @@
+/* Last Stop transition lab — persistent A/B/C trials for Landing -> WORK.
+   These are edits, not travel simulation. Query with ?cut=a, ?cut=b or ?cut=c. */
+
+.lab-cut{position:fixed;left:0;right:0;top:34px;bottom:34px;z-index:48;pointer-events:none;overflow:hidden}
+body.lab-cutting .filmbar>*{opacity:0!important}
+
+/* A — match cut / exposure catch. Leading candidate. */
+.lab-cut--a::before{content:"";position:absolute;inset:0;background:#050504 center/100% auto no-repeat url('/assets/work-panorama-current.webp');opacity:.18;filter:brightness(.72) saturate(.94);clip-path:inset(var(--lab-top,39%) var(--lab-right,33%) var(--lab-bottom,29%) var(--lab-left,22.5%));transition:clip-path 340ms cubic-bezier(.68,0,.32,1),opacity 115ms ease-out,filter 340ms cubic-bezier(.2,.7,.2,1)}
+.lab-cut--a.is-active::before{clip-path:inset(0);opacity:1;filter:brightness(.96) saturate(1)}
+body.lab-arrival-a .scene-stage{filter:brightness(.89) saturate(.97)}
+body.lab-arrival-a.lab-arrival-settle .scene-stage{filter:brightness(1) saturate(1);transition:filter 390ms cubic-bezier(.2,.72,.2,1)}
+
+/* B — hard editorial cut / electrical catch. No zoom or wipe. */
+.lab-cut--b::before{content:"";position:absolute;top:var(--lab-top,39%);right:var(--lab-right,33%);bottom:var(--lab-bottom,29%);left:var(--lab-left,22.5%);background:rgba(2,3,2,.72);opacity:0;mix-blend-mode:multiply}
+.lab-cut--b::after{content:"";position:absolute;inset:0;background:#000;opacity:0;transition:opacity 58ms linear 86ms}
+.lab-cut--b.is-active::before{animation:labVoltageDip 118ms linear both}
+.lab-cut--b.is-active::after{opacity:1}
+@keyframes labVoltageDip{0%{opacity:0}28%{opacity:.44}52%{opacity:.12}72%{opacity:.62}100%{opacity:.18}}
+body.lab-arrival-b .scene-stage{animation:labElectricalCatch 285ms linear both}
+@keyframes labElectricalCatch{0%{filter:brightness(.76) saturate(.94)}22%{filter:brightness(.92) saturate(.97)}35%{filter:brightness(.85) saturate(.96)}58%{filter:brightness(.97) saturate(.99)}100%{filter:brightness(1) saturate(1)}}
+
+/* C — hard cut with one dirty-glass / green memory surviving the edit. */
+.lab-cut--c{background:#000;opacity:0;transition:opacity 92ms linear}
+.lab-cut--c.is-active{opacity:1}
+body.lab-arrival-c .scene-stage{filter:brightness(.94) saturate(.98);transition:filter 300ms ease-out}
+.lab-glass-memory{position:fixed;left:0;right:0;top:34px;bottom:34px;z-index:47;pointer-events:none;opacity:.55;background:linear-gradient(90deg,rgba(50,76,43,.16),rgba(50,76,43,.055) 11%,transparent 25%),radial-gradient(ellipse at 14% 54%,rgba(213,231,185,.045),transparent 35%),linear-gradient(103deg,transparent 31%,rgba(238,225,192,.035) 32%,transparent 33%);mix-blend-mode:screen;filter:blur(.4px);animation:labMemoryDie 255ms ease-out both}
+@keyframes labMemoryDie{0%{opacity:.55}45%{opacity:.22}100%{opacity:0}}
+
+/* One almost-missable electrical imperfection. Never loops. */
+.lab-electrical-life{position:absolute;z-index:5;pointer-events:none;opacity:0;width:15%;height:22%;left:62%;top:5%;border-radius:50%;background:radial-gradient(ellipse at 50% 60%,rgba(255,222,161,.13),rgba(255,214,145,.045) 32%,transparent 68%);mix-blend-mode:screen;filter:blur(3px)}
+.more-scene .lab-electrical-life{left:80%;top:0;width:17%;height:28%}
+.lab-electrical-life.is-catching{animation:labPracticalCatch 440ms linear both}
+@keyframes labPracticalCatch{0%{opacity:0}18%{opacity:.14}31%{opacity:.025}44%{opacity:.105}58%{opacity:.035}78%{opacity:.075}100%{opacity:0}}
+
+@media(max-width:760px){.lab-electrical-life{display:none}}
+@media(prefers-reduced-motion:reduce){.lab-cut,.lab-cut::before,.lab-cut::after,.lab-glass-memory,.lab-electrical-life,.scene-stage{animation:none!important;transition:none!important}.lab-electrical-life,.lab-glass-memory{display:none!important}}
