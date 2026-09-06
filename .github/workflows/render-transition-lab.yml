@@ -1,0 +1,43 @@
+name: Render transition lab
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'work.html'
+      - 'transition-lab.css'
+      - 'transition-lab.js'
+      - 'tour-runtime.css'
+      - 'tour-runtime.js'
+      - 'assets/work-panorama-current.webp'
+      - 'scripts/render-transition-lab.mjs'
+      - '.github/workflows/render-transition-lab.yml'
+
+permissions:
+  contents: read
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  render-transition-lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Render A/B/C transition trials
+        run: node scripts/render-transition-lab.mjs
+      - name: Upload transition frames
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-stop-transition-lab
+          path: artifacts/transition-lab
+          if-no-files-found: error
+          retention-days: 7
