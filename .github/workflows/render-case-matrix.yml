@@ -1,0 +1,41 @@
+name: Render case matrix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'cases/**'
+      - 'case-system.css'
+      - 'tour-runtime.css'
+      - 'tour-runtime.js'
+      - 'assets/**'
+      - 'scripts/render-case-matrix.mjs'
+      - '.github/workflows/render-case-matrix.yml'
+
+permissions:
+  contents: read
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  render-case-matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - name: Render all case first screens
+        run: node scripts/render-case-matrix.mjs
+      - name: Upload case matrix
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: last-stop-case-matrix
+          path: artifacts/case-matrix
+          if-no-files-found: error
+          retention-days: 7
