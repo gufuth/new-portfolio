@@ -1,10 +1,11 @@
-name: Materialize current WORK plates
+name: Materialize current MORE WORK plate
 
 on:
   push:
     branches: [main]
     paths:
-      - 'assets/plate-payload/**'
+      - 'assets/plate-payload/more-*.b64part'
+      - 'assets/plate-payload/more.sha256'
       - '.github/workflows/materialize-current-plates.yml'
 
 permissions:
@@ -17,28 +18,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Decode approved working plates
+
+      # WORK is intentionally excluded here. The legacy WORK payload chunks became
+      # mixed across revisions and produced a visually corrupted but decodable WebP.
+      # WORK now comes from the deterministic physical-composite pipeline.
+      - name: Decode approved MORE WORK plate
         run: |
-          cat assets/plate-payload/work-*.b64part | base64 --decode > assets/work-panorama-current.webp
           cat assets/plate-payload/more-*.b64part | base64 --decode > assets/more-work-panorama-current.webp
-          file assets/work-panorama-current.webp
           file assets/more-work-panorama-current.webp
-      - name: Verify plate payload integrity
+
+      - name: Verify MORE WORK payload integrity
         run: |
-          echo 'Computed plate checksums:'
-          sha256sum assets/work-panorama-current.webp assets/more-work-panorama-current.webp
-          echo 'Expected plate checksums:'
-          cat assets/plate-payload/work.sha256 assets/plate-payload/more.sha256
-          sha256sum --check assets/plate-payload/work.sha256
+          sha256sum assets/more-work-panorama-current.webp
           sha256sum --check assets/plate-payload/more.sha256
-      - name: Commit binary plates if changed
+
+      - name: Commit binary plate if changed
         run: |
-          if git diff --quiet -- assets/work-panorama-current.webp assets/more-work-panorama-current.webp && git ls-files --error-unmatch assets/work-panorama-current.webp assets/more-work-panorama-current.webp >/dev/null 2>&1; then
-            echo 'Current plates already materialized.'
+          if git diff --quiet -- assets/more-work-panorama-current.webp && git ls-files --error-unmatch assets/more-work-panorama-current.webp >/dev/null 2>&1; then
+            echo 'Current MORE WORK plate already materialized.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/work-panorama-current.webp assets/more-work-panorama-current.webp
-          git commit -m 'Materialize clean current WORK plates'
+          git add assets/more-work-panorama-current.webp
+          git commit -m 'Materialize current MORE WORK plate'
           git push origin HEAD:main
