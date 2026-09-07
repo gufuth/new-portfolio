@@ -23,7 +23,11 @@ jobs:
           cat assets/plate-payload/more-*.b64part | base64 --decode > assets/more-work-panorama-current.webp
           file assets/work-panorama-current.webp
           file assets/more-work-panorama-current.webp
-          identify assets/work-panorama-current.webp assets/more-work-panorama-current.webp || true
+          identify assets/work-panorama-current.webp assets/more-work-panorama-current.webp
+      - name: Verify plate payload integrity
+        run: |
+          sha256sum --check assets/plate-payload/work.sha256
+          sha256sum --check assets/plate-payload/more.sha256
       - name: Commit binary plates if changed
         run: |
           if git diff --quiet -- assets/work-panorama-current.webp assets/more-work-panorama-current.webp && git ls-files --error-unmatch assets/work-panorama-current.webp assets/more-work-panorama-current.webp >/dev/null 2>&1; then
