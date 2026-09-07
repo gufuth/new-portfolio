@@ -29,8 +29,9 @@ a{color:inherit}
 .more-scene{--stage-ratio:3.222891566;background-image:url('assets/more-work-panorama-current.webp')}
 .scene-wash{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.08),transparent 28%,transparent 72%,rgba(0,0,0,.08));z-index:4}
 
-/* Generic MORE WORK billboard treatment. WORK overrides this below because its
-   case art must live inside photographed billboard hardware, not on top of it. */
+/* Generic MORE WORK billboard treatment. WORK is different: its campaign art
+   is precomposed into the photographed billboard surfaces and HTML is only an
+   interaction layer. */
 .billboard{position:absolute;z-index:2;display:block;text-decoration:none;overflow:hidden;background:#111;border:1px solid rgba(221,208,174,.30);box-shadow:0 0 12px rgba(226,194,124,.08);transition:filter .15s ease,box-shadow .15s ease}
 .billboard:hover,.billboard:focus-visible{filter:brightness(1.07) contrast(1.01);box-shadow:0 0 20px rgba(231,200,132,.18)}
 .billboard:active{filter:brightness(1.02)}
@@ -39,19 +40,17 @@ a{color:inherit}
 .id b{font-family:Arial,Helvetica,sans-serif;font-size:clamp(6.8px,.66vw,11px);font-weight:650;letter-spacing:.015em}
 .id span{font-size:clamp(6px,.57vw,9.5px);margin-top:2px}
 
-/* WORK: links track the five photographed billboard frames. Only the inner
-   artwork and label surfaces are live. The physical metal frame, lamps, posts,
-   weathering and room remain part of the plate, so the work reads as installed
-   in the world rather than as UI floating above it. Coordinates are measured
-   against the approved 1792x1008 Grok plate. */
+/* WORK: transparent hit areas track the photographed hardware. The visual art,
+   frame, lamps, posts, grime, light falloff and mullion occlusion all belong to
+   the plate itself. Nothing rectangular is visually laid over the photograph. */
 .work-scene .billboard{z-index:2;background:transparent;border:0;box-shadow:none;overflow:visible;filter:none;transition:none}
 .work-scene .billboard:hover,.work-scene .billboard:focus-visible{filter:none;box-shadow:none}
-.work-scene .billboard img{left:3.8%;right:auto;top:5.6%;bottom:auto;width:92.4%;height:68.4%;object-fit:cover;opacity:.92;filter:brightness(.70) saturate(.76) contrast(.96);box-shadow:inset 0 0 14px rgba(0,0,0,.55);transition:filter .16s ease,opacity .16s ease}
-.work-scene .billboard:hover img,.work-scene .billboard:focus-visible img{filter:brightness(.82) saturate(.82) contrast(.98);opacity:.96}
-.work-scene .billboard:after{content:"";position:absolute;left:3.8%;top:5.6%;width:92.4%;height:68.4%;pointer-events:none;background:linear-gradient(180deg,rgba(237,211,151,.07),rgba(0,0,0,.12) 72%,rgba(0,0,0,.22)),repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,rgba(0,0,0,.012) 1px,rgba(0,0,0,.012) 3px);box-shadow:inset 0 0 18px rgba(3,3,2,.48);mix-blend-mode:soft-light}
-.work-scene .id{left:3.8%;right:auto;bottom:5.1%;width:92.4%;height:18.2%;padding:2px 8px;background:transparent;color:rgba(28,25,18,.88);justify-content:center;overflow:hidden}
+.work-scene .billboard img{display:none}
+.work-scene .billboard:after{content:"";position:absolute;left:3.8%;top:5.6%;width:92.4%;height:68.4%;pointer-events:none;background:rgba(235,217,172,0);box-shadow:inset 0 0 0 1px rgba(238,222,180,0);transition:background .14s ease,box-shadow .14s ease}
+.work-scene .billboard:hover:after,.work-scene .billboard:focus-visible:after{background:rgba(235,217,172,.035);box-shadow:inset 0 0 0 1px rgba(238,222,180,.10)}
+.work-scene .id{left:3.8%;right:auto;bottom:5.1%;width:92.4%;height:18.2%;padding:2px 8px;background:transparent;color:rgba(28,25,18,.84);justify-content:center;overflow:hidden;pointer-events:none}
 .work-scene .id b{font-size:clamp(6px,.55vw,9px);font-weight:650;letter-spacing:.01em}
-.work-scene .id span{font-size:clamp(5.5px,.48vw,8px);margin-top:2px;color:rgba(28,25,18,.70)}
+.work-scene .id span{font-size:clamp(5.5px,.48vw,8px);margin-top:2px;color:rgba(28,25,18,.66)}
 
 .work-scene .b1{left:8.20%;top:27.18%;width:17.63%;height:23.71%}
 .work-scene .b2{left:27.34%;top:28.37%;width:16.13%;height:22.02%}
