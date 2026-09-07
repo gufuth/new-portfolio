@@ -81,6 +81,7 @@ jobs:
             exit 0
           fi
           git commit -m 'Materialize Phase A Porsche billboard proof'
+          git pull --rebase origin main
           git push origin HEAD:main
 
       - name: Assemble exact staging directory
