@@ -85,3 +85,5 @@ a{color:inherit}
   .mobile-card span{color:#9e9480;font-size:10px;line-height:1.35;margin-top:8px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* QA trigger: render and deploy the materialized physical-billboard proof plate. */
