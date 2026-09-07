@@ -25,6 +25,10 @@ jobs:
           file assets/more-work-panorama-current.webp
       - name: Verify plate payload integrity
         run: |
+          echo 'Computed plate checksums:'
+          sha256sum assets/work-panorama-current.webp assets/more-work-panorama-current.webp
+          echo 'Expected plate checksums:'
+          cat assets/plate-payload/work.sha256 assets/plate-payload/more.sha256
           sha256sum --check assets/plate-payload/work.sha256
           sha256sum --check assets/plate-payload/more.sha256
       - name: Commit binary plates if changed
