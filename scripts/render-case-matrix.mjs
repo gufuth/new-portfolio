@@ -43,18 +43,34 @@ for(const [name,url] of cases){
     page.on('response',r=>{if(r.status()>=400&&/\.(png|jpe?g|webp|gif|svg)(\?|$)/i.test(r.url())) broken.push({status:r.status(),url:r.url()});});
     await page.goto(base+url,{waitUntil:'domcontentloaded',timeout:30000});
     await page.waitForTimeout(1600);
-    const info=await page.evaluate(()=>({
-      h1:document.querySelector('h1')?.textContent?.trim()||'',
-      role:document.querySelector('.role')?.textContent?.trim()||'',
-      idea:document.querySelector('.hero-fact b')?.textContent?.trim()||'',
-      topBar:Boolean(document.querySelector('.filmbar.top')),
-      bottomBar:Boolean(document.querySelector('.filmbar.bottom')),
-      paper:Boolean(document.querySelector('.paper')),
-      scrollWidth:document.documentElement.scrollWidth,
-      viewportWidth:innerWidth,
-      heroMedia:document.querySelector('.hero-media img')?.currentSrc||'',
-    }));
+    await page.evaluate(async()=>{
+      const step=Math.max(innerHeight,600);
+      for(let y=0;y<document.documentElement.scrollHeight;y+=step){
+        scrollTo(0,y);
+        await new Promise(resolve=>setTimeout(resolve,80));
+      }
+      scrollTo(0,0);
+    });
+    await page.waitForTimeout(500);
+    const info=await page.evaluate(()=>{
+      const hero=document.querySelector('.hero-media img');
+      const images=[...document.images];
+      return {
+        h1:document.querySelector('h1')?.textContent?.trim()||'',
+        role:document.querySelector('.role')?.textContent?.trim()||'',
+        idea:document.querySelector('.hero-fact b')?.textContent?.trim()||'',
+        topBar:Boolean(document.querySelector('.filmbar.top')),
+        bottomBar:Boolean(document.querySelector('.filmbar.bottom')),
+        paper:Boolean(document.querySelector('.paper')),
+        scrollWidth:document.documentElement.scrollWidth,
+        viewportWidth:innerWidth,
+        heroMedia:hero?.currentSrc||'',
+        heroLoaded:Boolean(hero?.complete&&hero.naturalWidth>0&&hero.naturalHeight>0),
+        failedImages:images.filter(image=>image.complete&&image.naturalWidth===0).map(image=>image.currentSrc||image.src),
+      };
+    });
     await page.screenshot({path:path.join(outDir,`${name}-${label}.png`)});
+    if(label==='desktop') await page.screenshot({path:path.join(outDir,`${name}-desktop-full.png`),fullPage:true});
     report.push({name,label,url,...info,broken});
     await context.close();
   }
@@ -62,6 +78,6 @@ for(const [name,url] of cases){
 fs.writeFileSync(path.join(outDir,'case-matrix-report.json'),JSON.stringify(report,null,2));
 await browser.close();
 await new Promise(resolve=>server.close(resolve));
-const failures=report.filter(r=>!r.topBar||!r.bottomBar||!r.paper||r.scrollWidth>r.viewportWidth+1||r.broken.length);
+const failures=report.filter(r=>!r.topBar||!r.bottomBar||!r.paper||!r.heroLoaded||r.failedImages.length||r.scrollWidth>r.viewportWidth+1||r.broken.length);
 if(failures.length){console.error(JSON.stringify(failures,null,2));process.exit(1);}
 console.log(`Rendered ${report.length} case first screens; no structural or image failures.`);
