@@ -110,6 +110,21 @@ try {
   const landing = await snap(context, { name: 'landing-1440x900', url: '/', width: 1440, height: 900 });
   const work1440 = await snap(context, { name: 'work-1440x900', url: '/work/', width: 1440, height: 900, wait: 1800 });
   const more1440 = await snap(context, { name: 'more-work-1440x900', url: '/work/more/', width: 1440, height: 900, wait: 1800 });
+
+  /* Production helper: capture the current MORE WORK environment with its live
+     billboard layers removed. This gives us an exact clean photographic plate
+     from the same browser geometry for physical compositing, without changing
+     the public page or baking browser UI into the environment. */
+  {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(base + '/work/more/', { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await waitForPaint(page, 1600);
+    await page.addStyleTag({ content: '.more-scene .billboard{display:none!important}' });
+    await page.screenshot({ path: path.join(outDir, 'more-work-clean-1440x900.png') });
+    await page.close();
+  }
+
   const porsche1440 = await snap(context, { name: 'porsche-1440x900', url: '/work/porsche-lucasfilm-designer-alliance/', width: 1440, height: 900, wait: 1800 });
   const about1440 = await snap(context, { name: 'about-1440x900', url: '/about/', width: 1440, height: 900 });
   await snap(context, { name: 'work-1366x768', url: '/work/', width: 1366, height: 768, wait: 1600 });
