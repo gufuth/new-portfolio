@@ -16,6 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build deploy-only source archive
         run: |
+          # Keep this package deliberately lean: source needed by Netlify only.
           zip -qr /tmp/last-stop-staging-source.zip . \
             -x '.git/*' '.github/*' 'docs/*' 'scripts/*' 'artifacts/*' 'node_modules/*' \
                'AGENTS.md' 'CLAUDE.md' 'README.md' 'assets/plate-payload/*' 'assets/*.b64' '.DS_Store'
