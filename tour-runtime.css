@@ -67,9 +67,12 @@ html.tour-prepaint-case .paper{visibility:hidden}
   .filmbar.bottom .rail::-webkit-scrollbar{display:none}
 }
 @media(max-width:760px){
-  .filmbar.bottom{gap:8px}
-  .filmbar.bottom .rail{gap:12px}
-  .tour-sound{font-size:9px;min-height:44px}
+  .filmbar.bottom{gap:0;padding-left:10px;padding-right:10px}
+  .filmbar.bottom .rail{display:flex;flex:1;justify-content:space-between;gap:0;overflow:visible;white-space:nowrap}
+  .filmbar.bottom .rail a{font-size:8px;letter-spacing:.14em;min-height:44px;padding:0 1px}
+  /* Road-life/audio is intentionally disabled on mobile, so a sound control there
+     is dead chrome. Remove it and give the whole FilmFrame width back to navigation. */
+  .tour-sound{display:none}
   .tour-cut{top:var(--tour-bar-h);bottom:var(--tour-bar-h)}
   .tour-road-life{display:none}
 }
