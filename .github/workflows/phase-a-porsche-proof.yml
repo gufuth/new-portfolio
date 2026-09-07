@@ -1,0 +1,96 @@
+name: Phase A Porsche billboard proof
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build-phase-a-porsche-proof.py'
+      - '.github/workflows/phase-a-porsche-proof.yml'
+
+permissions:
+  contents: write
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+  NETLIFY_SITE_ID: a01e14a9-cc73-4b33-a657-6bc4671a59a3
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install plate dependencies
+        run: python -m pip install --disable-pip-version-check pillow numpy
+
+      - name: Recover last clean pre-proof WORK plate
+        run: git show b22084d43f4abcbfa0963d4bd76f47300a5e7bc2:assets/work-panorama-current.webp > /tmp/work-base.webp
+
+      - name: Fetch official Porsche S-91x art
+        run: >-
+          curl -L --fail --retry 3
+          'https://newsroom.porsche.com/.imaging/mte/porsche-templating-theme/image_1290x726/dam/US-local/Press-Releases/2019/20191213-Star-Wars-Tri-Wing-S-91x-Pegasus-Starfighter/star%20wars/S19_7177_fine.jpg/jcr%3Acontent/S19_7177_fine.jpg'
+          -o /tmp/porsche.jpg
+
+      - name: Build clean physical Porsche billboard plate
+        run: |
+          python scripts/build-phase-a-porsche-proof.py /tmp/work-base.webp /tmp/porsche.jpg assets/work-panorama-current.webp
+          file assets/work-panorama-current.webp
+          sha256sum assets/work-panorama-current.webp
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Render proof in the real WORK page
+        run: node scripts/render-tour.mjs
+
+      - name: Upload browser-pixel proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-a-porsche-proof
+          path: artifacts/tour-render
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Assemble exact staging directory
+        run: |
+          mkdir -p /tmp/last-stop-deploy
+          rsync -a ./ /tmp/last-stop-deploy/ \
+            --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
+            --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
+            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
+            --exclude 'assets/*.b64' --exclude '.DS_Store'
+
+      - name: Deploy the proven pixels to Netlify staging
+        run: npx --yes netlify-cli@latest deploy --prod --dir=/tmp/last-stop-deploy --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN" --message="Phase A Porsche proof ${GITHUB_SHA}"
+
+      - name: Commit proven binary plate
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/work-panorama-current.webp
+          if git diff --cached --quiet; then
+            echo 'Proof plate already current.'
+            exit 0
+          fi
+          git commit -m 'Materialize Phase A Porsche billboard proof'
+          git push origin HEAD:main
