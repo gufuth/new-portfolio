@@ -39,7 +39,8 @@ a{color:inherit}
 
 /* Desktop WORK and MORE WORK share one physical rule: campaign art is baked
    into the photographed board surface. HTML provides hit areas, live labels,
-   keyboard focus and an almost imperceptible glass response only. */
+   keyboard focus and an almost imperceptible glass response only. The source
+   payloads are materialized before this layer is browser-QA'd. */
 .work-scene .billboard,.more-scene .billboard{z-index:2;background:transparent;border:0;box-shadow:none;overflow:visible;filter:none;transition:none}
 .work-scene .billboard:hover,.work-scene .billboard:focus-visible,.more-scene .billboard:hover,.more-scene .billboard:focus-visible{filter:none;box-shadow:none}
 .work-scene .billboard img,.more-scene .billboard img{display:none}
