@@ -1,0 +1,32 @@
+@media(max-width:700px){
+  .presence{
+    display:none!important;
+    left:2vw!important;right:auto!important;top:13vh!important;bottom:auto!important;
+    width:96vw!important;height:62vh!important;
+    pointer-events:none!important;
+  }
+  .presence[data-state="near"],.presence.is-manual{display:block!important}
+  .presence .presence__portrait{
+    left:0!important;top:0!important;
+    width:58vw!important;height:48vh!important;
+    max-width:255px!important;max-height:410px!important;
+    opacity:.74!important;
+    filter:brightness(.73) contrast(.96) saturate(.84) blur(.3px)!important;
+  }
+  .presence--sweets .presence__portrait{width:62vw!important;height:34vh!important;max-width:275px!important;max-height:285px!important;top:7vh!important}
+  .presence .presence__portrait img{
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 20%,#000 73%,transparent 100%),linear-gradient(180deg,transparent 0%,#000 18%,#000 72%,transparent 100%)!important;
+    -webkit-mask-composite:source-in!important;
+    mask-image:linear-gradient(90deg,transparent 0%,#000 20%,#000 73%,transparent 100%),linear-gradient(180deg,transparent 0%,#000 18%,#000 72%,transparent 100%)!important;
+    mask-composite:intersect!important;
+  }
+  .presence .presence__voice{
+    left:36vw!important;right:auto!important;top:23vh!important;bottom:auto!important;
+    width:59vw!important;--voice-w:59vw!important;
+    opacity:1!important;filter:none!important;
+  }
+  .presence--sweets .presence__voice{top:22vh!important}
+  .presence .presence__voice p{font-size:clamp(27px,8.4vw,36px)!important;line-height:1.02!important;letter-spacing:-.032em!important}
+  .presence .presence__voice cite{font-size:11px!important;margin-top:10px!important}
+  .hearsay-room{cursor:pointer!important}
+}
