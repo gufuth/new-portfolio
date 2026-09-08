@@ -261,7 +261,7 @@ Netlify staging project:
 
 Public staging is live at `https://last-stop-diner-staging.netlify.app`.
 
-Ready deploy `6a9f75fd206f4f5ee971e8a2` contains the Porsche live-layer proof from commit `471461eb7a81e56b4bd83cd74ef99ab2b257d187` and the BFCache fix from commit `19b9edb39f208be5e45495ce1043ddc839a25dba`. Deployed verification confirmed the Porsche click-through and a visible browser Back return with no active transition curtain, restored Porsche focus, and the live layer intact.
+Ready deploy `6a9f7902cdbce91289105f05` contains the Porsche live-layer proof, the BFCache fix, and the cache-busted clean Landing transition through commit `90d9ac306069c1537090b799df71b093f5a3fa5a`. Deployed verification confirmed Landing → Work uses the clean plate, the Porsche click-through works, and browser Back returns visibly with no active transition curtain, restored Porsche focus, and the live layer intact.
 
 The project is currently updated through sanitized manual uploads. Git-connect remains a useful later infrastructure improvement, not a blocker to continued visual work.
 

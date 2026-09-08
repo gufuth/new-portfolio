@@ -22,7 +22,7 @@ The neutral-face builder is `scripts/build-live-porsche-proof.py`. It exists to 
 
 ## Verified public behavior
 
-Netlify deploy `6a9f75fd206f4f5ee971e8a2` reached `ready` on 2026-09-08 at `https://last-stop-diner-staging.netlify.app`.
+Netlify deploy `6a9f7902cdbce91289105f05` reached `ready` on 2026-09-08 at `https://last-stop-diner-staging.netlify.app`.
 
 Deployed-browser verification at a 1363×936 viewport confirmed:
 
@@ -34,6 +34,8 @@ Deployed-browser verification at a 1363×936 viewport confirmed:
 - `node scripts/verify-tour-runtime.mjs` passes.
 
 The initial deploy exposed a stale black transition curtain after browser Back. Commit `19b9edb39f208be5e45495ce1043ddc839a25dba` clears that BFCache state and adds a source regression assertion. Final live verification passed: zero active cut layers after Back, an empty transient body class, restored Porsche focus, and the live billboard visible.
+
+The final pass also found the Landing transition still referenced the old baked plate. Commit `90d9ac306069c1537090b799df71b093f5a3fa5a` points it to the clean proof plate and cache-busts the Landing stylesheet. Public staging verification confirmed the live-proof transition asset loads and the old plate is absent from that transition.
 
 ## What is and is not proved
 

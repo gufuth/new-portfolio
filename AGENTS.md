@@ -66,7 +66,7 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 - Porsche is the single live-layer proof: the environment plate contains a neutral inner face while `/assets/cases/porsche-hero.webp` is a separate 1600×900 HTML image registered inside the photographed frame. This proves the runtime architecture only; it does not approve the Porsche cover or any of the other eight cover selections.
 - ABOUT is now an honest finished state: no fake reel/coming-soon interaction; Room 3 plate preserved.
 - **HEARSAY remains the exception:** Ian is actively building the current apparition-in-dark direction separately. The checked-in framed-wall implementation is superseded and must not be polished or treated as current.
-- Public Netlify staging is active at `https://last-stop-diner-staging.netlify.app`. Deploy `6a9f75fd206f4f5ee971e8a2` contains the live Porsche layer and BFCache correction. The Porsche route, visible browser Back, cleared transition state, restored focus, and intact live layer were verified in the deployed site on 2026-09-08.
+- Public Netlify staging is active at `https://last-stop-diner-staging.netlify.app`. Deploy `6a9f7902cdbce91289105f05` contains the live Porsche layer, BFCache correction, and cache-busted clean Landing transition. Landing → Work, the Porsche route, visible browser Back, cleared transition state, restored focus, and intact live layer were verified in the deployed site on 2026-09-08.
 - `scripts/verify-tour-runtime.mjs` and `.github/workflows/verify-tour.yml` provide executable source-level regression checks. A post-runtime GitHub Actions run has passed both JavaScript parsing and tour wiring audit.
 
 ## Core world and surface locks
