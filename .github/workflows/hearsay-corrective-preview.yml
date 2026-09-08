@@ -3,6 +3,7 @@ name: Hearsay corrective preview and QA
 on:
   push:
     branches: [hearsay-elite-corrective]
+  workflow_dispatch:
 
 concurrency:
   group: hearsay-corrective-${{ github.ref }}
@@ -29,11 +30,12 @@ jobs:
         run: |
           test "$GITHUB_REF_NAME" = "hearsay-elite-corrective"
           if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
-            echo "::warning::NETLIFY_AUTH_TOKEN is unavailable. Running the full isolated local pixel-QA path; Netlify draft deploy will remain skipped."
+            echo "::warning::NETLIFY_AUTH_TOKEN is unavailable. The target-site draft step will be skipped and an isolated anonymous Netlify draft will be used for real deployed-pixel QA instead."
             echo "### Netlify credential boundary" >> "$GITHUB_STEP_SUMMARY"
             echo "- NETLIFY_AUTH_TOKEN is unavailable to this workflow." >> "$GITHUB_STEP_SUMMARY"
             echo "- The staging alias will not be touched." >> "$GITHUB_STEP_SUMMARY"
-            echo "- Full corrective pixel, responsive, keyboard, reduced-motion, brightness-lift, console, and motion evidence will still be generated against an isolated local server." >> "$GITHUB_STEP_SUMMARY"
+            echo "- A temporary anonymous Netlify draft will be used only as a real-network QA target." >> "$GITHUB_STEP_SUMMARY"
+            echo "- The workflow will prefer a draft on site $NETLIFY_SITE_ID automatically whenever the token becomes available." >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Set up Node
@@ -75,7 +77,7 @@ jobs:
           cat /tmp/hearsay-local-server.log
           exit 1
 
-      - name: Create unique Netlify draft deploy
+      - name: Create target-site Netlify draft deploy
         if: ${{ env.NETLIFY_AUTH_TOKEN != '' }}
         id: deploy
         shell: bash
@@ -86,23 +88,47 @@ jobs:
             --auth="$NETLIFY_AUTH_TOKEN" \
             --message="Hearsay corrective ${GITHUB_SHA}" \
             --json > /tmp/hearsay-deploy.json
-          DEPLOY_URL=$(node -e "const j=require('/tmp/hearsay-deploy.json');process.stdout.write(j.deploy_url||j.deployUrl||j.url||'')")
+          DEPLOY_URL=$(node -e "const fs=require('fs');const j=JSON.parse(fs.readFileSync('/tmp/hearsay-deploy.json','utf8'));process.stdout.write(j.deploy_url||j.deployUrl||j.url||'')")
           test -n "$DEPLOY_URL"
           echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
-          echo "### Hearsay corrective draft" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Hearsay corrective target-site draft" >> "$GITHUB_STEP_SUMMARY"
           echo "- Unique preview: $DEPLOY_URL/review/" >> "$GITHUB_STEP_SUMMARY"
           echo "- Integrated recommendation: $DEPLOY_URL/hearsay/" >> "$GITHUB_STEP_SUMMARY"
           echo "- Draft deploy only; the staging alias was not changed." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create temporary anonymous Netlify draft fallback
+        if: ${{ env.NETLIFY_AUTH_TOKEN == '' }}
+        id: anonymous-deploy
+        continue-on-error: true
+        shell: bash
+        run: |
+          npx --yes netlify-cli@latest deploy \
+            --allow-anonymous \
+            --dir=/tmp/last-stop-hearsay-preview \
+            --message="Hearsay corrective anonymous QA ${GITHUB_SHA}" \
+            --json > /tmp/hearsay-anonymous-deploy.json 2> /tmp/hearsay-anonymous-deploy.err
+          DEPLOY_URL=$(node -e "const fs=require('fs');const p='/tmp/hearsay-anonymous-deploy.json';if(!fs.existsSync(p))process.exit(0);const raw=fs.readFileSync(p,'utf8').trim();if(!raw)process.exit(0);const j=JSON.parse(raw);process.stdout.write(j.deploy_url||j.deployUrl||j.url||'')")
+          test -n "$DEPLOY_URL"
+          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+          echo "### Hearsay corrective anonymous draft fallback" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Temporary preview: $DEPLOY_URL/review/" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Integrated recommendation: $DEPLOY_URL/hearsay/" >> "$GITHUB_STEP_SUMMARY"
+          echo "- This is a temporary anonymous Netlify project used only for deployed-pixel QA." >> "$GITHUB_STEP_SUMMARY"
+          echo "- It does not modify site $NETLIFY_SITE_ID or the staging alias." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Resolve pixel-QA target
         id: qa-target
         shell: bash
         env:
           NETLIFY_DEPLOY_URL: ${{ steps.deploy.outputs.url }}
+          ANONYMOUS_DEPLOY_URL: ${{ steps.anonymous-deploy.outputs.url }}
         run: |
           if [ -n "$NETLIFY_DEPLOY_URL" ]; then
             QA_URL="$NETLIFY_DEPLOY_URL"
-            QA_KIND="netlify-draft"
+            QA_KIND="netlify-target-site-draft"
+          elif [ -n "$ANONYMOUS_DEPLOY_URL" ]; then
+            QA_URL="$ANONYMOUS_DEPLOY_URL"
+            QA_KIND="netlify-anonymous-draft"
           else
             QA_URL="http://127.0.0.1:4173"
             QA_KIND="isolated-local"
@@ -123,12 +149,31 @@ jobs:
           BASE_URL: ${{ steps.qa-target.outputs.url }}
         run: node scripts/render-hearsay-corrective.mjs
 
-      - name: Record credential-gated deploy state
-        if: ${{ env.NETLIFY_AUTH_TOKEN == '' }}
+      - name: Record deployment boundary
+        if: always()
         shell: bash
+        env:
+          TARGET_URL: ${{ steps.deploy.outputs.url }}
+          ANONYMOUS_URL: ${{ steps.anonymous-deploy.outputs.url }}
+          QA_KIND: ${{ steps.qa-target.outputs.kind }}
+          QA_URL: ${{ steps.qa-target.outputs.url }}
         run: |
           mkdir -p artifacts/hearsay-corrective
-          printf '%s\n' 'Netlify draft deploy not created: NETLIFY_AUTH_TOKEN is unavailable to GitHub Actions. Pixel QA ran against the isolated corrective build without touching the staging alias.' > artifacts/hearsay-corrective/netlify-deploy-blocker.txt
+          {
+            echo "target_site_id=$NETLIFY_SITE_ID"
+            echo "target_site_draft_url=$TARGET_URL"
+            echo "anonymous_draft_url=$ANONYMOUS_URL"
+            echo "qa_kind=$QA_KIND"
+            echo "qa_url=$QA_URL"
+            echo "staging_alias_changed=false"
+            echo "production_deploy_used=false"
+          } > artifacts/hearsay-corrective/deployment-boundary.txt
+          if [ -z "$TARGET_URL" ]; then
+            printf '%s\n' 'Target-site draft not created because NETLIFY_AUTH_TOKEN is unavailable to GitHub Actions. A temporary anonymous Netlify draft was attempted for deployed-pixel QA; the staging alias remained untouched.' > artifacts/hearsay-corrective/target-site-draft-blocker.txt
+          fi
+          if [ -f /tmp/hearsay-anonymous-deploy.err ]; then
+            cp /tmp/hearsay-anonymous-deploy.err artifacts/hearsay-corrective/anonymous-deploy-stderr.txt
+          fi
 
       - name: Upload complete Hearsay evidence
         if: always()
