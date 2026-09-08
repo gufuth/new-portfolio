@@ -8,6 +8,10 @@
   gate.rel='stylesheet';
   gate.href='/hearsay-final-gate.css?v=20260908-static-gate';
   document.head.appendChild(gate);
+  var auteur=document.createElement('link');
+  auteur.rel='stylesheet';
+  auteur.href='/hearsay-auteur.css?v=20260908-apparition-pass';
+  document.head.appendChild(auteur);
 
   var body=document.body;
   var params=new URLSearchParams(location.search);
