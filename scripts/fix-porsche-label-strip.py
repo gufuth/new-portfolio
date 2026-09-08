@@ -34,24 +34,26 @@ col_lum /= max(float(np.median(col_lum)), 1e-4)
 bg *= np.clip(col_lum[None,:,None], 0.88, 1.10)
 bg = np.clip(bg, 0, 255)
 label = Image.fromarray(np.uint8(bg), 'RGB').resize((w*8,h*8), Image.Resampling.BICUBIC)
-label = ImageEnhance.Contrast(label).enhance(0.96)
+label = ImageEnhance.Contrast(label).enhance(0.97)
 
 d = ImageDraw.Draw(label)
 bold='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 regular='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
-f1=ImageFont.truetype(bold, 58)
-f2=ImageFont.truetype(regular, 40)
-ink=(35,31,22)
-d.text((55,58),'Porsche × Lucasfilm',font=f1,fill=ink)
-d.text((55,150),'The Designer Alliance',font=f2,fill=(45,40,28))
-label = label.resize((w,h), Image.Resampling.LANCZOS).filter(ImageFilter.GaussianBlur(0.18))
+# Sized for the *final photographed distance*, not for the clean source strip.
+# The subtitle must survive the later downsample, scene scaling, and distance softness.
+f1=ImageFont.truetype(bold, 64)
+f2=ImageFont.truetype(regular, 52)
+ink=(27,24,17)
+d.text((70,48),'Porsche × Lucasfilm',font=f1,fill=ink)
+d.text((70,154),'The Designer Alliance',font=f2,fill=(31,28,20))
+label = label.resize((w,h), Image.Resampling.LANCZOS).filter(ImageFilter.GaussianBlur(0.12))
 
 # Fold a restrained amount of original strip microtexture back in.
 ref_gray=np.asarray(ref.convert('L'),dtype=np.float32)/255.0
 ref_blur=np.asarray(ref.convert('L').filter(ImageFilter.GaussianBlur(1.7)),dtype=np.float32)/255.0
 micro=np.clip(ref_gray-ref_blur,-0.012,0.012)
 lab=np.asarray(label,dtype=np.float32)/255.0
-lab += micro[...,None]*0.28
+lab += micro[...,None]*0.22
 label=Image.fromarray(np.uint8(np.clip(lab,0,1)*255),'RGB').convert('RGBA')
 
 warped=label.transform(scene.size, Image.Transform.PERSPECTIVE, coeff(quad,corners), Image.Resampling.BICUBIC, fillcolor=(0,0,0,0))
