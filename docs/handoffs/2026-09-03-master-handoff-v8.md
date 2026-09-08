@@ -236,7 +236,7 @@ A full run against the post-runtime state completed successfully on GitHub Actio
 
 ## 13. What is NOT yet certified
 
-**The single Porsche live-layer proof is deployed and browser-verified. The full-site rendered-pixel quality is not certified.**
+**The single Porsche live-layer proof is deployed. Final browser-Back verification is pending redeploy of the source fix. The full-site rendered-pixel quality is not certified.**
 
 Therefore the following remain staging gates, not completed claims:
 - exact perceived quality of LANDING → WORK cut
@@ -261,7 +261,7 @@ Netlify staging project:
 
 Public staging is live at `https://last-stop-diner-staging.netlify.app`.
 
-Ready deploy `6a9f6ee1d98404011f5a5141` contains the Porsche live-layer proof from commit `471461eb7a81e56b4bd83cd74ef99ab2b257d187`. The deployed Porsche click-through and browser Back path were verified on 2026-09-08.
+Ready deploy `6a9f6ee1d98404011f5a5141` contains the Porsche live-layer proof from commit `471461eb7a81e56b4bd83cd74ef99ab2b257d187`. The Porsche click-through worked, but rendered QA caught a stale black transition curtain after browser Back. Commit `19b9edb39f208be5e45495ce1043ddc839a25dba` fixes that BFCache state in source; live confirmation awaits redeploy.
 
 The project is currently updated through sanitized manual uploads. Git-connect remains a useful later infrastructure improvement, not a blocker to continued visual work.
 

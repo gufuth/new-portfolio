@@ -30,8 +30,10 @@ Deployed-browser verification at a 1363×936 viewport confirmed:
 - the displayed artwork is an independent, loaded 1600×900 image;
 - the environment uses `work-panorama-live-proof.webp`;
 - the Porsche billboard opens `/work/porsche-lucasfilm-designer-alliance/`;
-- browser Back returns to `/work` with the live proof intact;
+- browser Back reaches `/work`; rendered QA then exposed a stale black transition curtain in the restored page;
 - `node scripts/verify-tour-runtime.mjs` passes.
+
+Commit `19b9edb39f208be5e45495ce1043ddc839a25dba` clears stale transition state on BFCache restoration and adds a source regression assertion. Netlify returned repeated server-side 500 errors while uploading the corrective deploy, so its final live pixel verification remains open.
 
 ## What is and is not proved
 
