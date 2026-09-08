@@ -60,13 +60,14 @@ await shot('integrated-reduced-motion','/hearsay/?seed=117',{width:1366,height:7
   await page.screenshot({path:path.join(out,'keyboard-final-focus.png')});report.screenshots.push('keyboard-final-focus.png');report.checks.push({label:'keyboard',reached});await context.close();
 }
 
-// Touch interaction and tab lifecycle do not fight the ambient score.
+// Phone interaction: tapping the room advances the next apparition, then lifecycle restore preserves it.
 {
   const context=await browser.newContext({viewport:{width:430,height:932},hasTouch:true,isMobile:true});const page=await context.newPage();await page.goto(base+'/hearsay/?seed=117');await ready(page);
-  await page.locator('[data-presence="neighbor"]').tap();
-  const state=await page.locator('[data-presence="neighbor"]').getAttribute('data-state');if(state!=='near')throw new Error(`touch did not reveal neighbor: ${state}`);
+  await page.locator('.hearsay-room').tap({position:{x:215,y:420}});
+  const state=await page.locator('[data-presence="neighbor"]').getAttribute('data-state');if(state!=='near')throw new Error(`room tap did not reveal neighbor: ${state}`);
   const cdp=await context.newCDPSession(page);await cdp.send('Page.setWebLifecycleState',{state:'frozen'});await new Promise(r=>setTimeout(r,250));await cdp.send('Page.setWebLifecycleState',{state:'active'});
-  report.checks.push({label:'touch-and-restore',state});await context.close();
+  const restored=await page.locator('[data-presence="neighbor"]').getAttribute('data-state');if(restored!=='near')throw new Error(`lifecycle restore lost neighbor: ${restored}`);
+  report.checks.push({label:'touch-and-restore',state:restored});await context.close();
 }
 
 async function motion(name,url){
