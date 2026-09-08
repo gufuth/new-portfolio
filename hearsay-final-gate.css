@@ -1,0 +1,11 @@
+/* Final static-review gate. Static masters are compositional proofs, not a map of all five sources. */
+body[data-hearsay-motion="static"] .presence[data-state="trace"],
+body[data-hearsay-motion="static"] .presence[data-state="withheld"]{
+  display:none!important;
+}
+
+/* Diagnostics deliberately resurrect every source so masking/cropping cannot hide behind darkness. */
+body.diagnostic-lift[data-hearsay-motion="static"] .presence[data-state="trace"],
+body.diagnostic-lift[data-hearsay-motion="static"] .presence[data-state="withheld"]{
+  display:block!important;
+}
