@@ -131,9 +131,16 @@ try {
   await snap(context, { name: 'more-work-1366x768', url: '/work/more/', width: 1366, height: 768, wait: 1600 });
   const work1024 = await snap(context, { name: 'work-1024x768', url: '/work/', width: 1024, height: 768, wait: 1600 });
   await snap(context, { name: 'more-work-1024x768', url: '/work/more/', width: 1024, height: 768, wait: 1600 });
+  const landing390 = await snap(context, { name: 'landing-390x844', url: '/', width: 390, height: 844 });
   const work390 = await snap(context, { name: 'work-390x844', url: '/work/', width: 390, height: 844, wait: 1600 });
+  const more390 = await snap(context, { name: 'more-work-390x844', url: '/work/more/', width: 390, height: 844, wait: 1600 });
   const porsche390 = await snap(context, { name: 'porsche-390x844', url: '/work/porsche-lucasfilm-designer-alliance/', width: 390, height: 844, wait: 1600 });
   await snap(context, { name: 'about-390x844', url: '/about/', width: 390, height: 844 });
+  const landing430 = await snap(context, { name: 'landing-430x932', url: '/', width: 430, height: 932 });
+  const work430 = await snap(context, { name: 'work-430x932', url: '/work/', width: 430, height: 932, wait: 1600 });
+  const more430 = await snap(context, { name: 'more-work-430x932', url: '/work/more/', width: 430, height: 932, wait: 1600 });
+  const porsche430 = await snap(context, { name: 'porsche-430x932', url: '/work/porsche-lucasfilm-designer-alliance/', width: 430, height: 932, wait: 1600 });
+  await snap(context, { name: 'about-430x932', url: '/about/', width: 430, height: 932 });
   await snap(context, { name: 'work-375x667', url: '/work/', width: 375, height: 667, wait: 1600 });
 
   assert('WORK has 5 desktop billboards', work1440.billboards.length === 5, String(work1440.billboards.length));
@@ -141,7 +148,11 @@ try {
   assert('Desktop WORK has top and bottom rails', Boolean(work1440.topBar && work1440.bottomBar));
   assert('1024 WORK has no horizontal document overflow', work1024.documentScrollWidth <= 1024 + 1, String(work1024.documentScrollWidth));
   assert('390 WORK uses mobile index', work390.sceneDisplay === 'none' && work390.mobileListDisplay !== 'none', JSON.stringify({ scene: work390.sceneDisplay, list: work390.mobileListDisplay }));
+  assert('390 MORE WORK uses mobile index', more390.sceneDisplay === 'none' && more390.mobileListDisplay !== 'none', JSON.stringify({ scene: more390.sceneDisplay, list: more390.mobileListDisplay }));
   assert('390 case retains paper/evidence surface', Boolean(porsche390.paper));
+  assert('430 WORK uses mobile index', work430.width === 430 && work430.sceneDisplay === 'none' && work430.mobileListDisplay !== 'none', JSON.stringify(work430));
+  assert('430 MORE WORK uses mobile index', more430.width === 430 && more430.sceneDisplay === 'none' && more430.mobileListDisplay !== 'none', JSON.stringify(more430));
+  assert('Phone surfaces have no horizontal overflow', [landing390,work390,more390,porsche390,landing430,work430,more430,porsche430].every(page=>page.documentScrollWidth<=page.width+1));
   assert('No visible broken images in static matrix', report.brokenImages.length === 0, `${report.brokenImages.length} broken`);
 
   {

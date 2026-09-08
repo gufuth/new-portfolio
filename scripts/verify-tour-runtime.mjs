@@ -50,7 +50,7 @@ for (const [rel, text, surface] of [
   expect(rel, text, '/tour-runtime.js', 'shared tour runtime is not loaded');
 }
 expect('index.html', index, '/tour-runtime.css', 'shared tour CSS is not loaded');
-expect('index.html', index, '/tour-runtime.css?v=20260908-liveproof', 'Landing tour CSS is not cache-busted for the live-proof transition');
+expect('index.html', index, '/tour-runtime.css', 'Landing tour CSS is not loaded');
 expect('work.html', work, '/tour-runtime.css', 'shared tour CSS is not loaded');
 expect('more-work.html', more, '/tour-runtime.css', 'shared tour CSS is not loaded');
 expect('about.html', about, '/tour-runtime.css', 'shared tour CSS is not loaded');
@@ -58,7 +58,7 @@ expect('case-system.css', caseCss, "@import url('/tour-runtime.css')", 'case pag
 
 // Clean-route asset safety. Netlify rewrites keep /work/... in the browser URL, so page-critical local assets must be root-absolute.
 expect('work.html', work, 'href="/work-system.css"', 'WORK CSS is not root-absolute for /work/');
-expect('work.html', work, 'href="/assets/work-panorama-live-proof.webp"', 'WORK panorama is not root-absolute for /work/');
+expect('work.html', work, 'href="/assets/work-panorama-physical-v1.webp"', 'WORK physical panorama preload is not root-absolute for /work/');
 expect('more-work.html', more, 'href="/work-system.css"', 'MORE WORK CSS is not root-absolute for /work/more/');
 expect('more-work.html', more, 'href="/assets/more-work-panorama-current.webp"', 'MORE WORK panorama is not root-absolute for /work/more/');
 expect('about.html', about, 'src="/about.webp"', 'ABOUT plate is not root-absolute for /about/');
@@ -160,8 +160,11 @@ expect('tour-runtime.js', runtime, "contact.href='mailto:Ianr.luna@gmail.com'", 
 if (count(runtimeCss, /@keyframes\s+tourHeadlightPass/g) !== 1) errors.push('tour-runtime.css: ambient headlight must be one event family');
 reject('tour-runtime.css', runtimeCss, 'infinite', 'tour runtime must not contain decorative infinite loops');
 expect('tour-runtime.css', runtimeCss, '@media(prefers-reduced-motion:reduce)', 'CSS reduced-motion fallback missing');
-expect('tour-runtime.css', runtimeCss, "url('/assets/work-panorama-live-proof.webp')", 'Landing-to-WORK cut does not use the clean live-proof plate');
+expect('tour-runtime.css', runtimeCss, "url('/assets/work-panorama-physical-v1.webp?v=20260908-1')", 'Landing-to-WORK cut does not use the physical Porsche plate');
 reject('tour-runtime.css', runtimeCss, "url('/assets/work-panorama-current.webp')", 'Landing-to-WORK cut still exposes the baked Porsche plate');
+reject('tour-runtime.css', runtimeCss, 'tour-cut--mullion', 'WORK/MORE WORK still uses the rejected mullion wipe');
+expect('tour-runtime.css', runtimeCss, 'tour-cut--exposure', 'WORK/MORE WORK exposure cut is missing');
+reject('work-system.css', workCss, '.work-scene .billboard[data-live-proof] img{\n  display:block', 'Rejected live Porsche rectangle is visible on desktop');
 
 // Netlify clean routes needed by the runtime.
 for (const route of [

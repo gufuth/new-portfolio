@@ -34,9 +34,14 @@ const cases=[
   ['08-outdoor-voices','/work/outdoor-voices/'],
   ['09-atlantic','/work/the-atlantic/'],
 ];
+const viewports=[
+  ['desktop',1440,900],
+  ['phone-390',390,844],
+  ['phone-430',430,932],
+];
 const report=[];
 for(const [name,url] of cases){
-  for(const [label,width,height] of [['desktop',1440,900],['mobile',390,844]]){
+  for(const [label,width,height] of viewports){
     const context=await browser.newContext({viewport:{width,height},reducedMotion:'no-preference'});
     const page=await context.newPage();
     const broken=[];
@@ -55,15 +60,34 @@ for(const [name,url] of cases){
     const info=await page.evaluate(()=>{
       const hero=document.querySelector('.hero-media img');
       const images=[...document.images];
+      const rect=element=>{if(!element)return null;const r=element.getBoundingClientRect();return {top:r.top,right:r.right,bottom:r.bottom,left:r.left,width:r.width,height:r.height};};
+      const topBar=document.querySelector('.filmbar.top');
+      const bottomBar=document.querySelector('.filmbar.bottom');
+      const h1=document.querySelector('h1');
+      const role=document.querySelector('.role');
+      const facts=document.querySelector('.hero-facts');
+      const railTargets=[...document.querySelectorAll('.filmbar.bottom .rail a')].map(link=>({text:link.textContent.trim(),...rect(link)}));
+      const caseTargets=[...document.querySelectorAll('.case-nav a')].map(link=>({text:link.textContent.trim(),...rect(link)}));
+      const clippedText=[...document.querySelectorAll('h1,.role,.hero-fact,.block p,.proof-item,.case-nav a,.filmbar.bottom .rail a')]
+        .filter(element=>element.scrollWidth>element.clientWidth+1)
+        .map(element=>element.textContent.trim().slice(0,80));
       return {
         h1:document.querySelector('h1')?.textContent?.trim()||'',
         role:document.querySelector('.role')?.textContent?.trim()||'',
         idea:document.querySelector('.hero-fact b')?.textContent?.trim()||'',
-        topBar:Boolean(document.querySelector('.filmbar.top')),
-        bottomBar:Boolean(document.querySelector('.filmbar.bottom')),
+        topBar:Boolean(topBar),
+        bottomBar:Boolean(bottomBar),
+        topBarRect:rect(topBar),
+        bottomBarRect:rect(bottomBar),
         paper:Boolean(document.querySelector('.paper')),
         scrollWidth:document.documentElement.scrollWidth,
         viewportWidth:innerWidth,
+        visualViewportWidth:window.visualViewport?.width||innerWidth,
+        heroColumns:getComputedStyle(document.querySelector('.case-hero')).gridTemplateColumns,
+        firstViewport:{h1:rect(h1),role:rect(role),facts:rect(facts)},
+        railTargets,
+        caseTargets,
+        clippedText,
         heroMedia:hero?.currentSrc||'',
         heroLoaded:Boolean(hero?.complete&&hero.naturalWidth>0&&hero.naturalHeight>0),
         failedImages:images.filter(image=>image.complete&&image.naturalWidth===0).map(image=>image.currentSrc||image.src),
@@ -71,6 +95,7 @@ for(const [name,url] of cases){
     });
     await page.screenshot({path:path.join(outDir,`${name}-${label}.png`)});
     if(label==='desktop') await page.screenshot({path:path.join(outDir,`${name}-desktop-full.png`),fullPage:true});
+    if(label==='phone-390') await page.screenshot({path:path.join(outDir,`${name}-phone-390-full.png`),fullPage:true});
     report.push({name,label,url,...info,broken});
     await context.close();
   }
@@ -78,6 +103,15 @@ for(const [name,url] of cases){
 fs.writeFileSync(path.join(outDir,'case-matrix-report.json'),JSON.stringify(report,null,2));
 await browser.close();
 await new Promise(resolve=>server.close(resolve));
-const failures=report.filter(r=>!r.topBar||!r.bottomBar||!r.paper||!r.heroLoaded||r.failedImages.length||r.scrollWidth>r.viewportWidth+1||r.broken.length);
+const failures=report.filter(r=>{
+  const phone=r.label.startsWith('phone-');
+  const railsInViewport=r.topBarRect?.top>=-1&&r.topBarRect?.right<=r.viewportWidth+1&&r.bottomBarRect?.left>=-1&&r.bottomBarRect?.right<=r.viewportWidth+1;
+  const targetHeights=[...r.railTargets,...r.caseTargets].every(target=>target.height>=43);
+  const firstScreen=phone&&r.firstViewport.h1&&r.firstViewport.role&&r.firstViewport.facts
+    ? r.firstViewport.h1.top<r.firstViewport.role.top&&r.firstViewport.role.top<r.firstViewport.facts.top&&r.firstViewport.facts.top<844
+    : true;
+  const singleColumn=phone?/\d+(?:\.\d+)?px/.test(r.heroColumns)&&r.heroColumns.trim().split(/\s+/).length===1:true;
+  return !r.topBar||!r.bottomBar||!r.paper||!r.heroLoaded||r.failedImages.length||r.scrollWidth>r.viewportWidth+1||r.broken.length||!railsInViewport||!targetHeights||!firstScreen||!singleColumn||r.clippedText.length;
+});
 if(failures.length){console.error(JSON.stringify(failures,null,2));process.exit(1);}
-console.log(`Rendered ${report.length} case first screens; no structural or image failures.`);
+console.log(`Rendered ${report.length} case/viewport pairs at desktop, 390px and 430px; no structural, image, clipping, rail or phone-width failures.`);

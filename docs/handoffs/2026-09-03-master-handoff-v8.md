@@ -2,7 +2,7 @@
 
 > **STATUS: CURRENT SOURCE OF TRUTH.** Dated 2026-09-03. Supersedes `2026-09-02-master-handoff-v7.md` for current implementation state and next actions. Historical handoffs remain useful for lineage only.
 
-> **SEPTEMBER 8 BILLBOARD ADDENDUM:** Read `2026-09-07-phase-a-billboard-method-lock.md` immediately after this file. It records why both baked-composite attempts were rejected and documents the one deployed Porsche live-layer proof. It locks an architecture test, not final artwork.
+> **SEPTEMBER 8 BILLBOARD CORRECTION:** Read `../design/billboard-physical-face-system-v1.md` first, then `2026-09-07-phase-a-billboard-method-lock.md`. The deployed live Porsche rectangle failed rendered review and is rejected. The locked method is a physically composited static face or a frame-treated animated face behind photographed hardware.
 
 ## 1. What changed in v8
 
@@ -64,8 +64,8 @@ Implemented behavior:
 - bottom navigation is the primary mechanism
 - click WORK / MORE WORK
 - rails remain fixed
-- one dark vertical architectural band / mullion grows into the cut over ~175–180ms
-- destination scene reverses out of that band over ~230ms
+- scene exposure dips to black over ~125–135ms
+- destination reverses out of the same exposure over ~145–245ms
 - no lateral camera pan
 - no simulated walking to another booth
 - reduced-motion = immediate navigation
@@ -185,7 +185,7 @@ MORE WORK contains four:
 8. Outdoor Voices — Let's Play
 9. The Atlantic — Social voice
 
-Every billboard is a direct semantic link and has a matching mobile card. Only Porsche currently proves independently replaceable desktop artwork. The other billboard images remain baked into the compressed scene plates and are not approved visual work.
+Every billboard is a direct semantic link and has a matching mobile card. The Porsche live-layer experiment proved replaceability but failed physical-integration review. The replacement candidate is precomposited into `assets/work-panorama-physical-v1.webp`; the other billboard images remain baked into the compressed scene plates and are not approved visual work.
 
 Final cover selection and label-copy refinement do not block the one-billboard architecture proof. They do block rolling the method across the remaining eight billboards.
 
@@ -241,7 +241,7 @@ A full run against the post-runtime state completed successfully on GitHub Actio
 
 ## 13. What is NOT yet certified
 
-**The single Porsche live-layer proof and its browser-Back correction are deployed and browser-verified. The full-site rendered-pixel quality is not certified.**
+**The Porsche live-layer proof is rejected. Browser-Back behavior remains verified. The new physical-composite candidate and full-site rendered-pixel quality are not yet certified.**
 
 Desktop case first-screen audit completed on public staging at 1363×936:
 
@@ -278,7 +278,7 @@ Live keyboard and landmark verification on public staging at 1363×936 also pass
 
 Therefore the following remain staging gates, not completed claims:
 - exact perceived quality of LANDING → WORK cut
-- exact mullion location/timing WORK ↔ MORE WORK
+- photographic exposure timing WORK ↔ MORE WORK
 - headlight opacity / speed / physical plausibility
 - synthesized road sound volume / realism
 - final Porsche registration/exposure approval and all non-Porsche billboard conversions
@@ -299,7 +299,7 @@ Netlify staging project:
 
 Public staging is live at `https://last-stop-diner-staging.netlify.app`.
 
-Ready deploy `6a9f829acdbce967b1105f02` contains the Porsche live-layer proof, the BFCache fix, the cache-busted clean Landing transition, the INT./EXT. screenplay rails, and the accessibility/performance patch through commit `777884af5be03163eb64b45ffdf41f09e9cb7c04`. Deployed verification confirmed Landing → Work uses the clean plate, the Porsche click-through works, browser Back returns visibly with no active transition curtain and restored Porsche focus, all nine clean cases expose the new main landmark and intrinsic image dimensions, and the Work/Porsche skip links move keyboard focus to the intended main content.
+Ready deploy `6a9f829acdbce967b1105f02` is the last verified public baseline. It contains the now-rejected live Porsche layer plus the BFCache fix, INT./EXT. screenplay rails, focusable landmarks, intrinsic image dimensions and deferred loading. Preserve its verified navigation/accessibility behavior while replacing the billboard pixels and transition treatment.
 
 The project is currently updated through sanitized manual uploads. Git-connect remains a useful later infrastructure improvement, not a blocker to continued visual work.
 
@@ -317,4 +317,4 @@ Next sequence:
 
 **Complete rendered mobile case QA → make only evidence-backed transition/mobile/accessibility/performance corrections → select final covers → decide billboard scale and copy treatment → build clean higher-quality scene plates → convert the other eight billboards → replace low-resolution case media → merge current Hearsay when Ian returns it → production-domain cutover.**
 
-The transition/runtime architecture exists and Ian accepted the one-billboard Porsche proof. Billboard scale, live copy beneath the image, final cover art, and the other eight conversions remain parked for the later visual pass. Do not reopen them during the current objective QA sequence.
+The tour runtime exists, but Ian rejected the one-billboard live Porsche overlay after rendered review. The physical-face method is active now. Billboard scale, live copy beneath the image, final cover art, and the other eight conversions remain parked until the one physical candidate passes.

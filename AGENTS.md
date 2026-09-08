@@ -52,7 +52,7 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 - LANDING, WORK, MORE WORK, ABOUT, HEARSAY, 404, and nine direct case pages exist.
 - `tour-runtime.css` + `tour-runtime.js` now provide the shared connective tour behavior across LANDING, WORK, MORE WORK, ABOUT, and all nine cases.
 - LANDING → WORK uses a measured physical-window exposure cut, not a camera fly-through.
-- WORK ↔ MORE WORK uses a short architectural/mullion cut with fixed rails.
+- WORK ↔ MORE WORK uses a short photographic exposure cut with fixed rails. The rejected expanding mullion wipe must not return.
 - Billboard → case and case → case navigation use restrained short cuts.
 - WORK/MORE WORK restore the correct visible billboard/card focus after case return.
 - Sound defaults OFF and is a shared opt-in preference.
@@ -65,11 +65,12 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 - A deploy-payload audit confirms the perceived WORK/MORE WORK softness is source-bound: `work-panorama-live-proof.webp` is 77,408 bytes and `more-work-panorama-current.webp` is 25,510 bytes. The nine local case-media sets total 4.42 MB, but Cuervo (2.05 MB) and Atlantic (1.13 MB) are gallery-size outliers because their below-fold animated WebPs contain 127/44 and 118 frames. Those galleries are lazy-loaded; optimize or replace them during the final media pass, after selection is settled.
 - Mobile WORK / MORE WORK is index-first.
 - The existing non-Porsche billboard art is baked into the compressed environment plates and is visibly inadequate. Do not describe it as approved or as independently replaceable.
-- Porsche is the single live-layer proof: the environment plate contains a neutral inner face while `/assets/cases/porsche-hero.webp` is a separate 1600×900 HTML image registered inside the photographed frame. This proves the runtime architecture only; it does not approve the Porsche cover or any of the other eight cover selections.
-- Ian accepted the Porsche live-layer architecture on 2026-09-08. Billboard scale, live copy beneath the image, final Porsche art, and the other eight cover selections are explicitly parked for a later visual pass.
+- The deployed Porsche live `<img>` overlay is explicitly rejected. It proved replaceability but still reads as a pasted rectangle and must remain hidden on desktop.
+- The locked replacement is `docs/design/billboard-physical-face-system-v1.md`: static faces are precomposited into the environment plate; animated WebP/WebM faces are treated frame-by-frame and sit behind a photographed hardware mask. Both paths must carry source-derived illumination, grime, reflections, falloff and distance softness.
+- `assets/work-panorama-physical-v1.webp` is the current one-board physical-composite candidate. It is not final art and does not authorize nine-board rollout until its rendered pixels pass Ian's visual review.
 - ABOUT is now an honest finished state: no fake reel/coming-soon interaction; Room 3 plate preserved.
 - **HEARSAY remains the exception:** Ian is actively building the current apparition-in-dark direction separately. The checked-in framed-wall implementation is superseded and must not be polished or treated as current.
-- Public Netlify staging is active at `https://last-stop-diner-staging.netlify.app`. Deploy `6a9f829acdbce967b1105f02` contains the live Porsche layer, BFCache correction, INT./EXT. screenplay rails, focusable main landmarks, intrinsic case-image dimensions, and deferred decoding/loading hints for noncritical index art. Landing → Work, the Porsche route, visible browser Back, cleared transition state, restored focus, intact live layer, all nine clean case landmarks, and Work/Porsche skip-link keyboard behavior were verified in the deployed site on 2026-09-08.
+- Public Netlify staging is active at `https://last-stop-diner-staging.netlify.app`. Deploy `6a9f829acdbce967b1105f02` is the last verified baseline but contains the now-rejected live Porsche layer. Its BFCache correction, INT./EXT. screenplay rails, focusable landmarks, intrinsic image dimensions, deferred loading, route behavior, cleared Back-state and skip-link behavior must be preserved while the billboard pixels are replaced.
 - `scripts/verify-tour-runtime.mjs` and `.github/workflows/verify-tour.yml` provide executable source-level regression checks. A post-runtime GitHub Actions run has passed both JavaScript parsing and tour wiring audit.
 
 ## Core world and surface locks
@@ -136,6 +137,6 @@ Do **not** stop merely because a billboard image is not perfect. Ian explicitly 
 
 ## Current next move
 
-The transition/runtime architecture is built in source. Do not restart concepting or reopen the nine-case cast.
+The transition/runtime architecture is built in source. Do not restart concepting or reopen the nine-case cast. The billboard compositing method was explicitly reopened after the live overlay failed review.
 
-Current sequence: **complete rendered mobile case QA → surgical transition/mobile/accessibility/performance fixes → select final covers → decide billboard scale and copy treatment → convert the remaining eight billboards to independent live layers → replace/re-export the low-resolution WORK/MORE WORK environment plates → final case-media replacement pass → integrate HEARSAY only when Ian returns its current design → production cutover.**
+Current sequence: **prove one physically installed Porsche face → complete rendered 390/430px phone QA → surgical transition/mobile/accessibility/performance fixes → select final covers → decide billboard scale and copy treatment → produce all nine static/animated physical faces → replace/re-export the low-resolution WORK/MORE WORK environment plates → final case-media replacement pass → integrate HEARSAY only when Ian returns its current design → production cutover.**

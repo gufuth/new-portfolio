@@ -116,12 +116,12 @@
         document.body.classList.remove('tour-arriving-work','tour-arrival-settling');
         cut.remove();spill.remove();
       },560);
-    }else if(kind==='mullion'){
-      cut=makeCut('mullion',true);
+    }else if(kind==='exposure'){
+      cut=makeCut('exposure',true);
       cleanPrepaint(kind);
       requestAnimationFrame(function(){requestAnimationFrame(function(){cut.classList.remove('is-active');});});
-      endCut(120);
-      setTimeout(function(){cut.remove();},230);
+      endCut(145);
+      setTimeout(function(){cut.remove();},245);
     }else if(kind==='case'||kind==='case-return'){
       cut=makeCut('black',true);
       cleanPrepaint(kind);
@@ -155,11 +155,11 @@
     navigate(href,'landing-work',445);
   }
 
-  function startMullion(href){
-    if(reduced){navigate(href,'mullion',0);return;}
-    var cut=makeCut('mullion',false);
+  function startExposureCut(href){
+    if(reduced){navigate(href,'exposure',0);return;}
+    var cut=makeCut('exposure',false);
     requestAnimationFrame(function(){cut.classList.add('is-active');});
-    navigate(href,'mullion',180);
+    navigate(href,'exposure',135);
   }
 
   function caseIdFromHref(href){
@@ -244,7 +244,7 @@
         e.preventDefault();startLandingWork(a.href);return;
       }
       if((surface==='work'&&isMore(u))||(surface==='more'&&isWork(u))){
-        e.preventDefault();startMullion(a.href);return;
+        e.preventDefault();startExposureCut(a.href);return;
       }
       if(surface==='case'&&(isWork(u)||isMore(u))){
         e.preventDefault();

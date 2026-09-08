@@ -1,12 +1,12 @@
-# Billboard method correction — live-layer proof — 2026-09-08
+# Billboard method correction — rejected live layer / physical-face replacement — 2026-09-08
 
-> **STATUS: CURRENT / BINDING FOR BILLBOARD PRODUCTION.** This addendum supersedes both September 7 baked-composite attempts. It records one deployed architecture proof, not approval of a cover image or permission to roll the current imagery across all nine billboards.
+> **STATUS: HISTORICAL FAILURE RECORD.** The deployed live-layer experiment in this file was rejected after rendered review. Current production law is `docs/design/billboard-physical-face-system-v1.md`.
 
 ## Why the prior method failed
 
 The original rectangular paste failed because it crossed photographed hardware and read as a digital rectangle. The later perspective-warped composite preserved the hardware more carefully, but it still baked campaign pixels into the environment plate. In the site, the supposedly independent billboard `<img>` elements were hidden on desktop. That made image replacement expensive and left the billboard feeling like a picture pasted onto a render.
 
-Neither baked method is an accepted production architecture.
+The bare live-layer method is not an accepted production architecture. A measured physical composite is now the required static path; animated faces use the same treatment frame-by-frame behind photographed hardware.
 
 ## Current proof
 
@@ -39,7 +39,7 @@ The final pass also found the Landing transition still referenced the old baked 
 
 ## What is and is not proved
 
-Ian accepted the architecture proof on 2026-09-08 and directed the build to move on. He did not lock billboard size: the current scene has room to enlarge the signs, and recruiter legibility plus future copy beneath the images may justify it. That scale decision, label/copy design, and final image selection are parked together for the later billboard visual pass.
+This acceptance was superseded by Ian's later rendered review. The live Porsche `<img>` still read as a pasted rectangle and is rejected. It may not be used as the production architecture. Billboard size, label/copy design and final image selection remain parked, but the physical integration method is active and governed by `docs/design/billboard-physical-face-system-v1.md`.
 
 Proved:
 
@@ -57,11 +57,11 @@ Not approved or complete:
 
 ## Next gates
 
-1. Ian judges the one deployed Porsche proof as an architecture test.
+1. Ian judges the one rendered Porsche physical-composite candidate as an architecture test.
 2. Tune only its registration/exposure if needed.
 3. Select final cover images.
 4. Build genuinely clean higher-quality WORK and MORE WORK environment plates.
-5. Convert the remaining eight billboards to independent live layers.
+5. Produce the remaining eight billboards as static physical composites or treated animated faces behind photographed hardware.
 6. Run the full desktop/mobile visual, interaction, accessibility, and performance audit.
 
 HEARSAY remains parked until Ian returns the separately developed current direction.
