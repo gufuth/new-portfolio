@@ -35,6 +35,7 @@ const more = read('more-work.html');
 const about = read('about.html');
 const runtime = read('tour-runtime.js');
 const runtimeCss = read('tour-runtime.css');
+const workCss = read('work-system.css');
 const caseCss = read('case-system.css');
 const redirects = read('_redirects');
 
@@ -90,6 +91,28 @@ const expectedMore = ['alita-te-connectivity','jose-cuervo','outdoor-voices','th
 for (const id of expectedWork) if (!workIds.has(id)) errors.push(`work.html: missing desktop case ${id}`);
 for (const id of expectedMore) if (!moreIds.has(id)) errors.push(`more-work.html: missing desktop case ${id}`);
 
+// Mobile is a direct project index, never a compressed or gesture-only version of the scene.
+const workMobileIds = new Set([...work.matchAll(/class="mobile-card"[^>]*data-case-id="([^"]+)"/g)].map(m => m[1]));
+const moreMobileIds = new Set([...more.matchAll(/class="mobile-card"[^>]*data-case-id="([^"]+)"/g)].map(m => m[1]));
+if (workMobileIds.size !== expectedWork.length) errors.push(`work.html: expected exactly ${expectedWork.length} mobile cards`);
+if (moreMobileIds.size !== expectedMore.length) errors.push(`more-work.html: expected exactly ${expectedMore.length} mobile cards`);
+for (const id of expectedWork) if (!workMobileIds.has(id)) errors.push(`work.html: missing mobile card ${id}`);
+for (const id of expectedMore) if (!moreMobileIds.has(id)) errors.push(`more-work.html: missing mobile card ${id}`);
+expect('work.html', work, '<main id="projects" tabindex="-1">', 'Skip to projects target is not a focusable main landmark');
+expect('more-work.html', more, '<main id="projects" tabindex="-1">', 'Skip to projects target is not a focusable main landmark');
+expect('work-system.css', workCss, '@media(max-width:760px)', 'mobile breakpoint is missing');
+expect('work-system.css', workCss, '.scene-stage{display:none}', 'desktop scene is not removed from the mobile flow');
+expect('work-system.css', workCss, '.mobile-list{display:grid', 'mobile project index is not displayed');
+expect('work-system.css', workCss, '.mobile-card{display:grid', 'mobile projects are not direct cards');
+expect('work-system.css', workCss, 'min-height:142px', 'mobile card target height regressed');
+expect('work-system.css', workCss, '.rail a{font-size:9px;min-height:44px}', 'mobile WORK rail target height regressed');
+expect('tour-runtime.css', runtimeCss, '.tour-sound{display:none}', 'dead mobile sound control is not removed');
+expect('tour-runtime.css', runtimeCss, '.tour-road-life{display:none}', 'road-life event is not disabled on mobile');
+expect('case-system.css', caseCss, '.case-hero{grid-template-columns:1fr;min-height:0}', 'mobile case hero is not single-column');
+expect('case-system.css', caseCss, '.media-band,.media-band.two{width:100%;padding:0 12px;grid-template-columns:1fr', 'mobile case media is not single-column');
+expect('case-system.css', caseCss, '.proof{grid-template-columns:1fr}', 'mobile proof block is not single-column');
+expect('case-system.css', caseCss, '.case-nav a{display:flex;align-items:center;min-height:44px', 'case navigation target height regressed');
+
 // Every case participates in the runtime, is clean-route safe, and keeps direct recruiter navigation.
 for (const [rel, slug] of cases) {
   const html = read(rel);
@@ -102,6 +125,17 @@ for (const [rel, slug] of cases) {
   reject(rel, html, '../favicon.png', 'relative favicon breaks clean routes');
   reject(rel, html, '../assets/', 'relative local asset path breaks clean routes');
   expect(rel, html, 'class="case-nav"', 'Previous / All Work / Next navigation missing');
+  expect(rel, html, '<a class="skip" href="#case">Skip to case</a>', 'case skip link missing');
+  expect(rel, html, '<main class="paper" id="case" tabindex="-1">', 'case root is not a focusable main landmark');
+  expect(rel, html, '<nav aria-label="Primary" class="rail">', 'primary navigation landmark is not labelled');
+  const nav = html.match(/<nav class="case-nav">([\s\S]*?)<\/nav>/)?.[1] || '';
+  if (count(nav, /<a\b/g) !== 3) errors.push(`${rel}: expected Previous / All Work / Next links`);
+  const imageTags = [...html.matchAll(/<img\b[^>]*>/g)].map(m => m[0]);
+  for (const tag of imageTags) {
+    if (!/\balt="[^"]+"/.test(tag)) errors.push(`${rel}: case image lacks useful alt text`);
+    if (!/\bwidth="\d+"/.test(tag) || !/\bheight="\d+"/.test(tag)) errors.push(`${rel}: case image lacks intrinsic dimensions`);
+    if (!/\bdecoding="async"/.test(tag)) errors.push(`${rel}: case image lacks async decoding`);
+  }
   reject(rel, html, 'IAN DECISION REQUIRED', 'visitor-visible unresolved marker');
   reject(rel, html, 'UNVERIFIED / NOT APPROVED', 'visitor-visible unresolved marker');
 }
@@ -111,6 +145,7 @@ for (const needle of ['placeholder', 'coming soon', 'reel is still rewinding', '
   reject('about.html', about.toLowerCase(), needle.toLowerCase(), `unfinished ABOUT language remains: ${needle}`);
 }
 expect('about.html', about, 'aria-current="page" href="/about/"', 'ABOUT is not selected in unified bottom rail');
+expect('about.html', about, '<section class="bio" id="bio" tabindex="-1">', 'ABOUT skip target is not focusable');
 
 // Runtime behavior: sound off, one rare road-life family, reduced-motion branch, restore state.
 expect('tour-runtime.js', runtime, "storageSet(localStorage,SOUND_KEY,'off')", 'sound does not default OFF');
