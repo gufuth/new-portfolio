@@ -111,7 +111,22 @@ body.diagnostic-lift .presence__portrait img{mix-blend-mode:normal!important}
 }
 
 @media(max-width:700px){
-  /* Mobile remains the intentional index. Discovery cannot depend on spatial hiding. */
+  /* Mobile remains the intentional index. Desktop route coordinates must not leak
+     through the cascade and create an off-canvas spatial composition. */
+  body[data-hearsay-route] .presence,
+  body[data-hearsay-route] .presence--ex,
+  body[data-hearsay-route] .presence--neighbor,
+  body[data-hearsay-route] .presence--sweets,
+  body[data-hearsay-route] .presence--vidal,
+  body[data-hearsay-route] .presence--mother{
+    left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  }
+  body[data-hearsay-route] .presence .presence__voice,
+  body[data-hearsay-route] .presence--ex .presence__voice,
+  body[data-hearsay-route] .presence--neighbor .presence__voice{
+    left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;--voice-w:100%!important;
+  }
+  body[data-hearsay-route] .room-anchor{display:none!important}
   .presence{--p:1!important}
   .presence[data-state="trace"] .presence__portrait,.presence[data-state="trace"] .presence__voice,
   .presence[data-state="withheld"] .presence__portrait,.presence[data-state="withheld"] .presence__voice{opacity:1!important}
