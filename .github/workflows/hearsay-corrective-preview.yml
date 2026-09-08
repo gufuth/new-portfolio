@@ -4,6 +4,10 @@ on:
   push:
     branches: [hearsay-elite-corrective]
 
+concurrency:
+  group: hearsay-corrective-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -54,8 +58,6 @@ jobs:
             --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
             --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
             --exclude 'assets/*.b64' --exclude '.DS_Store'
-          # Python's static server does not apply Netlify clean-route rewrites.
-          # Mirror the production /hearsay/ route locally without changing source files.
           mkdir -p /tmp/last-stop-hearsay-preview/hearsay
           cp /tmp/last-stop-hearsay-preview/hearsay.html /tmp/last-stop-hearsay-preview/hearsay/index.html
 
