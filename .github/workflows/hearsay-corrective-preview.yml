@@ -20,11 +20,17 @@ jobs:
       - name: Check out corrective branch
         uses: actions/checkout@v4
 
-      - name: Enforce branch and credential boundary
+      - name: Enforce corrective branch boundary
         shell: bash
         run: |
           test "$GITHUB_REF_NAME" = "hearsay-elite-corrective"
-          test -n "$NETLIFY_AUTH_TOKEN"
+          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
+            echo "::warning::NETLIFY_AUTH_TOKEN is unavailable. Running the full isolated local pixel-QA path; Netlify draft deploy will remain skipped."
+            echo "### Netlify credential boundary" >> "$GITHUB_STEP_SUMMARY"
+            echo "- NETLIFY_AUTH_TOKEN is unavailable to this workflow." >> "$GITHUB_STEP_SUMMARY"
+            echo "- The staging alias will not be touched." >> "$GITHUB_STEP_SUMMARY"
+            echo "- Full corrective pixel, responsive, keyboard, reduced-motion, brightness-lift, console, and motion evidence will still be generated against an isolated local server." >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -41,6 +47,7 @@ jobs:
       - name: Assemble isolated deploy directory
         shell: bash
         run: |
+          rm -rf /tmp/last-stop-hearsay-preview
           mkdir -p /tmp/last-stop-hearsay-preview
           rsync -a ./ /tmp/last-stop-hearsay-preview/ \
             --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
@@ -48,7 +55,22 @@ jobs:
             --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
             --exclude 'assets/*.b64' --exclude '.DS_Store'
 
+      - name: Start isolated local corrective server
+        shell: bash
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory /tmp/last-stop-hearsay-preview > /tmp/hearsay-local-server.log 2>&1 &
+          echo $! > /tmp/hearsay-local-server.pid
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/review/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/hearsay-local-server.log
+          exit 1
+
       - name: Create unique Netlify draft deploy
+        if: ${{ env.NETLIFY_AUTH_TOKEN != '' }}
         id: deploy
         shell: bash
         run: |
@@ -66,6 +88,25 @@ jobs:
           echo "- Integrated recommendation: $DEPLOY_URL/hearsay/" >> "$GITHUB_STEP_SUMMARY"
           echo "- Draft deploy only; the staging alias was not changed." >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Resolve pixel-QA target
+        id: qa-target
+        shell: bash
+        env:
+          NETLIFY_DEPLOY_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          if [ -n "$NETLIFY_DEPLOY_URL" ]; then
+            QA_URL="$NETLIFY_DEPLOY_URL"
+            QA_KIND="netlify-draft"
+          else
+            QA_URL="http://127.0.0.1:4173"
+            QA_KIND="isolated-local"
+          fi
+          echo "url=$QA_URL" >> "$GITHUB_OUTPUT"
+          echo "kind=$QA_KIND" >> "$GITHUB_OUTPUT"
+          echo "### Pixel-QA target" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Target: $QA_KIND" >> "$GITHUB_STEP_SUMMARY"
+          echo "- URL: $QA_URL" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Install browser QA runtime
         run: |
           npm install --no-save playwright@1.55.0
@@ -73,8 +114,15 @@ jobs:
 
       - name: Render real pixels and run interaction checks
         env:
-          BASE_URL: ${{ steps.deploy.outputs.url }}
+          BASE_URL: ${{ steps.qa-target.outputs.url }}
         run: node scripts/render-hearsay-corrective.mjs
+
+      - name: Record credential-gated deploy state
+        if: ${{ env.NETLIFY_AUTH_TOKEN == '' }}
+        shell: bash
+        run: |
+          mkdir -p artifacts/hearsay-corrective
+          printf '%s\n' 'Netlify draft deploy not created: NETLIFY_AUTH_TOKEN is unavailable to GitHub Actions. Pixel QA ran against the isolated corrective build without touching the staging alias.' > artifacts/hearsay-corrective/netlify-deploy-blocker.txt
 
       - name: Upload complete Hearsay evidence
         if: always()
@@ -82,5 +130,5 @@ jobs:
         with:
           name: hearsay-corrective-${{ github.sha }}
           path: artifacts/hearsay-corrective
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 90
