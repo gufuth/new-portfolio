@@ -1,0 +1,115 @@
+/* September 8 rendered-pixel correction.
+   This file intentionally sits after hearsay-system.css and attacks the failures
+   exposed by the static and brightness-lift masters: drawable photo rectangles,
+   testimonial-module distribution, flat web-black, and timid active copy. */
+
+/* The room is a low-exposure physical condition, not a black canvas. */
+.hearsay-room{
+  background:
+    radial-gradient(ellipse at 47% 111%,rgba(115,88,57,.055) 0,rgba(67,51,36,.022) 31%,transparent 58%),
+    radial-gradient(ellipse at 51% 44%,rgba(33,29,24,.05),transparent 61%),
+    linear-gradient(180deg,#010101 0%,#020202 57%,#050403 100%)!important;
+}
+.hearsay-room::before{opacity:.12!important;mix-blend-mode:soft-light!important}
+.hearsay-room::after{
+  left:-4%!important;right:-4%!important;bottom:-2%!important;height:24%!important;
+  background:
+    linear-gradient(180deg,transparent 0,rgba(31,26,21,.018) 42%,rgba(82,63,43,.042) 100%)!important;
+  border-top:1px solid rgba(137,116,87,.045);
+  box-shadow:0 -22px 48px rgba(36,29,22,.018),0 8px 28px rgba(90,65,39,.025)!important;
+  transform:rotate(-.11deg)!important;
+}
+
+/* Threshold contamination is a dirty off-screen exposure, never a pink stripe. */
+body[data-hearsay-route="b"] .hearsay-room{
+  background:
+    radial-gradient(ellipse at -10% 40%,rgba(137,38,75,.115) 0,rgba(90,24,53,.04) 23%,transparent 46%),
+    radial-gradient(ellipse at 48% 111%,rgba(115,88,57,.05) 0,rgba(67,51,36,.02) 31%,transparent 58%),
+    linear-gradient(180deg,#010101 0%,#020202 58%,#050403 100%)!important;
+}
+body[data-hearsay-route="b"] .room-anchor{
+  left:-7%!important;top:17%!important;width:17%!important;height:47%!important;
+  background:radial-gradient(ellipse at 0 48%,rgba(172,48,91,.12),rgba(112,30,63,.035) 37%,transparent 71%)!important;
+  filter:blur(9px)!important;box-shadow:none!important;
+}
+body[data-hearsay-route="a"] .room-anchor{
+  left:18%!important;bottom:4.4%!important;width:31%!important;height:10%!important;
+  border:0!important;
+  background:radial-gradient(ellipse at 48% 100%,rgba(161,111,61,.105),rgba(92,58,30,.03) 37%,transparent 72%)!important;
+  filter:blur(1.2px)!important;
+}
+body[data-hearsay-route="c"] .room-anchor{
+  right:16%!important;top:8%!important;width:1px!important;height:61%!important;
+  background:linear-gradient(transparent,rgba(120,109,91,.025) 18%,rgba(131,117,95,.055) 61%,transparent)!important;
+  box-shadow:-28px 0 46px rgba(74,62,47,.015)!important;
+}
+
+/* Source darkness should merge into the room. The bespoke SVG erosion masks remain
+   different per photograph; lighten blending prevents their black print fields from
+   surviving as darker rectangles when the room exposure is lifted. */
+.presence__portrait{background:transparent!important;isolation:auto!important}
+.presence__portrait img{mix-blend-mode:lighten;filter:drop-shadow(0 0 1px rgba(0,0,0,.22))}
+.presence__portrait::after{mix-blend-mode:multiply!important}
+
+/* There is no five-module resting diagram. Traces are genuinely uncertain; one near
+   and at most one middle presence carry the frame. */
+.presence[data-state="near"]{--p:1!important}
+.presence[data-state="middle"]{--p:.46!important}
+.presence[data-state="deep"]{--p:.075!important}
+.presence[data-state="trace"]{--p:.012!important}
+.presence[data-state="withheld"]{--p:0!important}
+body[data-hearsay-motion="static"] .presence--vidal,
+body[data-hearsay-motion="static"] .presence--mother{--p:.012!important}
+body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--neighbor{--p:.01!important}
+body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--sweets{--p:.40!important}
+body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--sweets{--p:.01!important}
+body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--neighbor{--p:.43!important}
+body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--sweets{--p:.01!important}
+body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--neighbor{--p:.36!important}
+
+/* Active testimony earns editorial scale. Deep testimony is not greyed-out UI. */
+.presence__voice p{font-size:clamp(22px,1.8vw,31px)!important;line-height:1.13!important;letter-spacing:-.018em!important}
+.presence__voice cite{margin-top:11px!important;color:#aaa397!important}
+.presence[data-state="near"] .presence__voice{filter:none!important;text-shadow:0 1px 2px #000,0 4px 19px rgba(0,0,0,.98)!important}
+
+/* Break the remaining diagrammatic spacing. These are discovered pairs, not slots. */
+body[data-hearsay-route="b"] .presence--ex{left:15%!important;top:16%!important}
+body[data-hearsay-route="b"] .presence--ex .presence__voice{left:205px!important;top:156px!important;--voice-w:270px!important}
+body[data-hearsay-route="b"] .presence--neighbor{left:55%!important;top:38%!important}
+body[data-hearsay-route="b"] .presence--neighbor .presence__voice{left:220px!important;top:88px!important;--voice-w:310px!important}
+body[data-hearsay-route="b"] .presence--vidal{left:76%!important;top:-3%!important}
+body[data-hearsay-route="b"] .presence--sweets{left:-1%!important;top:67%!important}
+body[data-hearsay-route="b"] .presence--mother{left:41%!important;top:78%!important}
+
+body[data-hearsay-route="c"] .presence--ex{left:44%!important;top:17%!important}
+body[data-hearsay-route="c"] .presence--ex .presence__voice{left:204px!important;top:151px!important;--voice-w:270px!important}
+body[data-hearsay-route="c"] .presence--neighbor{left:6%!important;top:48%!important}
+body[data-hearsay-route="c"] .presence--neighbor .presence__voice{left:220px!important;top:92px!important;--voice-w:318px!important}
+body[data-hearsay-route="c"] .presence--mother{left:-7%!important;top:4%!important}
+body[data-hearsay-route="c"] .presence--vidal{left:79%!important;top:-4%!important}
+body[data-hearsay-route="c"] .presence--sweets{left:70%!important;top:70%!important}
+
+/* Brightness lift remains hostile on purpose. Let the room lift without resurrecting
+   a five-card grid; the photo fields should blend into the lifted room. */
+body.diagnostic-lift .presence{--p:.72!important}
+body.diagnostic-lift .presence__portrait{filter:brightness(1.18) contrast(1.03) saturate(.96)!important}
+body.diagnostic-lift .presence__voice{opacity:.86!important}
+
+@media(max-width:900px) and (min-width:701px){
+  .presence__voice p{font-size:26px!important}
+}
+
+@media(max-width:700px){
+  /* Mobile is intentionally an index. Do not import the desktop withholding opacity. */
+  .presence{--p:1!important}
+  .presence__portrait img{mix-blend-mode:normal}
+  .presence__voice p{font-size:20px!important;line-height:1.2!important}
+  .presence--ex .presence__voice p{font-size:26px!important}
+}
+
+@media(prefers-reduced-motion:reduce) and (min-width:701px){
+  body[data-hearsay-motion="ambient"] .presence--ex{--p:1!important}
+  body[data-hearsay-motion="ambient"] .presence:not(.presence--ex){--p:.055!important}
+  body[data-hearsay-motion="ambient"] .presence:focus-visible,
+  body[data-hearsay-motion="ambient"] .presence.is-manual{--p:1!important}
+}
