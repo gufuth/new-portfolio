@@ -37,21 +37,21 @@ a{color:inherit}
 .id b{font-family:Arial,Helvetica,sans-serif;font-size:clamp(6.8px,.66vw,11px);font-weight:650;letter-spacing:.015em}
 .id span{font-size:clamp(6px,.57vw,9.5px);margin-top:2px}
 
-/* Desktop WORK and MORE WORK share one physical rule: campaign art is baked
-   into the photographed board surface. HTML provides hit areas, live labels,
-   keyboard focus and an almost imperceptible glass response only. The source
-   payloads are materialized before this layer is browser-QA'd. */
+/* Desktop WORK and MORE WORK share one physical rule: all visible campaign
+   pixels AND all visible case-study naming are baked into photographed surfaces.
+   HTML provides hit areas, accessible names, keyboard focus and an almost
+   imperceptible glass response only. */
 .work-scene .billboard,.more-scene .billboard{z-index:2;background:transparent;border:0;box-shadow:none;overflow:visible;filter:none;transition:none}
 .work-scene .billboard:hover,.work-scene .billboard:focus-visible,.more-scene .billboard:hover,.more-scene .billboard:focus-visible{filter:none;box-shadow:none}
 .work-scene .billboard img,.more-scene .billboard img{display:none}
+/* Critical: never visually redraw a physical label with live DOM text. The
+   anchor already carries its accessible name; the plate owns the pixels. */
+.work-scene .id,.more-scene .id{display:none}
 .work-scene .billboard:after,.more-scene .billboard:after{content:"";position:absolute;pointer-events:none;background:rgba(235,217,172,0);box-shadow:inset 0 0 0 1px rgba(238,222,180,0);transition:background .14s ease,box-shadow .14s ease}
 .work-scene .billboard:hover:after,.work-scene .billboard:focus-visible:after,.more-scene .billboard:hover:after,.more-scene .billboard:focus-visible:after{background:rgba(235,217,172,.035);box-shadow:inset 0 0 0 1px rgba(238,222,180,.10)}
 
 /* WORK — photographed hardware in the 16:9 Grok booth plate. */
 .work-scene .billboard:after{left:3.8%;top:5.6%;width:92.4%;height:68.4%}
-.work-scene .id{left:3.8%;right:auto;bottom:5.1%;width:92.4%;height:18.2%;padding:2px 8px;background:transparent;color:rgba(28,25,18,.84);justify-content:center;overflow:hidden;pointer-events:none}
-.work-scene .id b{font-size:clamp(6px,.55vw,9px);font-weight:650;letter-spacing:.01em}
-.work-scene .id span{font-size:clamp(5.5px,.48vw,8px);margin-top:2px;color:rgba(28,25,18,.66)}
 .work-scene .b1{left:8.20%;top:27.18%;width:17.63%;height:23.71%}
 .work-scene .b2{left:27.34%;top:28.37%;width:16.13%;height:22.02%}
 .work-scene .b3{left:44.81%;top:29.56%;width:14.34%;height:20.54%}
@@ -66,9 +66,6 @@ a{color:inherit}
 /* MORE WORK — campaign pixels are also physically composited into the plate.
    These live regions follow the original billboard hardware, not the artwork. */
 .more-scene .billboard:after{left:2.2%;top:5.5%;width:91.5%;height:61.5%}
-.more-scene .id{left:2.2%;right:auto;bottom:6.5%;width:91.5%;height:20%;padding:2px 7px;background:transparent;color:rgba(28,25,18,.84);justify-content:center;overflow:hidden;pointer-events:none}
-.more-scene .id b{font-size:clamp(5.8px,.50vw,8.5px);font-weight:650;letter-spacing:.01em}
-.more-scene .id span{font-size:clamp(5.2px,.43vw,7.5px);margin-top:2px;color:rgba(28,25,18,.66)}
 .more-scene .b1{left:10.47%;top:18.07%;width:14.58%;height:47.29%}
 .more-scene .b2{left:28.13%;top:18.37%;width:14.58%;height:46.99%}
 .more-scene .b3{left:45.33%;top:18.67%;width:14.30%;height:46.69%}
@@ -91,4 +88,4 @@ a{color:inherit}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
-/* QA trigger: render and deploy the materialized physical-billboard proof plate. */
+/* QA trigger: render the materialized physical-billboard proof plate. */
