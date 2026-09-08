@@ -19,6 +19,7 @@
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mobile=matchMedia('(max-width: 700px)').matches;
   var ambient=body.dataset.hearsayMotion==='ambient'&&!reduce&&!mobile;
+  var staticMaster=body.dataset.hearsayMotion==='static'&&!diagnostic;
   var timers=[];var manual=false;var hidden=false;var visit=0;var mobileIndex=0;
   var seed=parseInt(params.get('seed')||sessionStorage.getItem('hearsay_seed')||String(Date.now()%2147483647),10)||117;
   try{sessionStorage.setItem('hearsay_seed',String(seed));}catch(e){}
@@ -62,6 +63,8 @@
     clearScore();
     nodes.forEach(function(n,i){n.classList.toggle('is-manual',i===mobileIndex);state(n.dataset.presence,i===mobileIndex?'near':'trace',650);});
   }
+
+  if(staticMaster){nodes.forEach(function(n){state(n.dataset.presence,n.dataset.presence==='ex'?'near':'trace',10);});}
 
   nodes.forEach(function(node){
     node.addEventListener('mouseenter',function(){if(!mobile)makeManual(node);});
