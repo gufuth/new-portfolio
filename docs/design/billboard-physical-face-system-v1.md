@@ -1,21 +1,34 @@
 # Billboard Physical Face System v1
 
-Status: locked production method; one-board visual proof still requires Ian's rendered-pixel approval.
+Status: locked production method. Porsche × Lucasfilm is the accepted rendered-pixel master proof for physical integration; final campaign imagery may be upgraded later without changing the method.
 
 ## Non-negotiable rule
 
 A clean campaign image placed over the diner render is rejected. No billboard ships as a bare HTML image, CSS rectangle, or pristine video clipped over the plate. Route geometry may be live. Visible desktop art must look photographed inside the cabinet.
 
+A billboard is treated as one physical **assembly**, not necessarily one flat artwork rectangle. If the photographed cabinet has multiple real printable surfaces, such as a main campaign aperture plus a separate lower project-ID strip, design them together but map each component into the physical surface it actually occupies.
+
 ## Static face pipeline
 
-1. Freeze the environment plate and measure the four inner-aperture corners in source pixels.
-2. Cover-crop the chosen campaign art without distortion, then perspective-map it to those corners.
-3. Reapply the face's source-derived illumination and edge falloff. Match the photographed median exposure instead of preserving pristine source brightness.
-4. Reapply acrylic microtexture, grime, dust, glass reflection and distance softness. Reject source-face edges so old artwork cannot ghost through.
-5. Composite beneath the original bezel, lamp, label strip, posts and foreground obstructions.
-6. Export the complete photographic plate. Desktop DOM retains only the semantic link, accessible name, focus state and transition behavior.
+1. Freeze the environment plate and measure every relevant physical artwork surface in source pixels. For a simple board this may be one inner aperture. For Porsche it is the main art aperture plus the separate lower ID strip.
+2. Build the complete billboard assembly: campaign image, project/client name, title/subtitle and any other board copy. Preserve the photographed cabinet construction instead of forcing all content into one rectangle.
+3. Cover-crop the chosen campaign art without distortion, then perspective-map it to the measured main aperture.
+4. Rebuild or clean any separate physical label/nameplate surface, print the case-study identity into that surface, and perspective-map it independently.
+5. Reapply each surface's source-derived illumination and edge falloff. Match the photographed median exposure instead of preserving pristine source brightness.
+6. Reapply acrylic microtexture, grime, dust, glass reflection and distance softness. Reject source-face edges and old lettering so previous artwork cannot ghost through.
+7. Composite beneath the original bezel, lamp, posts, mullions, label hardware and foreground obstructions.
+8. Export the complete photographic plate. Desktop DOM retains only the semantic link, accessible name, focus state and transition behavior.
 
-The deterministic reference implementation is `scripts/build-phase-a-porsche-proof.py`. Its current proof input is the neutral Porsche face in `assets/work-panorama-live-proof.webp`; its output is `assets/work-panorama-physical-v1.webp`.
+The original deterministic reference implementation is `scripts/build-phase-a-porsche-proof.py`. The accepted master-proof path is now `scripts/build-porsche-master-billboard.py` plus `scripts/fix-porsche-label-strip.py`, exercised by `.github/workflows/porsche-master-billboard-qa.yml` on the isolated proof branch.
+
+## Porsche master geometry
+
+On the locked 1792×1008 WORK plate, Porsche uses two real photographed surfaces:
+
+- Main campaign art aperture: `[[830,319],[1066,320],[1066,460],[830,459]]`
+- Lower case-study ID strip: `[[830,461],[1066,462],[1066,515],[830,514]]`
+
+The final proof established that forcing the project name into the main image aperture is wrong for this cabinet. The correct treatment is hero art in the main aperture and `Porsche × Lucasfilm / The Designer Alliance` printed into the separate lower physical strip. Both surfaces receive source-derived exposure, material and distance treatment and are then baked into the photographed scene.
 
 ## Animated face pipeline
 
@@ -40,13 +53,14 @@ This keeps static and animated covers on one physical system. Only the media sou
 
 ## Acceptance gate
 
-The method does not pass because the code exists. It passes only when the same rendered plate succeeds at 1440×900, 1366×768 and 1024×768, plus a 2× crop of the proof board.
+The method does not pass because the code exists. It passes only when the same rendered plate succeeds at 1440×900, 1366×768 and 1024×768, plus an enlarged crop of the proof board.
 
 Fail when any of these are visible:
 
 - a clean rectangular edge;
 - art crossing bezel, lamp, label strip or cabinet hardware;
 - brightness or sharpness inconsistent with neighboring boards;
+- old campaign art or old label lettering ghosting through the new surface;
 - missing grime, reflection, face falloff or distance softness;
 - a motion layer that looks cleaner or flatter than its static poster;
 - a hover/focus effect that makes the artwork leave the photographed world.
@@ -55,9 +69,10 @@ Final human test: hide the cursor, rails and browser chrome. If a viewer would n
 
 ## Current proof state
 
-The deployed live Porsche `<img>` proof is rejected and disabled on desktop. `work-panorama-physical-v1.webp` is the new static physical-composite candidate. It demonstrates the production path but is not final cover selection, scale, copy or nine-board rollout approval.
+Porsche × Lucasfilm is the accepted technical master proof. The isolated QA workflow passed the real WORK page at 1440×900, 1366×768 and 1024×768 with the hero art baked into the main cabinet aperture and the two-line case identity baked into the real lower strip. No deploy or promotion was required for that proof.
+
+The current case image remains provisional. Replace it with the final higher-resolution approved case-study image later, preserve the same physical geometry, and rerun the same pipeline. Do not spend production time physicalizing the other eight temporary covers before their final imagery is selected.
 
 ## Phone-width QA
 
 Phone is a separate index-first presentation; the desktop billboard illusion is not squeezed onto it. GitHub Actions runs Playwright Chromium at exact CSS viewports of 390×844 and 430×932 for all nine cases and the main tour surfaces. It saves first-screen and full-page screenshots and fails on horizontal overflow, missing fixed rails, clipped key text, broken images, sub-44px target height, missing first-screen recruiter content, or a non-single-column case hero.
-
