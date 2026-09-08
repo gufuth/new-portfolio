@@ -9,11 +9,9 @@
 .tour-sound:hover,.tour-sound:focus-visible,.tour-sound[aria-pressed="true"]{color:var(--tour-cream)}
 .tour-sound:focus-visible{outline:2px solid var(--tour-cream);outline-offset:3px}
 
-/* FilmFrame lock: the black bars stay physically fixed while their metadata goes
-   silent during an edit, then returns only after the destination has settled. */
+/* FilmFrame lock: both black bars and their orientation text stay fixed through
+   scene edits. The room cuts underneath them. */
 .filmbar>*,.filmbar .rail,.tour-sound{transition:opacity 105ms ease-out,color 120ms ease-out}
-body.tour-cutting .filmbar>*{opacity:0}
-body.tour-cutting .tour-sound{opacity:0}
 
 /* Scene-only transition layer. Top and bottom rails stay fixed and legible. */
 .tour-cut{position:fixed;left:0;right:0;top:var(--tour-bar-h);bottom:var(--tour-bar-h);z-index:45;pointer-events:none;overflow:hidden}
