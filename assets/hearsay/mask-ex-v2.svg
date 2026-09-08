@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1000" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="white" stop-opacity="0.24"/>
+      <stop offset="0.08" stop-color="white" stop-opacity="0.96"/>
+      <stop offset="0.68" stop-color="white" stop-opacity="0.93"/>
+      <stop offset="0.86" stop-color="white" stop-opacity="0.56"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="edge" x="-18%" y="-12%" width="136%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency=".011 .027" numOctaves="4" seed="31" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="42" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+  <path filter="url(#edge)" fill="url(#fade)" d="M126 4 C220 24 294 4 382 18 C500 36 586 92 611 176 C630 240 598 296 633 354 C669 416 688 482 641 548 C608 595 628 665 582 718 C536 771 487 794 468 858 C451 915 398 962 320 952 C251 943 224 895 191 848 C153 794 125 742 139 674 C151 614 93 573 111 507 C129 442 175 410 153 347 C132 286 95 245 112 181 C126 129 101 70 126 4 Z"/>
+  <path filter="url(#edge)" fill="white" opacity=".20" d="M94 276 C131 240 166 230 185 259 C201 285 174 326 143 351 C113 374 82 353 77 323 C74 302 80 289 94 276 Z"/>
+  <path filter="url(#edge)" fill="white" opacity=".14" d="M544 246 C592 229 635 248 643 284 C651 319 617 345 574 348 C540 350 521 320 525 291 C527 270 533 254 544 246 Z"/>
+</svg>
