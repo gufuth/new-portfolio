@@ -1,8 +1,7 @@
-/* September 8 rendered-pixel correction, pass 2.
+/* September 8 rendered-pixel correction, pass 3.
    The governing test is perceptual: an apparition may contain an original photograph,
    but the viewer must not be able to draw the photograph's rectangle. */
 
-/* Nearly roomless darkness. Physical evidence is contamination and falloff, not drawn architecture. */
 .hearsay-room{
   background:
     radial-gradient(ellipse at 48% 108%,rgba(100,73,43,.038) 0,rgba(55,42,29,.014) 27%,transparent 52%),
@@ -15,16 +14,12 @@
   border:0!important;box-shadow:none!important;transform:none!important;
   background:radial-gradient(ellipse at 47% 112%,rgba(94,65,35,.034),transparent 66%)!important;
 }
-
-/* Route A: one low practical contamination. */
 body[data-hearsay-route="a"] .room-anchor{
   left:16%!important;bottom:3%!important;width:33%!important;height:11%!important;
   border:0!important;box-shadow:none!important;
   background:radial-gradient(ellipse at 46% 100%,rgba(157,104,54,.095),rgba(84,53,27,.022) 39%,transparent 73%)!important;
   filter:blur(2px)!important;
 }
-
-/* Route B: a dirty off-screen threshold on the far left, not a neon stripe. */
 body[data-hearsay-route="b"] .hearsay-room{
   background:
     radial-gradient(ellipse at -9% 42%,rgba(129,35,70,.092) 0,rgba(82,23,49,.027) 24%,transparent 43%),
@@ -37,8 +32,6 @@ body[data-hearsay-route="b"] .room-anchor{
   background:radial-gradient(ellipse at 0 48%,rgba(163,43,84,.092),rgba(102,28,57,.023) 38%,transparent 72%)!important;
   filter:blur(12px)!important;
 }
-
-/* Route C: almost nothing. A hair of vertical falloff, below conscious reading. */
 body[data-hearsay-route="c"] .room-anchor{
   right:17%!important;top:10%!important;width:1px!important;height:58%!important;
   border:0!important;
@@ -46,14 +39,16 @@ body[data-hearsay-route="c"] .room-anchor{
   box-shadow:-26px 0 50px rgba(70,59,45,.011)!important;
 }
 
-/* Each source has its own aggressively eroded SVG mask. Source black is allowed to
-   merge with room black, but masking rather than darkness does the concealment. */
+/* The image and its occlusion share the identical irregular mask. The prior version
+   masked the image but left the full rectangular occlusion pseudo-element behind. */
 .presence__portrait{background:transparent!important;isolation:auto!important}
 .presence__portrait img{mix-blend-mode:lighten;filter:drop-shadow(0 0 1px rgba(0,0,0,.2))}
-.presence__portrait::after{mix-blend-mode:multiply!important;opacity:.62!important}
+.presence__portrait::after{
+  mix-blend-mode:multiply!important;opacity:.62!important;
+  -webkit-mask:var(--mask) center/100% 100% no-repeat!important;
+  mask:var(--mask) center/100% 100% no-repeat!important;
+}
 
-/* The resting image is not a constellation. Trace states are withheld in real viewing,
-   while the lift diagnostic explicitly reveals every source for crop/mask inspection. */
 .presence[data-state="near"]{--p:1!important}
 .presence[data-state="middle"]{--p:.50!important}
 .presence[data-state="deep"]{--p:.052!important}
@@ -63,19 +58,29 @@ body[data-hearsay-route="c"] .room-anchor{
 .presence[data-state="trace"] .presence__voice,
 .presence[data-state="withheld"] .presence__portrait,
 .presence[data-state="withheld"] .presence__voice{opacity:0!important}
+
+/* Static masters show only the intended pair. The other three are not dimmed modules;
+   they are absent until motion/manual discovery makes them perceptible. */
 body[data-hearsay-motion="static"] .presence--ex{--p:1!important}
 body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--sweets{--p:.43!important}
 body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--neighbor{--p:.46!important}
 body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--neighbor{--p:.39!important}
+body[data-hearsay-motion="static"] .presence--vidal .presence__portrait,
+body[data-hearsay-motion="static"] .presence--vidal .presence__voice,
+body[data-hearsay-motion="static"] .presence--mother .presence__portrait,
+body[data-hearsay-motion="static"] .presence--mother .presence__voice,
+body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--neighbor .presence__portrait,
+body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--neighbor .presence__voice,
+body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--sweets .presence__portrait,
+body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--sweets .presence__voice,
+body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--sweets .presence__portrait,
+body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--sweets .presence__voice{opacity:0!important}
 
-/* Active copy is part of the sighting, not a caption below a thumbnail. */
 .presence__voice p{font-size:clamp(23px,1.86vw,32px)!important;line-height:1.12!important;letter-spacing:-.019em!important}
 .presence__voice cite{margin-top:10px!important;color:#aaa397!important}
 .presence[data-state="near"] .presence__voice,
 .presence[data-state="middle"] .presence__voice{filter:none!important;text-shadow:0 1px 2px #000,0 4px 18px rgba(0,0,0,.96)!important}
 
-/* Route B: asymmetrical discovery. Peripheral sources stay on-canvas for diagnostics
-   rather than being hidden by crop edges. */
 body[data-hearsay-route="b"] .presence--ex{left:15%!important;top:15%!important}
 body[data-hearsay-route="b"] .presence--ex .presence__voice{left:186px!important;top:151px!important;--voice-w:282px!important}
 body[data-hearsay-route="b"] .presence--neighbor{left:55%!important;top:39%!important}
@@ -83,7 +88,6 @@ body[data-hearsay-route="b"] .presence--neighbor .presence__voice{left:205px!imp
 body[data-hearsay-route="b"] .presence--vidal{left:67%!important;top:4%!important}
 body[data-hearsay-route="b"] .presence--sweets{left:4%!important;top:66%!important}
 body[data-hearsay-route="b"] .presence--mother{left:42%!important;top:70%!important}
-
 body[data-hearsay-route="c"] .presence--ex{left:44%!important;top:16%!important}
 body[data-hearsay-route="c"] .presence--ex .presence__voice{left:188px!important;top:151px!important;--voice-w:284px!important}
 body[data-hearsay-route="c"] .presence--neighbor{left:6%!important;top:48%!important}
@@ -92,8 +96,7 @@ body[data-hearsay-route="c"] .presence--mother{left:3%!important;top:6%!importan
 body[data-hearsay-route="c"] .presence--vidal{left:67%!important;top:5%!important}
 body[data-hearsay-route="c"] .presence--sweets{left:60%!important;top:68%!important}
 
-/* Hostile audit. Every source is deliberately visible, but the room itself is lifted
-   uniformly so no dark gradient or crop can conceal a rectangular source boundary. */
+/* Hostile audit deliberately resurrects every source against a uniform grey room. */
 body.diagnostic-lift .hearsay-room,
 body.diagnostic-lift[data-hearsay-route="a"] .hearsay-room,
 body.diagnostic-lift[data-hearsay-route="b"] .hearsay-room,
@@ -102,34 +105,30 @@ body.diagnostic-lift .hearsay-room::after{background:none!important;border:0!imp
 body.diagnostic-lift .room-anchor{opacity:.10!important}
 body.diagnostic-lift .presence{--p:.78!important}
 body.diagnostic-lift .presence__portrait,
-body.diagnostic-lift .presence__voice{opacity:.9!important}
+body.diagnostic-lift .presence__voice,
+body.diagnostic-lift[data-hearsay-motion="static"] .presence .presence__portrait,
+body.diagnostic-lift[data-hearsay-motion="static"] .presence .presence__voice{opacity:.9!important}
 body.diagnostic-lift .presence__portrait{filter:brightness(1.16) contrast(1.03) saturate(.96)!important}
 body.diagnostic-lift .presence__portrait img{mix-blend-mode:normal!important}
 
-@media(max-width:900px) and (min-width:701px){
-  .presence__voice p{font-size:25px!important}
-}
+@media(max-width:900px) and (min-width:701px){.presence__voice p{font-size:25px!important}}
 
 @media(max-width:700px){
-  /* Mobile remains the intentional index. Desktop route coordinates must not leak
-     through the cascade and create an off-canvas spatial composition. */
   body[data-hearsay-route] .presence,
   body[data-hearsay-route] .presence--ex,
   body[data-hearsay-route] .presence--neighbor,
   body[data-hearsay-route] .presence--sweets,
   body[data-hearsay-route] .presence--vidal,
-  body[data-hearsay-route] .presence--mother{
-    left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
-  }
+  body[data-hearsay-route] .presence--mother{left:auto!important;right:auto!important;top:auto!important;bottom:auto!important}
   body[data-hearsay-route] .presence .presence__voice,
   body[data-hearsay-route] .presence--ex .presence__voice,
-  body[data-hearsay-route] .presence--neighbor .presence__voice{
-    left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;--voice-w:100%!important;
-  }
+  body[data-hearsay-route] .presence--neighbor .presence__voice{left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;--voice-w:100%!important}
   body[data-hearsay-route] .room-anchor{display:none!important}
   .presence{--p:1!important}
   .presence[data-state="trace"] .presence__portrait,.presence[data-state="trace"] .presence__voice,
-  .presence[data-state="withheld"] .presence__portrait,.presence[data-state="withheld"] .presence__voice{opacity:1!important}
+  .presence[data-state="withheld"] .presence__portrait,.presence[data-state="withheld"] .presence__voice,
+  body[data-hearsay-motion="static"] .presence .presence__portrait,
+  body[data-hearsay-motion="static"] .presence .presence__voice{opacity:1!important}
   .presence__portrait img{mix-blend-mode:normal!important}
   .presence__voice p{font-size:20px!important;line-height:1.2!important}
   .presence--ex .presence__voice p{font-size:26px!important}
