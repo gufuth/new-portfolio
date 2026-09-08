@@ -7,6 +7,7 @@ on:
       - work/billboard-physical-rollout-qa-20260908
     paths:
       - 'scripts/build-porsche-master-billboard.py'
+      - 'scripts/fix-porsche-label-strip.py'
       - '.github/workflows/porsche-master-billboard-qa.yml'
 
 permissions:
@@ -39,12 +40,15 @@ jobs:
             assets/cases/porsche-hero.webp \
             assets/work-panorama-current.webp \
             artifacts/porsche-master/porsche-master-face.webp
+          python scripts/fix-porsche-label-strip.py \
+            assets/work-panorama-current.webp \
+            assets/work-panorama-physical-v1.webp \
+            assets/work-panorama-current.webp
           file artifacts/porsche-master/porsche-master-face.webp assets/work-panorama-current.webp
           sha256sum artifacts/porsche-master/porsche-master-face.webp assets/work-panorama-current.webp
 
       - name: Make real WORK page use the QA plate inside this runner only
-        run: |
-          cp assets/work-panorama-current.webp assets/work-panorama-physical-v1.webp
+        run: cp assets/work-panorama-current.webp assets/work-panorama-physical-v1.webp
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -61,8 +65,7 @@ jobs:
         run: node scripts/render-tour.mjs
 
       - name: Preserve master face and browser-pixel evidence
-        run: |
-          cp -R artifacts/tour-render artifacts/porsche-master/browser-pixels
+        run: cp -R artifacts/tour-render artifacts/porsche-master/browser-pixels
 
       - name: Upload non-promoting QA evidence
         uses: actions/upload-artifact@v4
