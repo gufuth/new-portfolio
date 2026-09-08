@@ -1,0 +1,73 @@
+name: Porsche master billboard QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - work/billboard-physical-rollout-qa-20260908
+    paths:
+      - 'scripts/build-porsche-master-billboard.py'
+      - '.github/workflows/porsche-master-billboard-qa.yml'
+
+permissions:
+  contents: read
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  prove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install compositor dependencies
+        run: python -m pip install --disable-pip-version-check pillow numpy
+
+      - name: Build one complete Porsche billboard face and physical plate
+        run: |
+          mkdir -p artifacts/porsche-master
+          python scripts/build-porsche-master-billboard.py \
+            assets/work-panorama-physical-v1.webp \
+            assets/cases/porsche-hero.webp \
+            assets/work-panorama-current.webp \
+            artifacts/porsche-master/porsche-master-face.webp
+          file artifacts/porsche-master/porsche-master-face.webp assets/work-panorama-current.webp
+          sha256sum artifacts/porsche-master/porsche-master-face.webp assets/work-panorama-current.webp
+
+      - name: Make real WORK page use the QA plate inside this runner only
+        run: |
+          cp assets/work-panorama-current.webp assets/work-panorama-physical-v1.webp
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Render real WORK page at acceptance sizes
+        run: node scripts/render-tour.mjs
+
+      - name: Preserve master face and browser-pixel evidence
+        run: |
+          cp -R artifacts/tour-render artifacts/porsche-master/browser-pixels
+
+      - name: Upload non-promoting QA evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: porsche-master-billboard-qa
+          path: artifacts/porsche-master
+          if-no-files-found: error
+          retention-days: 14
