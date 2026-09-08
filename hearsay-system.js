@@ -1,5 +1,10 @@
 (function(){
   'use strict';
+  var elite=document.createElement('link');
+  elite.rel='stylesheet';
+  elite.href='/hearsay-elite.css?v=20260908-pixel-correction';
+  document.head.appendChild(elite);
+
   var body=document.body;
   var params=new URLSearchParams(location.search);
   var diagnostic=params.get('diagnostic');
