@@ -254,6 +254,10 @@ Desktop case first-screen audit completed on public staging at 1363×936:
 
 Those source limitations are recorded, not cosmetically enlarged. Mobile rendered QA remains open.
 
+The 2026-09-08 deploy-payload inventory also explains the perceived softness in the diner scenes: `work-panorama-live-proof.webp` is 77,408 bytes and `more-work-panorama-current.webp` is 25,510 bytes. The browser cannot recover detail that is absent from these aggressively compressed source plates. Higher-quality clean plate exports remain the correct fix after cover selection and billboard-scale decisions.
+
+The nine local case-media sets total 4.42 MB. Most individual case sets remain modest, but Cuervo is 2.05 MB and Atlantic is 1.13 MB because their below-fold animated WebPs contain 127/44 and 118 frames respectively. Those gallery assets are lazy-loaded. They are recorded for the final media replacement/optimization pass rather than optimized ahead of the still-open selection decisions.
+
 Source-level mobile/accessibility audit completed on 2026-09-08:
 
 - WORK and MORE WORK expose the same 5 + 4 case IDs in direct mobile cards as in the desktop billboards;
