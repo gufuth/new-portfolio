@@ -6,11 +6,13 @@
   sheet('/hearsay-auteur.css?v=20260908-apparition-pass');
   sheet('/hearsay-physical.css?v=20260908-physical-room');
   sheet('/hearsay-mobile-cycle.css?v=20260908-room-tap');
+  sheet('/hearsay-apparition-v2.css?v=20260908-partial-emergence');
 
   var body=document.body;
   var params=new URLSearchParams(location.search);
   var diagnostic=params.get('diagnostic');
-  if(diagnostic==='lift'||params.get('lift')==='1') body.classList.add('diagnostic-lift');
+  var hostileLift=diagnostic==='lift'||params.get('lift')==='1';
+  if(hostileLift) body.classList.add('diagnostic-lift');
   if(diagnostic==='grayscale') body.classList.add('diagnostic-grayscale');
   if(diagnostic==='blur') body.classList.add('diagnostic-blur');
 
@@ -19,7 +21,7 @@
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mobile=matchMedia('(max-width: 700px)').matches;
   var ambient=body.dataset.hearsayMotion==='ambient'&&!reduce&&!mobile;
-  var staticMaster=body.dataset.hearsayMotion==='static'&&!diagnostic;
+  var staticMaster=body.dataset.hearsayMotion==='static'&&!hostileLift;
   var timers=[];var manual=false;var hidden=false;var visit=0;var mobileIndex=0;
   var seed=parseInt(params.get('seed')||sessionStorage.getItem('hearsay_seed')||String(Date.now()%2147483647),10)||117;
   try{sessionStorage.setItem('hearsay_seed',String(seed));}catch(e){}
