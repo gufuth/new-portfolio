@@ -49,6 +49,7 @@ for (const [rel, text, surface] of [
   expect(rel, text, '/tour-runtime.js', 'shared tour runtime is not loaded');
 }
 expect('index.html', index, '/tour-runtime.css', 'shared tour CSS is not loaded');
+expect('index.html', index, '/tour-runtime.css?v=20260908-liveproof', 'Landing tour CSS is not cache-busted for the live-proof transition');
 expect('work.html', work, '/tour-runtime.css', 'shared tour CSS is not loaded');
 expect('more-work.html', more, '/tour-runtime.css', 'shared tour CSS is not loaded');
 expect('about.html', about, '/tour-runtime.css', 'shared tour CSS is not loaded');
