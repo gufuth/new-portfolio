@@ -1,148 +1,306 @@
-/* September 8 rendered-pixel correction, pass 3.
-   The governing test is perceptual: an apparition may contain an original photograph,
-   but the viewer must not be able to draw the photograph's rectangle. */
+/* September 8 visual correction, apparition pass 4.
+   Governing test: portrait, quote and room must read as one perceptual event.
+   No cards, no portrait stickers, no clean photo rectangles floating beside copy. */
 
 .hearsay-room{
   background:
-    radial-gradient(ellipse at 48% 108%,rgba(100,73,43,.038) 0,rgba(55,42,29,.014) 27%,transparent 52%),
-    radial-gradient(ellipse at 54% 48%,rgba(31,27,22,.028),transparent 58%),
-    linear-gradient(180deg,#010101 0%,#020202 64%,#030302 100%)!important;
+    radial-gradient(ellipse at -7% 45%,rgba(138,37,74,.095) 0,rgba(79,22,45,.028) 24%,transparent 43%),
+    radial-gradient(ellipse at 89% 57%,rgba(148,104,58,.043) 0,rgba(85,59,33,.016) 18%,transparent 34%),
+    radial-gradient(ellipse at 47% 108%,rgba(112,80,45,.050) 0,rgba(63,45,28,.018) 26%,transparent 52%),
+    linear-gradient(105deg,rgba(255,255,255,.006),transparent 18%,transparent 66%,rgba(255,255,255,.004)),
+    linear-gradient(180deg,#010101 0%,#020202 62%,#030302 100%)!important;
 }
-.hearsay-room::before{opacity:.09!important;mix-blend-mode:soft-light!important}
+.hearsay-room::before{
+  opacity:.105!important;
+  mix-blend-mode:soft-light!important;
+}
 .hearsay-room::after{
-  left:7%!important;right:9%!important;bottom:1%!important;height:17%!important;
+  content:""!important;
+  position:absolute!important;
+  left:auto!important;right:3.2%!important;top:34%!important;bottom:auto!important;
+  width:12%!important;height:32%!important;
   border:0!important;box-shadow:none!important;transform:none!important;
-  background:radial-gradient(ellipse at 47% 112%,rgba(94,65,35,.034),transparent 66%)!important;
-}
-body[data-hearsay-route="a"] .room-anchor{
-  left:16%!important;bottom:3%!important;width:33%!important;height:11%!important;
-  border:0!important;box-shadow:none!important;
-  background:radial-gradient(ellipse at 46% 100%,rgba(157,104,54,.095),rgba(84,53,27,.022) 39%,transparent 73%)!important;
-  filter:blur(2px)!important;
-}
-body[data-hearsay-route="b"] .hearsay-room{
   background:
-    radial-gradient(ellipse at -9% 42%,rgba(129,35,70,.092) 0,rgba(82,23,49,.027) 24%,transparent 43%),
-    radial-gradient(ellipse at 49% 108%,rgba(99,72,43,.034) 0,rgba(55,42,29,.012) 27%,transparent 52%),
-    linear-gradient(180deg,#010101 0%,#020202 64%,#030302 100%)!important;
-}
-body[data-hearsay-route="b"] .room-anchor{
-  left:-8%!important;top:17%!important;width:16%!important;height:48%!important;
-  border:0!important;box-shadow:none!important;
-  background:radial-gradient(ellipse at 0 48%,rgba(163,43,84,.092),rgba(102,28,57,.023) 38%,transparent 72%)!important;
-  filter:blur(12px)!important;
-}
-body[data-hearsay-route="c"] .room-anchor{
-  right:17%!important;top:10%!important;width:1px!important;height:58%!important;
-  border:0!important;
-  background:linear-gradient(transparent,rgba(119,107,90,.018) 25%,rgba(126,112,94,.034) 61%,transparent)!important;
-  box-shadow:-26px 0 50px rgba(70,59,45,.011)!important;
+    radial-gradient(ellipse at 80% 52%,rgba(174,127,74,.050),rgba(95,67,39,.017) 30%,transparent 67%),
+    linear-gradient(90deg,transparent,rgba(145,120,87,.018),transparent)!important;
+  filter:blur(9px)!important;
+  pointer-events:none!important;
 }
 
-/* The image and its occlusion share the identical irregular mask. The prior version
-   masked the image but left the full rectangular occlusion pseudo-element behind. */
-.presence__portrait{background:transparent!important;isolation:auto!important}
-.presence__portrait img{mix-blend-mode:lighten;filter:drop-shadow(0 0 1px rgba(0,0,0,.2))}
+/* Physical condition by route. It is architecture/contamination, not decoration. */
+.room-anchor{pointer-events:none!important;z-index:1!important}
+body[data-hearsay-route="a"] .room-anchor{
+  left:14%!important;bottom:1.5%!important;width:43%!important;height:19%!important;
+  border:0!important;box-shadow:none!important;
+  background:radial-gradient(ellipse at 42% 100%,rgba(171,111,57,.105),rgba(94,57,28,.026) 42%,transparent 74%)!important;
+  filter:blur(5px)!important;
+}
+body[data-hearsay-route="b"] .room-anchor{
+  left:-2.5%!important;top:12%!important;width:10.5%!important;height:67%!important;
+  border:0!important;box-shadow:inset -1px 0 rgba(169,76,107,.045),20px 0 62px rgba(118,27,62,.040)!important;
+  background:
+    linear-gradient(90deg,rgba(86,16,43,.11),rgba(70,14,36,.025) 46%,transparent 100%),
+    radial-gradient(ellipse at 0 48%,rgba(185,49,91,.105),rgba(105,26,57,.026) 42%,transparent 72%)!important;
+  filter:blur(7px)!important;
+  transform:skewY(-.8deg)!important;
+}
+body[data-hearsay-route="c"] .room-anchor{
+  right:18.5%!important;top:7%!important;width:1px!important;height:69%!important;
+  border:0!important;
+  background:linear-gradient(transparent,rgba(139,125,103,.015) 13%,rgba(139,125,103,.048) 56%,rgba(139,125,103,.011) 84%,transparent)!important;
+  box-shadow:-42px 0 70px rgba(94,73,48,.012),1px 0 rgba(255,244,216,.008)!important;
+  filter:none!important;
+}
+
+/* Perceptual hierarchy. Deep sources remain discoverable; traces are photographic residue, not modules. */
+.presence[data-state="near"]{--p:1!important}
+.presence[data-state="middle"]{--p:.47!important}
+.presence[data-state="deep"]{--p:.145!important}
+.presence[data-state="trace"]{--p:.024!important}
+.presence[data-state="withheld"]{--p:0!important}
+
+.presence{
+  isolation:isolate!important;
+  transform:translateZ(0);
+}
+.presence::before{
+  content:"";
+  position:absolute;
+  left:-12%;top:-12%;width:108%;height:116%;
+  z-index:-1;
+  background:radial-gradient(ellipse at 35% 52%,rgba(127,92,58,.075),rgba(78,57,38,.024) 34%,transparent 70%);
+  opacity:calc(.02 + var(--p)*.34);
+  filter:blur(20px);
+  transition:opacity var(--fade) ease;
+  pointer-events:none;
+}
+.presence__portrait{
+  background:transparent!important;
+  isolation:isolate!important;
+  overflow:visible!important;
+  opacity:calc(.012 + var(--p)*.988)!important;
+  filter:
+    brightness(calc(.42 + var(--p)*.66))
+    contrast(calc(.90 + var(--p)*.10))
+    saturate(calc(.58 + var(--p)*.42))
+    blur(calc((1 - var(--p))*3.45px))!important;
+  transform:scale(calc(.94 + var(--p)*.06))!important;
+  transform-origin:48% 52%!important;
+  transition:transform var(--fade) cubic-bezier(.18,.64,.22,1),filter var(--fade) ease,opacity var(--fade) ease!important;
+}
+.presence__portrait::before{
+  content:"";
+  position:absolute;
+  inset:-13%;
+  z-index:0;
+  background-image:var(--photo);
+  background-size:cover;
+  background-position:var(--crop,50% 50%);
+  opacity:calc(.015 + var(--p)*.19);
+  filter:blur(22px) brightness(.63) saturate(.78);
+  transform:scale(1.13);
+  -webkit-mask:radial-gradient(ellipse at 50% 49%,#000 0 29%,rgba(0,0,0,.82) 45%,rgba(0,0,0,.28) 66%,transparent 82%);
+  mask:radial-gradient(ellipse at 50% 49%,#000 0 29%,rgba(0,0,0,.82) 45%,rgba(0,0,0,.28) 66%,transparent 82%);
+  transition:opacity var(--fade) ease;
+  pointer-events:none;
+}
+.presence__portrait img{
+  position:relative!important;
+  z-index:2!important;
+  display:block!important;
+  width:100%!important;height:100%!important;
+  object-fit:cover!important;
+  object-position:var(--crop,50% 50%)!important;
+  mix-blend-mode:normal!important;
+  -webkit-mask:var(--mask) center/100% 100% no-repeat!important;
+  mask:var(--mask) center/100% 100% no-repeat!important;
+}
 .presence__portrait::after{
-  mix-blend-mode:multiply!important;opacity:.62!important;
+  z-index:3!important;
+  inset:-3%!important;
+  mix-blend-mode:multiply!important;
+  opacity:calc(.79 - var(--p)*.31)!important;
   -webkit-mask:var(--mask) center/100% 100% no-repeat!important;
   mask:var(--mask) center/100% 100% no-repeat!important;
 }
 
-.presence[data-state="near"]{--p:1!important}
-.presence[data-state="middle"]{--p:.50!important}
-.presence[data-state="deep"]{--p:.052!important}
-.presence[data-state="trace"]{--p:0!important}
-.presence[data-state="withheld"]{--p:0!important}
-.presence[data-state="trace"] .presence__portrait,
+.presence__voice{
+  z-index:5!important;
+  opacity:calc(.01 + var(--p)*.99)!important;
+  filter:blur(calc((1 - var(--p))*1.9px))!important;
+  transform:translate3d(calc((1 - var(--p))*-2px),calc((1 - var(--p))*2px),0)!important;
+  color:#eee7db!important;
+  text-shadow:0 1px 2px #000,0 5px 24px rgba(0,0,0,.98)!important;
+}
+.presence__voice::before{
+  content:"";
+  position:absolute;
+  left:-34%;top:-46%;width:154%;height:190%;
+  z-index:-1;
+  background:radial-gradient(ellipse at 36% 48%,rgba(124,90,59,.067),rgba(78,57,39,.021) 35%,transparent 69%);
+  opacity:calc(var(--p)*.78);
+  filter:blur(12px);
+  pointer-events:none;
+}
+.presence__voice p{
+  font-size:clamp(27px,2.28vw,39px)!important;
+  line-height:1.07!important;
+  letter-spacing:-.026em!important;
+  text-wrap:balance!important;
+}
+.presence__voice cite{
+  margin-top:12px!important;
+  color:#aca497!important;
+  font-size:12px!important;
+  letter-spacing:.02em!important;
+}
+.presence__voice strong{color:#e2dbcf!important}
+.presence[data-state="deep"] .presence__voice{opacity:.105!important}
 .presence[data-state="trace"] .presence__voice,
-.presence[data-state="withheld"] .presence__portrait,
 .presence[data-state="withheld"] .presence__voice{opacity:0!important}
+.presence[data-state="trace"] .presence__portrait{opacity:.035!important}
+.presence[data-state="withheld"] .presence__portrait{opacity:0!important}
 
-/* Static masters show only the intended pair. The other three are not dimmed modules;
-   they are absent until motion/manual discovery makes them perceptible. */
+/* Source-specific image field. Larger crops stop the photos reading as little vertical stickers. */
+.presence--ex{--photo:url('/assets/hearsay/source-ex.jpg')}
+.presence--neighbor{--photo:url('/assets/hearsay/source-neighbor.jpg')}
+.presence--sweets{--photo:url('/assets/hearsay/source-sweets.jpg')}
+.presence--vidal{--photo:url('/assets/hearsay/source-vidal.jpg')}
+.presence--mother{--photo:url('/assets/hearsay/source-mother.jpg')}
+
+.presence--ex .presence__portrait{
+  left:0!important;top:0!important;width:252px!important;height:332px!important;
+  --crop:50% 42%!important;--mask:url('/assets/hearsay/mask-ex.svg')!important;
+  --occlusion:linear-gradient(93deg,rgba(0,0,0,.62),transparent 24%,transparent 58%,rgba(0,0,0,.94) 100%),linear-gradient(5deg,rgba(0,0,0,.82),transparent 32%,transparent 72%,rgba(0,0,0,.50))!important;
+}
+.presence--neighbor .presence__portrait{
+  left:0!important;top:0!important;width:248px!important;height:270px!important;
+  --crop:48% 39%!important;--mask:url('/assets/hearsay/mask-neighbor.svg')!important;
+  --occlusion:linear-gradient(84deg,rgba(0,0,0,.89),transparent 30%,transparent 63%,rgba(0,0,0,.58)),radial-gradient(circle at 50% 31%,transparent 0 21%,rgba(0,0,0,.17) 49%,rgba(0,0,0,.88) 93%)!important;
+}
+.presence--sweets .presence__portrait{
+  left:0!important;top:0!important;width:275px!important;height:215px!important;
+  --crop:62% 42%!important;--mask:url('/assets/hearsay/mask-sweets.svg')!important;
+  --occlusion:linear-gradient(101deg,rgba(0,0,0,.94),transparent 24%,transparent 68%,rgba(0,0,0,.72)),linear-gradient(0deg,rgba(0,0,0,.72),transparent 36%,rgba(0,0,0,.34))!important;
+}
+.presence--vidal .presence__portrait{
+  left:0!important;top:0!important;width:242px!important;height:242px!important;
+  --crop:49% 36%!important;--mask:url('/assets/hearsay/mask-vidal.svg')!important;
+  --occlusion:linear-gradient(116deg,rgba(0,0,0,.74),transparent 34%,transparent 64%,rgba(0,0,0,.95)),linear-gradient(0deg,rgba(0,0,0,.83),transparent 40%)!important;
+}
+.presence--mother .presence__portrait{
+  left:0!important;top:0!important;width:230px!important;height:230px!important;
+  --crop:49% 44%!important;--mask:url('/assets/hearsay/mask-mother.svg')!important;
+  --occlusion:linear-gradient(74deg,rgba(0,0,0,.84),transparent 29%,transparent 61%,rgba(0,0,0,.84)),linear-gradient(180deg,rgba(0,0,0,.38),transparent 42%,rgba(0,0,0,.80))!important;
+}
+
+/* Route A — low warm contamination, center-left emergence. */
+body[data-hearsay-route="a"] .presence--ex{left:24%!important;top:24%!important;width:610px!important;height:390px!important}
+body[data-hearsay-route="a"] .presence--ex .presence__voice{left:176px!important;top:135px!important;--voice-w:345px!important}
+body[data-hearsay-route="a"] .presence--sweets{left:67%!important;top:11%!important;width:520px!important;height:280px!important}
+body[data-hearsay-route="a"] .presence--sweets .presence__voice{left:185px!important;top:72px!important;--voice-w:270px!important}
+body[data-hearsay-route="a"] .presence--neighbor{left:62%!important;top:48%!important;width:610px!important;height:310px!important}
+body[data-hearsay-route="a"] .presence--neighbor .presence__voice{left:168px!important;top:87px!important;--voice-w:360px!important}
+body[data-hearsay-route="a"] .presence--vidal{left:7%!important;top:61%!important;width:540px!important;height:260px!important}
+body[data-hearsay-route="a"] .presence--vidal .presence__voice{left:165px!important;top:74px!important;--voice-w:320px!important}
+body[data-hearsay-route="a"] .presence--mother{left:8%!important;top:8%!important;width:520px!important;height:250px!important}
+body[data-hearsay-route="a"] .presence--mother .presence__voice{left:160px!important;top:70px!important;--voice-w:310px!important}
+
+/* Route B — threshold contamination. This is the integrated opening composition. */
+body[data-hearsay-route="b"] .presence--ex{left:15.5%!important;top:18%!important;width:650px!important;height:405px!important}
+body[data-hearsay-route="b"] .presence--ex .presence__voice{left:174px!important;top:132px!important;--voice-w:360px!important}
+body[data-hearsay-route="b"] .presence--neighbor{left:59%!important;top:40%!important;width:650px!important;height:320px!important}
+body[data-hearsay-route="b"] .presence--neighbor .presence__voice{left:168px!important;top:86px!important;--voice-w:370px!important}
+body[data-hearsay-route="b"] .presence--sweets{left:7%!important;top:64%!important;width:550px!important;height:245px!important}
+body[data-hearsay-route="b"] .presence--sweets .presence__voice{left:188px!important;top:67px!important;--voice-w:285px!important}
+body[data-hearsay-route="b"] .presence--vidal{left:67%!important;top:4%!important;width:540px!important;height:260px!important}
+body[data-hearsay-route="b"] .presence--vidal .presence__voice{left:166px!important;top:70px!important;--voice-w:320px!important}
+body[data-hearsay-route="b"] .presence--mother{left:39%!important;top:69%!important;width:540px!important;height:250px!important}
+body[data-hearsay-route="b"] .presence--mother .presence__voice{left:160px!important;top:67px!important;--voice-w:320px!important}
+
+/* Route C — wall seam and deeper spatial separation. */
+body[data-hearsay-route="c"] .presence--ex{left:40%!important;top:18%!important;width:650px!important;height:400px!important}
+body[data-hearsay-route="c"] .presence--ex .presence__voice{left:172px!important;top:132px!important;--voice-w:355px!important}
+body[data-hearsay-route="c"] .presence--neighbor{left:7%!important;top:42%!important;width:650px!important;height:320px!important}
+body[data-hearsay-route="c"] .presence--neighbor .presence__voice{left:168px!important;top:86px!important;--voice-w:370px!important}
+body[data-hearsay-route="c"] .presence--mother{left:3%!important;top:5%!important;width:530px!important;height:255px!important}
+body[data-hearsay-route="c"] .presence--mother .presence__voice{left:160px!important;top:68px!important;--voice-w:315px!important}
+body[data-hearsay-route="c"] .presence--vidal{left:70%!important;top:4%!important;width:540px!important;height:260px!important}
+body[data-hearsay-route="c"] .presence--vidal .presence__voice{left:166px!important;top:70px!important;--voice-w:320px!important}
+body[data-hearsay-route="c"] .presence--sweets{left:61%!important;top:67%!important;width:550px!important;height:245px!important}
+body[data-hearsay-route="c"] .presence--sweets .presence__voice{left:188px!important;top:67px!important;--voice-w:285px!important}
+
+/* Static proposal masters: one foreground apparition, one distant but actually perceptible source. */
 body[data-hearsay-motion="static"] .presence--ex{--p:1!important}
-body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--sweets{--p:.43!important}
-body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--neighbor{--p:.46!important}
-body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--neighbor{--p:.39!important}
-body[data-hearsay-motion="static"] .presence--vidal .presence__portrait,
-body[data-hearsay-motion="static"] .presence--vidal .presence__voice,
-body[data-hearsay-motion="static"] .presence--mother .presence__portrait,
-body[data-hearsay-motion="static"] .presence--mother .presence__voice,
-body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--neighbor .presence__portrait,
-body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--neighbor .presence__voice,
-body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--sweets .presence__portrait,
-body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--sweets .presence__voice,
-body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--sweets .presence__portrait,
-body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--sweets .presence__voice{opacity:0!important}
+body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--sweets{--p:.24!important}
+body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--neighbor{--p:.21!important}
+body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--neighbor{--p:.20!important}
 
-.presence__voice p{font-size:clamp(23px,1.86vw,32px)!important;line-height:1.12!important;letter-spacing:-.019em!important}
-.presence__voice cite{margin-top:10px!important;color:#aaa397!important}
-.presence[data-state="near"] .presence__voice,
-.presence[data-state="middle"] .presence__voice{filter:none!important;text-shadow:0 1px 2px #000,0 4px 18px rgba(0,0,0,.96)!important}
-
-body[data-hearsay-route="b"] .presence--ex{left:15%!important;top:15%!important}
-body[data-hearsay-route="b"] .presence--ex .presence__voice{left:186px!important;top:151px!important;--voice-w:282px!important}
-body[data-hearsay-route="b"] .presence--neighbor{left:55%!important;top:39%!important}
-body[data-hearsay-route="b"] .presence--neighbor .presence__voice{left:205px!important;top:88px!important;--voice-w:318px!important}
-body[data-hearsay-route="b"] .presence--vidal{left:67%!important;top:4%!important}
-body[data-hearsay-route="b"] .presence--sweets{left:4%!important;top:66%!important}
-body[data-hearsay-route="b"] .presence--mother{left:42%!important;top:70%!important}
-body[data-hearsay-route="c"] .presence--ex{left:44%!important;top:16%!important}
-body[data-hearsay-route="c"] .presence--ex .presence__voice{left:188px!important;top:151px!important;--voice-w:284px!important}
-body[data-hearsay-route="c"] .presence--neighbor{left:6%!important;top:48%!important}
-body[data-hearsay-route="c"] .presence--neighbor .presence__voice{left:205px!important;top:92px!important;--voice-w:320px!important}
-body[data-hearsay-route="c"] .presence--mother{left:3%!important;top:6%!important}
-body[data-hearsay-route="c"] .presence--vidal{left:67%!important;top:5%!important}
-body[data-hearsay-route="c"] .presence--sweets{left:60%!important;top:68%!important}
-
-/* Hostile audit deliberately resurrects every source against a uniform grey room. */
+/* Hostile audit deliberately resurrects every source against grey. */
 body.diagnostic-lift .hearsay-room,
 body.diagnostic-lift[data-hearsay-route="a"] .hearsay-room,
 body.diagnostic-lift[data-hearsay-route="b"] .hearsay-room,
 body.diagnostic-lift[data-hearsay-route="c"] .hearsay-room{background:#353330!important}
-body.diagnostic-lift .hearsay-room::after{background:none!important;border:0!important;box-shadow:none!important}
-body.diagnostic-lift .room-anchor{opacity:.10!important}
-body.diagnostic-lift .presence{--p:.78!important}
+body.diagnostic-lift .hearsay-room::after{background:none!important}
+body.diagnostic-lift .room-anchor{opacity:.12!important}
+body.diagnostic-lift .presence{--p:.82!important}
 body.diagnostic-lift .presence__portrait,
 body.diagnostic-lift .presence__voice,
 body.diagnostic-lift[data-hearsay-motion="static"] .presence .presence__portrait,
-body.diagnostic-lift[data-hearsay-motion="static"] .presence .presence__voice{opacity:.9!important}
-body.diagnostic-lift .presence__portrait{filter:brightness(1.16) contrast(1.03) saturate(.96)!important}
+body.diagnostic-lift[data-hearsay-motion="static"] .presence .presence__voice{opacity:.92!important}
+body.diagnostic-lift .presence__portrait{filter:brightness(1.13) contrast(1.03) saturate(.98)!important}
 body.diagnostic-lift .presence__portrait img{mix-blend-mode:normal!important}
 
-@media(max-width:900px) and (min-width:701px){.presence__voice p{font-size:25px!important}}
+@media(max-width:1100px) and (min-width:701px){
+  .presence__voice p{font-size:clamp(25px,2.65vw,31px)!important}
+  .presence--ex .presence__portrait{width:218px!important;height:296px!important}
+  .presence--neighbor .presence__portrait{width:216px!important;height:240px!important}
+  body[data-hearsay-route="b"] .presence--ex{left:11%!important;top:19%!important}
+  body[data-hearsay-route="b"] .presence--neighbor{left:54%!important;top:43%!important}
+  body[data-hearsay-route="c"] .presence--ex{left:36%!important;top:19%!important}
+}
 
+/* Mobile is not a vertical stack of testimonial cards. One apparition occupies the viewport;
+   the others remain as spatial residue and can be discovered by focus/tap. */
 @media(max-width:700px){
-  body[data-hearsay-route] .presence,
-  body[data-hearsay-route] .presence--ex,
-  body[data-hearsay-route] .presence--neighbor,
-  body[data-hearsay-route] .presence--sweets,
-  body[data-hearsay-route] .presence--vidal,
-  body[data-hearsay-route] .presence--mother{left:auto!important;right:auto!important;top:auto!important;bottom:auto!important}
+  #hearsay{overflow:hidden!important}
+  .hearsay-room{overflow:hidden!important}
+  body[data-hearsay-route] .room-anchor{display:block!important;left:-8%!important;top:12%!important;width:24%!important;height:64%!important;opacity:.65!important}
+  .presence{
+    position:absolute!important;
+    width:92vw!important;height:56vh!important;
+    left:4vw!important;right:auto!important;top:15vh!important;bottom:auto!important;
+    --p:.035!important;
+  }
+  .presence--ex{--p:1!important;z-index:4!important}
+  .presence--neighbor{left:23vw!important;top:47vh!important;--p:.07!important}
+  .presence--sweets{left:-10vw!important;top:56vh!important;--p:.025!important}
+  .presence--vidal{left:54vw!important;top:4vh!important;--p:.02!important}
+  .presence--mother{left:60vw!important;top:55vh!important;--p:.02!important}
+  .presence__portrait{left:0!important;top:0!important}
+  .presence--ex .presence__portrait{width:47vw!important;height:48vh!important;max-width:220px!important;max-height:405px!important}
+  .presence--neighbor .presence__portrait{width:40vw!important;height:31vh!important;max-width:185px!important;max-height:250px!important}
+  .presence--sweets .presence__portrait,.presence--vidal .presence__portrait,.presence--mother .presence__portrait{width:34vw!important;height:25vh!important;max-width:160px!important;max-height:210px!important}
   body[data-hearsay-route] .presence .presence__voice,
   body[data-hearsay-route] .presence--ex .presence__voice,
-  body[data-hearsay-route] .presence--neighbor .presence__voice{left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;--voice-w:100%!important}
-  body[data-hearsay-route] .room-anchor{display:none!important}
-  .presence{--p:1!important}
-  .presence[data-state="trace"] .presence__portrait,.presence[data-state="trace"] .presence__voice,
-  .presence[data-state="withheld"] .presence__portrait,.presence[data-state="withheld"] .presence__voice,
-  body[data-hearsay-motion="static"] .presence .presence__portrait,
-  body[data-hearsay-motion="static"] .presence .presence__voice{opacity:1!important}
-  .presence__portrait img{mix-blend-mode:normal!important}
-  .presence__voice p{font-size:20px!important;line-height:1.2!important}
-  .presence--ex .presence__voice p{font-size:26px!important}
+  body[data-hearsay-route] .presence--neighbor .presence__voice{
+    left:31vw!important;right:auto!important;top:18vh!important;bottom:auto!important;
+    width:56vw!important;--voice-w:56vw!important;
+  }
+  .presence--neighbor .presence__voice{left:24vw!important;top:11vh!important;width:60vw!important;--voice-w:60vw!important}
+  .presence__voice p{font-size:clamp(24px,7.1vw,31px)!important;line-height:1.08!important}
+  .presence__voice cite{font-size:11px!important;margin-top:10px!important}
+  .presence[data-state="trace"] .presence__portrait,.presence[data-state="withheld"] .presence__portrait{opacity:.025!important}
+  .presence[data-state="trace"] .presence__voice,.presence[data-state="withheld"] .presence__voice{opacity:0!important}
+  .presence:focus-visible,.presence.is-manual{--p:1!important;z-index:8!important}
+  .presence:focus-visible .presence__portrait,.presence.is-manual .presence__portrait{opacity:1!important;filter:brightness(1.04) contrast(1) saturate(1)!important}
+  .presence:focus-visible .presence__voice,.presence.is-manual .presence__voice{opacity:1!important;filter:none!important}
 }
 
 @media(prefers-reduced-motion:reduce) and (min-width:701px){
   body[data-hearsay-motion="ambient"] .presence--ex{--p:1!important}
-  body[data-hearsay-motion="ambient"] .presence:not(.presence--ex){--p:.045!important}
-  body[data-hearsay-motion="ambient"] .presence:not(.presence--ex) .presence__portrait,
-  body[data-hearsay-motion="ambient"] .presence:not(.presence--ex) .presence__voice{opacity:.055!important}
+  body[data-hearsay-motion="ambient"] .presence--neighbor{--p:.18!important}
+  body[data-hearsay-motion="ambient"] .presence:not(.presence--ex):not(.presence--neighbor){--p:.025!important}
   body[data-hearsay-motion="ambient"] .presence:focus-visible,
   body[data-hearsay-motion="ambient"] .presence.is-manual{--p:1!important}
-  body[data-hearsay-motion="ambient"] .presence:focus-visible .presence__portrait,
-  body[data-hearsay-motion="ambient"] .presence:focus-visible .presence__voice,
-  body[data-hearsay-motion="ambient"] .presence.is-manual .presence__portrait,
-  body[data-hearsay-motion="ambient"] .presence.is-manual .presence__voice{opacity:1!important}
 }
