@@ -16,13 +16,26 @@ async function ready(page){
 }
 async function inspect(page,label){
   const result=await page.evaluate(()=>{
+    const hostileLift=document.body.classList.contains('diagnostic-lift');
     const bars=Array.from(document.querySelectorAll('.filmbar')).map(el=>{const r=el.getBoundingClientRect();return{top:r.top,bottom:r.bottom,height:r.height}});
-    const clipped=Array.from(document.querySelectorAll('.presence__voice')).filter(el=>{const host=el.closest('[data-presence]');if(!['near','middle'].includes(host?.dataset.state))return false;const r=el.getBoundingClientRect();return r.left<0||r.right>innerWidth||r.top<34||r.bottom>innerHeight-34;}).map(el=>el.closest('[data-presence]')?.dataset.presence);
-    return {viewport:[innerWidth,innerHeight],overflow:document.documentElement.scrollWidth-innerWidth,broken:Array.from(document.images).filter(i=>!i.complete||!i.naturalWidth).map(i=>i.src),clipped,bars,presences:document.querySelectorAll('[data-presence]').length,text:document.body.innerText};
+    const clipped=hostileLift?[]:Array.from(document.querySelectorAll('.presence__voice')).filter(el=>{
+      const host=el.closest('[data-presence]');
+      if(!['near','middle'].includes(host?.dataset.state))return false;
+      const hcs=getComputedStyle(host),ecs=getComputedStyle(el);
+      if(hcs.display==='none'||hcs.visibility==='hidden'||ecs.display==='none'||ecs.visibility==='hidden'||Number.parseFloat(ecs.opacity||'1')<.02)return false;
+      const r=el.getBoundingClientRect();return r.left<0||r.right>innerWidth||r.top<34||r.bottom>innerHeight-34;
+    }).map(el=>el.closest('[data-presence]')?.dataset.presence);
+    const lostPortraits=hostileLift?Array.from(document.querySelectorAll('[data-presence]')).filter(host=>{
+      const p=host.querySelector('.presence__portrait');if(!p)return true;
+      const cs=getComputedStyle(p);const r=p.getBoundingClientRect();
+      return cs.display==='none'||cs.visibility==='hidden'||r.width<1||r.height<1||r.right<=0||r.left>=innerWidth||r.bottom<=34||r.top>=innerHeight-34;
+    }).map(host=>host.dataset.presence):[];
+    return {hostileLift,viewport:[innerWidth,innerHeight],overflow:document.documentElement.scrollWidth-innerWidth,broken:Array.from(document.images).filter(i=>!i.complete||!i.naturalWidth).map(i=>i.src),clipped,lostPortraits,bars,presences:document.querySelectorAll('[data-presence]').length,text:document.body.innerText};
   });
   if(result.overflow>1)throw new Error(`${label}: horizontal overflow ${result.overflow}`);
   if(result.broken.length)throw new Error(`${label}: broken images ${result.broken.join(', ')}`);
   if(result.clipped.length&&result.viewport[0]>700)throw new Error(`${label}: clipped testimony ${result.clipped.join(', ')}`);
+  if(result.lostPortraits.length)throw new Error(`${label}: diagnostic portraits out of frame ${result.lostPortraits.join(', ')}`);
   if(result.presences!==5)throw new Error(`${label}: expected five presences`);
   report.checks.push({label,...result,text:undefined});
   return result;
