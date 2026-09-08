@@ -25,7 +25,7 @@ a{color:inherit}
 
 /* Every scene preserves the exact geometry of its approved source plate. */
 .scene-stage{position:fixed;left:50%;top:50%;width:min(100vw,calc((100svh - (var(--bar-h) * 2)) * var(--stage-ratio)));aspect-ratio:var(--stage-ratio);transform:translate(-50%,-50%);overflow:hidden;background-color:#080807;background-position:center;background-size:100% 100%;background-repeat:no-repeat}
-.work-scene{--stage-ratio:1.777777778;background-image:url('assets/work-panorama-current.webp')}
+.work-scene{--stage-ratio:1.777777778;background-image:url('assets/work-panorama-live-proof.webp')}
 .more-scene{--stage-ratio:3.221476510;width:min(122vw,calc((100svh - (var(--bar-h) * 2)) * var(--stage-ratio)));background-image:url('assets/more-work-panorama-current.webp')}
 .scene-wash{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.08),transparent 28%,transparent 72%,rgba(0,0,0,.08));z-index:4}
 
@@ -57,6 +57,41 @@ a{color:inherit}
 .work-scene .b3{left:44.81%;top:29.56%;width:14.34%;height:20.54%}
 .work-scene .b4{left:61.66%;top:29.27%;width:14.17%;height:20.83%}
 .work-scene .b5{left:77.51%;top:29.17%;width:14.84%;height:21.43%}
+
+/* One production proof: Porsche is independent live campaign art over a clean
+   environment plate. Its measured aperture stays behind the photographed
+   bezel/hardware; surface falloff and glass remain browser layers. */
+.work-scene .billboard[data-live-proof] img{
+  display:block;
+  left:10.5%;
+  top:10.1%;
+  width:92%;
+  height:68.1%;
+  object-fit:cover;
+  object-position:50% 50%;
+  clip-path:polygon(0 0,100% .7%,100% 100%,0 99.3%);
+  filter:brightness(.64) contrast(.90) saturate(.88);
+  opacity:.94;
+  z-index:1;
+  transition:filter .14s ease;
+}
+.work-scene .billboard[data-live-proof]:before{
+  content:"";
+  position:absolute;
+  left:10.5%;
+  top:10.1%;
+  width:92%;
+  height:68.1%;
+  pointer-events:none;
+  z-index:2;
+  clip-path:polygon(0 0,100% .7%,100% 100%,0 99.3%);
+  background:
+    linear-gradient(106deg,rgba(216,224,209,0) 24%,rgba(216,224,209,.055) 47%,rgba(216,224,209,0) 66%),
+    radial-gradient(ellipse at 48% 35%,transparent 34%,rgba(4,5,4,.22) 100%);
+  box-shadow:inset 0 0 10px rgba(2,3,2,.68),inset 0 0 0 1px rgba(205,196,168,.08);
+}
+.work-scene .billboard[data-live-proof]:hover img,
+.work-scene .billboard[data-live-proof]:focus-visible img{filter:brightness(.69) contrast(.91) saturate(.89)}
 
 /* MORE WORK — campaign pixels are also physically composited into the plate.
    These live regions follow the original billboard hardware, not the artwork. */
