@@ -1,0 +1,86 @@
+name: Hearsay corrective preview and QA
+
+on:
+  push:
+    branches: [hearsay-elite-corrective]
+
+permissions:
+  contents: read
+
+env:
+  NETLIFY_SITE_ID: a01e14a9-cc73-4b33-a657-6bc4671a59a3
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  draft-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out corrective branch
+        uses: actions/checkout@v4
+
+      - name: Enforce branch and credential boundary
+        shell: bash
+        run: |
+          test "$GITHUB_REF_NAME" = "hearsay-elite-corrective"
+          test -n "$NETLIFY_AUTH_TOKEN"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify corrective source
+        run: |
+          node --check hearsay-system.js
+          node --check hearsay-data.js
+          node scripts/verify-hearsay-corrective.mjs
+          node scripts/verify-tour-runtime.mjs
+
+      - name: Assemble isolated deploy directory
+        shell: bash
+        run: |
+          mkdir -p /tmp/last-stop-hearsay-preview
+          rsync -a ./ /tmp/last-stop-hearsay-preview/ \
+            --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
+            --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
+            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
+            --exclude 'assets/*.b64' --exclude '.DS_Store'
+
+      - name: Create unique Netlify draft deploy
+        id: deploy
+        shell: bash
+        run: |
+          npx --yes netlify-cli@latest deploy \
+            --dir=/tmp/last-stop-hearsay-preview \
+            --site="$NETLIFY_SITE_ID" \
+            --auth="$NETLIFY_AUTH_TOKEN" \
+            --message="Hearsay corrective ${GITHUB_SHA}" \
+            --json > /tmp/hearsay-deploy.json
+          DEPLOY_URL=$(node -e "const j=require('/tmp/hearsay-deploy.json');process.stdout.write(j.deploy_url||j.deployUrl||j.url||'')")
+          test -n "$DEPLOY_URL"
+          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+          echo "### Hearsay corrective draft" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Unique preview: $DEPLOY_URL/review/" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Integrated recommendation: $DEPLOY_URL/hearsay/" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Draft deploy only; the staging alias was not changed." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install browser QA runtime
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Render real pixels and run interaction checks
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.url }}
+        run: node scripts/render-hearsay-corrective.mjs
+
+      - name: Upload complete Hearsay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hearsay-corrective-${{ github.sha }}
+          path: artifacts/hearsay-corrective
+          if-no-files-found: error
+          retention-days: 90

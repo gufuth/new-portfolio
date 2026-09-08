@@ -1,0 +1,153 @@
+:root{
+  --hearsay-black:#020202;
+  --hearsay-ink:#eee8dc;
+  --hearsay-muted:#9b9488;
+  --hearsay-rail:#080706;
+  --hearsay-pink:rgba(142,42,79,.13);
+  --tour-bar-h:34px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#000;color:var(--hearsay-ink)}
+html{color-scheme:dark}
+body{overflow:hidden;font-family:Arial,Helvetica,sans-serif}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;padding:11px 14px;background:#f3ead8;color:#090806;text-decoration:none}
+.skip:focus{top:42px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* FilmFrame remains an apparatus layer: fixed, quiet, and outside the room. */
+.filmbar{position:fixed;left:0;right:0;height:var(--tour-bar-h);z-index:80;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 28px;background:var(--hearsay-rail);color:#8f8777;font:9px/1.1 Consolas,"Courier New",monospace;letter-spacing:.28em;text-transform:uppercase}
+.filmbar.top{top:0}.filmbar.bottom{bottom:0}.filmbar .hi{color:#ddd3c0}.filmbar span{white-space:nowrap}
+.filmbar .rail{display:flex;align-items:center;gap:22px;min-width:0}
+.filmbar a{min-height:34px;display:inline-flex;align-items:center;color:#8f8777;text-decoration:none;white-space:nowrap}
+.filmbar a:hover,.filmbar a:focus-visible,.filmbar a[aria-current="page"]{color:#e6ddca}
+.filmbar a:focus-visible{outline:1px solid #e6ddca;outline-offset:2px}
+
+#hearsay{position:fixed;inset:var(--tour-bar-h) 0;background:var(--hearsay-black);overflow:hidden}
+.hearsay-room{position:absolute;inset:0;isolation:isolate;overflow:hidden;background:
+  radial-gradient(ellipse at 53% 92%,rgba(74,62,49,.028),transparent 42%),
+  linear-gradient(180deg,#010101 0%,#030302 71%,#050403 100%)}
+.hearsay-room::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.19;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' seed='19'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");mix-blend-mode:screen}
+.hearsay-room::after{content:"";position:absolute;left:7%;right:3%;bottom:8.5%;height:1px;z-index:1;background:linear-gradient(90deg,transparent,rgba(122,105,80,.08) 21%,rgba(142,119,87,.12) 42%,rgba(82,70,55,.035) 77%,transparent);box-shadow:0 6px 18px rgba(80,62,40,.035);transform:rotate(-.13deg);transform-origin:center}
+
+/* One physical condition changes by route. It never becomes scenery. */
+.room-anchor{position:absolute;z-index:1;pointer-events:none}
+body[data-hearsay-route="a"] .room-anchor{left:22%;bottom:5.5%;width:23%;height:7%;border-bottom:1px solid rgba(150,116,75,.17);background:radial-gradient(ellipse at 48% 100%,rgba(152,104,56,.095),rgba(82,52,27,.025) 42%,transparent 73%);filter:blur(.3px)}
+body[data-hearsay-route="b"] .hearsay-room{background:
+  radial-gradient(ellipse at -4% 36%,rgba(131,35,71,.13),rgba(83,19,46,.035) 25%,transparent 47%),
+  radial-gradient(ellipse at 53% 92%,rgba(74,62,49,.026),transparent 42%),
+  linear-gradient(180deg,#010101,#030302 72%,#050403)}
+body[data-hearsay-route="b"] .room-anchor{left:0;top:18%;width:2px;height:38%;background:linear-gradient(transparent,rgba(181,55,97,.18),rgba(98,28,52,.07),transparent);filter:blur(1px);box-shadow:7px 0 34px rgba(146,35,75,.08)}
+body[data-hearsay-route="c"] .room-anchor{right:18%;top:9%;width:1px;height:57%;background:linear-gradient(transparent,rgba(118,108,91,.045) 22%,rgba(126,116,97,.07) 65%,transparent);transform:rotate(.2deg)}
+
+.presence{position:absolute;z-index:2;margin:0;outline:0;cursor:default;--p:.08;--fade:5400ms;--delay:0ms}
+.presence__portrait{position:absolute;margin:0;overflow:visible;transform:scale(calc(.982 + var(--p)*.038));transform-origin:50% 56%;transition:transform var(--fade) cubic-bezier(.18,.64,.22,1),filter var(--fade) ease,opacity var(--fade) ease;opacity:calc(.035 + var(--p)*.945);filter:brightness(calc(.28 + var(--p)*.69)) contrast(calc(.88 + var(--p)*.13)) saturate(calc(.42 + var(--p)*.55)) blur(calc((1 - var(--p))*2.7px))}
+.presence__portrait img{display:block;width:100%;height:100%;object-fit:cover;object-position:var(--crop,50% 50%);-webkit-mask:var(--mask) center/100% 100% no-repeat;mask:var(--mask) center/100% 100% no-repeat}
+.presence__portrait::after{content:"";position:absolute;inset:-4%;pointer-events:none;background:var(--occlusion);mix-blend-mode:multiply;opacity:calc(.76 - var(--p)*.27);transition:opacity var(--fade) ease}
+.presence__voice{position:absolute;margin:0;width:var(--voice-w,270px);color:var(--hearsay-ink);opacity:calc(.015 + var(--p)*.985);filter:blur(calc((1 - var(--p))*1.55px));transform:translate3d(0,calc((1 - var(--p))*2px),0);transition:opacity var(--fade) ease,filter var(--fade) ease,transform var(--fade) ease;text-shadow:0 1px 2px #000,0 2px 13px rgba(0,0,0,.96)}
+.presence__voice p{margin:0;font:400 clamp(20px,1.6vw,27px)/1.17 Georgia,"Times New Roman",serif;letter-spacing:-.012em;text-wrap:balance}
+.presence__voice cite{display:block;margin-top:10px;color:#aaa397;font:400 11px/1.25 Arial,Helvetica,sans-serif;font-style:normal;letter-spacing:.035em}
+.presence__voice strong{font-weight:700;color:#ddd6ca}
+.presence[data-state="near"]{--p:1}
+.presence[data-state="middle"]{--p:.48}
+.presence[data-state="deep"]{--p:.13}
+.presence[data-state="trace"]{--p:.045}
+.presence[data-state="withheld"]{--p:0}
+.presence:focus-visible .presence__voice::after,.presence.is-manual .presence__voice::after{content:"";display:block;width:18px;height:1px;margin-top:10px;background:rgba(232,222,204,.72)}
+.presence:focus-visible{z-index:7}
+
+/* Every photograph gets its own crop, edge behavior and internal occlusion. */
+.presence--ex .presence__portrait{left:0;top:32px;width:138px;height:246px;--crop:50% 46%;--mask:url('/assets/hearsay/mask-ex.svg');--occlusion:linear-gradient(96deg,rgba(0,0,0,.34),transparent 29%,transparent 63%,rgba(0,0,0,.92) 99%),linear-gradient(8deg,rgba(0,0,0,.78),transparent 29%,transparent 78%,rgba(0,0,0,.48))}
+.presence--neighbor .presence__portrait{left:8px;top:5px;width:154px;height:205px;--crop:47% 45%;--mask:url('/assets/hearsay/mask-neighbor.svg');--occlusion:linear-gradient(82deg,rgba(0,0,0,.9),transparent 31%,transparent 67%,rgba(0,0,0,.5)),radial-gradient(circle at 53% 31%,transparent 0 24%,rgba(0,0,0,.2) 51%,rgba(0,0,0,.85) 92%)}
+.presence--sweets .presence__portrait{left:30px;top:54px;width:202px;height:123px;--crop:63% 44%;--mask:url('/assets/hearsay/mask-sweets.svg');--occlusion:linear-gradient(101deg,rgba(0,0,0,.92),transparent 25%,transparent 71%,rgba(0,0,0,.68)),linear-gradient(0deg,rgba(0,0,0,.68),transparent 34%,rgba(0,0,0,.34))}
+.presence--vidal .presence__portrait{left:16px;top:12px;width:168px;height:168px;--crop:49% 39%;--mask:url('/assets/hearsay/mask-vidal.svg');--occlusion:linear-gradient(116deg,rgba(0,0,0,.71),transparent 36%,transparent 67%,rgba(0,0,0,.94)),linear-gradient(0deg,rgba(0,0,0,.82),transparent 38%)}
+.presence--mother .presence__portrait{left:12px;top:10px;width:152px;height:152px;--crop:49% 46%;--mask:url('/assets/hearsay/mask-mother.svg');--occlusion:linear-gradient(74deg,rgba(0,0,0,.82),transparent 29%,transparent 64%,rgba(0,0,0,.8)),linear-gradient(180deg,rgba(0,0,0,.36),transparent 42%,rgba(0,0,0,.78))}
+
+/* A: light gathers low; the room above stays unresolved. */
+body[data-hearsay-route="a"] .presence--ex{left:31%;top:39%;width:520px;height:330px}
+body[data-hearsay-route="a"] .presence--ex .presence__voice{left:218px;top:143px;--voice-w:245px}
+body[data-hearsay-route="a"] .presence--sweets{left:6%;top:13%;width:525px;height:270px}
+body[data-hearsay-route="a"] .presence--sweets .presence__voice{left:304px;top:92px;--voice-w:190px}
+body[data-hearsay-route="a"] .presence--neighbor{left:65%;top:8%;width:500px;height:280px}
+body[data-hearsay-route="a"] .presence--neighbor .presence__voice{left:235px;top:94px;--voice-w:265px}
+body[data-hearsay-route="a"] .presence--vidal{left:67%;top:61%;width:510px;height:240px}
+body[data-hearsay-route="a"] .presence--vidal .presence__voice{left:247px;top:76px;--voice-w:255px}
+body[data-hearsay-route="a"] .presence--mother{left:13%;top:65%;width:480px;height:220px}
+body[data-hearsay-route="a"] .presence--mother .presence__voice{left:226px;top:61px;--voice-w:242px}
+
+/* B: an off-screen threshold establishes a left-to-right line of perception. */
+body[data-hearsay-route="b"] .presence--ex{left:18%;top:10%;width:520px;height:360px}
+body[data-hearsay-route="b"] .presence--ex .presence__voice{left:216px;top:151px;--voice-w:250px}
+body[data-hearsay-route="b"] .presence--neighbor{left:56%;top:34%;width:570px;height:315px}
+body[data-hearsay-route="b"] .presence--neighbor .presence__voice{left:238px;top:95px;--voice-w:296px}
+body[data-hearsay-route="b"] .presence--sweets{left:4%;top:60%;width:530px;height:235px}
+body[data-hearsay-route="b"] .presence--sweets .presence__voice{left:300px;top:88px;--voice-w:195px}
+body[data-hearsay-route="b"] .presence--vidal{left:68%;top:3%;width:500px;height:225px}
+body[data-hearsay-route="b"] .presence--vidal .presence__voice{left:245px;top:68px;--voice-w:248px}
+body[data-hearsay-route="b"] .presence--mother{left:43%;top:68%;width:490px;height:210px}
+body[data-hearsay-route="b"] .presence--mother .presence__voice{left:226px;top:62px;--voice-w:245px}
+
+/* C: almost no explicit source; a wall seam and depth-dependent focus do the work. */
+body[data-hearsay-route="c"] .presence--ex{left:43%;top:16%;width:520px;height:340px}
+body[data-hearsay-route="c"] .presence--ex .presence__voice{left:216px;top:146px;--voice-w:245px}
+body[data-hearsay-route="c"] .presence--neighbor{left:10%;top:48%;width:570px;height:315px}
+body[data-hearsay-route="c"] .presence--neighbor .presence__voice{left:238px;top:94px;--voice-w:298px}
+body[data-hearsay-route="c"] .presence--sweets{left:59%;top:60%;width:530px;height:235px}
+body[data-hearsay-route="c"] .presence--sweets .presence__voice{left:300px;top:89px;--voice-w:192px}
+body[data-hearsay-route="c"] .presence--vidal{left:71%;top:1%;width:500px;height:220px}
+body[data-hearsay-route="c"] .presence--vidal .presence__voice{left:244px;top:65px;--voice-w:245px}
+body[data-hearsay-route="c"] .presence--mother{left:-2%;top:10%;width:480px;height:220px}
+body[data-hearsay-route="c"] .presence--mother .presence__voice{left:226px;top:60px;--voice-w:242px}
+
+/* Static master defaults: one near, one subordinate, three withheld traces. */
+body[data-hearsay-motion="static"] .presence--ex{--p:1}
+body[data-hearsay-motion="static"][data-hearsay-route="a"] .presence--sweets{--p:.43}
+body[data-hearsay-motion="static"][data-hearsay-route="b"] .presence--neighbor{--p:.43}
+body[data-hearsay-motion="static"][data-hearsay-route="c"] .presence--neighbor{--p:.34}
+body[data-hearsay-motion="static"] .presence--vidal{--p:.07}
+body[data-hearsay-motion="static"] .presence--mother{--p:.055}
+
+/* Diagnostic modes deliberately make bad masking impossible to hide. */
+body.diagnostic-lift .hearsay-room{background:#353330!important}
+body.diagnostic-lift .hearsay-room::before{opacity:.08}
+body.diagnostic-lift .presence{--p:.88!important}
+body.diagnostic-lift .presence__portrait{filter:brightness(1.35) contrast(1.08) saturate(1)!important}
+body.diagnostic-lift .presence__voice{opacity:1!important;filter:none!important}
+body.diagnostic-grayscale #hearsay{filter:grayscale(1)}
+body.diagnostic-blur #hearsay{filter:blur(18px);transform:scale(1.045)}
+
+.review-switcher{position:fixed;right:36px;top:48px;z-index:70;display:flex;gap:12px;font:9px Consolas,"Courier New",monospace;letter-spacing:.16em;text-transform:uppercase}
+.review-switcher a{color:#6e685e;text-decoration:none}.review-switcher a:hover,.review-switcher a:focus-visible,.review-switcher a[aria-current="page"]{color:#d8cfbe}
+
+@media(max-width:900px) and (min-width:701px){
+  .presence{transform:scale(.83);transform-origin:top left}
+  .filmbar{padding-left:18px;padding-right:18px}.filmbar.top>span:last-child{display:none}
+}
+
+/* Mobile is a deliberate index, not a shrunken constellation or a card stack. */
+@media(max-width:700px){
+  body{overflow:auto}
+  .filmbar{padding:0 10px}.filmbar.top>span:last-child,.filmbar.bottom>span{display:none}
+  .filmbar .rail{width:100%;justify-content:space-between;gap:0;overflow-x:auto}
+  .filmbar a{min-height:44px;padding:0 3px;font-size:8px;letter-spacing:.12em}
+  #hearsay{position:relative;inset:auto;min-height:calc(100vh - 68px);margin-top:34px;margin-bottom:34px;overflow:visible}
+  .hearsay-room{position:relative;inset:auto;min-height:100%;padding:38px 22px 54px;background:linear-gradient(180deg,#020202,#050403)!important;overflow:visible}
+  .hearsay-room::after{left:5%;right:5%;top:320px;bottom:auto;opacity:.7}.room-anchor{display:none}
+  .presence{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:auto!important;min-height:148px;margin:0 0 22px;display:grid;grid-template-columns:88px minmax(0,1fr);gap:34px;align-items:center;transform:none!important;cursor:pointer;--p:1!important}
+  .presence--ex{min-height:248px!important;margin-bottom:46px;grid-template-columns:116px minmax(0,1fr);gap:42px}
+  .presence__portrait{position:relative!important;left:auto!important;top:auto!important;width:88px!important;height:116px!important;grid-column:1;grid-row:1;opacity:.92!important;filter:brightness(.9) contrast(1.02) saturate(.92)!important;transform:none!important}
+  .presence--ex .presence__portrait{width:112px!important;height:200px!important}
+  .presence--sweets .presence__portrait{width:94px!important;height:72px!important}
+  .presence--vidal .presence__portrait,.presence--mother .presence__portrait{width:86px!important;height:86px!important}
+  .presence__voice{position:relative!important;left:auto!important;top:auto!important;width:auto!important;grid-column:2;grid-row:1;opacity:1!important;filter:none!important;transform:none!important}
+  .presence__voice p{font-size:20px;line-height:1.2;text-wrap:pretty}.presence--ex .presence__voice p{font-size:26px}
+  .presence__voice cite{font-size:11px;margin-top:9px}
+  .presence__portrait::after{opacity:.36!important}
+  .review-switcher{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .presence__portrait,.presence__portrait::after,.presence__voice{transition:none!important}
+  body[data-hearsay-motion="ambient"] .presence--ex{--p:1}
+  body[data-hearsay-motion="ambient"] .presence:not(.presence--ex){--p:.075}
+  body[data-hearsay-motion="ambient"] .presence:focus-visible,body[data-hearsay-motion="ambient"] .presence.is-manual{--p:1}
+}
