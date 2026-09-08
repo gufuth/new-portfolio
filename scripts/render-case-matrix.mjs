@@ -68,7 +68,9 @@ for(const [name,url] of cases){
       const facts=document.querySelector('.hero-facts');
       const railTargets=[...document.querySelectorAll('.filmbar.bottom .rail a')].map(link=>({text:link.textContent.trim(),...rect(link)}));
       const caseTargets=[...document.querySelectorAll('.case-nav a')].map(link=>({text:link.textContent.trim(),...rect(link)}));
-      const clippedText=[...document.querySelectorAll('h1,.role,.hero-fact,.block p,.proof-item,.case-nav a,.filmbar.bottom .rail a')]
+      /* Rail anchors intentionally use an oversized invisible target/pseudo-element;
+         scrollWidth therefore exceeds clientWidth even when the label is intact. */
+      const clippedText=[...document.querySelectorAll('h1,.role,.hero-fact,.block p,.proof-item,.case-nav a')]
         .filter(element=>element.scrollWidth>element.clientWidth+1)
         .map(element=>element.textContent.trim().slice(0,80));
       return {
