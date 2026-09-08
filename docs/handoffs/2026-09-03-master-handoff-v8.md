@@ -238,6 +238,17 @@ A full run against the post-runtime state completed successfully on GitHub Actio
 
 **The single Porsche live-layer proof and its browser-Back correction are deployed and browser-verified. The full-site rendered-pixel quality is not certified.**
 
+Desktop case first-screen audit completed on public staging at 1363×936:
+
+- all nine clean routes loaded;
+- all nine hero images completed with nonzero intrinsic dimensions;
+- no case produced horizontal overflow;
+- every opening exposed the headline, role, and idea/proof block in the first viewport;
+- Alita and Cuervo remain tall-ratio outliers tied to final crop/image decisions;
+- Selsun (640×360), Cuervo (399×500 hero; smaller supporting media), Alita (532×780 hero; 512×708 supporting image), and Atlantic (500×500) remain below the desired final-production source floor.
+
+Those source limitations are recorded, not cosmetically enlarged. Mobile rendered QA remains open.
+
 Therefore the following remain staging gates, not completed claims:
 - exact perceived quality of LANDING → WORK cut
 - exact mullion location/timing WORK ↔ MORE WORK
@@ -246,8 +257,8 @@ Therefore the following remain staging gates, not completed claims:
 - final Porsche registration/exposure approval and all non-Porsche billboard conversions
 - repeated WORK lamp correction
 - MORE WORK motel prominence/aging
-- case typography/crop rhythm at real viewport sizes
-- mobile rendered-pixel QA
+- final case typography/crop rhythm after Alita/Cuervo and low-resolution media replacement
+- mobile rendered-pixel QA across all nine cases
 - browser Back behavior outside the verified Porsche path
 - CWV / field performance
 

@@ -61,6 +61,7 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 - WORK contains five cases: Nike SB, Virgin Galactic, Porsche × Lucasfilm, Selsun Blue, MoneyLion × Beast Games.
 - MORE WORK contains four: TE Connectivity × Alita, Jose Cuervo, Outdoor Voices, The Atlantic.
 - Case pages are under `cases/` and use the shared recruiter-first editorial system in `case-system.css`.
+- A live desktop first-screen audit of all nine case routes at 1363×936 passed route loading, hero loading, headline/role/fact visibility, and horizontal-overflow checks. Mobile rendered QA remains open. Alita and Cuervo have unusually tall source ratios; Selsun, Cuervo, Alita, and Atlantic include source images too small for final production and remain explicit media-replacement items.
 - Mobile WORK / MORE WORK is index-first.
 - The existing non-Porsche billboard art is baked into the compressed environment plates and is visibly inadequate. Do not describe it as approved or as independently replaceable.
 - Porsche is the single live-layer proof: the environment plate contains a neutral inner face while `/assets/cases/porsche-hero.webp` is a separate 1600×900 HTML image registered inside the photographed frame. This proves the runtime architecture only; it does not approve the Porsche cover or any of the other eight cover selections.
@@ -136,4 +137,4 @@ Do **not** stop merely because a billboard image is not perfect. Ian explicitly 
 
 The transition/runtime architecture is built in source. Do not restart concepting or reopen the nine-case cast.
 
-Current sequence: **judge the single Porsche live-layer proof → tune only that proof if needed → select final covers → convert the remaining eight billboards to independent live layers → replace/re-export the low-resolution WORK/MORE WORK environment plates → rendered nine-case first-screen audit → surgical transition/mobile/accessibility/performance fixes → integrate HEARSAY only when Ian returns its current design → production cutover.**
+Current sequence: **continue mobile case QA → surgical transition/mobile/accessibility/performance fixes → select final covers → decide billboard scale and copy treatment → convert the remaining eight billboards to independent live layers → replace/re-export the low-resolution WORK/MORE WORK environment plates → final case-media replacement pass → integrate HEARSAY only when Ian returns its current design → production cutover.**
