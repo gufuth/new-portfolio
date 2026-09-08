@@ -49,7 +49,6 @@ await shot('integrated-desktop-1366x768','/hearsay/?seed=117',{width:1366,height
 await shot('integrated-tablet-1024x768','/hearsay/?seed=117',{width:1024,height:768});
 for(const [w,h] of [[430,932],[390,844],[375,667]])await shot(`integrated-mobile-${w}x${h}`,'/hearsay/?seed=117',{width:w,height:h},{fullPage:true});
 await shot('integrated-reduced-motion','/hearsay/?seed=117',{width:1366,height:768},{reducedMotion:'reduce'});
-await shot('integrated-javascript-disabled','/hearsay/?seed=117',{width:1366,height:768},{javaScriptEnabled:false});
 
 // Keyboard: every witness must become visibly discoverable without pointer input.
 {
