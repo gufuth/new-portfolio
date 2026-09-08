@@ -1,0 +1,99 @@
+/* Apparition v2: the photographed room stays dominant. The witness is partial evidence inside it. */
+
+.presence--ex .presence__portrait{
+  width:332px!important;
+  height:476px!important;
+  --crop:50% 39%!important;
+  opacity:.66!important;
+  filter:brightness(.72) contrast(1.04) saturate(.83) blur(.45px)!important;
+}
+.presence--ex .presence__portrait img{
+  -webkit-mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+  mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+}
+.presence--ex .presence__portrait::before{
+  display:block!important;
+  inset:-19%!important;
+  opacity:.10!important;
+  filter:blur(33px) brightness(.42) saturate(.62)!important;
+  transform:scale(1.20)!important;
+  -webkit-mask:radial-gradient(ellipse 52% 68% at 46% 42%,#000 0 30%,rgba(0,0,0,.64) 49%,rgba(0,0,0,.18) 70%,transparent 86%)!important;
+  mask:radial-gradient(ellipse 52% 68% at 46% 42%,#000 0 30%,rgba(0,0,0,.64) 49%,rgba(0,0,0,.18) 70%,transparent 86%)!important;
+}
+.presence--ex .presence__portrait::after{
+  display:block!important;
+  inset:0!important;
+  background:
+    radial-gradient(ellipse at 45% 31%,transparent 0 19%,rgba(0,0,0,.04) 31%,rgba(0,0,0,.23) 58%,rgba(0,0,0,.78) 100%),
+    linear-gradient(93deg,rgba(0,0,0,.58),transparent 26%,transparent 57%,rgba(0,0,0,.86) 100%),
+    linear-gradient(0deg,rgba(0,0,0,.92),rgba(0,0,0,.30) 29%,transparent 56%,rgba(0,0,0,.34) 100%)!important;
+  opacity:.66!important;
+  -webkit-mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+  mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+}
+
+/* Keep the face readable; let the typography begin only where hair/shoulder dissolve. */
+.presence--ex .presence__voice{
+  left:288px!important;
+  top:208px!important;
+  width:355px!important;
+  --voice-w:355px!important;
+}
+.presence--ex .presence__voice p{
+  font-size:clamp(36px,2.82vw,47px)!important;
+  line-height:1.01!important;
+  letter-spacing:-.034em!important;
+}
+.presence--ex .presence__voice cite{margin-top:13px!important}
+
+.presence--ex{width:654px!important;height:486px!important}
+body[data-hearsay-route="a"] .presence--ex{left:25.5%!important;top:14%!important}
+body[data-hearsay-route="b"] .presence--ex{left:27%!important;top:15%!important}
+body[data-hearsay-route="c"] .presence--ex{left:39%!important;top:15%!important}
+
+/* The room owns most of the frame. A deep witness is only a trace until it approaches. */
+.presence[data-state="deep"] .presence__portrait{opacity:.025!important;filter:brightness(.42) contrast(.98) saturate(.48) blur(3.2px)!important}
+.presence[data-state="deep"] .presence__voice{opacity:0!important}
+.presence[data-state="middle"] .presence__portrait{opacity:.24!important;filter:brightness(.60) contrast(1) saturate(.66) blur(1.7px)!important}
+.presence[data-state="middle"] .presence__voice{opacity:.20!important}
+.presence[data-state="near"] .presence__portrait{opacity:.66!important}
+.presence[data-state="near"] .presence__voice{opacity:1!important}
+
+/* Only the brightness-lift diagnostic is allowed to resurrect the full source set. */
+body.diagnostic-lift .presence--ex .presence__portrait img{
+  -webkit-mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+  mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+}
+
+@media(max-width:1100px) and (min-width:701px){
+  .presence--ex .presence__portrait{width:292px!important;height:414px!important}
+  .presence--ex .presence__voice{left:250px!important;top:183px!important;width:315px!important;--voice-w:315px!important}
+  .presence--ex .presence__voice p{font-size:clamp(32px,3.55vw,40px)!important}
+  .presence--ex{width:570px!important;height:430px!important}
+  body[data-hearsay-route="a"] .presence--ex{left:21%!important;top:15%!important}
+  body[data-hearsay-route="b"] .presence--ex{left:22%!important;top:15%!important}
+  body[data-hearsay-route="c"] .presence--ex{left:32%!important;top:15%!important}
+}
+
+@media(max-width:700px){
+  .presence--ex .presence__portrait,
+  .presence.is-manual .presence__portrait{
+    width:58vw!important;
+    height:48vh!important;
+    max-width:246px!important;
+    max-height:390px!important;
+    opacity:.64!important;
+    filter:brightness(.69) contrast(1.03) saturate(.80) blur(.4px)!important;
+  }
+  .presence .presence__portrait img{
+    -webkit-mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+    mask:url('/assets/hearsay/mask-ex-v3.svg') center/100% 100% no-repeat!important;
+  }
+  .presence .presence__voice{
+    left:42vw!important;
+    top:24vh!important;
+    width:53vw!important;
+    --voice-w:53vw!important;
+  }
+  .presence .presence__voice p{font-size:clamp(27px,8vw,34px)!important;line-height:1.01!important}
+}
