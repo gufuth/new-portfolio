@@ -49,11 +49,18 @@ for(const [name,url] of cases){
     await page.goto(base+url,{waitUntil:'domcontentloaded',timeout:30000});
     await page.waitForTimeout(1600);
     await page.evaluate(async()=>{
+      document.querySelectorAll('img').forEach(image=>{image.loading='eager';});
       const step=Math.max(innerHeight,600);
       for(let y=0;y<document.documentElement.scrollHeight;y+=step){
         scrollTo(0,y);
         await new Promise(resolve=>setTimeout(resolve,80));
       }
+      await Promise.all([...document.images].map(image=>image.complete?Promise.resolve():new Promise(resolve=>{
+        const done=()=>resolve();
+        image.addEventListener('load',done,{once:true});
+        image.addEventListener('error',done,{once:true});
+        setTimeout(done,5000);
+      })));
       scrollTo(0,0);
     });
     await page.waitForTimeout(500);
