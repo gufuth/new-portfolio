@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 1000" preserveAspectRatio="none">
-  <defs><filter id="edge" x="-15%" y="-10%" width="130%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".012 .028" numOctaves="3" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="42"/><feGaussianBlur stdDeviation="15"/></filter></defs>
-  <path filter="url(#edge)" fill="white" d="M167 8C275-8 429 23 492 122c48 75 14 159 24 249 11 98 58 182 13 287-48 112-55 250-169 319-105 64-279 5-324-111-38-99 32-203 17-311-16-117-62-247-9-361C66 145 91 30 167 8z"/>
+  <defs><filter id="edge" x="-24%" y="-16%" width="148%" height="132%"><feTurbulence type="fractalNoise" baseFrequency=".018 .035" numOctaves="4" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="54"/><feGaussianBlur stdDeviation="24"/></filter></defs>
+  <path filter="url(#edge)" fill="white" d="M238 36C326 18 414 54 449 134c31 72-3 143 12 218 17 88 56 151 24 240-31 87-15 186-85 270-63 75-178 116-253 52-63-54-38-150-48-231-12-95-43-179-15-273 26-89 77-136 82-231 4-67 5-129 72-143z"/>
 </svg>
