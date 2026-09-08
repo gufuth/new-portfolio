@@ -8,6 +8,7 @@ on:
     paths:
       - 'scripts/build-porsche-master-billboard.py'
       - 'scripts/fix-porsche-label-strip.py'
+      - 'work-system.css'
       - '.github/workflows/porsche-master-billboard-qa.yml'
 
 permissions:
@@ -32,7 +33,7 @@ jobs:
       - name: Install compositor dependencies
         run: python -m pip install --disable-pip-version-check pillow numpy
 
-      - name: Build one complete Porsche billboard face and physical plate
+      - name: Build Porsche physical assembly
         run: |
           mkdir -p artifacts/porsche-master
           python scripts/build-porsche-master-billboard.py \
@@ -47,7 +48,7 @@ jobs:
           file artifacts/porsche-master/porsche-master-face.webp assets/work-panorama-current.webp
           sha256sum artifacts/porsche-master/porsche-master-face.webp assets/work-panorama-current.webp
 
-      - name: Make real WORK page use the QA plate inside this runner only
+      - name: Make real WORK page use QA plate inside runner only
         run: cp assets/work-panorama-current.webp assets/work-panorama-physical-v1.webp
 
       - name: Set up Node
