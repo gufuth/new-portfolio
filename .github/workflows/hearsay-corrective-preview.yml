@@ -105,9 +105,10 @@ jobs:
           cd /tmp/last-stop-hearsay-preview
           env -u NETLIFY_SITE_ID -u NETLIFY_AUTH_TOKEN npx --yes netlify-cli@latest deploy \
             --allow-anonymous \
+            --created-via=hearsay-corrective-qa \
             --dir=. \
             --json > /tmp/hearsay-anonymous-deploy.json 2> /tmp/hearsay-anonymous-deploy.err
-          DEPLOY_URL=$(node -e "const fs=require('fs');const p='/tmp/hearsay-anonymous-deploy.json';if(!fs.existsSync(p))process.exit(0);const raw=fs.readFileSync(p,'utf8').trim();if(!raw)process.exit(0);const j=JSON.parse(raw);process.stdout.write(j.deploy_url||j.deployUrl||j.url||'')")
+          DEPLOY_URL=$(node -e "const fs=require('fs');const p='/tmp/hearsay-anonymous-deploy.json';if(!fs.existsSync(p))process.exit(0);const raw=fs.readFileSync(p,'utf8').trim();if(!raw)process.exit(0);const j=JSON.parse(raw);process.stdout.write(j.site_url||j.deploy_url||j.deployUrl||j.url||'')")
           test -n "$DEPLOY_URL"
           echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
           echo "### Hearsay corrective anonymous draft fallback" >> "$GITHUB_STEP_SUMMARY"
