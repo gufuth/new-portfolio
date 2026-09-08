@@ -1,105 +1,101 @@
 # ABOUT final review - branch checkpoint
 
-> Status: implementation checkpoint, not shipping approval. Pixel certification and isolated draft deployment remain open because the available Netlify action does not expose a safe unique-preview target and must not be allowed to overwrite the current staging alias.
+> Status: implementation checkpoint, not shipping approval. The branch is isolated. `main`, public staging and production remain untouched.
 
-## Recommended route
-
-**Route A - Surgical continuity**
-
-Reason: it fixes the actual hierarchy problem while preserving the Room 3 premise, keeps every substantive biography claim grounded in current source truth, and uses the existing CRT for discovery without reviving the fake reel.
-
-## Runner-up
-
-**Route C - Found evidence**
-
-Reason: it has the strongest restraint if the CRT proves too dominant after the motel sign is corrected, and its discovery mechanism works naturally on phone without adding a new physical prop.
-
-## Third route
+## Recommendation
 
 **Route B - Human signal**
 
-Reason: it has the strongest immediate voice and best scanning rhythm, but its lead characterization (`Copywriter first. Creative director by accumulation.`) is more interpretive than the current factual bio and should not outrank Route A without Ian deciding that it is true to his career story.
+This is now the strongest direction because it makes Ian arrive before the room mythology without changing the Room 3 premise. It keeps the existing plate, demotes the motel sign, preserves the CRT as an indirect human trace, and gives the first scan an actual person rather than a profile paragraph.
 
-## Current score - source-level only
+The copy is sourced from the canonical long-form Who material, not newly invented. The risk is proportion: if the English Lit / leather jacket opening feels imported from the longer page or delays the professional read, use Route A copy inside Route B's visual hierarchy rather than inventing a fourth direction.
 
-These are not rendered-pixel scores. They evaluate concept discipline, source truth, implementation structure and likely hierarchy. Do not use them as final visual approval.
+## Runner-up
 
-| Criterion | Route A | Route B | Route C |
-|---|---:|---:|---:|
-| Same-film continuity | 19/20 | 18/20 | 19/20 |
-| Ian-first hierarchy intent | 14/15 | 15/15 | 13/15 |
-| Factual / specific copy | 15/15 | 11/15 | 14/15 |
-| Restraint | 14/15 | 13/15 | 14/15 |
-| Rumor discovery logic | 14/15 | 14/15 | 13/15 |
-| Accessibility structure | 10/10 | 10/10 | 10/10 |
-| Mobile concept | 8/10 | 8/10 | 9/10 |
-| **Provisional total** | **94** | **89** | **92** |
+**Route A - Surgical continuity**
 
-Hard-gate note: no route can be called a finalist until rendered inspection proves that the motel sign is no longer the strongest attention island and that the corrective mask/falloff does not read as a CSS patch.
+This is the safest route and the cleanest control. It fixes the actual hierarchy problem with the fewest changes, keeps every substantive claim close to current source truth, and uses the CRT for hidden rumor discovery without reviving the fake reel.
 
-## What changed
+Its weakness is the exact reason it is second: once the motel sign is reduced, the page can become correct without becoming significantly more human.
 
-- preserved the active Room 3 plate and camera
-- preserved shared FilmFrame rails and tour runtime
-- left sound behavior under the shared runtime
-- demoted the motel sign locally instead of redesigning the room
-- strengthened biography scale / position
-- tested first-person factual copy, a higher-personality first-person variant, and restrained third-person copy
-- restored the old rumor list as optional discoverable material
-- built equivalent keyboard/touch activation and Escape dismissal
-- kept review routes `noindex`
+## Third route
 
-## What stayed fixed
+**Route C - Found evidence**
 
-- Landing remains untouched
-- `about.html`, `about.webp` and `og_about.png` remain untouched on `main`
-- Ian's portrait remains the existing real source image
-- the Room 3 camera, bed, chair, dresser, CRT and dark field remain the baseline
-- `The room is paid through Thursday.` remains a keeper
-- no new room prop was added
-- no decorative motion loop or audio was added
+Route C now uses the same first-person factual foundation as A, while rumor discovery lives on existing dresser detail instead of the CRT. It is a valid restraint test, but it carries the highest escape-room risk and the most fragile mobile hotspot geometry. It should not win unless the CRT interaction proves too self-conscious in real pixels.
 
-## What was rejected during this pass
+## What the visual audit settled
 
-### CSS patch over `PAUSE II`
+The Room 3 concept is not the problem.
 
-Rejected after visual reasoning because a dark patch over the baked label becomes a visible designer correction. The proper fix is source-level cleanup or a clean source plate. Until then, the label remains an acknowledged image-level defect and has no functional meaning.
+The same-film qualities are already present: ordinary cheap materials, practical light, darkness as primary material, an asymmetrical but stable frame, human presence withheld rather than staged, and a camera position that feels like the room existed before the portfolio.
 
-### New motel evidence prop
+The actual break from Landing is hierarchy. The motel sign behaves like a second brand concept. Once it is darker, softer and less immediately legible, the room stops competing with Ian.
 
-Rejected. A ledger, key tag, receipt, note or similar object would make the motel theme more important than Ian.
+## KEEP
 
-### Cute found-evidence copy
+- foot-of-bed camera
+- bed foreground obstruction
+- cheap chair, dresser, lamp and window geography
+- existing real CRT portrait
+- near-black live-copy field
+- shared FilmFrame rails and tour runtime
+- sound off default
+- `The room is paid through Thursday.`
+- no fake reel, loading, coming-soon or decorative loop
 
-Route C initially used `Additional charges disputed`. It was cut back to `Incidentals` because the first line was performing the joke too aggressively.
+## CHANGE
 
-### Generic portfolio overlay
+- motel sign: darker, less saturated, softer through glass, peripheral
+- bio: larger authority, first-person, stronger relationship to CRT
+- mobile: 4:3 room crop with CRT near center and sign pushed to edge
+- rumors: hidden, optional, keyboard/touch reachable, Escape dismissible
+- `PAUSE II`: remove only from a clean source plate when found
 
-Rejected: modal cards, tooltips, badges, `RUMORS` CTA and hover-only behavior.
+## KILL
 
-## Strongest criticism of the recommendation
+- motel sign as logo / hero
+- old play-reel behavior
+- visible rumor cards / CTAs / badges / modal UI
+- new motel lore or prop accumulation
+- turning `The room is paid through Thursday.` into a clickable setup
+- CSS patch over `PAUSE II`
+- any generated or cosmetically altered portrait of Ian
 
-Route A may be too conservative. If the corrected sign falls away but the CRT remains a small secondary portrait and the bio remains visually detached from the room, the page will be cleaner without becoming significantly more memorable. The pixel test must prove that changing hierarchy is enough.
+## Rumor behavior
 
-## Current implementation references
+**Preferred:** CRT discovery. The screen gets only a tiny hover/focus lift. Activation swaps the main copy territory to a readable rumor state. No play icon, no instruction, no static loop. Assistive technology gets an explicit semantic label.
 
-- Branch: `about-iteration-lab-20260908-contd`
-- Branch checkpoint at time of this review: see current branch HEAD; do not assume this document's commit is the final branch SHA after further corrections.
+**Secondary test:** existing dresser-detail hotspot. It adds no prop, but it is more puzzle-like and therefore less favored.
+
+## Mobile conclusion
+
+The phone version should not mimic desktop coordinates. The 4:3 crop is the right structural move because it keeps enough of the room to preserve the premise and lets the CRT remain a human trace. The motel sign can fall mostly toward the left edge. Live copy then follows as the primary readable block.
+
+## Failed experiment retained as a warning
+
+A generated plate experiment was rejected because it altered Ian's likeness, changed room composition and baked live text into the image. It is not a candidate and must never be committed. The failure reinforces the current non-generative, surgical approach.
+
+## Open image debt
+
+The baked `PAUSE II` label remains because a clean source plate has not been located in Drive or repo history. A CSS cover was tested conceptually and rejected because the patch becomes visible. This is source-level cleanup debt, not a reason to redesign the page.
+
+## Branch references
+
+- branch: `about-iteration-lab-20260908-contd`
 - Route A: `review/about/route-a/index.html`
 - Route B: `review/about/route-b/index.html`
 - Route C: `review/about/route-c/index.html`
-- Baseline audit: `docs/about-lab/ABOUT_BASELINE_AUDIT.md`
-- Copy audit: `docs/about-lab/ABOUT_COPY_AUDIT.md`
-- Rumor prototypes: `docs/about-lab/ABOUT_RUMORS_PROTOTYPES.md`
+- source map: `docs/about-lab/ABOUT_SOURCE_MAP.md`
+- baseline audit: `docs/about-lab/ABOUT_BASELINE_AUDIT.md`
+- hierarchy studies: `docs/about-lab/ABOUT_HIERARCHY_STUDIES.md`
+- copy audit: `docs/about-lab/ABOUT_COPY_AUDIT.md`
+- rumor prototypes: `docs/about-lab/ABOUT_RUMORS_PROTOTYPES.md`
 
-## Production / staging safety
+## Deployment safety
 
-`main` has not been changed by this lab. The production domain has not been changed. The public staging alias has not been changed.
+No Netlify deploy was attempted from this branch in this chat because the available Netlify write surface does not expose a guaranteed unique, non-promoting draft deploy. Using a site-level deploy action would risk the staging alias, which is explicitly disallowed.
 
-The currently available Netlify write action only exposes a site-level deployment operation. It does not expose the equivalent of `netlify deploy` with a branch/directory plus guaranteed no-alias promotion. Using it would violate the explicit non-destructive preview rule. Therefore the branch is preserved remotely and no staging deploy was attempted from this chat.
+## Current decision
 
-## Exact next action
-
-Render the three branch routes at the required desktop/tablet/phone widths using a safe isolated preview or a browser environment that can load the branch assets. Run grayscale / blur / brightness-lift attention checks. If A passes, make only surgical corrections. If A fails because the CRT or bio still feels detached, compare C before reopening the Room 3 premise.
-
-Do not merge any route until Ian selects it.
+**Advance Route B. Keep Route A intact as the fallback. Keep Route C available as the interaction-control test. Merge nothing until Ian selects.**
