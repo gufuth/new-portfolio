@@ -4,6 +4,10 @@
   elite.rel='stylesheet';
   elite.href='/hearsay-elite.css?v=20260908-pixel-correction';
   document.head.appendChild(elite);
+  var gate=document.createElement('link');
+  gate.rel='stylesheet';
+  gate.href='/hearsay-final-gate.css?v=20260908-static-gate';
+  document.head.appendChild(gate);
 
   var body=document.body;
   var params=new URLSearchParams(location.search);
