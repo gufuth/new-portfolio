@@ -39,6 +39,8 @@ The final pass also found the Landing transition still referenced the old baked 
 
 ## What is and is not proved
 
+Ian accepted the architecture proof on 2026-09-08 and directed the build to move on. He did not lock billboard size: the current scene has room to enlarge the signs, and recruiter legibility plus future copy beneath the images may justify it. That scale decision, label/copy design, and final image selection are parked together for the later billboard visual pass.
+
 Proved:
 
 - a clean environment face and a separate live HTML artwork layer can coexist in the deployed photographic scene;

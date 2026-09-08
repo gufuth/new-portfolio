@@ -64,6 +64,7 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 - Mobile WORK / MORE WORK is index-first.
 - The existing non-Porsche billboard art is baked into the compressed environment plates and is visibly inadequate. Do not describe it as approved or as independently replaceable.
 - Porsche is the single live-layer proof: the environment plate contains a neutral inner face while `/assets/cases/porsche-hero.webp` is a separate 1600×900 HTML image registered inside the photographed frame. This proves the runtime architecture only; it does not approve the Porsche cover or any of the other eight cover selections.
+- Ian accepted the Porsche live-layer architecture on 2026-09-08. Billboard scale, live copy beneath the image, final Porsche art, and the other eight cover selections are explicitly parked for a later visual pass.
 - ABOUT is now an honest finished state: no fake reel/coming-soon interaction; Room 3 plate preserved.
 - **HEARSAY remains the exception:** Ian is actively building the current apparition-in-dark direction separately. The checked-in framed-wall implementation is superseded and must not be polished or treated as current.
 - Public Netlify staging is active at `https://last-stop-diner-staging.netlify.app`. Deploy `6a9f7902cdbce91289105f05` contains the live Porsche layer, BFCache correction, and cache-busted clean Landing transition. Landing → Work, the Porsche route, visible browser Back, cleared transition state, restored focus, and intact live layer were verified in the deployed site on 2026-09-08.

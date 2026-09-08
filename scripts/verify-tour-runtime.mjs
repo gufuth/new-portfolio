@@ -73,7 +73,12 @@ for (const [needle, label] of [
   ['id="voltage"', 'old WORK voltage flicker'],
   ['keyboard-drill-down', 'legacy injected keyboard script'],
 ]) reject('index.html', index, needle, `superseded ${label} is still present`);
-expect('index.html', index, 'EXTERIOR · THE LAST STOP DINER · NIGHT', 'new exterior top rail is missing');
+expect('index.html', index, 'EXT. · THE LAST STOP DINER · NIGHT', 'screenplay-style exterior top rail is missing');
+expect('work.html', work, 'INT. · THE LAST STOP DINER · NIGHT', 'screenplay-style WORK interior top rail is missing');
+expect('more-work.html', more, 'INT. · THE LAST STOP DINER · NIGHT', 'screenplay-style MORE WORK interior top rail is missing');
+reject('index.html', index, 'EXTERIOR · THE LAST STOP DINER · NIGHT', 'spelled-out exterior slug remains');
+reject('work.html', work, 'INTERIOR · THE LAST STOP DINER · NIGHT', 'spelled-out WORK interior slug remains');
+reject('more-work.html', more, 'INTERIOR · THE LAST STOP DINER · NIGHT', 'spelled-out MORE WORK interior slug remains');
 
 // WORK and MORE WORK cast integrity.
 if (count(work, /class="billboard\s+b\d"/g) !== 5) errors.push('work.html: expected exactly 5 desktop billboards');
