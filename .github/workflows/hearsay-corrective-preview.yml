@@ -59,7 +59,7 @@ jobs:
             --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
             --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
             --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
-            --exclude 'assets/*.b64' --exclude '.DS_Store'
+            --exclude 'assets/*.b64' --exclude '.DS_Store' --exclude '.netlify/'
           mkdir -p /tmp/last-stop-hearsay-preview/hearsay
           cp /tmp/last-stop-hearsay-preview/hearsay.html /tmp/last-stop-hearsay-preview/hearsay/index.html
 
@@ -102,10 +102,10 @@ jobs:
         continue-on-error: true
         shell: bash
         run: |
-          npx --yes netlify-cli@latest deploy \
+          cd /tmp/last-stop-hearsay-preview
+          env -u NETLIFY_SITE_ID -u NETLIFY_AUTH_TOKEN npx --yes netlify-cli@latest deploy \
             --allow-anonymous \
-            --dir=/tmp/last-stop-hearsay-preview \
-            --message="Hearsay corrective anonymous QA ${GITHUB_SHA}" \
+            --dir=. \
             --json > /tmp/hearsay-anonymous-deploy.json 2> /tmp/hearsay-anonymous-deploy.err
           DEPLOY_URL=$(node -e "const fs=require('fs');const p='/tmp/hearsay-anonymous-deploy.json';if(!fs.existsSync(p))process.exit(0);const raw=fs.readFileSync(p,'utf8').trim();if(!raw)process.exit(0);const j=JSON.parse(raw);process.stdout.write(j.deploy_url||j.deployUrl||j.url||'')")
           test -n "$DEPLOY_URL"
@@ -114,7 +114,7 @@ jobs:
           echo "- Temporary preview: $DEPLOY_URL/review/" >> "$GITHUB_STEP_SUMMARY"
           echo "- Integrated recommendation: $DEPLOY_URL/hearsay/" >> "$GITHUB_STEP_SUMMARY"
           echo "- This is a temporary anonymous Netlify project used only for deployed-pixel QA." >> "$GITHUB_STEP_SUMMARY"
-          echo "- It does not modify site $NETLIFY_SITE_ID or the staging alias." >> "$GITHUB_STEP_SUMMARY"
+          echo "- It does not modify site a01e14a9-cc73-4b33-a657-6bc4671a59a3 or the staging alias." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Resolve pixel-QA target
         id: qa-target
