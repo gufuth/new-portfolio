@@ -119,6 +119,8 @@ expect('tour-runtime.js', runtime, "contact.href='mailto:Ianr.luna@gmail.com'", 
 if (count(runtimeCss, /@keyframes\s+tourHeadlightPass/g) !== 1) errors.push('tour-runtime.css: ambient headlight must be one event family');
 reject('tour-runtime.css', runtimeCss, 'infinite', 'tour runtime must not contain decorative infinite loops');
 expect('tour-runtime.css', runtimeCss, '@media(prefers-reduced-motion:reduce)', 'CSS reduced-motion fallback missing');
+expect('tour-runtime.css', runtimeCss, "url('/assets/work-panorama-live-proof.webp')", 'Landing-to-WORK cut does not use the clean live-proof plate');
+reject('tour-runtime.css', runtimeCss, "url('/assets/work-panorama-current.webp')", 'Landing-to-WORK cut still exposes the baked Porsche plate');
 
 // Netlify clean routes needed by the runtime.
 for (const route of [
