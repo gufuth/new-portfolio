@@ -2,6 +2,8 @@
 
 > **STATUS: CURRENT SOURCE OF TRUTH.** Dated 2026-09-03. Supersedes `2026-09-02-master-handoff-v7.md` for current implementation state and next actions. Historical handoffs remain useful for lineage only.
 
+> **SEPTEMBER 8 BILLBOARD ADDENDUM:** Read `2026-09-07-phase-a-billboard-method-lock.md` immediately after this file. It records why both baked-composite attempts were rejected and documents the one deployed Porsche live-layer proof. It locks an architecture test, not final artwork.
+
 ## 1. What changed in v8
 
 Ian explicitly directed an autonomous implementation sprint for the connective tour system after correctly identifying that the prior build had WORK/MORE WORK and case pages in source but did **not** yet have the designed transitions, ambient road life, unified rails, sound behavior, or return-state behavior.
@@ -183,14 +185,9 @@ MORE WORK contains four:
 8. Outdoor Voices — Let's Play
 9. The Atlantic — Social voice
 
-Every billboard:
-- is a direct semantic link
-- has Client + Project visible at rest
-- uses independently replaceable artwork
-- has a matching mobile card
-- does not require hover to identify the project
+Every billboard is a direct semantic link and has a matching mobile card. Only Porsche currently proves independently replaceable desktop artwork. The other billboard images remain baked into the compressed scene plates and are not approved visual work.
 
-Current imagery remains good-enough working art by explicit Ian decision. Final art swaps must not block implementation.
+Final cover selection and label-copy refinement do not block the one-billboard architecture proof. They do block rolling the method across the remaining eight billboards.
 
 ## 11. Case-study system
 
@@ -239,21 +236,19 @@ A full run against the post-runtime state completed successfully on GitHub Actio
 
 ## 13. What is NOT yet certified
 
-**Rendered-pixel quality is not certified.**
-
-The current execution environment still cannot complete normal Chromium/Playwright visual navigation, and the new GitHub source is not yet successfully deployed to the Netlify staging project.
+**The single Porsche live-layer proof is deployed and browser-verified. The full-site rendered-pixel quality is not certified.**
 
 Therefore the following remain staging gates, not completed claims:
 - exact perceived quality of LANDING → WORK cut
 - exact mullion location/timing WORK ↔ MORE WORK
 - headlight opacity / speed / physical plausibility
 - synthesized road sound volume / realism
-- final billboard registration and ID-band proportions
+- final Porsche registration/exposure approval and all non-Porsche billboard conversions
 - repeated WORK lamp correction
 - MORE WORK motel prominence/aging
 - case typography/crop rhythm at real viewport sizes
 - mobile rendered-pixel QA
-- browser Back behavior in a real deployed session
+- browser Back behavior outside the verified Porsche path
 - CWV / field performance
 
 Do not convert source implementation into “visually approved” until those are viewed.
@@ -264,9 +259,11 @@ Netlify staging project:
 - `last-stop-diner-staging`
 - site ID `a01e14a9-cc73-4b33-a657-6bc4671a59a3`
 
-The connector can manage the project but its static upload operation still hands off to a local `npx @netlify/mcp` command that the current runtime cannot reach.
+Public staging is live at `https://last-stop-diner-staging.netlify.app`.
 
-The clean solution remains to connect the staging project to GitHub repo `gufuth/new-portfolio`, branch `main`, publish directory repo root, no build command. Once Git-connected, every runtime correction can be visually checked immediately.
+Ready deploy `6a9f6ee1d98404011f5a5141` contains the Porsche live-layer proof from commit `471461eb7a81e56b4bd83cd74ef99ab2b257d187`. The deployed Porsche click-through and browser Back path were verified on 2026-09-08.
+
+The project is currently updated through sanitized manual uploads. Git-connect remains a useful later infrastructure improvement, not a blocker to continued visual work.
 
 Existing old `last-stop-diner` deployment remains intentionally untouched.
 
@@ -280,6 +277,6 @@ Do **not** polish the superseded HEARSAY wall; Ian is separately progressing the
 
 Next sequence:
 
-**Git-connect Netlify staging → inspect runtime at real pixels → tune only named visual/audio defects → merge current Hearsay → localize final production media → metadata/accessibility/performance pass → production-domain cutover.**
+**Judge the deployed Porsche live-layer proof → tune only that proof if needed → select final covers → build clean higher-quality scene plates → convert the other eight billboards → complete the rendered desktop/mobile audit → merge current Hearsay when Ian returns it → metadata/accessibility/performance pass → production-domain cutover.**
 
 The transition/runtime architecture now exists. The next meaningful judgments are sensory ones, not another planning document.

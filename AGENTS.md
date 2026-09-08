@@ -1,6 +1,6 @@
 # Last Stop Diner — agent operating instructions
 
-> **STATUS: CURRENT / BINDING FOR AGENT WORK.** Last updated 2026-09-03. Read this file before changing anything in this repository.
+> **STATUS: CURRENT / BINDING FOR AGENT WORK.** Last updated 2026-09-08. Read this file before changing anything in this repository.
 
 ## Scope
 
@@ -19,13 +19,14 @@ Never use an old plan to claim that something exists in code. Never use existing
 
 1. `AGENTS.md`
 2. `docs/handoffs/2026-09-03-master-handoff-v8.md`
-3. `docs/design/quality-contract-v1.md`
-4. `docs/case-copy/README.md`
-5. Current v1.1 case-copy files relevant to the task
-6. `docs/design/visual-rules-and-drift-guardrails.md`
-7. If touching HEARSAY: `docs/hearsay/handoff-addendum-v8.md`, then `docs/hearsay/handoff.md` for history
-8. If creative diagnosis is needed: `docs/doctrine/README.md` and the four doctrine transcriptions
-9. Historical and superseded documents only when lineage or rejected directions matter
+3. `docs/handoffs/2026-09-07-phase-a-billboard-method-lock.md`
+4. `docs/design/quality-contract-v1.md`
+5. `docs/case-copy/README.md`
+6. Current v1.1 case-copy files relevant to the task
+7. `docs/design/visual-rules-and-drift-guardrails.md`
+8. If touching HEARSAY: `docs/hearsay/handoff-addendum-v8.md`, then `docs/hearsay/handoff.md` for history
+9. If creative diagnosis is needed: `docs/doctrine/README.md` and the four doctrine transcriptions
+10. Historical and superseded documents only when lineage or rejected directions matter
 
 Then inspect the actual implementation and the exact assets relevant to the requested surface.
 
@@ -35,12 +36,13 @@ When documents disagree, higher wins:
 
 1. Explicit current Ian decision
 2. `docs/handoffs/2026-09-03-master-handoff-v8.md`
-3. `docs/design/quality-contract-v1.md`
-4. Current case-copy README and v1.1 files
-5. Current HEARSAY addendum when HEARSAY is involved
-6. Current visual rules and current surface-specific specs
-7. PZ Brain and Project Zero doctrine
-8. Chronology, old handoffs, old plans, and archives as historical evidence only
+3. `docs/handoffs/2026-09-07-phase-a-billboard-method-lock.md` for billboard production
+4. `docs/design/quality-contract-v1.md`
+5. Current case-copy README and v1.1 files
+6. Current HEARSAY addendum when HEARSAY is involved
+7. Current visual rules and current surface-specific specs
+8. PZ Brain and Project Zero doctrine
+9. Chronology, old handoffs, old plans, and archives as historical evidence only
 
 Project-specific law outranks general doctrine. Doctrine is a diagnostic and reference system, not permission to impose unrelated styling, command-deck language, noir treatment, or a new site concept.
 
@@ -60,10 +62,11 @@ Project-specific law outranks general doctrine. Doctrine is a diagnostic and ref
 - MORE WORK contains four: TE Connectivity × Alita, Jose Cuervo, Outdoor Voices, The Atlantic.
 - Case pages are under `cases/` and use the shared recruiter-first editorial system in `case-system.css`.
 - Mobile WORK / MORE WORK is index-first.
-- The current billboard/case imagery is explicitly good-enough working art, not a final image lock. Assets must remain easy to replace.
+- The existing non-Porsche billboard art is baked into the compressed environment plates and is visibly inadequate. Do not describe it as approved or as independently replaceable.
+- Porsche is the single live-layer proof: the environment plate contains a neutral inner face while `/assets/cases/porsche-hero.webp` is a separate 1600×900 HTML image registered inside the photographed frame. This proves the runtime architecture only; it does not approve the Porsche cover or any of the other eight cover selections.
 - ABOUT is now an honest finished state: no fake reel/coming-soon interaction; Room 3 plate preserved.
 - **HEARSAY remains the exception:** Ian is actively building the current apparition-in-dark direction separately. The checked-in framed-wall implementation is superseded and must not be polished or treated as current.
-- A separate Netlify staging project exists, but a successful new deploy has not yet been verified. Do not call the new build live until Netlify reports a ready deploy.
+- Public Netlify staging is active at `https://last-stop-diner-staging.netlify.app`. Deploy `6a9f6ee1d98404011f5a5141` was reported ready on 2026-09-08 and the Porsche route plus browser Back were verified in the deployed site.
 - `scripts/verify-tour-runtime.mjs` and `.github/workflows/verify-tour.yml` provide executable source-level regression checks. A post-runtime GitHub Actions run has passed both JavaScript parsing and tour wiring audit.
 
 ## Core world and surface locks
@@ -132,4 +135,4 @@ Do **not** stop merely because a billboard image is not perfect. Ian explicitly 
 
 The transition/runtime architecture is built in source. Do not restart concepting or reopen the nine-case cast.
 
-Current sequence: **Git-connect Netlify staging → rendered-pixel/audio audit → surgical transition/layout/registration fixes → merge Ian's current HEARSAY → final production-media/metadata/accessibility/performance pass → production cutover.**
+Current sequence: **judge the single Porsche live-layer proof → tune only that proof if needed → select final covers → convert the remaining eight billboards to independent live layers → replace/re-export the low-resolution WORK/MORE WORK environment plates → rendered nine-case first-screen audit → surgical transition/mobile/accessibility/performance fixes → integrate HEARSAY only when Ian returns its current design → production cutover.**
