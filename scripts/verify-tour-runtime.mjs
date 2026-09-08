@@ -114,6 +114,7 @@ expect('tour-runtime.js', runtime, 'rand(90000,210000)', 'subsequent road-life i
 expect('tour-runtime.js', runtime, "matchMedia('(prefers-reduced-motion: reduce)')", 'reduced-motion detection missing');
 expect('tour-runtime.js', runtime, 'getBoundingClientRect()', 'Landing WORK transition is not anchored to rendered hotspot geometry');
 expect('tour-runtime.js', runtime, 'RESTORE_PENDING', 'case Back-state restoration missing');
+expect('tour-runtime.js', runtime, 'if(event.persisted){resetRestoredCut();}', 'BFCache return does not clear a stale transition curtain');
 expect('tour-runtime.js', runtime, "contact.href='mailto:Ianr.luna@gmail.com'", 'CONTACT rail injection missing');
 if (count(runtimeCss, /@keyframes\s+tourHeadlightPass/g) !== 1) errors.push('tour-runtime.css: ambient headlight must be one event family');
 reject('tour-runtime.css', runtimeCss, 'infinite', 'tour runtime must not contain decorative infinite loops');

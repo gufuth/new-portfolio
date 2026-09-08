@@ -84,6 +84,12 @@
 
   function cleanPrepaint(kind){document.documentElement.classList.remove('tour-prepaint-'+kind);}
 
+  function resetRestoredCut(){
+    document.body.classList.remove('tour-cutting','tour-case-selecting','tour-arriving-work','tour-arrival-settling');
+    document.querySelectorAll('.tour-cut,.tour-arrival-spill').forEach(function(node){node.remove();});
+    document.querySelectorAll('.is-tour-selected').forEach(function(node){node.classList.remove('is-tour-selected');});
+  }
+
   function revealArrival(){
     if(!arrival) return;
     storageRemove(sessionStorage,ARRIVAL_KEY);
@@ -332,7 +338,10 @@
       prepareCaseLinks(surface);
       ensureRoadLife(surface);
       restoreBillboardFocus(surface);
-      window.addEventListener('pageshow',function(){restoreBillboardFocus(surface);});
+      window.addEventListener('pageshow',function(event){
+        if(event.persisted){resetRestoredCut();}
+        restoreBillboardFocus(surface);
+      });
     }
     if(surface==='case'){configureCaseReturn();}
     revealArrival();
