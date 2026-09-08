@@ -108,7 +108,7 @@ Current shared grammar:
 
 Top:
 - `IAN LUNA · CREATIVE DIRECTOR`
-- surface/location metadata, e.g. `EXTERIOR · THE LAST STOP DINER · NIGHT` or `INTERIOR · THE LAST STOP DINER · NIGHT`
+- screenplay-style surface/location metadata: `EXT. · THE LAST STOP DINER · NIGHT` on LANDING and `INT. · THE LAST STOP DINER · NIGHT` on WORK / MORE WORK
 
 Bottom primary navigation:
 - HOME
@@ -227,6 +227,11 @@ No case should be padded to match another case's length.
 - CONTACT injection
 - no infinite animation in the tour runtime
 - required Netlify clean routes
+- exact desktop/mobile case-cast parity
+- mobile index-first and single-column layout laws
+- 44px Work and case navigation targets
+- focusable skip-link destinations and one main landmark per case
+- intrinsic dimensions, useful alt text, and asynchronous decoding on case images
 
 `.github/workflows/verify-tour.yml` runs:
 1. `node --check tour-runtime.js`
@@ -248,6 +253,24 @@ Desktop case first-screen audit completed on public staging at 1363×936:
 - Selsun (640×360), Cuervo (399×500 hero; smaller supporting media), Alita (532×780 hero; 512×708 supporting image), and Atlantic (500×500) remain below the desired final-production source floor.
 
 Those source limitations are recorded, not cosmetically enlarged. Mobile rendered QA remains open.
+
+Source-level mobile/accessibility audit completed on 2026-09-08:
+
+- WORK and MORE WORK expose the same 5 + 4 case IDs in direct mobile cards as in the desktop billboards;
+- the photographed desktop scene is removed from the mobile flow and replaced by the direct project index;
+- case heroes, media bands, and proof blocks collapse to one column;
+- Work rail and case-navigation targets retain a 44px minimum height;
+- mobile road-life and its dead sound control are removed; reduced-motion fallbacks remain present;
+- all nine cases now use a single focusable `<main id="case">` landmark, and all case images declare their intrinsic dimensions;
+- noncritical WORK / MORE WORK index art uses deferred loading and asynchronous decoding; the independent Porsche proof remains high priority on desktop.
+
+Live keyboard and landmark verification on public staging at 1363×936 also passed:
+
+- WORK exposes the skip link first, then all five billboards, then the bottom navigation, with visible focus treatment;
+- activating `Skip to projects` moves focus to `<main id="projects">`;
+- Porsche exposes `Skip to case`, Previous / All Work / Next, the global rail, and Sound with visible focus treatment;
+- activating `Skip to case` moves focus to `<main id="case">`;
+- all nine clean case routes expose one main landmark, three direct case-navigation links, intrinsic image dimensions, and no horizontal overflow.
 
 Therefore the following remain staging gates, not completed claims:
 - exact perceived quality of LANDING → WORK cut
@@ -272,7 +295,7 @@ Netlify staging project:
 
 Public staging is live at `https://last-stop-diner-staging.netlify.app`.
 
-Ready deploy `6a9f7902cdbce91289105f05` contains the Porsche live-layer proof, the BFCache fix, and the cache-busted clean Landing transition through commit `90d9ac306069c1537090b799df71b093f5a3fa5a`. Deployed verification confirmed Landing → Work uses the clean plate, the Porsche click-through works, and browser Back returns visibly with no active transition curtain, restored Porsche focus, and the live layer intact.
+Ready deploy `6a9f829acdbce967b1105f02` contains the Porsche live-layer proof, the BFCache fix, the cache-busted clean Landing transition, the INT./EXT. screenplay rails, and the accessibility/performance patch through commit `777884af5be03163eb64b45ffdf41f09e9cb7c04`. Deployed verification confirmed Landing → Work uses the clean plate, the Porsche click-through works, browser Back returns visibly with no active transition curtain and restored Porsche focus, all nine clean cases expose the new main landmark and intrinsic image dimensions, and the Work/Porsche skip links move keyboard focus to the intended main content.
 
 The project is currently updated through sanitized manual uploads. Git-connect remains a useful later infrastructure improvement, not a blocker to continued visual work.
 
@@ -288,6 +311,6 @@ Do **not** polish the superseded HEARSAY wall; Ian is separately progressing the
 
 Next sequence:
 
-**Judge the deployed Porsche live-layer proof → tune only that proof if needed → select final covers → build clean higher-quality scene plates → convert the other eight billboards → complete the rendered desktop/mobile audit → merge current Hearsay when Ian returns it → metadata/accessibility/performance pass → production-domain cutover.**
+**Complete rendered mobile case QA → make only evidence-backed transition/mobile/accessibility/performance corrections → select final covers → decide billboard scale and copy treatment → build clean higher-quality scene plates → convert the other eight billboards → replace low-resolution case media → merge current Hearsay when Ian returns it → production-domain cutover.**
 
-The transition/runtime architecture now exists. The next meaningful judgments are sensory ones, not another planning document.
+The transition/runtime architecture exists and Ian accepted the one-billboard Porsche proof. Billboard scale, live copy beneath the image, final cover art, and the other eight conversions remain parked for the later visual pass. Do not reopen them during the current objective QA sequence.
