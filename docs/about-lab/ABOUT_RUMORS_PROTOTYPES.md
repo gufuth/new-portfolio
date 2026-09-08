@@ -6,7 +6,7 @@ Status: functioning source prototypes on the isolated About branch. No mechanism
 
 Recover the original page's feeling of discovering Ian's absurd self-mythology without advertising a `rumors` feature, building a scavenger hunt, or making the page depend on hover.
 
-All mechanisms use semantic buttons, support click/tap and keyboard activation, expose state with `aria-expanded` / `aria-controls`, close on Escape, and keep the biography usable without opening the rumors.
+All current mechanisms use semantic buttons, support click/tap and keyboard activation, expose state with `aria-expanded` / `aria-controls`, close on Escape, and keep the biography usable without opening the rumors.
 
 ## Prototype 1: CRT discovery
 
@@ -14,7 +14,9 @@ Used by Routes A and B.
 
 ### Behavior
 
-The existing CRT is the control. It receives only a very small focus/hover lift. Activating it reveals the rumor list in the dark biography territory. There is no `play`, `reel`, `coming soon`, instruction label or looping static.
+The existing CRT is the control. It receives only a very small focus/hover lift. Activating it reveals the rumor list in the dark biography territory. Route B temporarily gives the rumor list the main copy field so it is actually readable rather than appearing as tiny secondary text.
+
+There is no `play`, `reel`, `coming soon`, instruction label or looping static.
 
 ### Why it fits
 
@@ -27,46 +29,53 @@ The existing CRT is the control. It receives only a very small focus/hover lift.
 
 - the baked `PAUSE II` text can accidentally imply playback even though the control no longer does
 - if the CRT glow becomes too visible, the page starts advertising its trick
-- the control's accessible name necessarily reveals `rumors` to assistive technology before the visual reveal, which is acceptable because accessibility outranks preserving the joke from a screen reader
+- the accessible name necessarily reveals `rumors` to assistive technology before the visual reveal, which is acceptable because accessibility outranks preserving the joke from a screen reader
 
 ### Current judgment
 
-**Winner on interaction logic, pending pixel proof.** It is the most native mechanism because no additional visual object is required.
+**Winner on interaction logic.** It spends no new prop and keeps the joke secondary.
 
-## Prototype 2: Paid-through-Thursday seam
+## Prototype 2: Found dresser evidence
 
 Used by Route C.
 
 ### Behavior
 
-`The room is paid through Thursday.` remains visually part of the biography but is a semantic button. Activating it reveals the historical rumor list below under the restrained motel-native label `Incidentals`.
+A small semantic hotspot sits over existing dresser clutter. Hover/focus gives only a faint local lift. Activation reveals the historical rumor list as text in the right-hand dark field. No new receipt, key tag, note or object is added to the image.
 
 ### Why it fits
 
-- uses the strongest existing line rather than adding a new visual prop
-- discovery is editorial rather than gadget-driven
-- the joke is already about the room, so the reveal has a physical logic without requiring lore
-- on mobile, it remains reachable after the basic biography rather than becoming a hidden hotspot on a cropped image
+- tests a genuinely different discovery logic without changing the room
+- lets the CRT remain purely a human trace
+- keeps `The room is paid through Thursday.` as a throwaway line rather than turning it into a setup
+- the discovered text can feel like something left in the room rather than a feature announced by the interface
 
 ### Risks
 
-- making a good line clickable can make it feel like a setup rather than a throwaway
-- `Incidentals` is close to the edge of being a designed motel joke
-- keyboard focus necessarily makes the line look interactive when focused
+- highest escape-room risk of the three routes
+- visual discoverability must remain low enough not to become a puzzle prompt
+- mobile hotspot placement is more fragile because the crop changes
+- a label such as `Found in Room 3` is already close to explaining the joke
 
 ### Current judgment
 
-**Runner-up.** Stronger as a mobile mechanism than the CRT, but more self-conscious conceptually. Keep it only if rendered behavior feels deadpan rather than cute.
+**Useful third-route test, not the current favorite.** Keep only if it feels accidental in rendered pixels.
+
+## Rejected prototype: paid-through-Thursday seam
+
+The earlier version made `The room is paid through Thursday.` clickable and revealed rumors under `Incidentals`.
+
+Rejected because it turns the best deadpan line into an obvious setup and makes the motel joke feel authored twice. The line is stronger when it can simply sit there.
 
 ## Rejected prototype family: new physical evidence
 
-Examples considered and rejected at this stage: motel ledger, key tag, bedside note, receipt, postcard, phone message, room-service slip.
+Examples rejected: motel ledger, key tag, bedside note, receipt, postcard, phone message, room-service slip.
 
 Reason: the Room 3 baseline already contains enough set dressing and narrative implication. Adding a new object primarily to hold rumors converts discovery into prop design and makes the motel theme more important than Ian.
 
 ## Rejected prototype family: generic overlays
 
-Rejected: modal card, tooltip cloud, floating panel, bottom sheet styled as a UI component, dedicated `RUMORS` link, badge, instructions, hover-only reveal.
+Rejected: modal card, tooltip cloud, floating panel, dedicated `RUMORS` link, badge, instructions, hover-only reveal.
 
 Reason: these expose the mechanism as portfolio interface rather than something quietly found inside the scene.
 
@@ -88,7 +97,6 @@ Any selected mechanism must preserve:
 ## Current ranking
 
 1. CRT discovery
-2. Paid-through-Thursday seam
-3. New physical evidence: rejected
-
-The decisive visual question is whether the CRT can remain quiet enough after the motel sign is demoted. If it becomes the new hero, Route C's editorial seam becomes the better restraint choice.
+2. Found dresser evidence, only if it remains nearly invisible
+3. Paid-through-Thursday seam: rejected
+4. New physical evidence: rejected
