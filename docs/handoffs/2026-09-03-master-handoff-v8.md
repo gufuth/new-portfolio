@@ -252,7 +252,9 @@ Desktop case first-screen audit completed on public staging at 1363×936:
 - Alita and Cuervo remain tall-ratio outliers tied to final crop/image decisions;
 - Selsun (640×360), Cuervo (399×500 hero; smaller supporting media), Alita (532×780 hero; 512×708 supporting image), and Atlantic (500×500) remain below the desired final-production source floor.
 
-Those source limitations are recorded, not cosmetically enlarged. Mobile rendered QA remains open.
+Those source limitations are recorded, not cosmetically enlarged.
+
+True phone-width Chromium QA is complete at 390×844 and 430×932 for all nine cases. All 18 phone renders passed exact viewport width, zero horizontal overflow, single-column heroes, intact first-screen headline/role/idea/proof, 44px target height, loaded media and no clipped key text. The corresponding main-tour phone renders also passed index-first routing and overflow checks.
 
 The 2026-09-08 deploy-payload inventory also explains the perceived softness in the diner scenes: `work-panorama-live-proof.webp` is 77,408 bytes and `more-work-panorama-current.webp` is 25,510 bytes. The browser cannot recover detail that is absent from these aggressively compressed source plates. Higher-quality clean plate exports remain the correct fix after cover selection and billboard-scale decisions.
 
@@ -285,7 +287,6 @@ Therefore the following remain staging gates, not completed claims:
 - repeated WORK lamp correction
 - MORE WORK motel prominence/aging
 - final case typography/crop rhythm after Alita/Cuervo and low-resolution media replacement
-- mobile rendered-pixel QA across all nine cases
 - browser Back behavior outside the verified Porsche path
 - CWV / field performance
 
@@ -299,7 +300,7 @@ Netlify staging project:
 
 Public staging is live at `https://last-stop-diner-staging.netlify.app`.
 
-Ready deploy `6a9f829acdbce967b1105f02` is the last verified public baseline. It contains the now-rejected live Porsche layer plus the BFCache fix, INT./EXT. screenplay rails, focusable landmarks, intrinsic image dimensions and deferred loading. Preserve its verified navigation/accessibility behavior while replacing the billboard pixels and transition treatment.
+Ready deploy `6a9f95a5512a429bf4ae0d73` is the current public staging build. Live-browser inspection confirms `work-panorama-physical-v1.webp` is the active scene plate, the rejected Porsche live image computes to `display:none`, the cache-busted styles are loaded, horizontal overflow is zero, and the exposure cut keeps the fixed rails visible.
 
 The project is currently updated through sanitized manual uploads. Git-connect remains a useful later infrastructure improvement, not a blocker to continued visual work.
 
@@ -315,6 +316,6 @@ Do **not** polish the superseded HEARSAY wall; Ian is separately progressing the
 
 Next sequence:
 
-**Complete rendered mobile case QA → make only evidence-backed transition/mobile/accessibility/performance corrections → select final covers → decide billboard scale and copy treatment → build clean higher-quality scene plates → convert the other eight billboards → replace low-resolution case media → merge current Hearsay when Ian returns it → production-domain cutover.**
+**Ian judges the deployed physical Porsche candidate → select final covers → decide billboard scale and copy treatment → build clean higher-quality scene plates → produce the other eight static/animated physical faces → replace low-resolution case media → merge current Hearsay when Ian returns it → production-domain cutover.**
 
 The tour runtime exists, but Ian rejected the one-billboard live Porsche overlay after rendered review. The physical-face method is active now. Billboard scale, live copy beneath the image, final cover art, and the other eight conversions remain parked until the one physical candidate passes.
