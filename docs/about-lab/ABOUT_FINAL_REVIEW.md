@@ -102,7 +102,7 @@ The baked `PAUSE II` label remains because a clean source plate has not been loc
 - baseline audit: `docs/about-lab/ABOUT_BASELINE_AUDIT.md`
 - hierarchy studies: `docs/about-lab/ABOUT_HIERARCHY_STUDIES.md`
 - copy audit: `docs/about-lab/ABOUT_COPY_AUDIT.md`
-- older prototype notes: `docs/about-lab/ABOUT_RUMORS_PROTOTYPES.md` (internal filename only; user-facing naming is superseded by INCIDENTals)
+- INCIDENTals prototype notes: `docs/about-lab/ABOUT_INCIDENTALS_PROTOTYPES.md`
 
 ## Deployment safety
 
