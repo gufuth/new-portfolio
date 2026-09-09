@@ -29,11 +29,12 @@ Status: branch-only working record for `about-iteration-lab-20260908-contd`.
 - The current CRT portrait is a real source image and must not be regenerated or cosmetically altered.
 - `The room is paid through Thursday.` is a default keeper.
 - Fake reel / coming-soon behavior is dead.
-- Rumors are secondary, hidden and discoverable.
+- **INCIDENTALS is locked** as the understated label for the hidden secondary Ian material. Earlier user-facing `Rumors`, `Hearsay`, `About, allegedly`, `The rest is hearsay`, and `Found in room 3` language is superseded unless Ian explicitly reopens it.
+- INCIDENTals stays subordinate and discoverable. Do not add a new motel prop solely to justify it.
 
 ## Historical material allowed as source
 
-The canonical full-length Who document contains approved voice material including the English Lit / leather jacket anecdote and the absurd rumor list. It is not permission to paste the old page into the motel-room About. Bracketed or stale employer facts remain excluded.
+The canonical full-length Who document contains approved voice material including the English Lit / leather jacket anecdote and the absurd secondary biography / impossible-credentials list. It is not permission to paste the old page into the motel-room About. Bracketed or stale employer facts remain excluded.
 
 ## Known source gap
 
