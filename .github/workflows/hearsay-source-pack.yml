@@ -1,0 +1,30 @@
+name: Hearsay source pack
+
+on:
+  push:
+    branches: [hearsay-elite-corrective]
+    paths:
+      - '.github/workflows/hearsay-source-pack.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package exact current Hearsay sources
+        run: |
+          mkdir -p hearsay-source-pack
+          cp assets/hearsay/source-ex.jpg hearsay-source-pack/
+          cp assets/hearsay/source-neighbor.jpg hearsay-source-pack/
+          cp assets/hearsay/source-sweets.jpg hearsay-source-pack/
+          cp assets/hearsay/source-vidal.jpg hearsay-source-pack/
+          cp assets/hearsay/source-mother.jpg hearsay-source-pack/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hearsay-source-pack-${{ github.sha }}
+          path: hearsay-source-pack
+          retention-days: 7
