@@ -1,11 +1,49 @@
-/* Last Stop cinematic edit override. The edit is the effect. */
-.tour-cut--landing{background:#000;opacity:0;transition:opacity 175ms cubic-bezier(.55,0,.75,.35)}
-.tour-cut--landing::before{display:none!important;content:none!important}
-.tour-cut--landing.is-active{opacity:1}
+/* Last Stop cinematic edit override. The edit is the effect.
+   The page does not animate into another page. Physical light and occlusion motivate the cut. */
+.tour-cut--landing{background:transparent;opacity:1;overflow:hidden}
+.tour-cut--landing::before{
+  content:""!important;display:block!important;position:absolute;inset:0;
+  background:radial-gradient(ellipse at 44% 48%,rgba(25,29,18,.04),rgba(0,0,0,.16) 58%,rgba(0,0,0,.34));
+  opacity:0;transition:opacity 105ms ease-out;
+}
+.tour-cut--landing::after{
+  content:"";position:absolute;top:-12%;bottom:-12%;left:-34%;width:44%;
+  background:linear-gradient(90deg,#000 0%,#020202 68%,rgba(2,2,2,.98) 82%,rgba(2,2,2,.7) 92%,transparent 100%);
+  transform:skewX(-4deg) translateX(0);filter:blur(.4px);
+  box-shadow:26px 0 70px rgba(0,0,0,.64);
+  opacity:.98;
+}
+.tour-cut--landing.is-active::before{opacity:1}
+.tour-cut--landing.is-active::after{animation:tourArchitecturalOcclusion 455ms cubic-bezier(.67,.02,.41,1) forwards}
+@keyframes tourArchitecturalOcclusion{
+  0%{transform:skewX(-4deg) translateX(0)}
+  56%{transform:skewX(-4deg) translateX(160vw)}
+  100%{transform:skewX(-4deg) translateX(160vw)}
+}
+
+/* The physical WORK practical gives a tiny electrical acknowledgement before the cut. */
+body[data-tour-surface="landing"].tour-cutting #hotWork .lift{
+  opacity:.2;animation:tourWorkVoltage 260ms ease-out both;
+}
+body[data-tour-surface="landing"].tour-cutting #plate{
+  animation:tourExteriorExposureDip 320ms cubic-bezier(.42,0,.75,.48) both;
+}
+@keyframes tourWorkVoltage{0%{opacity:.08}38%{opacity:.31}100%{opacity:.12}}
+@keyframes tourExteriorExposureDip{0%{filter:brightness(1) saturate(1)}58%{filter:brightness(.91) saturate(.96)}100%{filter:brightness(.83) saturate(.94)}}
+
+/* WORK <-> MORE WORK is a related exposure cut, shorter and less theatrical. */
 .tour-cut--exposure{background:radial-gradient(ellipse at 18% 52%,rgba(6,6,5,.94) 0%,#000 72%);opacity:0;transition:opacity 118ms ease-out}
 .tour-cut--exposure.is-active{opacity:1}
-body[data-tour-surface="landing"].tour-cutting #hotWork .lift{opacity:.22}
-body.tour-arriving-work .scene-stage{filter:brightness(.88) saturate(.95)}
-body.tour-arriving-work.tour-arrival-settling .scene-stage{filter:brightness(1) saturate(1);transition:filter 330ms cubic-bezier(.2,.7,.2,1)}
-.tour-arrival-spill{background:linear-gradient(90deg,rgba(60,91,50,.11),rgba(60,91,50,.025) 11%,transparent 24%);animation-duration:430ms}
-@media(prefers-reduced-motion:reduce){.tour-cut--landing,.tour-cut--exposure{transition:none!important}.tour-arrival-spill{display:none!important}}
+
+/* Interior arrives like the next shot: slightly underexposed, then the eye catches up. */
+body.tour-arriving-work .scene-stage{filter:brightness(.84) saturate(.93) contrast(1.015)}
+body.tour-arriving-work.tour-arrival-settling .scene-stage{filter:brightness(1) saturate(1) contrast(1);transition:filter 360ms cubic-bezier(.18,.72,.2,1)}
+.tour-arrival-spill{
+  background:linear-gradient(90deg,rgba(72,96,56,.13),rgba(72,96,56,.04) 10%,rgba(72,96,56,.012) 18%,transparent 30%);
+  animation-duration:520ms;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .tour-cut--landing,.tour-cut--landing::before,.tour-cut--landing::after,.tour-cut--exposure,#plate,#hotWork .lift{transition:none!important;animation:none!important}
+  .tour-cut--landing::before,.tour-cut--landing::after,.tour-arrival-spill{display:none!important}
+}
