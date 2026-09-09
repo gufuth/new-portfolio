@@ -1,0 +1,39 @@
+name: Work plate inspection
+
+on:
+  push:
+    branches:
+      - work/cinematic-case-master-scooba-20260908
+    paths:
+      - '.github/workflows/work-plate-inspection.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pillow
+        run: python -m pip install --quiet pillow
+      - name: Export current source plates
+        shell: bash
+        run: |
+          mkdir -p /tmp/plates
+          python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          for src,name in [
+              ('assets/work-panorama-physical-v1.webp','work-source.png'),
+              ('assets/more-work-panorama-current.webp','more-work-source.png')]:
+              im=Image.open(src).convert('RGB')
+              print(src, im.size)
+              im.save('/tmp/plates/'+name, quality=95)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: work-source-plates
+          path: /tmp/plates
+          retention-days: 14
