@@ -36,8 +36,11 @@ a{color:inherit}
 .billboard::before,.billboard::after{content:"";position:absolute;pointer-events:none;opacity:0;transition:opacity 145ms ease-out,background 145ms ease-out,box-shadow 145ms ease-out}
 .billboard::before{background:rgba(239,220,177,.035);box-shadow:inset 0 0 16px rgba(245,224,175,.045);mix-blend-mode:screen}
 .billboard::after{background:rgba(240,220,177,.055);box-shadow:inset 0 0 0 1px rgba(238,222,180,.08),0 0 9px rgba(232,199,132,.055);mix-blend-mode:screen}
-.billboard:hover::before,.billboard:focus-visible::before{opacity:1}
-.billboard:hover::after,.billboard:focus-visible::after{opacity:1}
+/* Physical surface response follows actual focus so keyboard, assistive tech and
+   scripted focus restoration all preserve the same photographed-object cue.
+   The explicit accessibility outline remains restricted to :focus-visible. */
+.billboard:hover::before,.billboard:focus::before{opacity:1}
+.billboard:hover::after,.billboard:focus::after{opacity:1}
 .billboard:focus-visible{outline:2px solid rgba(236,226,198,.88);outline-offset:2px}
 
 /* Departure is an exposure cue inside the photographed object. It must remain
