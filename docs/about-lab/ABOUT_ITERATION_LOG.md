@@ -37,6 +37,16 @@
 - Current route interfaces already expose `INCIDENTALS` plus semantic `Show incidentals` / `Hide incidentals` labels.
 - This closes the specific recovery ambiguity that could otherwise make a future session reopen the naming decision.
 
+## September 9 recovery source QA
+
+- Re-read the current Drive locks, the September 8 autonomous prompt, the full About branch source, and the September 8-9 commit sequence before new work.
+- Confirmed `main` remains unchanged at the branch base while the About lab remains isolated.
+- Confirmed there is still no completed real-pixel QA evidence for the current About branch HEAD. Desktop, tablet, phone, grayscale, blur, brightness-lift, keyboard/focus, Escape, reduced-motion, and console checks remain gates rather than completed claims.
+- Found one source-level accessibility defect in Route B: opening INCIDENTals visually hides `.bio` on desktop with opacity/pointer-events but does not remove that hidden biography from the accessibility tree. Any final B implementation must synchronize the bio's accessibility state with the visible swap and verify it with keyboard and assistive-technology behavior.
+- Confirmed the exact INCIDENTals body copy is not normalized across A, B, and C. The `INCIDENTALS` label and subordinate/discoverable behavior are locked, but the body remains route-specific/provisional. Route B is closest to the canonical long-form Who source; do not silently treat the shorter A/C lists as a new content lock.
+- Confirmed all three mobile routes disable the desktop sign-damp layer and depend on the 4:3 crop plus overall plate darkening to demote the motel sign. This is an unresolved rendered-pixel risk, not a proven failure.
+- A direct local clone/render attempt was blocked by the current execution runtime's network isolation. Do not convert source inspection into a visual-QA claim.
+
 ## Current branch decision
 
 - Advance Route B for real-pixel comparison.
@@ -50,6 +60,8 @@
 - Obtain or reconstruct a clean Room 3 source plate without baked `PAUSE II` if possible.
 - Run real branch-pixel QA at desktop, tablet and phone widths in an environment that can load the branch assets.
 - Confirm focus states, keyboard activation, Escape dismissal and reduced-motion behavior against the rendered pixels.
+- Fix and verify Route B's hidden-bio accessibility state before any selection can ship.
+- Resolve the final INCIDENTals body copy from canonical source rather than by route drift.
 - Run grayscale, blur and brightness-lift attention checks to prove the motel sign is no longer the first attention island.
 - Use only a unique non-promoting draft deploy for external review. Do not touch the public staging alias.
 - Merge nothing until Ian chooses a route.
