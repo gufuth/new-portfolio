@@ -42,7 +42,7 @@ jobs:
           python3 -m http.server 4173 >/tmp/last-stop-http.log 2>&1 &
           echo $! >/tmp/last-stop-http.pid
           for i in {1..30}; do
-            if curl -fsS http://127.0.0.1:4173/work/ >/dev/null; then exit 0; fi
+            if curl -fsS http://127.0.0.1:4173/work.html >/dev/null; then exit 0; fi
             sleep 1
           done
           cat /tmp/last-stop-http.log
