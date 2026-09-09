@@ -1,0 +1,81 @@
+name: Work and case finish QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - work/work-more-case-finish-20260908
+    paths:
+      - 'index.html'
+      - 'work.html'
+      - 'more-work.html'
+      - 'work-system.css'
+      - 'case-system.css'
+      - 'tour-runtime.css'
+      - 'tour-runtime.js'
+      - 'cases/**'
+      - 'scripts/render-tour.mjs'
+      - 'scripts/render-case-matrix.mjs'
+      - 'scripts/verify-tour-runtime.mjs'
+      - '.github/workflows/work-case-finish-qa.yml'
+
+permissions:
+  contents: read
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  finish-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - name: Check out finish branch
+        uses: actions/checkout@v4
+
+      - name: Production surface regression guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -q 'transition-lab' index.html
+          ! grep -q 'transition-lab' work.html
+          ! grep -q 'transition-lab' more-work.html
+          ! grep -q '<img' <(sed -n '/scene-stage work-scene/,/mobile-title/p' work.html)
+          ! grep -q '<img' <(sed -n '/scene-stage more-scene/,/mobile-title/p' more-work.html)
+          grep -q 'href="/work/more/">All work' cases/alita.html
+          grep -q 'href="/work/more/">All work' cases/cuervo.html
+          grep -q 'href="/work/more/">All work' cases/outdoor-voices.html
+          grep -q 'href="/work/more/">All work' cases/atlantic.html
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Runtime source checks
+        run: |
+          node --check tour-runtime.js
+          node scripts/verify-tour-runtime.mjs
+
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Render tour and interaction matrix
+        run: node scripts/render-tour.mjs
+
+      - name: Render all nine case matrices
+        run: node scripts/render-case-matrix.mjs
+
+      - name: Upload visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: work-case-finish-qa
+          path: |
+            artifacts/tour-render
+            artifacts/case-matrix
+          if-no-files-found: error
+          retention-days: 14
