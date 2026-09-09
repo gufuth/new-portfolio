@@ -56,9 +56,9 @@ expect('about.html', about, '/tour-runtime.css', 'shared tour CSS is not loaded'
 expect('case-system.css', caseCss, "@import url('/tour-runtime.css?v=20260908-physical2')", 'case pages do not inherit the cache-busted tour CSS');
 
 // Clean-route asset safety. Netlify rewrites keep /work/... in the browser URL, so page-critical local assets must be root-absolute.
-expect('work.html', work, 'href="/work-system.css?v=20260908-physical2"', 'WORK CSS is not root-absolute and cache-busted for /work/');
+expect('work.html', work, 'href="/work-system.css?v=20260908-finish1"', 'WORK CSS is not root-absolute and cache-busted for /work/');
 expect('work.html', work, 'href="/assets/work-panorama-physical-v1.webp"', 'WORK physical panorama preload is not root-absolute for /work/');
-expect('more-work.html', more, 'href="/work-system.css?v=20260908-physical2"', 'MORE WORK CSS is not root-absolute and cache-busted for /work/more/');
+expect('more-work.html', more, 'href="/work-system.css?v=20260908-finish1"', 'MORE WORK CSS is not root-absolute and cache-busted for /work/more/');
 expect('more-work.html', more, 'href="/assets/more-work-panorama-current.webp"', 'MORE WORK panorama is not root-absolute for /work/more/');
 expect('about.html', about, 'src="/about.webp"', 'ABOUT plate is not root-absolute for /about/');
 reject('work.html', work, 'href="work-system.css"', 'relative WORK CSS would break on clean routes');
@@ -80,6 +80,11 @@ reject('index.html', index, 'EXTERIOR · THE LAST STOP DINER · NIGHT', 'spelled
 reject('work.html', work, 'INTERIOR · THE LAST STOP DINER · NIGHT', 'spelled-out WORK interior slug remains');
 reject('more-work.html', more, 'INTERIOR · THE LAST STOP DINER · NIGHT', 'spelled-out MORE WORK interior slug remains');
 
+// Production surfaces must not load the superseded transition lab. It creates a second ambient-motion family.
+reject('index.html', index, 'transition-lab', 'obsolete transition lab is loaded on Landing');
+reject('work.html', work, 'transition-lab', 'obsolete transition lab is loaded on WORK');
+reject('more-work.html', more, 'transition-lab', 'obsolete transition lab is loaded on MORE WORK');
+
 // WORK and MORE WORK cast integrity.
 if (count(work, /class="billboard\s+b\d"/g) !== 5) errors.push('work.html: expected exactly 5 desktop billboards');
 if (count(more, /class="billboard\s+b\d"/g) !== 4) errors.push('more-work.html: expected exactly 4 desktop billboards');
@@ -89,6 +94,14 @@ const expectedWork = ['nike-sb-panda-pigeon','virgin-galactic-unity-22','porsche
 const expectedMore = ['alita-te-connectivity','jose-cuervo','outdoor-voices','the-atlantic'];
 for (const id of expectedWork) if (!workIds.has(id)) errors.push(`work.html: missing desktop case ${id}`);
 for (const id of expectedMore) if (!moreIds.has(id)) errors.push(`more-work.html: missing desktop case ${id}`);
+
+// Desktop billboard DOM is semantic interaction geometry only; visible art and naming are baked into the plate.
+const workDesktopScene = work.match(/<div class="scene-stage work-scene">([\s\S]*?)<div aria-hidden="true" class="mobile-title">/)?.[1] || '';
+const moreDesktopScene = more.match(/<div class="scene-stage more-scene">([\s\S]*?)<div aria-hidden="true" class="mobile-title">/)?.[1] || '';
+reject('work.html', workDesktopScene, '<img', 'desktop WORK billboard contains a live image payload');
+reject('more-work.html', moreDesktopScene, '<img', 'desktop MORE WORK billboard contains a live image payload');
+reject('work.html', workDesktopScene, 'class="id"', 'desktop WORK billboard contains a live visual label');
+reject('more-work.html', moreDesktopScene, 'class="id"', 'desktop MORE WORK billboard contains a live visual label');
 
 // Mobile is a direct project index, never a compressed or gesture-only version of the scene.
 const workMobileIds = new Set([...work.matchAll(/class="mobile-card"[^>]*data-case-id="([^"]+)"/g)].map(m => m[1]));
@@ -118,7 +131,7 @@ for (const [rel, slug] of cases) {
   expect(rel, html, 'data-tour-surface="case"', 'case surface flag missing');
   expect(rel, html, `data-case-id="${slug}"`, `case id ${slug} missing`);
   expect(rel, html, '/tour-runtime.js', 'shared tour runtime missing');
-  expect(rel, html, 'href="/case-system.css?v=20260908-phone1"', 'case CSS must be root-absolute and cache-busted under /work/<slug>/');
+  expect(rel, html, 'href="/case-system.css?v=20260908-finish1"', 'case CSS must be root-absolute and cache-busted under /work/<slug>/');
   expect(rel, html, 'href="/favicon.png"', 'case favicon must be root-absolute under /work/<slug>/');
   reject(rel, html, '../case-system.css', 'relative case CSS breaks clean routes');
   reject(rel, html, '../favicon.png', 'relative favicon breaks clean routes');
@@ -137,6 +150,12 @@ for (const [rel, slug] of cases) {
   }
   reject(rel, html, 'IAN DECISION REQUIRED', 'visitor-visible unresolved marker');
   reject(rel, html, 'UNVERIFIED / NOT APPROVED', 'visitor-visible unresolved marker');
+}
+
+// More Work pages must return to their owning index even on direct entry with no session state.
+for (const rel of ['cases/alita.html','cases/cuervo.html','cases/outdoor-voices.html','cases/atlantic.html']) {
+  const html = read(rel);
+  expect(rel, html, 'href="/work/more/">All work</a>', 'More Work case does not statically return to More Work');
 }
 
 // ABOUT truth test.
@@ -163,7 +182,6 @@ expect('tour-runtime.css', runtimeCss, "url('/assets/work-panorama-physical-v1.w
 reject('tour-runtime.css', runtimeCss, "url('/assets/work-panorama-current.webp')", 'Landing-to-WORK cut still exposes the baked Porsche plate');
 reject('tour-runtime.css', runtimeCss, 'tour-cut--mullion', 'WORK/MORE WORK still uses the rejected mullion wipe');
 expect('tour-runtime.css', runtimeCss, 'tour-cut--exposure', 'WORK/MORE WORK exposure cut is missing');
-reject('work-system.css', workCss, '.work-scene .billboard[data-live-proof] img{\n  display:block', 'Rejected live Porsche rectangle is visible on desktop');
 
 // Netlify clean routes needed by the runtime.
 for (const route of [
