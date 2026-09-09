@@ -1,0 +1,328 @@
+/*
+Last Stop case-study master v3 — recruiter glance + editorial evidence.
+Prototype lock pages: Porsche (master) + Cuervo (stress test).
+
+Visual law:
+- first screen has one image, one idea, one role
+- proof gets a separate editorial rail, never dashboard cards
+- mono is metadata/orientation; substantive reading stays in the sans
+- client work keeps its own palette; Last Stop supplies darkness, edit and pacing
+- supporting images run on one evidence spine, not scattered CMS slots
+*/
+
+body.case-master-v3{
+  --case-max:1240px;
+  --reading:720px;
+  --hair:#2d2a24;
+  --soft:#9c9280;
+  --quiet:#746c5f;
+}
+
+body.case-master-v3 .case-strip{height:36px}
+
+/* FIRST SHOT: one argument + one piece of work. */
+body.case-master-v3 .case-hero{
+  width:min(var(--case-max),100%);
+  margin:0 auto;
+  min-height:clamp(560px,68svh,760px);
+  display:grid;
+  grid-template-columns:minmax(330px,.72fr) minmax(0,1.38fr);
+  align-items:stretch;
+  border-bottom:0;
+}
+body.case-master-v3 .hero-copy{
+  max-width:none;
+  padding:clamp(54px,6.2vw,92px) clamp(34px,4.5vw,64px) clamp(50px,5.2vw,78px) 0;
+  justify-content:center;
+}
+body.case-master-v3 .eyebrow{
+  margin:0 0 22px;
+  font-size:9px;
+  letter-spacing:.2em;
+  color:#958b79;
+}
+body.case-master-v3 .case-hero h1{
+  font-size:clamp(48px,5vw,76px);
+  line-height:.91;
+  max-width:7.4em;
+  margin:0 0 26px;
+  letter-spacing:-.052em;
+  text-wrap:balance;
+}
+body.case-master-v3 .case-kicker{
+  max-width:31ch;
+  margin:0 0 30px;
+  font-family:var(--sans);
+  font-size:clamp(16px,1.3vw,19px);
+  line-height:1.42;
+  color:#aca28f;
+}
+body.case-master-v3 .role{
+  padding-top:17px;
+  border-top:1px solid var(--hair);
+  width:min(320px,100%);
+  color:#c9bda6;
+  font-size:9px;
+  letter-spacing:.15em;
+}
+body.case-master-v3 .hero-media{
+  min-height:0;
+  margin:clamp(24px,3vw,42px) 0;
+  background:#0a0a08;
+  overflow:hidden;
+  border:1px solid #1c1b17;
+}
+body.case-master-v3 .hero-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  min-height:0;
+}
+body.case-master-v3[data-case-id="jose-cuervo"] .hero-media{
+  padding:clamp(18px,2.5vw,34px);
+  background:#0b0a08;
+}
+body.case-master-v3[data-case-id="jose-cuervo"] .hero-media img{
+  object-fit:contain;
+  width:100%;
+  max-height:660px;
+}
+
+/* PROOF: one calm strip immediately after the hero. */
+body.case-master-v3 .proof-rail{
+  width:min(var(--case-max),calc(100% - 48px));
+  margin:0 auto;
+  border-top:1px solid var(--hair);
+  border-bottom:1px solid var(--hair);
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+body.case-master-v3 .proof-stat{
+  min-height:148px;
+  padding:30px 28px 28px 0;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+}
+body.case-master-v3 .proof-stat + .proof-stat{
+  border-left:1px solid var(--hair);
+  padding-left:28px;
+}
+body.case-master-v3 .proof-stat strong{
+  display:block;
+  font-family:var(--sans);
+  font-size:clamp(48px,5.5vw,78px);
+  line-height:.78;
+  letter-spacing:-.055em;
+  font-weight:670;
+  color:#e7dcc3;
+  white-space:nowrap;
+}
+body.case-master-v3 .proof-stat sup{
+  font-family:var(--mono);
+  font-size:.32em;
+  line-height:1;
+  vertical-align:top;
+  color:#bba77f;
+  margin-left:3px;
+  letter-spacing:0;
+}
+body.case-master-v3 .proof-stat span{
+  margin-top:14px;
+  max-width:27ch;
+  font-size:9px;
+  line-height:1.38;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:#817869;
+}
+body.case-master-v3 .proof-note{
+  width:min(var(--case-max),calc(100% - 48px));
+  margin:12px auto 0;
+  color:#665f54;
+  font-size:8px;
+  line-height:1.4;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+/* Honors are provenance, not decoration. */
+body.case-master-v3 .honors-strip{
+  width:min(var(--case-max),calc(100% - 48px));
+  margin:30px auto 0;
+  padding:14px 0 15px;
+  border-top:1px solid #24221e;
+  border-bottom:1px solid #24221e;
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:24px;
+  align-items:baseline;
+}
+body.case-master-v3 .honors-strip span{
+  color:#746b5d;
+  font-size:8px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+body.case-master-v3 .honors-strip b{
+  color:#b9aa8d;
+  font-family:var(--sans);
+  font-size:14px;
+  line-height:1.35;
+  font-weight:520;
+  letter-spacing:.01em;
+}
+
+/* 15-second brief: simple rows, not tiles. */
+body.case-master-v3 .case-brief{
+  width:min(1020px,calc(100% - 48px));
+  margin:clamp(84px,9vw,132px) auto clamp(96px,10vw,150px);
+  border-top:1px solid var(--hair);
+}
+body.case-master-v3 .brief-row{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:42px;
+  padding:25px 0 27px;
+  border-bottom:1px solid var(--hair);
+}
+body.case-master-v3 .brief-row span{
+  padding-top:5px;
+  color:#746c5f;
+  font-size:8px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+body.case-master-v3 .brief-row p{
+  margin:0;
+  max-width:58ch;
+  font-family:var(--sans);
+  font-size:clamp(20px,1.75vw,25px);
+  line-height:1.4;
+  letter-spacing:-.018em;
+  color:#d9cfb8;
+}
+body.case-master-v3 .brief-row:first-child p{color:var(--accent)}
+
+/* Evidence spine: one image beat at a time. */
+body.case-master-v3 .evidence-shot{
+  width:min(1180px,calc(100% - 48px));
+  margin:0 auto clamp(96px,11vw,164px);
+}
+body.case-master-v3 .evidence-shot img{
+  display:block;
+  width:100%;
+  max-height:820px;
+  object-fit:contain;
+  background:#090907;
+}
+body.case-master-v3 .shot-caption{
+  margin-top:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  color:#6f675a;
+  font-size:8px;
+  line-height:1.4;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+body.case-master-v3 .idea-beat{
+  width:min(1020px,calc(100% - 48px));
+  margin:0 auto clamp(104px,12vw,178px);
+  padding-top:28px;
+  border-top:1px solid var(--hair);
+}
+body.case-master-v3 .idea-beat .label{margin-bottom:28px}
+body.case-master-v3 .idea-beat blockquote{
+  margin:0;
+  max-width:11em;
+  font-family:var(--sans);
+  font-size:clamp(48px,6.7vw,94px);
+  line-height:.9;
+  letter-spacing:-.052em;
+  color:#e7ddc5;
+}
+
+/* Cuervo's two-product relationship gets chapters, but they remain quiet. */
+body.case-master-v3 .chapter{
+  width:min(1020px,calc(100% - 48px));
+  margin-bottom:clamp(96px,11vw,160px);
+  padding-top:25px;
+}
+body.case-master-v3 .chapter-head{
+  grid-template-columns:120px minmax(0,1fr);
+  gap:38px;
+  margin-bottom:34px;
+}
+body.case-master-v3 .chapter h2{
+  font-size:clamp(40px,4.8vw,68px);
+  margin-bottom:14px;
+}
+body.case-master-v3 .chapter p{
+  font-size:clamp(18px,1.45vw,21px);
+  line-height:1.5;
+  color:#afa590;
+  max-width:58ch;
+}
+body.case-master-v3 .chapter-media{
+  margin-top:40px;
+  background:#090907;
+  justify-content:flex-start;
+}
+body.case-master-v3 .chapter-media img{
+  width:100%;
+  max-height:760px;
+  object-fit:contain;
+}
+
+body.case-master-v3 .case-close{
+  width:min(1020px,calc(100% - 48px));
+  margin:0 auto clamp(84px,9vw,130px);
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:42px;
+  padding-top:27px;
+  border-top:1px solid var(--hair);
+}
+body.case-master-v3 .case-close p{
+  margin:0;
+  max-width:60ch;
+  font-family:var(--sans);
+  font-size:clamp(19px,1.55vw,23px);
+  line-height:1.5;
+  color:#b8ad98;
+}
+
+@media(max-width:760px){
+  body.case-master-v3 .case-hero{
+    min-height:0;
+    width:100%;
+    grid-template-columns:1fr;
+  }
+  body.case-master-v3 .hero-copy{padding:40px 20px 30px}
+  body.case-master-v3 .case-hero h1{font-size:clamp(44px,12.5vw,58px);max-width:none}
+  body.case-master-v3 .case-kicker{font-size:16px;max-width:34ch}
+  body.case-master-v3 .hero-media{margin:0 14px 24px;min-height:0;max-height:none}
+  body.case-master-v3 .hero-media img{height:auto;min-height:0;max-height:none}
+  body.case-master-v3[data-case-id="jose-cuervo"] .hero-media{padding:12px 12px 18px}
+  body.case-master-v3 .proof-rail{width:calc(100% - 40px);grid-template-columns:1fr}
+  body.case-master-v3 .proof-stat{min-height:0;padding:24px 0}
+  body.case-master-v3 .proof-stat + .proof-stat{border-left:0;border-top:1px solid var(--hair);padding-left:0}
+  body.case-master-v3 .proof-stat strong{font-size:clamp(48px,15vw,66px)}
+  body.case-master-v3 .proof-note{width:calc(100% - 40px)}
+  body.case-master-v3 .honors-strip{width:calc(100% - 40px);grid-template-columns:1fr;gap:8px}
+  body.case-master-v3 .case-brief{width:calc(100% - 40px);margin:68px auto 82px}
+  body.case-master-v3 .brief-row{grid-template-columns:1fr;gap:10px;padding:22px 0}
+  body.case-master-v3 .brief-row p{font-size:19px}
+  body.case-master-v3 .evidence-shot{width:100%;margin-bottom:88px;padding:0 12px}
+  body.case-master-v3 .shot-caption{padding:0 8px;flex-direction:column;gap:3px}
+  body.case-master-v3 .idea-beat{width:calc(100% - 40px);margin-bottom:94px}
+  body.case-master-v3 .idea-beat blockquote{font-size:clamp(48px,14vw,68px)}
+  body.case-master-v3 .chapter{width:calc(100% - 40px);margin-bottom:92px}
+  body.case-master-v3 .chapter-head{grid-template-columns:1fr;gap:8px}
+  body.case-master-v3 .chapter-media{margin-top:28px}
+  body.case-master-v3 .case-close{width:calc(100% - 40px);grid-template-columns:1fr;gap:12px;margin-bottom:72px}
+}
