@@ -18,8 +18,9 @@ def build_work_1():
     if (w, h) != (1792, 1008):
         raise RuntimeError(f'Unexpected Work plate size {(w,h)}')
 
-    # Latest explicit user law: no motel / Last Stop motel signage in Work 1.
-    # Remove only the peripheral sign and upper support, preserving board 5.
+    # Latest explicit user law: Work 1 contains no motel / Last Stop signage.
+    # Remove only the peripheral sign and upper support. Do not change camera,
+    # billboard geography, road, booth or plate scale.
     mask = np.zeros((h, w), dtype=np.uint8)
     cv2.rectangle(mask, (1555, 105), (1730, 285), 255, -1)
     cv2.rectangle(mask, (1635, 250), (1668, 335), 255, -1)
@@ -40,85 +41,98 @@ def font_path(bold=False):
 
 
 def build_more_work():
-    base = Image.open(MORE_SRC).convert('RGB')
-    W, H = base.size
+    original_rgb = Image.open(MORE_SRC).convert('RGB')
+    W, H = original_rgb.size
     if (W, H) != (1440, 447):
         raise RuntimeError(f'Unexpected More Work plate size {(W,H)}')
 
-    # Keep the motel exclusively in More Work, but demote it further.
+    # Work 2 identity law: preserve the Gemini camera, four-board grouping,
+    # foreground architecture and separate right-hand pane. The motel belongs
+    # here only and remains a dim, peripheral background fact.
+    base = original_rgb.convert('RGBA')
     veil = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(veil)
-    d.rectangle((1250, 80, 1439, 305), fill=(0, 0, 0, 38))
-    veil = veil.filter(ImageFilter.GaussianBlur(10))
-    base = Image.alpha_composite(base.convert('RGBA'), veil).convert('RGB')
+    d.rectangle((1245, 75, 1439, 305), fill=(0, 0, 0, 28))
+    veil = veil.filter(ImageFilter.GaussianBlur(12))
+    base = Image.alpha_composite(base, veil)
 
-    # Build fifth SCOOBA cabinet from photographed board-4 hardware so scale,
-    # grime, falloff and material response come from the real Work-2 plate.
-    template = base.crop((881, 58, 1094, 302)).convert('RGB')
-    new_w, new_h = 202, 231
-    template = template.resize((new_w, new_h), Image.Resampling.LANCZOS)
+    # Fifth SCOOBA destination: duplicate a real photographed Work-2 cabinet,
+    # including its lamp, wear and posts, then replace only the face and ID band.
+    # This keeps the new object in the physical vocabulary of the existing shot.
+    src_box = (866, 40, 1105, 327)
+    cabinet = original_rgb.crop(src_box).convert('RGBA')
+    scale = 0.88
+    nw = int(cabinet.width * scale)
+    nh = int(cabinet.height * scale)
+    cabinet = cabinet.resize((nw, nh), Image.Resampling.LANCZOS)
 
-    fx0, fy0, fx1, fy1 = 10, 28, 192, 138
-    bx0, by0, bx1, by1 = 10, 138, 192, 184
+    # Coordinates below are scaled from the photographed fourth board surface.
+    fx0, fy0 = int(25 * scale), int(53 * scale)
+    fx1, fy1 = int(217 * scale), int(160 * scale)
+    by0, by1 = fy1, int(214 * scale)
 
-    face = Image.new('RGB', (fx1-fx0, fy1-fy0), '#081114')
-    fd = ImageDraw.Draw(face)
     bold = font_path(True)
     regular = font_path(False)
-    f_head = ImageFont.truetype(bold, 18)
-    f_small = ImageFont.truetype(regular, 7)
-    f_mid = ImageFont.truetype(bold, 8)
-    fd.text((10, 13), 'SCOOBA LOVE', font=f_head, fill='#e3dac6')
-    fd.text((10, 40), 'SHOW THE MATH', font=f_mid, fill='#789c9e')
-    fd.text((10, 59), 'STRATEGY  ·  CLIENT GOAL', font=f_small, fill='#a79f8c')
-    fd.text((10, 72), 'OWNABLE  ·  ONE SENTENCE', font=f_small, fill='#a79f8c')
-    fd.text((10, 85), 'BUY  ·  ACHIEVABLE  ·  LOVE', font=f_small, fill='#a79f8c')
+    face = Image.new('RGB', (fx1 - fx0, fy1 - fy0), '#091012')
+    fd = ImageDraw.Draw(face)
+    fd.text((int(10 * scale), int(14 * scale)), 'SCOOBA LOVE',
+            font=ImageFont.truetype(bold, max(10, int(19 * scale))), fill='#d6ccb5')
+    fd.text((int(10 * scale), int(42 * scale)), 'SHOW THE MATH',
+            font=ImageFont.truetype(bold, max(6, int(7 * scale))), fill='#789495')
+    small = ImageFont.truetype(regular, max(6, int(7 * scale)))
+    fd.text((int(10 * scale), int(62 * scale)), 'STRATEGY / CLIENT GOAL', font=small, fill='#8d887c')
+    fd.text((int(10 * scale), int(77 * scale)), 'OWNABLE / ONE SENTENCE', font=small, fill='#8d887c')
+    fd.text((int(10 * scale), int(92 * scale)), 'BUY / ACHIEVABLE / LOVE', font=small, fill='#8d887c')
 
-    photographed_face = template.crop((fx0, fy0, fx1, fy1)).convert('L')
-    illumination = photographed_face.filter(ImageFilter.GaussianBlur(12))
-    arr = np.asarray(illumination, dtype=np.float32) / 255.0
-    arr = 0.70 + 0.50 * arr
-    face_arr = np.asarray(face, dtype=np.float32)
-    face_arr = np.clip(face_arr * arr[..., None], 0, 255)
-    face = Image.fromarray(face_arr.astype('uint8'), 'RGB')
-    low = photographed_face.filter(ImageFilter.GaussianBlur(2.2))
+    photographed_face = cabinet.crop((fx0, fy0, fx1, fy1)).convert('L')
+    illumination = photographed_face.filter(ImageFilter.GaussianBlur(11))
+    illum = np.asarray(illumination, dtype=np.float32) / 255.0
+    illum = 0.64 + 0.44 * illum
+    arr = np.asarray(face, dtype=np.float32)
+    arr = np.clip(arr * illum[..., None], 0, 255)
+    face = Image.fromarray(arr.astype('uint8'), 'RGB')
+    face = ImageEnhance.Brightness(face).enhance(0.78)
+    face = ImageEnhance.Contrast(face).enhance(0.82)
+    low = photographed_face.filter(ImageFilter.GaussianBlur(3.0))
     hf = ImageChops.subtract(photographed_face, low, scale=1.0, offset=128)
     hf_rgb = Image.merge('RGB', (hf, hf, hf))
-    face = Image.blend(face, hf_rgb, 0.12)
-    face = ImageEnhance.Contrast(face).enhance(0.88).filter(ImageFilter.GaussianBlur(0.55))
+    face = Image.blend(face, hf_rgb, 0.09).filter(ImageFilter.GaussianBlur(0.65))
 
-    band = template.crop((bx0, by0, bx1, by1)).convert('RGB')
-    band = Image.blend(band, Image.new('RGB', band.size, (183, 169, 133)), 0.62)
+    band = cabinet.crop((fx0, by0, fx1, by1)).convert('RGB')
+    band = Image.blend(band, Image.new('RGB', band.size, (170, 157, 126)), 0.48)
     bd = ImageDraw.Draw(band)
-    bd.text((8, 9), 'SCOOBA LOVE', font=ImageFont.truetype(bold, 9), fill='#252019')
-    bd.text((8, 23), 'Internal creative system', font=ImageFont.truetype(regular, 7), fill='#2e2921')
-    band = band.filter(ImageFilter.GaussianBlur(0.30))
+    bd.text((int(8 * scale), int(8 * scale)), 'SCOOBA LOVE',
+            font=ImageFont.truetype(bold, max(6, int(8 * scale))), fill='#2f2a22')
+    bd.text((int(8 * scale), int(23 * scale)), 'INTERNAL CREATIVE SYSTEM',
+            font=ImageFont.truetype(regular, max(5, int(6 * scale))), fill='#3a342b')
+    band = band.filter(ImageFilter.GaussianBlur(0.45))
 
-    cabinet = template.convert('RGBA')
     cabinet.alpha_composite(face.convert('RGBA'), (fx0, fy0))
-    cabinet.alpha_composite(band.convert('RGBA'), (bx0, by0))
-    cabinet = cabinet.filter(ImageFilter.GaussianBlur(0.22))
+    cabinet.alpha_composite(band.convert('RGBA'), (fx0, by0))
 
-    # Crucial identity rule: SCOOBA lives in Work 2's separate right-hand pane.
-    # We do not redistribute the four main boards or import Work-1 geometry.
-    x, y = 1114, 63
-    scene = base.convert('RGBA')
-    shadow = Image.new('RGBA', scene.size, (0, 0, 0, 0))
-    sd = ImageDraw.Draw(shadow)
-    sd.rectangle((x+8, y+10, x+new_w+8, y+new_h+12), fill=(0, 0, 0, 55))
-    shadow = shadow.filter(ImageFilter.GaussianBlur(7))
-    scene = Image.alpha_composite(scene, shadow)
+    # Feather the copied photographic patch so its background disappears into
+    # the existing black road/sky instead of reading as a pasted rectangle.
+    alpha = Image.new('L', (nw, nh), 255)
+    ad = ImageDraw.Draw(alpha)
+    edge = 14
+    for i in range(edge):
+        val = int(255 * (i + 1) / edge)
+        ad.rectangle((i, i, nw - 1 - i, nh - 1 - i), outline=val, width=1)
+    alpha = alpha.filter(ImageFilter.GaussianBlur(3))
+    cabinet.putalpha(ImageChops.multiply(cabinet.getchannel('A'), alpha))
+
+    # Crucial composition rule: fifth destination lives in the separate right
+    # window pane. The original four boards do not move. This preserves the
+    # frontal Gemini rhythm instead of turning Work 2 into Work 1.
+    x, y = 1115, 48
+    scene = base.copy()
     scene.alpha_composite(cabinet, (x, y))
 
-    draw = ImageDraw.Draw(scene)
-    for px in (x+49, x+145):
-        draw.rectangle((px, y+183, px+5, 326), fill=(45, 39, 30, 205))
-
-    # Reapply the real diner foreground over the exterior object so the window
-    # mullion remains physically in front of the new board.
-    original = Image.open(MORE_SRC).convert('RGBA')
-    scene.alpha_composite(original.crop((1097, 0, 1133, H)), (1097, 0))
-    scene.alpha_composite(original.crop((1080, 315, 1165, H)), (1080, 315))
+    # Reapply the real diner architecture over the exterior object so the new
+    # board remains physically behind the mullion / foreground, not above it.
+    original = original_rgb.convert('RGBA')
+    scene.alpha_composite(original.crop((1097, 0, 1132, H)), (1097, 0))
+    scene.alpha_composite(original.crop((1075, 302, 1170, H)), (1075, 302))
 
     scene.convert('RGB').save(MORE_OUT, 'WEBP', quality=90, method=6)
 
