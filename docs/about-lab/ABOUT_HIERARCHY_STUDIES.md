@@ -38,11 +38,11 @@ The bio should feel like it occupies the frame, not like HTML pasted into spare 
 
 The CRT is the strongest existing bridge between environment and subject. Do not turn it into a conventional portrait hero. It should remain an indirect trace that becomes meaningful because the live text identifies Ian.
 
-Route A: CRT stays quiet and doubles as the rumor discovery surface.
+Route A: CRT stays quiet and doubles as the INCIDENTals discovery surface.
 
 Route B: same physical behavior, but the first paragraph carries more personal history so the human signal is stronger before interaction.
 
-Route C: CRT remains purely visual. Discovery moves to existing dresser detail so the page tests whether rumors can feel found rather than activated from the portrait.
+Route C: CRT remains purely visual. Discovery moves to existing dresser detail so the page tests whether INCIDENTals can feel found rather than activated from the portrait.
 
 ## Study 4: Mobile crop
 
@@ -53,7 +53,7 @@ Desired phone order:
 1. room / CRT human trace
 2. Ian's live biography
 3. shared navigation
-4. rumor discovery only if the user chooses it
+4. INCIDENTals discovery only if the user chooses it
 
 The mobile solution is allowed to be compositionally different from desktop. It should preserve the scene's logic, not its exact coordinates.
 
@@ -83,8 +83,8 @@ Strongest at making a person arrive before the room mythology. Higher-copy-risk,
 
 ### C: Found evidence
 
-Strongest as a restraint test. It proves rumors do not need to belong to the CRT. Highest risk of drifting toward escape-room logic if the dresser hotspot becomes too discoverable or cute.
+Strongest as a restraint test. It proves INCIDENTals does not need to belong to the CRT. Highest risk of drifting toward escape-room logic if the dresser hotspot becomes too discoverable or cute.
 
 ## Current visual conclusion
 
-Do not abandon Room 3. Reduce the motel sign, keep the CRT, strengthen the live biography and spend the remaining weirdness budget on one optional rumor behavior only.
+Do not abandon Room 3. Reduce the motel sign, keep the CRT, strengthen the live biography and spend the remaining weirdness budget on one optional INCIDENTals behavior only.
