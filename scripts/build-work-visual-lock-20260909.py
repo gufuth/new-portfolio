@@ -19,13 +19,22 @@ def build_work_1():
         raise RuntimeError(f'Unexpected Work plate size {(w,h)}')
 
     # Latest explicit user law: Work 1 contains no motel / Last Stop signage.
-    # Remove only the peripheral sign and upper support. Do not change camera,
-    # billboard geography, road, booth or plate scale.
-    mask = np.zeros((h, w), dtype=np.uint8)
-    cv2.rectangle(mask, (1555, 105), (1730, 285), 255, -1)
-    cv2.rectangle(mask, (1635, 250), (1668, 335), 255, -1)
-    mask = cv2.GaussianBlur(mask, (11, 11), 0)
-    out = cv2.inpaint(im, mask, 11, cv2.INPAINT_TELEA)
+    # Replace the old sign with neighboring night sky instead of relying on a
+    # large inpaint, which can leave a suspicious dark cloud. Camera, road,
+    # boards, booth and plate geometry remain untouched.
+    sx0, sy0, sx1, sy1 = 1360, 105, 1535, 285
+    source = im[sy0:sy1, sx0:sx1].copy()
+    mask = np.full(source.shape[:2], 255, dtype=np.uint8)
+    mask = cv2.GaussianBlur(mask, (19, 19), 0)
+    center = (1642, 195)
+    out = cv2.seamlessClone(source, im, mask, center, cv2.NORMAL_CLONE)
+
+    # Remove the remaining narrow support below the sky replacement with a
+    # tightly scoped local inpaint; the fifth billboard hardware is untouched.
+    support = np.zeros((h, w), dtype=np.uint8)
+    cv2.rectangle(support, (1638, 255), (1666, 333), 255, -1)
+    support = cv2.GaussianBlur(support, (9, 9), 0)
+    out = cv2.inpaint(out, support, 7, cv2.INPAINT_TELEA)
     cv2.imwrite(str(WORK_OUT), out, [cv2.IMWRITE_WEBP_QUALITY, 90])
 
 
@@ -52,7 +61,7 @@ def build_more_work():
     base = original_rgb.convert('RGBA')
     veil = Image.new('RGBA', (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(veil)
-    d.rectangle((1245, 75, 1439, 305), fill=(0, 0, 0, 28))
+    d.rectangle((1245, 75, 1439, 305), fill=(0, 0, 0, 20))
     veil = veil.filter(ImageFilter.GaussianBlur(12))
     base = Image.alpha_composite(base, veil)
 
@@ -66,7 +75,6 @@ def build_more_work():
     nh = int(cabinet.height * scale)
     cabinet = cabinet.resize((nw, nh), Image.Resampling.LANCZOS)
 
-    # Coordinates below are scaled from the photographed fourth board surface.
     fx0, fy0 = int(25 * scale), int(53 * scale)
     fx1, fy1 = int(217 * scale), int(160 * scale)
     by0, by1 = fy1, int(214 * scale)
@@ -91,15 +99,16 @@ def build_more_work():
     arr = np.asarray(face, dtype=np.float32)
     arr = np.clip(arr * illum[..., None], 0, 255)
     face = Image.fromarray(arr.astype('uint8'), 'RGB')
-    face = ImageEnhance.Brightness(face).enhance(0.78)
-    face = ImageEnhance.Contrast(face).enhance(0.82)
+    # Keep the new face restrained enough to live with the older four boards.
+    face = ImageEnhance.Brightness(face).enhance(0.72)
+    face = ImageEnhance.Contrast(face).enhance(0.80)
     low = photographed_face.filter(ImageFilter.GaussianBlur(3.0))
     hf = ImageChops.subtract(photographed_face, low, scale=1.0, offset=128)
     hf_rgb = Image.merge('RGB', (hf, hf, hf))
-    face = Image.blend(face, hf_rgb, 0.09).filter(ImageFilter.GaussianBlur(0.65))
+    face = Image.blend(face, hf_rgb, 0.10).filter(ImageFilter.GaussianBlur(0.70))
 
     band = cabinet.crop((fx0, by0, fx1, by1)).convert('RGB')
-    band = Image.blend(band, Image.new('RGB', band.size, (170, 157, 126)), 0.48)
+    band = Image.blend(band, Image.new('RGB', band.size, (166, 154, 126)), 0.43)
     bd = ImageDraw.Draw(band)
     bd.text((int(8 * scale), int(8 * scale)), 'SCOOBA LOVE',
             font=ImageFont.truetype(bold, max(6, int(8 * scale))), fill='#2f2a22')
@@ -110,8 +119,6 @@ def build_more_work():
     cabinet.alpha_composite(face.convert('RGBA'), (fx0, fy0))
     cabinet.alpha_composite(band.convert('RGBA'), (fx0, by0))
 
-    # Feather the copied photographic patch so its background disappears into
-    # the existing black road/sky instead of reading as a pasted rectangle.
     alpha = Image.new('L', (nw, nh), 255)
     ad = ImageDraw.Draw(alpha)
     edge = 14
@@ -121,15 +128,13 @@ def build_more_work():
     alpha = alpha.filter(ImageFilter.GaussianBlur(3))
     cabinet.putalpha(ImageChops.multiply(cabinet.getchannel('A'), alpha))
 
-    # Crucial composition rule: fifth destination lives in the separate right
-    # window pane. The original four boards do not move. This preserves the
-    # frontal Gemini rhythm instead of turning Work 2 into Work 1.
+    # Fifth destination lives in Work 2's separate right pane. The original four
+    # do not move, so the Gemini composition remains visibly unlike Work 1.
     x, y = 1115, 48
     scene = base.copy()
     scene.alpha_composite(cabinet, (x, y))
 
-    # Reapply the real diner architecture over the exterior object so the new
-    # board remains physically behind the mullion / foreground, not above it.
+    # Reapply real diner architecture over the new exterior object.
     original = original_rgb.convert('RGBA')
     scene.alpha_composite(original.crop((1097, 0, 1132, H)), (1097, 0))
     scene.alpha_composite(original.crop((1075, 302, 1170, H)), (1075, 302))
