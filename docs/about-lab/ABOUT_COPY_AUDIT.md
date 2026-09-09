@@ -55,7 +55,7 @@ Useful voice/evidence source:
 - `Hi, I'm Ian.`
 - writing / language background
 - leather jacket / English Lit / third Squarespace / `Eat it, Dad.`
-- long absurd rumor list
+- absurd secondary biography / impossible-credentials list used for INCIDENTals
 - scripts, manifestos, tone-of-voice systems, brand IDs, campaign concepts
 
 Do not automatically import:
