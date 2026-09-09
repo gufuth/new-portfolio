@@ -13,6 +13,13 @@ async function render(path,name,width,height,fullPage=false){
   page.on('console',m=>{if(m.type()==='error') errors.push(`console: ${m.text()}`)});
   page.on('pageerror',e=>errors.push(`pageerror: ${e.message}`));
   await page.goto(`http://127.0.0.1:4173${path}`,{waitUntil:'networkidle'});
+  // QA must distinguish a hidden lazy image from a genuinely bad source. Force
+  // all declared case media to load/decode before testing naturalWidth.
+  await page.locator('img').evaluateAll(async imgs=>{
+    for(const img of imgs){ img.loading='eager'; }
+    await Promise.all(imgs.map(img=>img.decode().catch(()=>null)));
+  });
+  await page.waitForTimeout(120);
   await page.screenshot({path:`${out}/${name}.png`,fullPage});
   const geom=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth}));
   check(geom.sw<=geom.cw+1,`${name}: horizontal overflow ${geom.sw}/${geom.cw}`);
