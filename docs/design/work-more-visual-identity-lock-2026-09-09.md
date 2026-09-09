@@ -48,10 +48,12 @@ Preserve:
 
 ### Hard rules
 
-- **Motel/hotel sign belongs ONLY in More Work.**
-- Motel must be peripheral, cropped, dim, worn, rough/dilapidated and never the hero.
+- **Remove the current motel signage on the right side.**
+- SCOOBA makes More Work a five-case environment and must become a full-size fifth physical billboard with the same apparent importance as the other four. It must not read as a smaller secondary destination or detached UI.
+- Use the space released by removing the right-side motel sign to integrate the fifth board without crowding the frame.
+- Motel signage is now optional, not required. If reintroduced, test only a faint, peripheral, worn clue in the dark upper-left area. A no-motel version is the control and may remain final.
 - Preserve Gemini spatial difference. More Work is not a backup Work 1.
-- SCOOBA makes More Work a five-case environment. Final production needs five real physical billboard destinations or a rebuilt physical composition that clearly supports five. Do not solve the fifth case with a detached UI card.
+- Preserve asymmetry and believable architecture. Five boards must not become an evenly spaced poster gallery.
 - One partial off-axis green spill/reflection may nod to the Landing WORK practical. Never show readable reflected WORK lettering.
 
 ## Shared law
@@ -71,7 +73,6 @@ They do **not** share:
 - window geometry;
 - foreground architecture/furniture composition;
 - billboard spacing pattern;
-- motel visibility;
 - negative-space structure;
 - exact visual rhythm.
 
@@ -82,11 +83,12 @@ Before any Work or More Work generation/render is shown to Ian, compare it side 
 1. Is this obviously the correct page, not the other Work page wearing different art?
 2. Does Work 1 contain zero motel/hotel signage?
 3. Does More Work preserve the distinct Gemini angle/composition?
-4. If More Work, is the motel only a peripheral clue?
-5. Are billboard geography and window framing materially different between the two pages?
-6. Does the frame still belong to the same Last Stop film?
+4. Does More Work contain five equally legitimate physical project destinations, with SCOOBA the same apparent status as the others?
+5. Is the right-side motel sign gone?
+6. Are billboard geography and window framing materially different between the two pages?
+7. Does the frame still belong to the same Last Stop film?
 
-**Automatic reject:** fail #1, #2 or #3.
+**Automatic reject:** fail #1, #2, #3, #4, or #5.
 
 ## Reference rule
 
@@ -95,11 +97,14 @@ Never generate a Work 1 or More Work visual from memory alone. Inspect/supply th
 ## Current correction
 
 - The 2026-09-09 generated More Work study that visually copied Work 1 is rejected and must never be used as a base/reference.
-- If the current Work 1 production plate still shows any motel/Last Stop Motel sign, that sign is now a known regression and must be removed. Latest explicit user rule wins: motel/hotel sign **only in More Work**.
+- Work 1 is motel-free.
+- The current smaller SCOOBA board + right-side motel treatment is superseded. Next More Work production plate: no right-side motel, full-size fifth SCOOBA board.
 
 ## Retrieval keys
 
 - Work 1 / More Work Visual Identity Lock
 - Grok Booth 01 vs Gemini Booth 02
-- Motel only in More Work
+- Work 1 motel-free
+- More Work full-size fifth SCOOBA board
+- Motel optional upper-left clue only
 - ONE FILM, TWO DIFFERENT SHOTS
