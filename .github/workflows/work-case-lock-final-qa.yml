@@ -1,0 +1,59 @@
+name: Work + case lock final QA
+
+on:
+  push:
+    branches:
+      - work/cinematic-case-master-scooba-20260908
+    paths:
+      - 'work.html'
+      - 'more-work.html'
+      - 'work-system.css'
+      - 'work-enhance.css'
+      - 'case-system.css'
+      - 'case-master-v3.css'
+      - 'cases/porsche.html'
+      - 'cases/cuervo.html'
+      - 'assets/work-panorama-physical-v2.webp'
+      - 'assets/more-work-panorama-five-v1.webp'
+      - 'assets/cases/**'
+      - 'scripts/qa-work-case-lock.mjs'
+      - '.github/workflows/work-case-lock-final-qa.yml'
+      - '_redirects'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser QA
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start local portfolio server
+        shell: bash
+        run: |
+          python3 -m http.server 4173 >/tmp/last-stop-http.log 2>&1 &
+          echo $! >/tmp/last-stop-http.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/work/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/last-stop-http.log
+          exit 1
+      - name: Run final identity + case-master matrix
+        run: node scripts/qa-work-case-lock.mjs
+      - name: Upload direct review images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: work-case-lock-final-images
+          path: /tmp/work-case-lock
+          if-no-files-found: warn
+          retention-days: 14
