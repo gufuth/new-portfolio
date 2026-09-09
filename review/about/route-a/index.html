@@ -37,7 +37,7 @@ a{color:inherit}.skip{position:fixed;left:8px;top:-60px;z-index:100;background:v
   <div class="visual">
     <img class="plate" src="/about.webp" alt="" fetchpriority="high" decoding="async">
     <div class="sign-damp" aria-hidden="true"></div>
-    <button class="discover" id="discover" type="button" aria-expanded="false" aria-controls="rumors" aria-label="Show the rumors"></button>
+    <button class="discover" id="discover" type="button" aria-expanded="false" aria-controls="incidentals" aria-label="Show incidentals"></button>
   </div>
   <section class="bio" id="bio" tabindex="-1">
     <h1>About</h1>
@@ -46,7 +46,7 @@ a{color:inherit}.skip{position:fixed;left:8px;top:-60px;z-index:100;background:v
     <p>I like ideas that can survive a straight face.</p>
     <p class="paid">The room is paid through Thursday.</p>
   </section>
-  <aside class="rumors" id="rumors" aria-hidden="true"><strong>Rumors.</strong> I am also an auteur, a yachtsman, a journeyman, a fabulist, a bullfighter, an honorary mountie, an illusionist, a cobbler, an unlicensed psychiatrist, a moonshiner, a taekwondo instructor, a budding telepath, a zoologist, a horse whisperer, a botanist, a nationally rated kite-surfer, a watchmaker, a classical guitarist, and a raconteur.</aside>
+  <aside class="rumors" id="incidentals" aria-hidden="true"><strong>INCIDENTALS.</strong> Auteur. Yachtsman. Journeyman. Fabulist. Bullfighter. Honorary mountie. Illusionist. Cobbler. Unlicensed psychiatrist. Moonshiner. Taekwondo instructor. Budding telepath. Zoologist. Horse whisperer. Botanist. Nationally rated kite-surfer. Watchmaker. Classical guitarist. Raconteur.</aside>
 </div>
 </main>
 <div class="filmbar bottom"><nav aria-label="Primary" class="rail"><a href="/">HOME</a><a href="/work/">WORK</a><a href="/work/more/">MORE WORK</a><a aria-current="page" href="/about/">ABOUT</a><a href="/hearsay/">HEARSAY</a></nav><span>ABOUT · IAN LUNA</span></div>
@@ -55,8 +55,8 @@ a{color:inherit}.skip{position:fixed;left:8px;top:-60px;z-index:100;background:v
  const stage=document.getElementById('stage'),mq=matchMedia('(max-width:760px)');
  function fit(){if(mq.matches){stage.style.removeProperty('--fit');return}const wrap=document.getElementById('about');stage.style.setProperty('--fit',Math.max(wrap.clientWidth/1536,wrap.clientHeight/864))}
  addEventListener('resize',fit);mq.addEventListener?.('change',fit);fit();
- const b=document.getElementById('discover'),r=document.getElementById('rumors');
- function setOpen(open){b.setAttribute('aria-expanded',String(open));r.classList.toggle('open',open);r.setAttribute('aria-hidden',String(!open))}
+ const b=document.getElementById('discover'),r=document.getElementById('incidentals');
+ function setOpen(open){b.setAttribute('aria-expanded',String(open));b.setAttribute('aria-label',open?'Hide incidentals':'Show incidentals');r.classList.toggle('open',open);r.setAttribute('aria-hidden',String(!open))}
  b.addEventListener('click',()=>setOpen(b.getAttribute('aria-expanded')!=='true'));
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&b.getAttribute('aria-expanded')==='true'){setOpen(false);b.focus()}});
 })();
