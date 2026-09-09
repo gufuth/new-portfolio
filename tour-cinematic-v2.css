@@ -1,0 +1,11 @@
+/* Last Stop cinematic edit override. The edit is the effect. */
+.tour-cut--landing{background:#000;opacity:0;transition:opacity 175ms cubic-bezier(.55,0,.75,.35)}
+.tour-cut--landing::before{display:none!important;content:none!important}
+.tour-cut--landing.is-active{opacity:1}
+.tour-cut--exposure{background:radial-gradient(ellipse at 18% 52%,rgba(6,6,5,.94) 0%,#000 72%);opacity:0;transition:opacity 118ms ease-out}
+.tour-cut--exposure.is-active{opacity:1}
+body[data-tour-surface="landing"].tour-cutting #hotWork .lift{opacity:.22}
+body.tour-arriving-work .scene-stage{filter:brightness(.88) saturate(.95)}
+body.tour-arriving-work.tour-arrival-settling .scene-stage{filter:brightness(1) saturate(1);transition:filter 330ms cubic-bezier(.2,.7,.2,1)}
+.tour-arrival-spill{background:linear-gradient(90deg,rgba(60,91,50,.11),rgba(60,91,50,.025) 11%,transparent 24%);animation-duration:430ms}
+@media(prefers-reduced-motion:reduce){.tour-cut--landing,.tour-cut--exposure{transition:none!important}.tour-arrival-spill{display:none!important}}
