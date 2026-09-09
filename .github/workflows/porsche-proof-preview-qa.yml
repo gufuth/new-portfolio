@@ -1,0 +1,39 @@
+name: Porsche proof preview QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - work/cinematic-case-master-scooba-20260908
+    paths:
+      - 'cases/porsche-proof-preview.html'
+      - 'case-system.css'
+      - 'case-glance-v2.css'
+      - 'assets/cases/porsche-hero.webp'
+      - 'assets/cases/porsche-work-02.webp'
+      - 'scripts/render-porsche-proof-preview.mjs'
+      - '.github/workflows/porsche-proof-preview-qa.yml'
+
+permissions:
+  contents: read
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/render-porsche-proof-preview.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: porsche-proof-preview
+          path: artifacts/porsche-proof-preview
+          retention-days: 14
