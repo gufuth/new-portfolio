@@ -94,11 +94,11 @@ Change. The text currently feels placed into a convenient black area. Increase i
 
 ### Human specificity
 
-Change carefully. Recover some of the old page's personhood and dry self-mythology with fact-backed language and optional rumor discovery. Do not import old boilerplate or unsupported career claims.
+Change carefully. Recover some of the old page's personhood and dry self-mythology with fact-backed language and optional INCIDENTals discovery. Do not import old boilerplate or unsupported career claims.
 
-### Rumors
+### INCIDENTals
 
-Change from absent to quietly discoverable. Preserve the original deadpan escalation as source material. Discovery may be enhanced by hover, but must also work by focus and touch. It should be reversible, keyboard reachable, assistive-technology legible and secondary to the biography.
+Change from absent to quietly discoverable. **INCIDENTALS is the locked label.** Preserve the original deadpan escalation as source material, but do not present it as `Rumors`, `Hearsay`, `About, allegedly`, `The rest is hearsay`, `Found in room 3`, or any new generic hidden-content label. Discovery may be enhanced by hover, but must also work by focus and touch. It should be reversible, keyboard reachable, assistive-technology legible and secondary to the biography. Do not add a new motel prop solely to justify it.
 
 ### Mobile composition
 
@@ -148,7 +148,7 @@ Kill. The hierarchy problem is subtractive.
 
 ## Current weirdness budget
 
-The room already contains enough authored strangeness: Ian exists on a CRT in an otherwise empty cheap motel room, and the final line treats the room as if his biography happens to be staying there. Any rumor behavior must use that existing tension rather than introducing a second spectacle.
+The room already contains enough authored strangeness: Ian exists on a CRT in an otherwise empty cheap motel room, and the final line treats the room as if his biography happens to be staying there. Any INCIDENTals behavior must use that existing tension rather than introducing a second spectacle.
 
 ## Highest-leverage correction
 
