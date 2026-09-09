@@ -17,6 +17,7 @@ on:
       - 'scripts/render-tour.mjs'
       - 'scripts/render-case-matrix.mjs'
       - 'scripts/verify-tour-runtime.mjs'
+      - 'scripts/verify-work-interaction.mjs'
       - '.github/workflows/work-case-finish-qa.yml'
 
 permissions:
@@ -65,6 +66,9 @@ jobs:
 
       - name: Render tour and interaction matrix
         run: node scripts/render-tour.mjs
+
+      - name: Verify keyboard and return behavior
+        run: node scripts/verify-work-interaction.mjs
 
       - name: Render all nine case matrices
         run: node scripts/render-case-matrix.mjs
