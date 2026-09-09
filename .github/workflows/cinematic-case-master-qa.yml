@@ -1,0 +1,60 @@
+name: Cinematic transition and case master QA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - work/cinematic-case-master-scooba-20260908
+    paths:
+      - 'index.html'
+      - 'work.html'
+      - 'more-work.html'
+      - 'case-system.css'
+      - 'tour-runtime.css'
+      - 'tour-runtime.js'
+      - 'tour-cinematic-v2.css'
+      - 'work-enhance.css'
+      - 'cases/**'
+      - 'assets/cases/scooba-hero.svg'
+      - 'scripts/render-cinematic-case-master.mjs'
+      - '.github/workflows/cinematic-case-master-qa.yml'
+
+permissions:
+  contents: read
+
+env:
+  PW_TEST_SCREENSHOT_NO_FONTS_READY: '1'
+
+jobs:
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Source checks
+        run: |
+          set -euo pipefail
+          grep -q '/tour-cinematic-v2.css' index.html
+          grep -q 'NEXT BAY · MORE WORK' work.html
+          grep -q 'scooba-love' more-work.html
+          grep -q 'scooba-love' _redirects
+          grep -q 'THE EVIDENCE CUT' cases/porsche.html
+          grep -q 'Chapter 01' cases/cuervo.html
+          grep -q 'SCOOBA LOVE' cases/scooba.html
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Render and verify
+        run: node scripts/render-cinematic-case-master.mjs
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cinematic-case-master-qa
+          path: artifacts/cinematic-case-master
+          if-no-files-found: error
+          retention-days: 14
