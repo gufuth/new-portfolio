@@ -28,6 +28,15 @@
 - Updated `ABOUT_FINAL_REVIEW.md` so the branch documentation now agrees with the governing Drive lock.
 - Created `ABOUT — CURRENT STATE + LOCKS — 2026-09-08` inside `02 PAGE MASTERS / 03 ABOUT — ACTIVE` in the master Drive as the recovery checkpoint for future sessions.
 
+## September 9 anti-drift cleanup
+
+- Verified the About active Drive folder now contains the current-state checkpoint and design audit alongside the August Room 3 baseline image.
+- Replaced the stale `ABOUT_RUMORS_PROTOTYPES.md` branch record with `ABOUT_INCIDENTALS_PROTOTYPES.md`.
+- Updated the source map, baseline audit, hierarchy studies, copy audit and final review so current-state language consistently uses INCIDENTals.
+- Historical terms such as `Rumors` remain only when explicitly documenting superseded or rejected states.
+- Current route interfaces already expose `INCIDENTALS` plus semantic `Show incidentals` / `Hide incidentals` labels.
+- This closes the specific recovery ambiguity that could otherwise make a future session reopen the naming decision.
+
 ## Current branch decision
 
 - Advance Route B for real-pixel comparison.
