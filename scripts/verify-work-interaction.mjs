@@ -40,6 +40,9 @@ async function firstBillboardByKeyboard(url, expectedId, screenshot){
   await page.waitForTimeout(500);
   await page.keyboard.press('Tab'); // skip link
   await page.keyboard.press('Tab'); // first billboard
+  // The physical response is deliberately eased over 145 ms. Observe the settled
+  // visual state rather than sampling the pseudo-elements on the same focus tick.
+  await page.waitForTimeout(220);
   const state=await page.evaluate(()=>{
     const a=document.activeElement;
     if(!a) return null;
@@ -49,7 +52,7 @@ async function firstBillboardByKeyboard(url, expectedId, screenshot){
   });
   check(`${expectedId} is first project reached after skip link`,state?.id===expectedId,JSON.stringify(state));
   check(`${expectedId} has visible keyboard focus`,state?.outline!=='none' && state?.outline!=='',JSON.stringify(state));
-  check(`${expectedId} focus activates physical surface response`,Number(state?.beforeOpacity)>0 && Number(state?.afterOpacity)>0,JSON.stringify(state));
+  check(`${expectedId} focus activates physical surface response`,Number(state?.beforeOpacity)>.95 && Number(state?.afterOpacity)>.95,JSON.stringify(state));
   await page.screenshot({path:path.join(outDir,screenshot)});
   await page.close();
 }
