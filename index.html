@@ -15,6 +15,7 @@
 <meta property="og:image" content="https://www.ianrluna.com/og_landing.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/tour-runtime.css?v=20260908-physical2">
+<link rel="stylesheet" href="/tour-cinematic-v2.css?v=20260909-1">
 <script src="/tour-runtime.js?v=20260908-physical2"></script>
 <style>
 :root{--bar:#080706;--meta:#968c7a;--meta-hi:#e8dcc4;--bar-h:34px}
@@ -40,44 +41,13 @@ a{color:inherit}
 #hotWork{left:22.5%;top:39.5%;width:44.5%;height:31.5%}
 #hotAbout{left:1.5%;top:23.5%;width:15.5%;height:9.5%}
 #hotHearsay{left:83.5%;top:38.5%;width:12.5%;height:44%}
-@media(max-width:760px){
- .filmbar{padding:0 14px}.filmbar.top>span:last-child{display:none}.rail{gap:12px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.rail::-webkit-scrollbar{display:none}.rail a{font-size:9px}
-}
+@media(max-width:760px){.filmbar{padding:0 14px}.filmbar.top>span:last-child{display:none}.rail{gap:12px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.rail::-webkit-scrollbar{display:none}.rail a{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.hot .lift{transition:none}}
 </style>
 </head>
 <body data-tour-surface="landing">
 <div class="filmbar top"><span><span class="hi">IAN LUNA</span> · CREATIVE DIRECTOR</span><span>EXT. · THE LAST STOP DINER · NIGHT</span></div>
-<main class="scenewrap" id="wrap">
-  <div class="stage" id="stage" role="group" aria-label="The Last Stop Diner at night. The physical signs are navigation.">
-    <div id="plate"></div>
-    <a class="hot" id="hotWork" href="/work/" aria-label="Work — selected projects"><span class="lift"></span></a>
-    <a class="hot" id="hotAbout" href="/about/" aria-label="About Ian Luna"><span class="lift"></span></a>
-    <a class="hot" id="hotHearsay" href="/hearsay/" aria-label="Hearsay — what people say about working with Ian"><span class="lift"></span></a>
-  </div>
-</main>
-<div class="filmbar bottom">
-  <nav aria-label="Primary" class="rail">
-    <a aria-current="page" href="/">HOME</a>
-    <a href="/work/">WORK</a>
-    <a href="/work/more/">MORE WORK</a>
-    <a href="/about/">ABOUT</a>
-    <a href="/hearsay/">HEARSAY</a>
-  </nav>
-  <span>THE LAST STOP DINER</span>
-</div>
-<script>
-(function(){
-  var wrap=document.getElementById('wrap'),stage=document.getElementById('stage');
-  function fit(){
-    var s=Math.max(wrap.clientWidth/1536,wrap.clientHeight/1024);
-    stage.style.setProperty('--fit',s);
-    var overflow=Math.max(0,1024*s-wrap.clientHeight);
-    var topCrop=Math.min(overflow*.4,70*s);
-    stage.style.setProperty('--shift',(-topCrop)+'px');
-  }
-  addEventListener('resize',fit);fit();
-})();
-</script>
-</body>
-</html>
+<main class="scenewrap" id="wrap"><div class="stage" id="stage" role="group" aria-label="The Last Stop Diner at night. The physical signs are navigation."><div id="plate"></div><a class="hot" id="hotWork" href="/work/" aria-label="Work — selected projects"><span class="lift"></span></a><a class="hot" id="hotAbout" href="/about/" aria-label="About Ian Luna"><span class="lift"></span></a><a class="hot" id="hotHearsay" href="/hearsay/" aria-label="Hearsay — what people say about working with Ian"><span class="lift"></span></a></div></main>
+<div class="filmbar bottom"><nav aria-label="Primary" class="rail"><a aria-current="page" href="/">HOME</a><a href="/work/">WORK</a><a href="/work/more/">MORE WORK</a><a href="/about/">ABOUT</a><a href="/hearsay/">HEARSAY</a></nav><span>THE LAST STOP DINER</span></div>
+<script>(function(){var wrap=document.getElementById('wrap'),stage=document.getElementById('stage');function fit(){var s=Math.max(wrap.clientWidth/1536,wrap.clientHeight/1024);stage.style.setProperty('--fit',s);var overflow=Math.max(0,1024*s-wrap.clientHeight);var topCrop=Math.min(overflow*.4,70*s);stage.style.setProperty('--shift',(-topCrop)+'px');}addEventListener('resize',fit);fit();})();</script>
+</body></html>
