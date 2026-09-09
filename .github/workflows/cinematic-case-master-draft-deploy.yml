@@ -1,0 +1,80 @@
+name: Cinematic case master draft deploy
+
+on:
+  push:
+    branches:
+      - work/cinematic-case-master-scooba-20260908
+    paths:
+      - '.github/workflows/cinematic-case-master-draft-deploy.yml'
+      - 'index.html'
+      - 'work.html'
+      - 'more-work.html'
+      - 'case-system.css'
+      - 'work-system.css'
+      - 'work-enhance.css'
+      - 'tour-runtime.css'
+      - 'tour-runtime.js'
+      - 'tour-cinematic-v2.css'
+      - 'cases/**'
+      - 'assets/**'
+      - '_redirects'
+      - '_headers'
+
+permissions:
+  contents: read
+
+env:
+  NETLIFY_SITE_ID: a01e14a9-cc73-4b33-a657-6bc4671a59a3
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+jobs:
+  draft-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Netlify credential
+        shell: bash
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ]; then
+            echo 'NETLIFY_AUTH_TOKEN is not configured.' >&2
+            exit 1
+          fi
+
+      - name: Assemble isolated deploy directory
+        shell: bash
+        run: |
+          mkdir -p /tmp/last-stop-draft
+          rsync -a ./ /tmp/last-stop-draft/ \
+            --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
+            --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
+            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
+            --exclude 'assets/*.b64' --exclude '.DS_Store'
+
+      - name: Create unique Netlify draft deploy
+        id: deploy
+        shell: bash
+        run: |
+          npx --yes netlify-cli@latest deploy \
+            --dir=/tmp/last-stop-draft \
+            --site="$NETLIFY_SITE_ID" \
+            --auth="$NETLIFY_AUTH_TOKEN" \
+            --message="Cinematic case master QA ${GITHUB_SHA}" \
+            --json > /tmp/netlify-draft.json
+          cat /tmp/netlify-draft.json
+          URL=$(node -e "const j=require('/tmp/netlify-draft.json'); console.log(j.deploy_url || j.url || '')")
+          if [ -z "$URL" ]; then
+            echo 'Draft deploy URL missing.' >&2
+            exit 1
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "## Unique Netlify draft" >> "$GITHUB_STEP_SUMMARY"
+          echo "$URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Preserve deploy receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: cinematic-case-master-netlify-draft
+          path: /tmp/netlify-draft.json
+          retention-days: 14
