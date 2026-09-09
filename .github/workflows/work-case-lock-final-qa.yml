@@ -1,5 +1,6 @@
 name: Work + case lock final QA
 
+# Acceptance gate for the final Work 1 / More Work visual lock and the Porsche/Cuervo case-master prototypes.
 on:
   push:
     branches:
