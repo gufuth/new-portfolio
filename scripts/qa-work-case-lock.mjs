@@ -22,9 +22,10 @@ async function render(path,name,width,height,fullPage=false){
   return page;
 }
 
-// Work 1 identity + usability.
+// Direct .html paths are used only because this isolated QA server does not
+// apply Netlify _redirects. Production URLs remain unchanged.
 {
- const page=await render('/work/','work-1440',1440,900,false);
+ const page=await render('/work.html','work-1440',1440,900,false);
  check(await page.locator('.work-scene .billboard').count()===5,'Work: expected 5 physical destinations');
  check(await page.locator('.next-bay').count()===1,'Work: missing subtle More Work cue');
  const bg=await page.locator('.work-scene').evaluate(el=>getComputedStyle(el).backgroundImage);
@@ -41,9 +42,8 @@ async function render(path,name,width,height,fullPage=false){
  await page.close();
 }
 
-// Work 2 identity + fifth physical SCOOBA destination.
 {
- const page=await render('/work/more/','more-work-1440',1440,900,false);
+ const page=await render('/more-work.html','more-work-1440',1440,900,false);
  check(await page.locator('.more-scene .billboard').count()===5,'More Work: expected 5 physical destinations');
  check(await page.locator('.more-scene .b5[data-case-id="scooba-love"]').count()===1,'More Work: SCOOBA is not b5');
  check(await page.locator('.more-index-cue').count()===0,'More Work: obsolete floating SCOOBA cue returned');
@@ -51,7 +51,6 @@ async function render(path,name,width,height,fullPage=false){
  check(bg.includes('more-work-panorama-five-v1.webp'),'More Work: wrong five-board plate');
  const boxes=await page.locator('.more-scene .billboard').evaluateAll(els=>els.map(e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}}));
  check(boxes.length===5 && boxes[4].x>boxes[3].x,'More Work: SCOOBA does not occupy distinct fifth destination');
- // Keyboard reaches all five boards.
  let seen=[];
  for(let i=0;i<14;i++){
    await page.keyboard.press('Tab');
@@ -62,10 +61,9 @@ async function render(path,name,width,height,fullPage=false){
  await page.close();
 }
 
-// Case-master pages: calm proof rail, asterisks, image integrity.
 for(const c of [
- {path:'/work/porsche-lucasfilm-designer-alliance/',name:'porsche',honors:true},
- {path:'/work/jose-cuervo/',name:'cuervo',honors:false},
+ {path:'/cases/porsche.html',name:'porsche',honors:true},
+ {path:'/cases/cuervo.html',name:'cuervo',honors:false},
 ]){
  const page=await render(c.path,`${c.name}-desktop`,1440,900,true);
  check(await page.locator('body.case-master-v3').count()===1,`${c.name}: v3 case master not active`);
