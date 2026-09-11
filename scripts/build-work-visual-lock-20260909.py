@@ -38,10 +38,12 @@ def draw_physical_label(im, box, client, project, title_max, sub_max, pad_x=8, p
     w = x1 - x0
     layer = Image.new('RGBA', im.size, (0, 0, 0, 0))
     d = ImageDraw.Draw(layer)
+    # A restrained cream lift is part of the physical strip treatment, not a floating UI panel.
+    d.rounded_rectangle((x0 + 2, y0 + 2, x1 - 2, y1 - 2), radius=2, fill=(232, 220, 194, 48))
     client_font = fit_font(client, w - 2 * pad_x, title_max, 8, True)
     project_font = fit_font(project, w - 2 * pad_x, sub_max, 7, False)
-    ink = (31, 27, 21, 246)
-    sub_ink = (43, 37, 28, 228)
+    ink = (16, 14, 10, 255)
+    sub_ink = (28, 24, 17, 248)
     d.text((x0 + pad_x, y0 + pad_y), client, font=client_font, fill=ink)
     bb = client_font.getbbox(client)
     line_h = bb[3] - bb[1]
@@ -83,7 +85,7 @@ def build_work_1():
         ((1387, 450, 1650, 497), 'MoneyLion × Beast Games', 'Beast Games Giveaway'),
     ]
     for box, client, project in labels:
-        scene = draw_physical_label(scene, box, client, project, title_max=16, sub_max=10, pad_x=8, pad_y=4)
+        scene = draw_physical_label(scene, box, client, project, title_max=18, sub_max=11, pad_x=8, pad_y=4)
 
     scene.convert('RGB').save(WORK_OUT, 'WEBP', quality=90, method=6)
 
@@ -118,7 +120,7 @@ def build_more_work():
         ((899, 220, 1072, 267), 'The Atlantic', 'Social voice'),
     ]
     for box, client, project in labels:
-        scene = draw_physical_label(scene, box, client, project, title_max=14, sub_max=9, pad_x=6, pad_y=3)
+        scene = draw_physical_label(scene, box, client, project, title_max=15, sub_max=10, pad_x=6, pad_y=3)
 
     # Duplicate a real photographed Work-2 cabinet, including lamp, wear and posts.
     # This is a physical-plate operation, not browser geometry pretending to be a board.
@@ -167,10 +169,10 @@ def build_more_work():
     bd = ImageDraw.Draw(band)
     cfont = fit_font('SCOOBA LOVE', band.width - 12, 12, 7, True)
     pfont = fit_font('How to evaluate work', band.width - 12, 8, 6, False)
-    bd.text((6, 3), 'SCOOBA LOVE', font=cfont, fill=(38, 33, 26, 242))
+    bd.text((6, 3), 'SCOOBA LOVE', font=cfont, fill=(22, 19, 14, 250))
     bb = cfont.getbbox('SCOOBA LOVE')
     line_h = bb[3] - bb[1]
-    bd.text((6, 4 + line_h), 'How to evaluate work', font=pfont, fill=(44, 38, 29, 226))
+    bd.text((6, 4 + line_h), 'How to evaluate work', font=pfont, fill=(34, 29, 21, 238))
     band = band.filter(ImageFilter.GaussianBlur(0.20))
     cabinet.alpha_composite(band, (fx0, by0))
 
