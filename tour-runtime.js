@@ -16,7 +16,7 @@
   var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var audioCtx=null;
   var ambientTimer=0;
-  var moreCaseIds=['alita-te-connectivity','jose-cuervo','outdoor-voices','the-atlantic'];
+  var moreCaseIds=['alita-te-connectivity','jose-cuervo','outdoor-voices','the-atlantic','scooba-love'];
   var roadTest=false;
   try{roadTest=new URLSearchParams(window.location.search).get('tourTest')==='road';}catch(e){}
 
@@ -168,7 +168,7 @@
       var p=u.pathname.replace(/\/$/,'');
       if(/\/cases\//.test(p)){
         var f=p.split('/').pop().replace(/\.html$/,'');
-        var map={nike:'nike-sb-panda-pigeon',virgin:'virgin-galactic-unity-22',porsche:'porsche-lucasfilm-designer-alliance',selsun:'selsun-blue-dan-driff',moneylion:'moneylion-beast-games',alita:'alita-te-connectivity',cuervo:'jose-cuervo','outdoor-voices':'outdoor-voices',atlantic:'the-atlantic'};
+        var map={nike:'nike-sb-panda-pigeon',virgin:'virgin-galactic-unity-22',porsche:'porsche-lucasfilm-designer-alliance',selsun:'selsun-blue-dan-driff',moneylion:'moneylion-beast-games',alita:'alita-te-connectivity',cuervo:'jose-cuervo','outdoor-voices':'outdoor-voices',atlantic:'the-atlantic',scooba:'scooba-love'};
         return map[f]||f;
       }
       return p.split('/').pop();

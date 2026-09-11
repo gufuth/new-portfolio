@@ -27,7 +27,7 @@ a{color:inherit}
 .scene-stage{position:fixed;left:50%;top:50%;width:min(100vw,calc((100svh - (var(--bar-h) * 2)) * var(--stage-ratio)));aspect-ratio:var(--stage-ratio);transform:translate(-50%,-50%);overflow:hidden;background-color:#080807;background-position:center;background-size:100% 100%;background-repeat:no-repeat}
 /* Work 1 is the Grok-family wide/oblique shot. Latest lock removes all motel signage. */
 .work-scene{--stage-ratio:1.777777778;background-image:url('assets/work-panorama-physical-v2.webp?v=20260909-lock2')}
-/* More Work remains the distinct Gemini-family frontal/compressed shot. Five physical destinations now live in this plate. 110vw keeps the boards recruiter-readable while allowing the far-right motel clue to remain visible as a cropped peripheral fact. */
+/* More Work remains the distinct Gemini-family frontal/compressed shot. Five physical destinations now live in this plate. The motel sign is intentionally absent; the diner remains unnamed. */
 .more-scene{--stage-ratio:3.221476510;width:min(110vw,calc((100svh - (var(--bar-h) * 2)) * var(--stage-ratio)));background-image:url('assets/more-work-panorama-five-v1.webp?v=20260909-lock2')}
 .scene-wash{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.08),transparent 28%,transparent 72%,rgba(0,0,0,.08));z-index:4}
 
@@ -63,7 +63,7 @@ body.tour-case-selecting .billboard.is-tour-selected::after{opacity:1;background
 .more-scene .b2{left:28.13%;top:18.37%;width:14.58%;height:46.99%}
 .more-scene .b3{left:45.33%;top:18.67%;width:14.30%;height:46.69%}
 .more-scene .b4{left:61.87%;top:18.37%;width:14.11%;height:47.29%}
-.more-scene .b5{left:78.55%;top:16.55%;width:12.95%;height:47.65%}
+.more-scene .b5{left:78.55%;top:16.55%;width:14.58%;height:47.65%}
 
 .mobile-title,.mobile-list{display:none}
 @media(max-width:760px){
