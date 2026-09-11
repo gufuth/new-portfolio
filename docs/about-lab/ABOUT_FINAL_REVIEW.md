@@ -1,113 +1,155 @@
-# ABOUT final review - branch checkpoint
+# ABOUT final review - September 11 branch checkpoint
 
-> Status: implementation checkpoint, not shipping approval. The branch is isolated. `main`, public staging and production remain untouched.
+> Status: rendered finalist checkpoint, not shipping approval. The branch is isolated. `main`, the public staging alias, production, and the old production site remain untouched.
 
-## Governing September 8 lock
+## Current governing decisions
 
-**INCIDENTALS is the locked label for the hidden secondary Ian material.** Earlier branch language using `Rumors`, `Hearsay`, `About, allegedly`, `The rest is hearsay`, or `Found in room 3` is superseded at the user-facing level. The joke is carried by understatement, not by adding a motel receipt, ledger, key tag, card, modal, badge, or other prop.
+- Room 3 stays.
+- Public-facing `Last Stop` naming is retired. It remains an internal project codename only.
+- The diner is unnamed. The motel is unnamed.
+- Visitor-facing location metadata is `INT. MOTEL · ROOM 3 · NIGHT`.
+- Ian's real CRT portrait stays. Do not generate or cosmetically alter his likeness.
+- `The room is paid through Thursday.` stays.
+- **INCIDENTALS** remains locked as the understated label for the hidden secondary Ian material.
+- Preferred INCIDENTals behavior is CRT activation that swaps the live About copy territory. No visible instruction, accordion, card, modal, badge, or added motel prop.
+- The locked Landing diner may appear only as distant, subordinate geography through the Room 3 window. It is not interactive and not an Easter egg.
 
-Routes A, B and C have now been reconciled to this lock. Their semantic controls expose `Show incidentals` / `Hide incidentals`, Escape closes the state, and no visible instructional helper is required.
+## Current finalist set
 
-## Recommendation
+The September 11 comparison is intentionally limited to three controlled copy states on the same visual and interaction system.
 
-**Route B - Human signal**
+### 1. Route B refined - current leader
 
-This remains the strongest direction because it makes Ian arrive before the room mythology without changing the Room 3 premise. It keeps the existing plate, demotes the motel sign, preserves the CRT as an indirect human trace, and gives the first scan an actual person rather than a profile paragraph.
+`English Lit. Leather jacket.` is followed immediately by `I'm Ian. Creative director and copywriter.`
 
-The copy is sourced from the canonical long-form Who material, not newly invented. The risk is proportion: if the English Lit / leather jacket opening feels imported from the longer page or delays the professional read, use Route A copy inside Route B's visual hierarchy rather than inventing a fourth direction.
+Why it currently wins:
 
-## Runner-up
+- It gives the page a person before it gives the room more mythology.
+- Professional identification arrives immediately after the two-beat personal lead, so the earlier recruiter-latency problem is materially reduced.
+- The body copy is specific and sourced.
+- In the rendered page it feels authored without becoming a long autobiography.
+- It retains the same Room 3, CRT, navigation, window geography, and INCIDENTals interaction as the controls.
 
-**Route A - Surgical continuity**
+Risk: the lead is terse and consciously written. Do not expand it back into the longer anecdote unless Ian explicitly reopens the copy.
 
-This is the safest route and the cleanest control. It fixes the actual hierarchy problem with the fewest changes, keeps every substantive claim close to current source truth, and uses the CRT for hidden INCIDENTals discovery without reviving the fake reel.
+### 2. Route A refined - safe control
 
-Its weakness is the exact reason it is second: once the motel sign is reduced, the page can become correct without becoming significantly more human.
+The direct first-person professional version remains the clarity benchmark.
 
-## Third route
+Why it remains valuable:
 
-**Route C - Found-evidence control**
+- fastest professional comprehension
+- factual and compact
+- least likely to distract from the work
+- useful fallback if B feels too writerly to Ian in the actual page
 
-Route C uses the same first-person factual foundation as A, while INCIDENTals discovery lives on existing dresser detail instead of the CRT. It is a valid restraint test, but it carries the highest escape-room risk and should not win unless the CRT interaction proves too self-conscious in real pixels.
+Why it is currently second: the room and CRT already carry atmosphere and character, so A can read as a conventional portfolio bio placed inside an unusual setting.
 
-The prior phone-coordinate fragility has been corrected: the Route C hotspot is now anchored to the 4:3 visual plate rather than the full mobile stage. Route B received the same correction.
+### 3. A/B hybrid - third
 
-## What the visual audit settled
+The hybrid starts with A's direct professional identification and then adds `English Lit. Leather jacket.`
 
-The Room 3 concept is not the problem.
+Rendered judgment: the personal beat feels appended after the introduction has already completed its job. It gains less personhood than B and carries more copy than A. Keep it as a controlled hedge, not the recommendation.
 
-The same-film qualities are already present: ordinary cheap materials, practical light, darkness as primary material, an asymmetrical but stable frame, human presence withheld rather than staged, and a camera position that feels like the room existed before the portfolio.
+### Route C
 
-The actual break from Landing is hierarchy. The motel sign behaves like a second brand concept. Once it is darker, softer and less immediately legible, the room stops competing with Ian.
+Historical interaction-control evidence only. It is no longer a current creative finalist. The Sep 11 direction favors CRT discovery, so C should not be promoted back into the primary comparison without new evidence.
+
+## Shared implementation
+
+The three current finalists now share:
+
+- `/review/about/about-refined.css`
+- `/review/about/about-refined.js`
+- `/review/about/diner-window-crop.svg`
+
+This prevents visual and technical drift between copy candidates.
+
+The diner crop is derived directly from the locked Landing source and uses a right-side warm-window region containing practical lights and human trace without readable portfolio typography. It is deliberately dim, soft, and subordinate.
+
+On phone, the diner overlay is allowed to disappear. The Room 3 plate crops to the right so the old readable motel sign does not re-enter the public page.
+
+## Real browser QA
+
+Chromium rendering was completed for Route A refined, Route B refined, and the hybrid at:
+
+- 1440x900
+- 1366x768
+- 1024x768
+- 430x932
+- 390x844
+
+Direct localhost and `file://` navigation are blocked by the execution environment. The test therefore loaded the exact branch-local HTML/CSS/JS and real Room 3/Landing assets into Chromium using Playwright `page.set_content`. This validates browser layout, pixel rendering, CSS behavior, viewport behavior, interaction, focus, and console state. It is not a deployed-URL QA claim.
+
+### Functional results
+
+- no horizontal document overflow in the tested viewport/candidate combinations
+- no page/console errors in the tested candidate/viewport combinations
+- CRT discovery control remains comfortably larger than the minimum target at every tested size
+- INCIDENTals toggles `aria-expanded` correctly
+- revealed INCIDENTals becomes available while the hidden bio becomes `aria-hidden` and `inert`
+- Escape closes the revealed state and returns focus to the CRT control
+- reduced-motion removes the relevant transitions
+- the 1024 tablet copy-clipping defect is corrected
+- the mobile public-name leak is corrected because the readable old motel sign is cropped out
+
+### Visual hierarchy results
+
+Grayscale, heavy-blur, and brightness-lift diagnostics were run on the current B desktop render.
+
+Result:
+
+- CRT remains the strongest compact human/light signal.
+- The room's practical lamp remains a secondary environmental light source.
+- The live copy maintains strong readable authority.
+- The diner/window trace is materially quieter and nearly disappears under heavy blur.
+- Brightness lift does not expose readable Landing typography in the window.
+- The diner geography no longer behaves like a miniature portfolio page or branded sign.
+
+The desired order is now much closer to:
+
+1. Ian / About copy
+2. CRT human trace
+3. Room 3 geography
+4. distant diner geography
 
 ## KEEP
 
 - foot-of-bed camera
 - bed foreground obstruction
-- cheap chair, dresser, lamp and window geography
+- chair, dresser, lamp, window, and ordinary motel materials
 - existing real CRT portrait
-- near-black live-copy field
-- shared FilmFrame rails and tour runtime
-- sound off default
+- near-black copy field
+- fixed FilmFrame rails and existing navigation
+- sound off by default
 - `The room is paid through Thursday.`
-- no fake reel, loading, coming-soon or decorative loop
-- INCIDENTals as subordinate, discoverable secondary material
+- INCIDENTals through CRT discovery
+- unnamed diner/motel geography
+- subtle Landing-derived warm window trace on desktop/tablet only
 
-## CHANGE
+## KILL / DO NOT REINTRODUCE
 
-- motel sign: darker, less saturated, softer through glass, peripheral
-- bio: larger authority, first-person, stronger relationship to CRT
-- mobile: 4:3 room crop with CRT near center and sign pushed to edge
-- hidden material: optional, keyboard/touch reachable, Escape dismissible, labeled INCIDENTals
-- `PAUSE II`: remove only from a clean source plate when found
+- public-facing `Last Stop Motel`
+- readable motel sign as geography
+- fake reel, play, loading, or coming-soon behavior
+- `Rumors`, `Hearsay`, `About, allegedly`, or equivalent user-facing names for INCIDENTals
+- visible INCIDENTals CTA, accordion, modal, card, badge, or instruction copy
+- `Some rooms stay with you.`
+- `Ideas travel well.`
+- VIEW WORK CTA inside About
+- new motel props or lore
+- generated Ian likenesses
+- CSS rectangle covering `PAUSE II`
+- a fourth About concept before Ian reviews the current three
 
-## KILL
+## Remaining source debt
 
-- motel sign as logo / hero
-- old play-reel behavior
-- visible INCIDENTals cards / CTAs / badges / modal UI
-- user-facing `Rumors`, `Hearsay`, `About, allegedly`, `The rest is hearsay`, or `Found in room 3` labels for this material
-- new motel lore or prop accumulation
-- turning `The room is paid through Thursday.` into a clickable setup
-- CSS patch over `PAUSE II`
-- any generated or cosmetically altered portrait of Ian
-
-## INCIDENTals behavior
-
-**Preferred:** CRT discovery. The screen gets only a tiny hover/focus lift. Activation swaps the main copy territory to a readable INCIDENTals state. No play icon, no visible instruction, no static loop. Assistive technology gets an explicit semantic label.
-
-**Secondary test:** existing dresser-detail hotspot. It adds no prop, but it is more puzzle-like and therefore less favored.
-
-## Mobile conclusion
-
-The phone version should not mimic desktop coordinates. The 4:3 crop is the right structural move because it keeps enough of the room to preserve the premise and lets the CRT remain a human trace. The motel sign can fall mostly toward the left edge. Live copy then follows as the primary readable block.
-
-Routes B and C now use a `.visual` wrapper so their interaction hit areas stay registered to that 4:3 plate on phone rather than drifting with the full document height.
-
-## Failed experiment retained as a warning
-
-A generated plate experiment was rejected because it altered Ian's likeness, changed room composition and baked live text into the image. It is not a candidate and must never be committed. The failure reinforces the current non-generative, surgical approach.
-
-## Open image debt
-
-The baked `PAUSE II` label remains because a clean source plate has not been located in Drive or repo history. A CSS cover was tested conceptually and rejected because the patch becomes visible. This is source-level cleanup debt, not a reason to redesign the page.
-
-## Branch references
-
-- branch: `about-iteration-lab-20260908-contd`
-- Route A: `review/about/route-a/index.html`
-- Route B: `review/about/route-b/index.html`
-- Route C: `review/about/route-c/index.html`
-- source map: `docs/about-lab/ABOUT_SOURCE_MAP.md`
-- baseline audit: `docs/about-lab/ABOUT_BASELINE_AUDIT.md`
-- hierarchy studies: `docs/about-lab/ABOUT_HIERARCHY_STUDIES.md`
-- copy audit: `docs/about-lab/ABOUT_COPY_AUDIT.md`
-- INCIDENTals prototype notes: `docs/about-lab/ABOUT_INCIDENTALS_PROTOTYPES.md`
+`PAUSE II` remains baked into the current Room 3 source. A clean source plate has not been located. This is source-level cleanup debt and is not a reason to redesign the page.
 
 ## Deployment safety
 
-No Netlify deploy is authorized if it can change the public staging alias. Use only a unique non-promoting draft preview. `main`, the current public staging alias, and production remain untouched.
+No Netlify deployment was performed in this pass. Use only a unique non-promoting draft preview when a safe path is available. Do not overwrite the public staging alias. Do not merge or promote anything until Ian selects a finalist.
 
 ## Current decision
 
-**Advance Route B for real-pixel comparison. Keep Route A intact as the fallback. Keep Route C available as the interaction-control test. Do not invent a fourth concept. Merge nothing until Ian selects.**
+**Advance Route B refined for Ian's selection. Keep Route A refined as the safe fallback. Keep the A/B hybrid available as the controlled hedge. Route C is historical evidence only.**
