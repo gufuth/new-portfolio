@@ -1,71 +1,82 @@
 # ABOUT copy audit
 
-Status: review copy only. No route is approved for merge.
+Status: September 11 finalist copy audit. Review only. No route is approved for merge.
 
 ## Governing rule
 
-The About copy must identify Ian quickly, establish real working range, preserve dry personhood, and stop. It cannot read like a positioning deck or generic creative-leader bio. No unsupported years, titles, team sizes, awards, agency claims or invented client facts.
+The About copy must identify Ian quickly, establish real working range, preserve dry personhood, and stop. It cannot read like a positioning deck or generic creative-leader bio. No unsupported years, titles, team sizes, awards, agency claims, or invented client facts.
 
-## Incumbent strengths
+Public-facing `Last Stop` naming is retired. The room does not need branded lore to carry the copy.
 
-- `Ian Luna is a creative director and copywriter.` solves the recruiter question immediately.
+## Shared keepers
+
+- Ian is a creative director and copywriter.
+- Campaign concepts, scripts, voice systems, and brand language are sourced working-range language.
 - The client list is useful proof without adjectives.
-- `the small lines that make the whole thing believable` is specific enough to keep.
-- `ideas that can survive a straight face` is distinctive.
-- `The room is paid through Thursday.` is the strongest site-specific keeper.
+- `The room is paid through Thursday.` remains the strongest site-specific keeper.
+- INCIDENTals remains secondary, optional, and sourced from the canonical Who material.
 
-The weakness is not truth. It is distance. The incumbent reads like profile copy placed inside a strong room.
+## Route B refined: Human signal
 
-## Route A: Surgical continuity
-
-> Hi, I'm Ian. I'm a creative director and copywriter.
+> English Lit. Leather jacket.
 >
-> I work on campaign concepts, scripts, voice systems, and the small lines that make the larger idea believable. The work here includes Nike SB, Virgin Galactic, Porsche × Lucasfilm, MoneyLion × Beast Games, Outdoor Voices and The Atlantic.
+> I'm Ian. Creative director and copywriter.
 >
-> I like ideas that can survive a straight face.
->
-> The room is paid through Thursday.
-
-Assessment: safest merge foundation. It gets Ian into first person without adding a new career characterization. Risk: it can become merely correct if the room has already supplied most of the personality.
-
-## Route B: Human signal
-
-> I liked writing enough to convince my parents English Lit was a viable major. The leather jacket probably did not help.
->
-> Now I'm a creative director and copywriter. Campaign concepts, scripts, voice systems, brand language, and the banner nobody wants to write but every launch needs.
+> Campaign concepts, scripts, voice systems, brand language, and the banner nobody wants to write but every launch needs.
 >
 > The work here includes Nike SB, Virgin Galactic, Porsche × Lucasfilm, MoneyLion × Beast Games, Outdoor Voices and The Atlantic.
 >
 > The room is paid through Thursday.
 
-Assessment: strongest personhood. The English Lit / leather jacket material comes from the canonical long-form Who source rather than being newly invented. `the banner nobody wants to write...` is also rooted in that source's working-range language.
+Assessment after Chromium rendering: **current leader**.
 
-Risk: this is the one route that could import too much of the full Who page into the short in-world About. It only wins if the rendered page still answers `who is Ian professionally?` within the first scan.
+The short opening supplies personhood immediately, and the professional identification follows on the next line rather than after a full anecdote. This removes the earlier recruiter-latency problem while keeping the strongest human signal from the Who source. The banner line is specific and sourced rather than generic capability language.
 
-## Route C: Found evidence
+Remaining risk: `English Lit. Leather jacket.` is deliberately terse. It only survives because the next line answers the professional question immediately and the room already supplies context. Do not expand it back into the longer anecdote unless Ian explicitly reopens the copy.
 
-Uses Route A's factual first-person foundation and puts differentiation in the discovery mechanism rather than in more authored bio copy.
+## Route A refined: Surgical control
 
-Assessment: cleanest way to test whether the room itself already carries enough character. Risk: if the dresser hotspot feels like a puzzle, the restrained copy cannot save the interaction.
+> Hi, I'm Ian. I'm a creative director and copywriter.
+>
+> I work on campaign concepts, scripts, voice systems, and the small lines that make the larger idea believable.
+>
+> The work here includes Nike SB, Virgin Galactic, Porsche × Lucasfilm, MoneyLion × Beast Games, Outdoor Voices and The Atlantic.
+>
+> I like ideas that can survive a straight face.
+>
+> The room is paid through Thursday.
 
-## Historical Who material
+Assessment after Chromium rendering: **safest fallback and clarity control**.
 
-Useful voice/evidence source:
+It is immediate, factual, and easy to scan. Its weakness remains distance. Once the room and CRT already carry personality, the copy can feel like a conventional portfolio bio placed into an unusual frame.
 
-- `Hi, I'm Ian.`
-- writing / language background
-- leather jacket / English Lit / third Squarespace / `Eat it, Dad.`
-- absurd secondary biography / impossible-credentials list used for INCIDENTals
-- scripts, manifestos, tone-of-voice systems, brand IDs, campaign concepts
+## A/B hybrid
 
-Do not automatically import:
+> Hi, I'm Ian. I'm a creative director and copywriter.
+>
+> English Lit. Leather jacket.
+>
+> I work on campaign concepts, scripts, voice systems, brand language, and the small lines that make the larger idea believable.
+>
+> The work here includes Nike SB, Virgin Galactic, Porsche × Lucasfilm, MoneyLion × Beast Games, Outdoor Voices and The Atlantic.
+>
+> The room is paid through Thursday.
 
-- bracketed ACD tenure or team-size claims
-- bracketed AI outcome claims
-- stale employer facts
-- generic creative-leader boilerplate
+Assessment after Chromium rendering: **third**.
 
-The transferable quality is that a person wrote it. The short Room 3 About does not need to inherit the old page's length.
+It solves professional comprehension immediately, but the English Lit beat then reads as an appended flourish after the introduction has already completed its job. It gains less personhood than B and carries more copy than A. Keep it as a hedge, not as the current recommendation.
+
+## Route C
+
+Historical interaction-control evidence only. It is no longer a current creative finalist. Its value was proving that hidden material did not need to belong to the CRT. The current Sep 11 direction favors CRT discovery, so C should not compete with A/B/hybrid unless that interaction fails later.
+
+## INCIDENTals body
+
+For the current three-way comparison, normalize the body to the canonical sourced list:
+
+> I'm also an auteur, a yachtsman, a journeyman, a fabulist, a bullfighter, an honorary mountie, an illusionist, a cobbler, an unlicensed psychiatrist, a moonshiner, a taekwondo instructor, a molder of minds, a budding telepath, a zoologist, close to getting a realtor's license, a horse whisperer, a botanist, a nationally rated kite-surfer, a watchmaker, a classical guitarist, and a raconteur.
+
+The label **INCIDENTALS** is locked. Do not restore `Rumors`, `Hearsay`, `About, allegedly`, or another user-facing name.
 
 ## Generic-language kill list
 
@@ -73,8 +84,9 @@ Do not introduce: multidisciplinary creative, passionate storyteller, where stra
 
 ## Current ranking
 
-1. **Route B copy** for character, provided the professional read remains immediate in pixels.
-2. **Route A copy** for certainty and compression.
-3. **Route C copy** as a control, not because it is weaker factually but because its differentiation lives elsewhere.
+1. **B refined**
+2. **A refined**
+3. **A/B hybrid**
+4. Route C: historical control only
 
-If Route B feels imported or overwritten when rendered, the right fallback is not a new fourth bio. It is Route A copy inside Route B's stronger visual hierarchy.
+Do not invent a fourth copy route before Ian reviews these three. If B is rejected, A is the clean fallback. The hybrid exists only to test whether one personal beat can live inside A's immediate professional framing.
