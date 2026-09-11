@@ -1,0 +1,37 @@
+name: Apply 2026-09-11 Work corrections
+
+on:
+  push:
+    branches:
+      - work/cinematic-case-master-scooba-20260908
+    paths:
+      - 'scripts/apply-20260911-work-corrections.py'
+      - '.github/workflows/apply-20260911-work-corrections.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: work/cinematic-case-master-scooba-20260908
+          fetch-depth: 0
+      - name: Apply deterministic corrections
+        run: python scripts/apply-20260911-work-corrections.py
+      - name: Commit corrections
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tour-runtime.js work-system.css index.html work.html more-work.html about.html hearsay.html cases/*.html
+          if git diff --cached --quiet; then
+            echo 'No correction changes.'
+            exit 0
+          fi
+          git commit -m 'Apply Work 2, SCOOBA origin and public naming corrections'
+          git push origin HEAD:work/cinematic-case-master-scooba-20260908
