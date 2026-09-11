@@ -25,43 +25,76 @@
 - Reconciled Route A to INCIDENTals while preserving its existing plate-relative CRT control.
 - Reconciled Route B to INCIDENTals, removed visible return instructions, added show/hide accessible labels, and wrapped the room plate plus CRT hit area in `.visual` so phone coordinates stay registered to the 4:3 image.
 - Reconciled Route C to INCIDENTals and applied the same plate-relative mobile hotspot correction.
-- Updated `ABOUT_FINAL_REVIEW.md` so the branch documentation now agrees with the governing Drive lock.
+- Updated `ABOUT_FINAL_REVIEW.md` so the branch documentation agrees with the governing Drive lock.
 - Created `ABOUT — CURRENT STATE + LOCKS — 2026-09-08` inside `02 PAGE MASTERS / 03 ABOUT — ACTIVE` in the master Drive as the recovery checkpoint for future sessions.
 
 ## September 9 anti-drift cleanup
 
-- Verified the About active Drive folder now contains the current-state checkpoint and design audit alongside the August Room 3 baseline image.
+- Verified the About active Drive folder contains the current-state checkpoint and design audit alongside the August Room 3 baseline image.
 - Replaced the stale `ABOUT_RUMORS_PROTOTYPES.md` branch record with `ABOUT_INCIDENTALS_PROTOTYPES.md`.
 - Updated the source map, baseline audit, hierarchy studies, copy audit and final review so current-state language consistently uses INCIDENTals.
 - Historical terms such as `Rumors` remain only when explicitly documenting superseded or rejected states.
-- Current route interfaces already expose `INCIDENTALS` plus semantic `Show incidentals` / `Hide incidentals` labels.
-- This closes the specific recovery ambiguity that could otherwise make a future session reopen the naming decision.
+- Current route interfaces expose `INCIDENTALS` plus semantic `Show incidentals` / `Hide incidentals` labels.
+- This closed the recovery ambiguity that could otherwise make a future session reopen the naming decision.
 
 ## September 9 recovery source QA
 
 - Re-read the current Drive locks, the September 8 autonomous prompt, the full About branch source, and the September 8-9 commit sequence before new work.
-- Confirmed `main` remains unchanged at the branch base while the About lab remains isolated.
-- Confirmed there is still no completed real-pixel QA evidence for the current About branch HEAD. Desktop, tablet, phone, grayscale, blur, brightness-lift, keyboard/focus, Escape, reduced-motion, and console checks remain gates rather than completed claims.
-- Found one source-level accessibility defect in Route B: opening INCIDENTals visually hides `.bio` on desktop with opacity/pointer-events but does not remove that hidden biography from the accessibility tree. Any final B implementation must synchronize the bio's accessibility state with the visible swap and verify it with keyboard and assistive-technology behavior.
-- Confirmed the exact INCIDENTals body copy is not normalized across A, B, and C. The `INCIDENTALS` label and subordinate/discoverable behavior are locked, but the body remains route-specific/provisional. Route B is closest to the canonical long-form Who source; do not silently treat the shorter A/C lists as a new content lock.
-- Confirmed all three mobile routes disable the desktop sign-damp layer and depend on the 4:3 crop plus overall plate darkening to demote the motel sign. This is an unresolved rendered-pixel risk, not a proven failure.
-- A direct local clone/render attempt was blocked by the current execution runtime's network isolation. Do not convert source inspection into a visual-QA claim.
+- Confirmed `main` remained unchanged while the About lab stayed isolated.
+- Found one source-level accessibility defect in Route B: opening INCIDENTals visually hid `.bio` on desktop but did not remove the hidden biography from the accessibility tree.
+- Confirmed the exact INCIDENTals body copy was not normalized across A, B, and C.
+- Confirmed the mobile routes disabled the desktop sign-damp layer and depended on crop/darkening to demote the motel sign.
 
-## Current branch decision
+## September 11 recovery and new governing state
 
-- Advance Route B for real-pixel comparison.
-- Keep Route A as the safe factual control.
-- Keep Route C only as the interaction-control test.
-- Do not invent a fourth About concept.
-- Do not merge until Ian selects.
+- Re-read recent Drive activity before continuing and found a newer About state that superseded the September 9 candidate logic.
+- Recovered the public-name decision: `Last Stop` is an internal codename only. The diner and motel are unnamed in public-facing UI.
+- Updated the visitor-facing About location line to `INT. MOTEL · ROOM 3 · NIGHT`.
+- Recovered the three-candidate comparison: B refined, A refined, and an A/B hybrid. Route C is now historical interaction-control evidence only.
+- Recovered the geography test: the locked Landing diner may appear through the Room 3 window only as distant, subordinate geography across the street and below the room.
+- Recovered the Sep 11 copy kills: remove `Some rooms stay with you.`, reject `Ideas travel well.`, no VIEW WORK CTA, and no conventional INCIDENTals accordion/card/modal treatment.
 
-## Remaining debt before any merge
+## September 11 implementation reconciliation
 
-- Obtain or reconstruct a clean Room 3 source plate without baked `PAUSE II` if possible.
-- Run real branch-pixel QA at desktop, tablet and phone widths in an environment that can load the branch assets.
-- Confirm focus states, keyboard activation, Escape dismissal and reduced-motion behavior against the rendered pixels.
-- Fix and verify Route B's hidden-bio accessibility state before any selection can ship.
-- Resolve the final INCIDENTals body copy from canonical source rather than by route drift.
-- Run grayscale, blur and brightness-lift attention checks to prove the motel sign is no longer the first attention island.
-- Use only a unique non-promoting draft deploy for external review. Do not touch the public staging alias.
-- Merge nothing until Ian chooses a route.
+- Found that only Route A had been updated to the new unnamed-geography direction in GitHub. Route B was still on the older public `Last Stop Motel` treatment, and no hybrid route existed.
+- Added `/review/about/about-refined.css` so A, B, and hybrid use one shared visual system.
+- Added `/review/about/about-refined.js` so the three finalists use one shared accessible CRT interaction.
+- Added `/review/about/diner-window-crop.svg`, a crop definition using the locked Landing source rather than generated imagery.
+- Updated Route A to the shared system.
+- Updated Route B to the Sep 11 refined copy, neutral public naming, shared geography, and corrected accessibility behavior.
+- Added `/review/about/route-hybrid/index.html` as the controlled A/B copy hedge.
+- Normalized INCIDENTals body copy across the three current candidates.
+
+## September 11 real browser QA
+
+- Used Chromium with Playwright to render the exact branch-local HTML/CSS/JS and real Room 3/Landing assets.
+- Direct localhost and `file://` navigation are blocked by the execution environment, so the browser used `page.set_content` with the branch structure and inlined local assets. This is real browser layout/pixel/interaction QA, not deployed-URL QA.
+- Rendered A refined, B refined, and hybrid at 1440x900, 1366x768, 1024x768, 430x932, and 390x844.
+- Ran INCIDENTals open/close interaction checks, keyboard focus checks, Escape dismissal, reduced-motion checks, and console/page-error checks.
+- Verified no horizontal document overflow across the tested combinations.
+- Verified zero page/console errors in the tested combinations.
+- Verified the CRT hit area remains comfortably larger than the minimum pointer target at all tested sizes.
+- Verified opening INCIDENTals marks the hidden bio `aria-hidden` and `inert`; Escape closes the state and returns focus to the CRT.
+- Verified reduced-motion removes the relevant transitions.
+
+## September 11 visual corrections from QA
+
+- Found a 1024 tablet clipping defect caused by the cover-scaled stage. Corrected the copy territory for 761-1150px widths.
+- Found that hiding the desktop window treatment on mobile exposed the old readable motel sign in the Room 3 source. Corrected the mobile crop so the old public motel name is fully offscreen while the CRT remains visible.
+- Found the first Landing-in-window treatment too dark and patchlike. Replaced it with a restrained right-side warm-window crop from the locked Landing source that contains practical light and human trace but no readable portfolio typography.
+- Ran grayscale, heavy-blur, and brightness-lift diagnostics on the corrected B desktop render.
+- Verified the diner/window trace remains materially quieter than the CRT, live copy, and Room 3 practical light and does not reveal readable Landing typography under brightness lift.
+
+## September 11 current judgment
+
+1. **B refined leads.** `English Lit. Leather jacket.` supplies human signal, while `I'm Ian. Creative director and copywriter.` follows immediately enough to preserve professional comprehension.
+2. **A refined remains the safe control.** It is fastest and clearest but more conventional.
+3. **A/B hybrid is third.** The personal beat reads as appended after an already complete professional introduction, so it adds copy without matching B's personhood advantage.
+4. Route C remains historical interaction-control evidence only.
+
+## Remaining debt before merge
+
+- Ian still needs to select the finalist.
+- `PAUSE II` remains baked into the current Room 3 source. A clean source plate has not been located. Do not cover it with a visible CSS patch.
+- A deployed unique-preview QA remains useful once a safe non-promoting deploy path is available.
+- No merge or promotion until Ian approves the selected About direction.
