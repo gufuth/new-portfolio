@@ -1,90 +1,108 @@
 # About hierarchy studies
 
-Status: branch-only visual reasoning record. No route is approved for merge.
+Status: September 11 rendered hierarchy record. No route is approved for merge.
 
-## Baseline hierarchy problem
+## Current hierarchy problem
 
-The active Room 3 plate has three strong information zones: the motel sign, the CRT portrait and the live biography field. The motel sign is not always the brightest object in raw luminance terms, but it is the most semantically aggressive because it is large, red/orange, readable and name-like. That makes the room brand itself before Ian reads.
+The original Room 3 baseline had three competing information zones: the readable motel sign, Ian on the CRT, and the live biography field. The motel sign behaved like a second brand concept and pulled attention away from Ian.
 
-The repair should be subtractive.
+The September 11 public-name decision makes the correction more decisive: visitor-facing `Last Stop` naming is retired. The diner and motel are unnamed. The old readable motel sign is no longer something to preserve and merely dim. It must not survive as public-facing geography.
 
-## Study 1: Sign demotion
+## Desired first-glance order
 
-Use a localized, feathered treatment over the existing sign only:
+1. Ian / About copy
+2. CRT human trace
+3. Room 3 geography
+4. distant diner geography
 
-- lower exposure
-- lower saturation
-- slight softness through the glass
-- preserve the sign as a real exterior light source
-- avoid a rectangular mask edge
+The page should communicate a person staying in a room, not a portfolio concept explaining its fictional property.
 
-Pass condition: the sign remains plausible geography but stops functioning as a logo.
+## Study 1: Unnamed geography
 
-The current branch routes use slightly different values around the same principle. Route A is the least aggressive. Route B/C are darker. None adds another glow to compensate.
+Desktop/tablet now use a restrained crop from the right side of the locked Landing diner source in the Room 3 window. The crop keeps warm practical light and a distant human trace but excludes readable portfolio typography.
+
+Rules:
+
+- no readable `Last Stop Motel`
+- no readable WORK, ABOUT, HEARSAY, or IAN LUNA from the Landing plate
+- no interaction on the diner
+- no Easter-egg behavior
+- no extra glow or highlight added to make the connection legible
+- diner geography may disappear on mobile rather than being forced into the crop
+
+The correct effect is recognition on a second look, not proof of worldbuilding.
 
 ## Study 2: Bio authority
 
-Increase the biography's authority without a card or panel:
+All current finalists use the same copy territory and visual hierarchy so the comparison is about copy rather than layout drift.
 
-- move it slightly inward from the far-right dead zone
-- increase lead size / line-length control
-- use first-person speech in A/B
-- keep the room behind it nearly black
-- do not brighten the whole right side
-
-The bio should feel like it occupies the frame, not like HTML pasted into spare space.
+- dark right-side field remains untreated rather than becoming a card or panel
+- lead line receives the largest copy emphasis
+- work/client proof stays quieter than the lead
+- `The room is paid through Thursday.` remains a final deadpan beat
+- no VIEW WORK CTA is added to About
 
 ## Study 3: Human signal
 
-The CRT is the strongest existing bridge between environment and subject. Do not turn it into a conventional portrait hero. It should remain an indirect trace that becomes meaningful because the live text identifies Ian.
+The CRT remains the strongest existing bridge between room and subject. It stays an indirect human trace rather than becoming a conventional portrait hero.
 
-Route A: CRT stays quiet and doubles as the INCIDENTals discovery surface.
+The CRT also owns INCIDENTals discovery. Activation swaps the live copy territory without play language, visible instruction, a modal, or an accordion.
 
-Route B: same physical behavior, but the first paragraph carries more personal history so the human signal is stronger before interaction.
+Accessibility state is synchronized with the visual swap: hidden biography becomes `aria-hidden` and `inert`; Escape closes the state and returns focus to the CRT control.
 
-Route C: CRT remains purely visual. Discovery moves to existing dresser detail so the page tests whether INCIDENTals can feel found rather than activated from the portrait.
+## Study 4: Tablet
 
-## Study 4: Mobile crop
+Actual Chromium rendering at 1024x768 exposed a real defect: cover-scaling the fixed 1536x864 stage could push the right-side copy past the viewport edge.
 
-The incumbent shallow image strip weakens the Room 3 idea. The branch review routes use a 4:3 crop on phone, with the CRT closer to center and the motel sign pushed toward the left edge.
+Correction: between 761px and 1150px, shift the bio/INCIDENTals territory inward while preserving the Room 3 composition. This keeps the entire copy block visible without redesigning the page into a tablet-specific layout.
 
-Desired phone order:
+## Study 5: Mobile
 
-1. room / CRT human trace
-2. Ian's live biography
-3. shared navigation
-4. INCIDENTals discovery only if the user chooses it
+The phone version is allowed to be compositionally different from desktop while preserving the scene logic.
 
-The mobile solution is allowed to be compositionally different from desktop. It should preserve the scene's logic, not its exact coordinates.
+The corrected mobile treatment:
 
-## Attention tests
+- uses the Room 3 plate at 4:3
+- crops from the right so the old readable motel sign is fully offscreen
+- keeps the CRT visible as the human trace
+- does not force the diner overlay into the phone crop
+- places live copy directly below the visual
+- keeps the CRT hit area registered to the visual plate rather than the full document height
 
-### Blur test
+## Attention diagnostics
 
-At heavy blur, the motel sign should no longer read as the dominant warm island. The CRT can remain the strongest small luminance island because it is the human trace.
+The current B refined desktop render was tested in grayscale, heavy blur, and brightness lift.
 
-### Grayscale test
+### Heavy blur
 
-Removing color should not reveal the motel sign as the primary compositional anchor.
+The CRT remains the strongest compact light island. The room's practical lamp remains a secondary environmental source. The diner/window trace nearly disappears.
 
-### Brightness-lift test
+### Grayscale
 
-Lifting the image should not expose obvious CSS rectangles, added gradients or fake set dressing. Local corrections must read as exposure / glass / source behavior.
+No exterior branded sign becomes the primary anchor. The live copy and CRT remain the meaningful information territories.
 
-## Route comparison
+### Brightness lift
 
-### A: Surgical continuity
+The window reads as physical room geography rather than a free-floating patch, and no readable Landing typography appears in the diner crop.
 
-Strongest at preserving the incumbent and fixing only what is broken. Lowest risk. Potential weakness: may be so conservative that the page becomes correct rather than memorable.
+## Current finalist comparison
 
-### B: Human signal
+### B refined
 
-Strongest at making a person arrive before the room mythology. Higher-copy-risk, but the visual hierarchy is the clearest expression of the page's actual job.
+Strongest current balance of personhood and professional comprehension. The short `English Lit. Leather jacket.` lead is immediately followed by `I'm Ian. Creative director and copywriter.`
 
-### C: Found evidence
+### A refined
 
-Strongest as a restraint test. It proves INCIDENTals does not need to belong to the CRT. Highest risk of drifting toward escape-room logic if the dresser hotspot becomes too discoverable or cute.
+Safest clarity control. It is immediate and factual but more conventional.
+
+### A/B hybrid
+
+Useful hedge, but rendered copy feels additive. The professional intro already completes the opening before the English Lit beat arrives.
+
+### Route C
+
+Historical interaction-control evidence only. It no longer competes as a primary creative finalist.
 
 ## Current visual conclusion
 
-Do not abandon Room 3. Reduce the motel sign, keep the CRT, strengthen the live biography and spend the remaining weirdness budget on one optional INCIDENTals behavior only.
+Do not abandon Room 3. Do not add another concept. Do not restore public motel naming. Keep the CRT and real Ian source, let the diner exist only as distant unnamed geography, and choose between B refined and A refined based on Ian's review of the actual rendered page. The hybrid remains available but currently ranks third.
