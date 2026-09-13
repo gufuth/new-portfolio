@@ -92,9 +92,22 @@
 3. **A/B hybrid is third.** The personal beat reads as appended after an already complete professional introduction, so it adds copy without matching B's personhood advantage.
 4. Route C remains historical interaction-control evidence only.
 
-## Remaining debt before merge
+## September 13 diner identity proof recovery + evaluation
 
-- Ian still needs to select the finalist.
-- `PAUSE II` remains baked into the current Room 3 source. A clean source plate has not been located. Do not cover it with a visible CSS patch.
-- A deployed unique-preview QA remains useful once a safe non-promoting deploy path is available.
-- No merge or promotion until Ian approves the selected About direction.
+- Recovered the two authoritative Drive proof artifacts named in the active master: `about-diner-mechanical-proof-v1.png` and `landing-about-diner-identity-proof-v1.png`.
+- Visually verified why the mechanical proof was a breakthrough: it uses the actual locked Landing pixels, so the window immediately reads as the same diner rather than a similar diner generated from mood instructions.
+- Preserved Ian's response to that proof as a provisional method endorsement: `Yeah, this is much closer. I think this is the way we might pull it off.`
+- Confirmed the exact proof crop is not final because the giant `WORK` remains readable and becomes too much like a miniature portfolio page.
+- Confirmed the current branch crop solves the opposite problem: no readable portfolio typography and correct subordination, but weaker building identity.
+- Tested a mechanically sourced right-side-architecture treatment using the Landing window, human silhouette, and magenta door region while excluding readable typography. It preserved real source pixels but the narrow Room 3 window compressed the architecture enough that the result read mainly as lights, silhouette, and color. Useful evidence, but not strong enough to replace the current interim crop.
+- Updated `ABOUT_FINAL_REVIEW.md` to make the method/crop distinction explicit.
+- Updated the active Drive checkpoint with the browser-QA state, finalist ranking, mechanical-method boundary, and exact next geography gate.
+
+## Current frontier
+
+- B refined remains the current leader; A refined remains the fallback; hybrid remains third; C is historical evidence only.
+- Mechanical/compositing use of the actual Landing diner is the default continuity method.
+- Do not revert to freeform diner generation.
+- The one active visual problem worth another pass before selection is finding the middle ground between the readable-WORK mechanical proof and the too-abstract quiet crop: enough actual right-side architecture/window rhythm to read as the same building, no readable portfolio words, and no increase in exterior prominence.
+- `PAUSE II` remains baked source debt.
+- No merge, staging-alias promotion, or production change until Ian selects.
