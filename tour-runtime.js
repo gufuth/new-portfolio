@@ -16,7 +16,7 @@
   var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var audioCtx=null;
   var ambientTimer=0;
-  var moreCaseIds=['alita-te-connectivity','jose-cuervo','outdoor-voices','the-atlantic'];
+  var moreCaseIds=['alita-te-connectivity','jose-cuervo','outdoor-voices','the-atlantic','scooba-love'];
   var roadTest=false;
   try{roadTest=new URLSearchParams(window.location.search).get('tourTest')==='road';}catch(e){}
 
