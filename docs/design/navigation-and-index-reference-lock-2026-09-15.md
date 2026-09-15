@@ -29,7 +29,8 @@ Landing → Work 1 → Work 2 should feel like movement through the same diner w
 For Work 1 → Work 2:
 - preserve the physical idea that the viewer moves to another booth/window bay;
 - use one restrained continuity edit from the existing transition family;
-- keep top/bottom rails stable enough to maintain orientation;
+- keep the existing top and bottom film-frame bars/rails as persistent orientation architecture;
+- preserve the existing **EXT / INT location logic, page/title information, and other approved rail metadata** rather than replacing those bars with navigation;
 - a subordinate in-world directional cue is allowed if it feels like cheap pre-existing property signage;
 - do not make a giant button, pagination dots, carousel arrows, floating pills, or a modern product UI control;
 - do not require discovery of the in-world cue for accessibility; a plain semantic route must remain available.
@@ -46,10 +47,21 @@ A quiet **INDEX / ALL WORK** control gives direct access to every project.
 
 ## Current best working recommendation
 
-For desktop Work 1 and Work 2, use **both**:
+For desktop Work 1 and Work 2, use both the existing film-frame system and the new navigation layer.
 
-1. a subtle spatial NEXT BAY / MORE WORK cue integrated into the diner architecture or persistent rail, and
-2. a quiet INDEX / ALL WORK escape hatch that opens the direct project list.
+The working lower-rail navigation relationship approved by Ian is:
+
+`INT                             INDEX     MORE WORK →`
+
+This is **illustrative placement, not permission to erase the existing rail system**. The top/bottom bars, EXT / INT logic, page title, and approved film-frame metadata remain part of the composition. INDEX and MORE WORK should be integrated into that system with enough negative space to stay quiet.
+
+On Work 2, the reciprocal route should read approximately:
+
+`← WORK     INDEX`
+
+within the same existing rail architecture, with exact left/right placement resolved in real pixels.
+
+Also preserve the option for a subtle spatial NEXT BAY / MORE WORK cue inside the diner image only as redundant information scent, not as the sole control.
 
 These solve different problems and should not be collapsed into one control.
 
