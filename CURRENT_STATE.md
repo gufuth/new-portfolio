@@ -37,6 +37,11 @@ Updated 2026-09-24. This file outranks every older handoff in `docs/`. When it d
 | Hearsay | Soft lock (apparitions) | Apparition version with real photos is live at `/hearsay/`, still `noindex`. |
 | Case studies | Unlocked. Candidate family 31/33/34/35 + 27 alternate (Drive) | Code still uses the archived V3 "modern evidence" styling on Cuervo and Porsche (`case-master-v3.css`). Do not treat it as the direction. |
 
+## Known small bugs
+
+- Hearsay bottom bar shows "SOUND OFF" twice (page label + shared runtime control).
+- Case pages lost their persistent CONTACT link during the Sept 8 rewrite.
+
 ## Open decisions for Ian
 
 1. Stella Artois or Jose Cuervo on Work 2 (the Drive authority image shows Stella; the case list says Cuervo).
