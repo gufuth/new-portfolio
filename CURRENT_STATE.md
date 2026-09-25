@@ -9,7 +9,7 @@ Updated 2026-09-24. This file outranks every older handoff in `docs/`. When it d
 | Creative decisions, locked images, visual law | Google Drive: **IAN LUNA PORTFOLIO — LAST STOP — MASTER** (folder `1tWBaTK6PCnODins9PLMhoYcOV6-c0TPn`). Start at `00 START HERE`. |
 | Page-by-page authority map | Drive doc `01 — VISUAL AUTHORITIES + PAGE STATUS INDEX` (`1CijB3XLjTfLsdZGb4GlFbgt0qrXnDim-XlN5LVG1Bnw`) |
 | Working code | This repo, branch **`integration`** |
-| Live mock site | https://integration--last-stop-diner-staging.netlify.app (free preview alias of Netlify site `last-stop-diner-staging`; appears once a NETLIFY_AUTH_TOKEN secret is added) |
+| Live mock site | https://last-stop-diner-staging.netlify.app (live, noindex). Once a NETLIFY_AUTH_TOKEN secret exists, pushes to `integration` also publish a free preview at https://integration--last-stop-diner-staging.netlify.app |
 | Review routes (not public pages) | `/review/` on the mock site |
 
 ## Branch rules
@@ -70,6 +70,6 @@ Built 2026-09-24: INDEX / All work page at `/work/all/` (step 2); INDEX link in 
 
 ## Deploying
 
-**Blocked 2026-09-24:** Netlify refused the first integration deploy: "Skipped due to account credit usage exceeded." The mock site updates once Netlify has credits again (billing is Ian's). Mirror of this file in Drive: `00 START HERE / 00 — CURRENT STATE — REPO + MOCK SITE + OPEN DECISIONS — 2026-09-24`.
+**Live 2026-09-25:** Netlify upgraded to Pro. Mock site https://last-stop-diner-staging.netlify.app is published from `integration` (manual publishes by the agent; each costs 15 credits of 3,000/month). It sends noindex + Disallow so search engines skip it. Auto-publish on push still needs a NETLIFY_AUTH_TOKEN secret in GitHub.
 
 Every push to `integration` should update the mock site. The GitHub workflow `deploy-staging.yml` does this once a `NETLIFY_AUTH_TOKEN` secret exists in the repo; until then the agent deploys by hand after each push. The workflow skips quietly without the secret.
