@@ -9,7 +9,7 @@ Updated 2026-09-24. This file outranks every older handoff in `docs/`. When it d
 | Creative decisions, locked images, visual law | Google Drive: **IAN LUNA PORTFOLIO — LAST STOP — MASTER** (folder `1tWBaTK6PCnODins9PLMhoYcOV6-c0TPn`). Start at `00 START HERE`. |
 | Page-by-page authority map | Drive doc `01 — VISUAL AUTHORITIES + PAGE STATUS INDEX` (`1CijB3XLjTfLsdZGb4GlFbgt0qrXnDim-XlN5LVG1Bnw`) |
 | Working code | This repo, branch **`integration`** |
-| Live mock site | https://last-stop-diner-staging.netlify.app (Netlify site `last-stop-diner-staging`) |
+| Live mock site | https://integration--last-stop-diner-staging.netlify.app (free preview alias of Netlify site `last-stop-diner-staging`; appears once a NETLIFY_AUTH_TOKEN secret is added) |
 | Review routes (not public pages) | `/review/` on the mock site |
 
 ## Branch rules
@@ -23,7 +23,7 @@ Updated 2026-09-24. This file outranks every older handoff in `docs/`. When it d
 | `about-iteration-lab-20260908-contd` | **Merged into integration.** About routes A/B/C/hybrid live under `/review/about/`. |
 | `hearsay-elite-corrective` | **Hearsay files merged into integration.** `/hearsay/` is now the apparition version with the real source photos. Its older case/work files were NOT taken (main's were newer). |
 | `work/cinematic-case-master-scooba-20260908` | **Not merged, on purpose.** Its Sept 11 Work plates are the pass the Sept 14 note says drifted into AI-looking treatment. Work stays on the Sept 14 locked visuals. |
-| `launch/work-case-hardening`, `quality/sep03-council-pass`, `build/last-stop-full-system` | Superseded. Every file they touch is newer on main. One lost idea worth re-adding: a persistent CONTACT link on every case page (from `quality/sep03-council-pass`). |
+| `launch/work-case-hardening`, `quality/sep03-council-pass`, `build/last-stop-full-system` | Superseded. Every file they touch is newer on main. (Their CONTACT idea is already covered by the shared runtime.) |
 | `hearsay-apparition-final-2026-09-07`, `work/work-more-case-finish-20260908`, `work/billboard-physical-rollout-qa-20260908`, `fix/work-plate-clean-20260906`, `build/work-more-work-v1`, `docs/consolidation-v6`, `recover/source-truth-20260913` | Already fully contained in main. |
 
 ## Page status (code vs. Drive)
@@ -37,10 +37,16 @@ Updated 2026-09-24. This file outranks every older handoff in `docs/`. When it d
 | Hearsay | Soft lock (apparitions) | Apparition version with real photos is live at `/hearsay/`, still `noindex`. |
 | Case studies | Unlocked. Candidate family 31/33/34/35 + 27 alternate (Drive) | Code still uses the archived V3 "modern evidence" styling on Cuervo and Porsche (`case-master-v3.css`). Do not treat it as the direction. |
 
+## Plan of record
+
+Launch plan (15 steps): Drive/Artifact https://claude.ai/artifact/E6WnRjDoFy8d3wCs7i2WiC ; source `PROJECT ZERO/drafts/pz_portfolio_last_stop_diner/brief_to_plan.md`; machine version `.../brief_to_plan_runs/20260924_212820/execution_manifest.json`.
+
+Built 2026-09-24: INDEX / All work page at `/work/all/` (step 2); INDEX link in Work 1 + More Work rails (placement provisional per Sept 15); integration now deploys as a free alias preview, main as production (step 1).
+
 ## Known small bugs
 
 - Hearsay bottom bar shows "SOUND OFF" twice (page label + shared runtime control).
-- Case pages lost their persistent CONTACT link during the Sept 8 rewrite.
+- (Corrected 2026-09-24: case pages DO have CONTACT; the shared runtime adds it on load. Earlier note was a static-grep miss.)
 
 ## Open decisions for Ian
 

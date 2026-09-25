@@ -50,8 +50,15 @@ jobs:
           rsync -a ./ /tmp/last-stop-deploy/ \
             --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
             --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
-            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
+            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'CURRENT_STATE.md' --exclude 'assets/plate-payload/' \
             --exclude 'assets/*.b64' --exclude '.DS_Store'
       - name: Deploy to staging
         if: steps.credential.outputs.ready == 'true'
-        run: npx --yes netlify-cli@latest deploy --prod --dir=/tmp/last-stop-deploy --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN" --message="Last Stop staging ${GITHUB_SHA}"
+        shell: bash
+        run: |
+          # integration -> free alias (preview) deploy: 0 Netlify credits. main -> production deploy (15 credits).
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            npx --yes netlify-cli@latest deploy --prod --dir=/tmp/last-stop-deploy --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN" --message="Last Stop main ${GITHUB_SHA}"
+          else
+            npx --yes netlify-cli@latest deploy --alias="${GITHUB_REF_NAME//\//-}" --dir=/tmp/last-stop-deploy --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN" --message="Last Stop ${GITHUB_REF_NAME} ${GITHUB_SHA}"
+          fi
