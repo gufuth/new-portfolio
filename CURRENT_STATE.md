@@ -49,4 +49,6 @@ Updated 2026-09-24. This file outranks every older handoff in `docs/`. When it d
 
 ## Deploying
 
+**Blocked 2026-09-24:** Netlify refused the first integration deploy: "Skipped due to account credit usage exceeded." The mock site updates once Netlify has credits again (billing is Ian's). Mirror of this file in Drive: `00 START HERE / 00 — CURRENT STATE — REPO + MOCK SITE + OPEN DECISIONS — 2026-09-24`.
+
 Every push to `integration` should update the mock site. The GitHub workflow `deploy-staging.yml` does this once a `NETLIFY_AUTH_TOKEN` secret exists in the repo; until then the agent deploys by hand after each push. The workflow skips quietly without the secret.
