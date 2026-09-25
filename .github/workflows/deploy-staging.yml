@@ -50,7 +50,7 @@ jobs:
           rsync -a ./ /tmp/last-stop-deploy/ \
             --exclude '.git/' --exclude '.github/' --exclude 'docs/' --exclude 'scripts/' \
             --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
-            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'CURRENT_STATE.md' --exclude 'assets/plate-payload/' \
+            --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'CURRENT_STATE.md' --exclude 'reports/' --exclude 'assets/plate-payload/' \
             --exclude 'assets/*.b64' --exclude '.DS_Store'
       - name: Deploy to staging
         if: steps.credential.outputs.ready == 'true'

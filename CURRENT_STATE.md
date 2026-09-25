@@ -43,6 +43,16 @@ Launch plan (15 steps): Drive/Artifact https://claude.ai/artifact/E6WnRjDoFy8d3w
 
 Built 2026-09-24: INDEX / All work page at `/work/all/` (step 2); INDEX link in Work 1 + More Work rails (placement provisional per Sept 15); integration now deploys as a free alias preview, main as production (step 1).
 
+## Launch check (step 13)
+
+`python scripts/launch_check.py` (or `--base-url <preview>` / `--lighthouse`) tests every public route at 1440/1024/430/390 + reduced motion and writes `reports/launch_check_*.md`. Baseline 2026-09-24: FAIL only on placeholder proof text (Porsche, Cuervo) and the old `/work/porsche-proof-preview/` route, which should be removed from `_redirects` before launch. No console errors, overflow, or small targets.
+
+## Built for review 2026-09-24
+
+- `/review/type/` billboard typeface test (step 7).
+- `/review/cases/porsche-cream.html` and `porsche-dark.html` case layout test on real content (step 4).
+- Drive: `01 CURRENT SOURCE OF TRUTH / 02 — PROOF REGISTER` and `03 — RIGHTS REGISTER` (steps 5 and 6).
+
 ## Known small bugs
 
 - Hearsay bottom bar shows "SOUND OFF" twice (page label + shared runtime control).

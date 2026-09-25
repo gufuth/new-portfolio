@@ -1,0 +1,160 @@
+{
+ "base": "http://127.0.0.1:61359",
+ "results": {
+  "/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/more/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/all/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/nike-sb-panda-pigeon/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/virgin-galactic-unity-22/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/porsche-lucasfilm-designer-alliance/": {
+   "1440px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'",
+    "unverified award line: 'year / category to verify'"
+   ],
+   "1440px reduced-motion": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'",
+    "unverified award line: 'year / category to verify'"
+   ],
+   "1024px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'",
+    "unverified award line: 'year / category to verify'"
+   ],
+   "430px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'",
+    "unverified award line: 'year / category to verify'"
+   ],
+   "390px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'",
+    "unverified award line: 'year / category to verify'"
+   ]
+  },
+  "/work/porsche-proof-preview/": {
+   "1440px": [
+    "placeholder metric: 'XXM'"
+   ],
+   "1440px reduced-motion": [
+    "placeholder metric: 'XXM'"
+   ],
+   "1024px": [
+    "placeholder metric: 'XXM'"
+   ],
+   "430px": [
+    "placeholder metric: 'XXM'"
+   ],
+   "390px": [
+    "placeholder metric: 'XXM'"
+   ]
+  },
+  "/work/selsun-blue-dan-driff/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/moneylion-beast-games/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/alita-te-connectivity/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/jose-cuervo/": {
+   "1440px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'"
+   ],
+   "1440px reduced-motion": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'"
+   ],
+   "1024px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'"
+   ],
+   "430px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'"
+   ],
+   "390px": [
+    "placeholder proof note: 'TEMPORARY PROOF VALUE'"
+   ]
+  },
+  "/work/outdoor-voices/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/the-atlantic/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/work/scooba-love/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/about/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  },
+  "/hearsay/": {
+   "1440px": [],
+   "1440px reduced-motion": [],
+   "1024px": [],
+   "430px": [],
+   "390px": []
+  }
+ },
+ "lighthouse": {}
+}
