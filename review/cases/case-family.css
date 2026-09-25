@@ -1,0 +1,50 @@
+/* Case-page family test (launch plan step 4). Review only; nothing here is locked.
+   Tokens: black-green night, dirty cream from the Landing name sign, one dim sign-green. */
+:root{
+  --night:#0a0c0a; --night-2:#121511; --cream:#ede4cf; --cream-ink:#17150f; --cream-soft:#5e5747;
+  --type-on-night:#e9dfc6; --meta:#8f8878; --rule-night:#262a24; --rule-cream:#cfc3a6; --sign:#8fcf73;
+  --mono:Consolas,"Courier New",monospace; --sans:Arial,Helvetica,sans-serif; --serif:Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--night);color:var(--type-on-night)}
+body{font:17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+.label{font:11px/1.3 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--meta)}
+.cream .label{color:var(--cream-soft)}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(16px,3vw,40px)}
+.study-note{position:fixed;right:12px;bottom:calc(var(--tour-bar-h,34px) + 10px);z-index:30;font:10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--meta);background:rgba(10,12,10,.85);padding:6px 9px;border:1px solid var(--rule-night)}
+
+/* identity block: project first, role right beside it */
+.ident{padding-top:calc(var(--tour-bar-h,34px) + clamp(28px,5vw,56px));padding-bottom:clamp(18px,3vw,28px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 40px}
+.ident h1{margin:0;font:700 clamp(34px,5.2vw,64px)/1 var(--sans);letter-spacing:-.015em;color:var(--type-on-night)}
+.ident .proj{font:400 clamp(17px,1.6vw,21px)/1.3 var(--sans);color:var(--type-on-night);margin-top:8px}
+.ident .role{text-align:right}
+.ident .role b{display:block;font:400 15px/1.4 var(--sans);color:var(--type-on-night);margin-top:4px}
+
+.cream{background:var(--cream);color:var(--cream-ink)}
+.idea-line{font:400 clamp(28px,3.4vw,44px)/1.08 var(--serif);letter-spacing:-.01em;margin:6px 0 0;text-wrap:balance}
+.fact{font:700 clamp(30px,3.6vw,46px)/1 var(--sans);letter-spacing:-.01em;margin:6px 0 4px}
+.fact-text{font-size:15px;line-height:1.45;max-width:30ch}
+.body{max-width:62ch}
+.caption{font:12px/1.4 var(--mono);letter-spacing:.06em;color:var(--meta);margin-top:8px}
+.cream .caption{color:var(--cream-soft)}
+
+.pager{display:flex;justify-content:space-between;gap:16px;padding-block:28px calc(var(--tour-bar-h,34px) + 40px);font:13px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.pager a{text-decoration:none;color:var(--type-on-night);padding:10px 0;min-height:44px;display:inline-flex;align-items:center}
+.pager a:hover,.pager a:focus-visible{color:var(--sign);outline:none}
+a:focus-visible{outline:1px solid var(--sign);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Shared film-frame rails, copied from case-system.css so the test pages carry the same frame. */
+:root{--bar:#070706;--bar-h:34px}
+.skip{position:fixed;left:8px;top:-60px;z-index:100;background:var(--cream);color:#111;padding:10px 12px}
+.skip:focus{top:8px}
+.filmbar{height:var(--bar-h);position:fixed;left:0;right:0;background:var(--bar);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:var(--meta);font:10.5px var(--mono);letter-spacing:.22em;text-transform:uppercase}
+.filmbar.top{top:0}
+.filmbar.bottom{bottom:0}
+.filmbar .hi{color:var(--cream)}
+.rail{display:flex;gap:26px;align-items:center;height:100%}
+.rail a{display:flex;align-items:center;min-height:44px;text-decoration:none;color:var(--meta);padding:0 2px;position:relative}
+.rail a[aria-current="page"],.rail a:hover,.rail a:focus-visible{color:var(--cream)}
+@media(max-width:760px){.filmbar.top>span:last-child{display:none}.study-note{font-size:9px}.filmbar{padding:0 14px}.filmbar.bottom{justify-content:flex-start}.rail{gap:12px;overflow-x:auto;white-space:nowrap}.rail a{font-size:9px}}
