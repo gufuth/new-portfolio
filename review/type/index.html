@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Billboard type test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#070706;color:#e6ddcc}
+body{font:15px/1.5 Arial,Helvetica,sans-serif;padding-block:clamp(28px,5vw,64px);padding-inline:16px}
+main{max-width:1180px;margin:auto}
+.k{font:11px Consolas,monospace;letter-spacing:.22em;text-transform:uppercase;color:#8f8777}
+h1{font:400 clamp(28px,4vw,44px)/1.1 Georgia,serif;margin:8px 0 10px}
+p.lede{color:#a9a193;max-width:680px;margin:0 0 30px}
+.row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 26px}
+.cell{display:flex;flex-direction:column;gap:6px}
+.cap{font:11px Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;color:#8f8777}
+.ref img{display:block;width:100%;height:auto;border-radius:2px}
+/* the band: same proportions as the reference crop (≈ 3.8 : 1) */
+.band{aspect-ratio:3.9/1;width:100%;background:#a78b66;background-image:radial-gradient(ellipse at 30% 40%,rgba(255,240,210,.18),transparent 60%),linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.18));border-radius:2px;padding:3.5% 5.5% 0;color:#15120e;display:flex;flex-direction:column;justify-content:flex-start;container-type:inline-size}
+.band .t{font-size:11.2cqw;line-height:1.02;letter-spacing:.035em;text-transform:uppercase;white-space:nowrap}
+.band .s{font-family:Arial,Helvetica,sans-serif;font-size:8.6cqw;line-height:1.1;margin-top:2%;white-space:nowrap}
+.oswald .t{font-family:"Oswald",Impact,sans-serif;font-weight:600}
+.barlow .t{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:700;letter-spacing:.045em}
+.note{border-top:1px solid #29261f;padding-top:18px;color:#a9a193;max-width:760px}
+.note b{color:#e6ddcc}
+@media (max-width:760px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<div class="k">Review · step 7 of the launch plan</div>
+<h1>Billboard type test</h1>
+<p class="lede">Left: the lettering you approved on the More Work image (cropped, enlarged 3×). Middle and right: the same words in the two real fonts that could replace it. One of these goes on all ten boards, Work 1 and More Work. Judge the top line: width, weight, spacing. The small second line is plain Arial in all three so it doesn't distract.</p>
+
+<div class="row">
+  <div class="cell ref"><span class="cap">Approved reference</span><img src="ref-alita.png" alt="Approved reference lettering: ALITA: BATTLE ANGEL, Behind the scenes" width="720" height="183"></div>
+  <div class="cell"><span class="cap">Oswald 600</span><div class="band oswald"><span class="t">Alita: Battle Angel</span><span class="s">Behind the scenes</span></div></div>
+  <div class="cell"><span class="cap">Barlow Condensed 700</span><div class="band barlow"><span class="t">Alita: Battle Angel</span><span class="s">Behind the scenes</span></div></div>
+</div>
+
+<div class="row">
+  <div class="cell ref"><span class="cap">Approved reference</span><img src="ref-outdoor.png" alt="Approved reference lettering: OUTDOOR VOICES, Let it play" width="696" height="183"></div>
+  <div class="cell"><span class="cap">Oswald 600</span><div class="band oswald"><span class="t">Outdoor Voices</span><span class="s">Let it play</span></div></div>
+  <div class="cell"><span class="cap">Barlow Condensed 700</span><div class="band barlow"><span class="t">Outdoor Voices</span><span class="s">Let it play</span></div></div>
+</div>
+
+<div class="row">
+  <div class="cell ref"><span class="cap">Approved reference</span><img src="ref-atlantic.png" alt="Approved reference lettering: THE ATLANTIC, Social voice" width="690" height="183"></div>
+  <div class="cell"><span class="cap">Oswald 600</span><div class="band oswald"><span class="t">The Atlantic</span><span class="s">Social voice</span></div></div>
+  <div class="cell"><span class="cap">Barlow Condensed 700</span><div class="band barlow"><span class="t">The Atlantic</span><span class="s">Social voice</span></div></div>
+</div>
+
+<p class="note"><b>What happens after you pick:</b> the chosen font is used for every board's name strip, baked into the billboard photos with the same grime and light as the boards (never laid on top as clean web text). Both fonts are free for commercial use (SIL Open Font License). If neither is right, name what's off (too tall, too tight, too soft) and I'll test one more.</p>
+</main>
+</body>
+</html>
