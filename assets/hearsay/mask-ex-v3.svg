@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 1000" preserveAspectRatio="none">
+  <defs>
+    <filter id="soft" x="-35%" y="-25%" width="170%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency=".014 .021" numOctaves="3" seed="47" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="31" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="21"/>
+    </filter>
+    <linearGradient id="bodyFade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="white" stop-opacity=".82"/>
+      <stop offset=".54" stop-color="white" stop-opacity=".78"/>
+      <stop offset=".76" stop-color="white" stop-opacity=".39"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#soft)">
+    <ellipse cx="282" cy="300" rx="222" ry="270" fill="white" opacity=".94"/>
+    <ellipse cx="362" cy="514" rx="151" ry="306" fill="url(#bodyFade)" opacity=".66"/>
+    <ellipse cx="169" cy="600" rx="145" ry="254" fill="url(#bodyFade)" opacity=".58"/>
+    <ellipse cx="269" cy="694" rx="188" ry="238" fill="url(#bodyFade)" opacity=".42"/>
+  </g>
+</svg>

@@ -1,3 +1,5 @@
+> **Read `CURRENT_STATE.md` first (updated 2026-09-24).** It supersedes the status, branch and read-order notes below. Creative truth lives in the Drive master folder it names; working code lives on the `integration` branch.
+
 # Last Stop Diner
 
 Ian Luna portfolio project.

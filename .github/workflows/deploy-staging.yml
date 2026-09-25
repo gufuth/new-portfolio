@@ -2,7 +2,7 @@ name: Deploy Netlify staging
 
 on:
   push:
-    branches: [main]
+    branches: [main, integration]
     paths:
       - 'index.html'
       - 'work.html'
@@ -13,6 +13,7 @@ on:
       - '*.css'
       - '*.js'
       - 'cases/**'
+      - 'review/**'
       - 'assets/**'
       - '_redirects'
       - '_headers'
@@ -51,6 +52,6 @@ jobs:
             --exclude 'artifacts/' --exclude 'node_modules/' --exclude 'AGENTS.md' \
             --exclude 'CLAUDE.md' --exclude 'README.md' --exclude 'assets/plate-payload/' \
             --exclude 'assets/*.b64' --exclude '.DS_Store'
-      - name: Deploy current main to staging
+      - name: Deploy to staging
         if: steps.credential.outputs.ready == 'true'
         run: npx --yes netlify-cli@latest deploy --prod --dir=/tmp/last-stop-deploy --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN" --message="Last Stop staging ${GITHUB_SHA}"

@@ -1,3 +1,5 @@
+> **Read `CURRENT_STATE.md` first (updated 2026-09-24).** It supersedes the status, branch and read-order notes below. Creative truth lives in the Drive master folder it names; working code lives on the `integration` branch.
+
 # CLAUDE.md — context for AI agents working in this repo
 
 > **STATUS: CURRENT COMPATIBILITY GUIDE.** `AGENTS.md` and `docs/handoffs/2026-08-11-master-handoff-v6.md` are authoritative. If this file conflicts with either, they win.
