@@ -85,3 +85,8 @@ Verification: `python scripts/render-billboard-review.py OUT` renders `review/bi
   cabinet 09. Geometry stays with the cabinet, content moves with the case. Output goes to
   `*-physical-v3-swap.webp` / `*-physical-v2-swap.webp`, previewed by `review/billboards/*-swap.html`.
   The default build is unchanged.
+- Swap build only: on Work cabinet 04, The Atlantic uses the hummingbird + red hibiscus key visual
+  (`zc_pull_20260925/the-atlantic/01.jpg` → `scripts/billboard-src/atlantic-swap-face.jpg`; it crops
+  larger than the 03.gif frame). Crop (0.547, 0.495, 1.34) takes the bird and flowers, so the wordmark,
+  tagline and subscribe box fall outside it. Night grade with knee 0.58 and a red-hue chroma lift ×1.35
+  so the hibiscus stays red.

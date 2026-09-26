@@ -377,6 +377,9 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     band = np.clip(1 - np.abs(hue - 195.0) / 50.0, 0, 1)  # cyan-blue centred at 195 deg
     lum = a.mean(axis=2, keepdims=True)
     keep = 1 - band[..., None] * (1 - g.get("cyan", 0.70))
+    if g.get("red"):  # keep a hero red alive after the night grade (dist. to 0/360 deg)
+        rband = np.clip(1 - np.minimum(hue, 360 - hue) / 28.0, 0, 1)
+        keep = keep * (1 + rband[..., None] * (g["red"] - 1))
     a = lum + (a - lum) * keep
     a = np.power(a, 1.08)  # print on a lit face, not an emissive screen
 
@@ -729,6 +732,18 @@ CONTENT_KEYS = ("id", "client", "title", "src", "crop", "pre", "grade", "type", 
 SWAP_CROPS = {"atlantic": (0.50, 0.52, 1.30), "selsun": (0.50, 0.50, 1.0)}
 
 
+# Swap build only: on the Work plate The Atlantic uses the hummingbird + red hibiscus key visual
+# (zacharyconnolly.com the-atlantic/01.jpg). The sunglasses hero graded to a grey blank at Work scale.
+# Cropped to the bird and flowers; the wordmark, tagline and subscribe box fall outside the crop.
+SWAP_FACES = {
+    "atlantic": dict(
+        src="scripts/billboard-src/atlantic-swap-face.jpg",
+        crop=(0.547, 0.495, 1.34),
+        grade=dict(knee=0.58, red=1.35),
+    )
+}
+
+
 def swap_boards(id_a, id_b):
     a = next(b for pl in BOARDS.values() for b in pl if b["id"] == id_a)
     b = next(x for pl in BOARDS.values() for x in pl if x["id"] == id_b)
@@ -738,6 +753,7 @@ def swap_boards(id_a, id_b):
     b.update(ca)
     for x in (a, b):
         x["crop"] = SWAP_CROPS.get(x["id"], x["crop"])
+        x.update(SWAP_FACES.get(x["id"], {}))
 
 
 def main():
