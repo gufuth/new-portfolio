@@ -1,0 +1,100 @@
+/* Cases 2.1 — the nine case pages built on the locked Option 2.1 frame (mix.css + world.css).
+   Only additions live here: image-led heroes, writing-led sets, the film on a light card.
+   Nothing in this file changes the Porsche page. */
+
+/* long client names: step the sign down so the widest word fits the five text columns */
+h1.client.long{font-size:clamp(44px,5.1vw,76px)}
+
+/* ---- the billboard face for image-led cases (same lit frame as the Porsche film) ---- */
+.frame.hero{position:relative;margin:0;display:block;overflow:hidden;background:#0d0c0a}
+.frame.hero img{position:relative;z-index:1;width:100%;height:auto}
+/* square or portrait source: hold a 3:2 face, contain the work, fill the board with its own blurred light */
+.frame.hero.fit{aspect-ratio:3/2}
+.frame.hero.fit img{height:100%;object-fit:contain}
+.frame.hero.fit::before{content:"";position:absolute;inset:-40px;z-index:0;background:var(--img) center/cover no-repeat;
+  filter:blur(34px) brightness(.42) saturate(.9);transform:scale(1.1)}
+.frame.hero.fit.black::before{display:none}
+.frame.hero.fit.black{background:#000}
+.frame.hero img{opacity:.94;filter:contrast(1.03) saturate(.94)}
+
+/* second row of work under the face */
+.first .media .well{margin-top:25px}
+.well.two .frame.tall{aspect-ratio:.7}
+.well.two .frame.tall img{object-position:50% 0}
+.well.two .frame.onblack{background:#000}
+.well.two .frame.onblack img{object-fit:contain}
+.well.two .frame.wide169,.well.two .frame.wide169:first-child{aspect-ratio:16/9}
+/* white screenshots: keep the face the brightest thing on the board */
+.well img.shot{filter:brightness(.8) sepia(.12) contrast(.97)}
+@media (min-width:901px){ .first .media .well.two .frame.tall{aspect-ratio:.7} .first .media .well.two .frame.wide169{aspect-ratio:16/9} }
+
+/* a verbatim line set as a tile next to a photo (Cuervo) */
+.well .quote-tile{display:flex;align-items:flex-end;margin:0;padding:0 4px 2px 0;font:400 clamp(26px,2.3vw,34px)/1.12 var(--serif);color:var(--cream);text-wrap:balance}
+
+/* more than one paragraph in What happened */
+.story .lead + .lead{margin-top:1em}
+.story .lead .k{color:var(--cream)}
+
+/* ---- writing-led ---- */
+/* Selsun: the idea is the work, so it carries the first screen */
+.idea.big{font-size:clamp(34px,3.6vw,54px);line-height:1.04;max-width:12em;margin-bottom:26px}
+
+/* the copy set as the work: a label in the text column, the lines in the media column */
+.copyset{padding-top:clamp(72px,11vh,120px);row-gap:clamp(56px,9vh,96px)}
+.copyset .head{grid-column:1 / -1;margin:0 0 calc(-1 * clamp(24px,5vh,56px));padding-top:18px;border-top:1px solid rgba(217,203,163,.22)}
+.copyset .pic{grid-column:1 / span 5;margin:0}
+.copyset .pic.frame{aspect-ratio:1}
+.copyset .pic img{height:100%;object-fit:cover}
+.copyset .say{grid-column:6 / span 7;align-self:center;margin:0;font:400 clamp(30px,3vw,46px)/1.12 var(--serif);color:var(--cream);text-wrap:balance}
+.copyset .say.alone{grid-column:1 / -1;font-size:clamp(46px,6.2vw,96px);line-height:1;padding-block:clamp(8px,2vh,24px)}
+.copyset .note{grid-column:6 / span 7;margin:calc(-1 * clamp(28px,5vh,56px)) 0 0;color:var(--meta)}
+
+/* SCOOBA: the seven questions, verbatim, one per line */
+.questions{list-style:none;margin:0;padding:0;grid-column:6 / span 7;counter-reset:q}
+.questions li{font:400 clamp(28px,2.7vw,42px)/1.12 var(--serif);color:var(--cream);padding:14px 0;border-top:1px solid rgba(217,203,163,.16);text-wrap:balance}
+.questions li:last-child{border-bottom:1px solid rgba(217,203,163,.16)}
+.questions-label{grid-column:1 / span 5;margin:0;padding-top:22px}
+
+/* ---- the Atlantic film sits on a light card: contain the square poster, light the board to match ---- */
+.film.light{background:#e8e5e9}
+.film.light img{object-fit:contain;opacity:1;filter:brightness(.915)}
+.film.light:hover img{opacity:1}
+.film.light .play{background:rgba(8,8,7,.78);padding:6px 6px 6px 18px;border-radius:40px}
+.film.light .play i{width:44px;height:44px}
+
+@media (max-width:900px){
+  .copyset .pic,.copyset .say,.copyset .say.alone,.copyset .note,.questions,.questions-label{grid-column:1 / -1}
+  .copyset .note{margin-top:0}
+  .copyset .head{margin-bottom:0}
+  .copyset{row-gap:28px}
+  .copyset .say{margin-bottom:28px}
+}
+
+/* Nike: the storefront sign runs edge to edge, so the pair holds the photo's own 4:3 */
+@media (min-width:901px){ .first .media .well.two.fourthree .frame{aspect-ratio:4/3} }
+.well.two.fourthree .frame{aspect-ratio:4/3}
+/* phones: the media column fills the width even when the face has no intrinsic size (SVG) */
+@media (max-width:900px){ .grid12.first .media{align-self:stretch;width:100%} }
+/* tall cells: pin the image to the cell so the ratio box, not the image, sets the height */
+.well .frame.tall{position:relative}
+.well .frame.tall img{position:absolute;inset:0;width:100%;height:100%}
+/* Cuervo: the splash clip keeps its own narrow ratio (no crop), the tension line sits on its top edge */
+.well.two .frame.tall.slim,.first .media .well.two .frame.tall.slim{aspect-ratio:232/418}
+.well .quote-tile{align-items:flex-start;margin-top:-.16em}
+/* ambient board behind contained work: darker, so it reads as the board, not a second picture */
+.frame.hero.fit::before{filter:blur(38px) brightness(.3) saturate(.8)}
+/* Cuervo: two portrait pieces share one billboard face, side by side at equal height (no crop, no blur fill) */
+.frame.hero.diptych{display:grid;grid-template-columns:.798fr .555fr;gap:6px;aspect-ratio:1.36;background:#0d0c0a}
+.frame.hero.diptych img{height:100%;object-fit:cover}
+/* a verbatim line pinned at the foot of the text column, where Porsche keeps its number */
+.story .tension{margin:0;padding-top:32px;font:400 clamp(28px,2.5vw,38px)/1.1 var(--serif);color:var(--cream);max-width:14em;text-wrap:balance}
+@media (min-width:901px){ .grid12.first .txt .story .tension{margin-top:auto} }
+/* first-screen result: the rule runs the full text column so it ends on the column edge, not short of it */
+.txt .result{max-width:none}
+/* phones: the square poster fills the card's middle, so the play control drops its words and sits in the light margin */
+@media (max-width:600px){
+  .film.light .play{font-size:0;letter-spacing:0;gap:0;padding:3px;right:10px;top:10px}
+  .film.light .play i{width:40px;height:40px}
+}
+/* pager: 44px tap targets without moving the slim row (padding in, same margin out) */
+.pager.end a{padding-block:12px;margin-block:-12px}
