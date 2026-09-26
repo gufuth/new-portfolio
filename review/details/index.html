@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ian Luna — Creative Director</title>
+<meta name="description" content="The portfolio of Ian Luna, creative director.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preload" as="image" href="/landing.webp" fetchpriority="high">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#080706">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ian Luna — Creative Director">
+<meta property="og:description" content="The portfolio of Ian Luna, creative director.">
+<meta property="og:image" content="https://www.ianrluna.com/og_landing.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/tour-runtime.css?v=20260908-physical2">
+<link rel="stylesheet" href="/tour-cinematic-v2.css?v=20260909-1">
+<!-- detail-pass-v2 --><link rel="stylesheet" href="/review/details/details.css"><script type="speculationrules">{"prefetch":[{"urls":["/review/billboards/work.html"],"eagerness":"moderate"}]}</script><script src="/review/details/details.js"></script><script src="/tour-runtime.js?v=20260908-physical2"></script>
+<style>
+:root{--bar:#080706;--meta:#968c7a;--meta-hi:#e8dcc4;--bar-h:34px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;color:var(--meta-hi);font-family:Consolas,"Courier New",monospace}
+a{color:inherit}
+.filmbar{height:var(--bar-h);position:fixed;left:0;right:0;background:var(--bar);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:var(--meta);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase}
+.filmbar.top{top:0}.filmbar.bottom{bottom:0}.filmbar .hi{color:var(--meta-hi)}
+.rail{display:flex;gap:26px;align-items:center;height:100%}
+.rail a{position:relative;display:flex;align-items:center;min-height:44px;text-decoration:none;color:var(--meta);padding:0 2px}
+.rail a:after{content:"";position:absolute;left:0;right:.22em;bottom:7px;height:1px;background:transparent}
+.rail a:hover,.rail a:focus-visible,.rail a[aria-current=page]{color:var(--meta-hi)}
+.rail a[aria-current=page]:after{background:var(--meta-hi)}
+.rail a:focus-visible,.hot:focus-visible{outline:2px solid rgba(236,226,198,.88);outline-offset:3px}
+.scenewrap{position:fixed;left:0;right:0;top:var(--bar-h);bottom:var(--bar-h);overflow:hidden;background:#000}
+.stage{position:absolute;left:50%;top:0;width:1536px;height:1024px;transform:translate(-50%,var(--shift,0px)) scale(var(--fit,1));transform-origin:top center;overflow:hidden;background:#000;user-select:none}
+#plate{position:absolute;inset:0;background:#000 center/cover no-repeat url('/landing.webp')}
+.hot{position:absolute;cursor:pointer;border-radius:5px;text-decoration:none}
+.hot .lift{position:absolute;inset:-12%;opacity:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(255,236,180,.13) 0%,rgba(255,236,180,0) 70%);mix-blend-mode:screen;transition:opacity .18s ease}
+.hot:hover .lift,.hot:focus-visible .lift{opacity:1}
+.hot:active .lift{opacity:.65}
+#hotWork{left:22.5%;top:39.5%;width:44.5%;height:31.5%}
+#hotAbout{left:1.5%;top:23.5%;width:15.5%;height:9.5%}
+#hotHearsay{left:83.5%;top:38.5%;width:12.5%;height:44%}
+@media(max-width:760px){.filmbar{padding:0 14px}.filmbar.top>span:last-child{display:none}.rail{gap:12px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}.rail::-webkit-scrollbar{display:none}.rail a{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.hot .lift{transition:none}}
+</style>
+</head>
+<body data-tour-surface="landing">
+<div class="filmbar top"><span><span class="hi">IAN LUNA</span> · CREATIVE DIRECTOR</span><span>EXT. · DINER · NIGHT</span></div>
+<main class="scenewrap" id="wrap"><div class="stage" id="stage" role="group" aria-label="Roadside diner at night. The physical signs are navigation."><div id="plate"></div><a class="hot" id="hotWork" href="/review/billboards/work.html" aria-label="Work — selected projects"><span class="lift"></span></a><a class="hot" id="hotAbout" href="/review/about-lab-2/a27b.html" aria-label="About Ian Luna"><span class="lift"></span></a><a class="hot" id="hotHearsay" href="/review/hearsay-lab-2/final.html" aria-label="Hearsay — what people say about working with Ian"><span class="lift"></span></a></div></main>
+<div class="filmbar bottom"><nav aria-label="Primary" class="rail"><a aria-current="page" href="/review/details/index.html">HOME</a><a href="/review/billboards/work.html">WORK</a><a href="/review/billboards/more-work.html">MORE WORK</a><a href="/review/about-lab-2/a27b.html">ABOUT</a><a href="/review/hearsay-lab-2/final.html">HEARSAY</a></nav><span>DINER · NIGHT</span></div>
+<script>(function(){var wrap=document.getElementById('wrap'),stage=document.getElementById('stage');function fit(){var s=Math.max(wrap.clientWidth/1536,wrap.clientHeight/1024);stage.style.setProperty('--fit',s);var overflow=Math.max(0,1024*s-wrap.clientHeight);var topCrop=Math.min(overflow*.4,70*s);stage.style.setProperty('--shift',(-topCrop)+'px');}addEventListener('resize',fit);fit();})();</script>
+</body></html>

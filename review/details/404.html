@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>No vacancy — Ian Luna</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/review/details/details.css">
+<style>
+  :root{--bar:#080706;--meta:#968c7a;--meta-hi:#e8dcc4;--bar-h:34px;--gold:#c4ad7d;--gold-hi:#f4e3af;--neon:#ff5a4a}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#000;height:100%}
+  body{display:flex;flex-direction:column;min-height:100svh}
+  .bar{flex:0 0 var(--bar-h);background:var(--bar);display:flex;align-items:center;justify-content:space-between;padding:0 28px;
+    font:400 10.5px/1 Consolas,"Courier New",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--meta)}
+  .bar .hi{color:var(--meta-hi)}
+  .void{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;padding:40px 20px;
+    background:radial-gradient(ellipse at 50% 42%,rgba(120,28,20,.16),rgba(0,0,0,0) 46%),#000}
+  /* the motel sign, both words lit: full up. It does not flicker. */
+  .sign{display:flex;gap:.42em;align-items:baseline;font:600 clamp(34px,7vw,78px)/1 "Barlow Condensed","Arial Narrow",Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+  .sign .on{color:#ffd9cf;text-shadow:0 0 2px #ffb3a6,0 0 10px var(--neon),0 0 26px rgba(255,70,50,.55),0 0 60px rgba(255,60,40,.28)}
+  .sign .off{color:#2a1512;text-shadow:0 1px 0 rgba(255,255,255,.03)}
+  .line{font:13px/1.6 Consolas,"Courier New",monospace;letter-spacing:.24em;text-transform:lowercase;color:var(--meta);text-align:center}
+  .ways{display:flex;gap:34px;flex-wrap:wrap;justify-content:center}
+  .ways a{display:inline-flex;align-items:center;min-height:44px;color:var(--gold);font:13.5px Georgia,"Times New Roman",serif;letter-spacing:.16em;
+    text-transform:uppercase;text-decoration:none;transition:color .18s ease}
+  .ways a:hover,.ways a:focus-visible{color:var(--gold-hi)}
+  @media (max-width:760px){.bar{padding:0 14px}.bar>span:last-child{display:none}}
+</style>
+</head>
+<body>
+<div class="bar top"><span><span class="hi">IAN LUNA</span> · CREATIVE DIRECTOR</span><span>EXT. · MOTEL OFFICE · NIGHT</span></div>
+<main class="void">
+  <h1 class="sign" aria-label="No vacancy"><span class="on">No</span><span class="on">Vacancy</span></h1>
+  <p class="line">( nothing booked under that address )</p>
+  <nav class="ways" aria-label="Ways back">
+    <a href="/review/billboards/work.html">← Back to the window</a>
+    <a href="/review/details/index.html">The diner</a>
+  </nav>
+</main>
+<div class="bar bottom"><span>OFFICE CLOSED</span><span>ROOM —</span></div>
+</body>
+</html>

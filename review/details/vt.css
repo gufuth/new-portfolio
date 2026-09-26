@@ -1,0 +1,54 @@
+/* Detail pass v2 — cross-document view transitions (review only).
+   Loaded ONLY by the billboard, index and case review pages, so only those routes opt in.
+   Grammar: a cut, not a wait. The FilmFrame bars never move and never scale; the scene cuts under them.
+   Default (and every route but billboard->case push) = CUT: 150 ms to black, <=80 ms hold, the next shot. */
+@view-transition{navigation:auto}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+
+/* the bars are their own layer so no scene motion can ever touch them */
+.filmbar.top,.bar.top{view-transition-name:lsd-bar-top}
+.filmbar.bottom,.bar.bottom{view-transition-name:lsd-bar-bottom}
+
+::view-transition{background:#050504}
+::view-transition-group(root){animation:none}
+
+/* CUT (default, also case->case and case->window) */
+::view-transition-old(root){animation:lsd-out 150ms cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:lsd-in 45ms linear 220ms both}
+
+/* bars: geometry snaps (identical on both pages), only the text goes silent for the cut */
+::view-transition-group(lsd-bar-top),::view-transition-group(lsd-bar-bottom){animation:none;z-index:10}
+::view-transition-image-pair(lsd-bar-top),::view-transition-image-pair(lsd-bar-bottom){background:#080706}
+::view-transition-old(lsd-bar-top),::view-transition-old(lsd-bar-bottom){animation:lsd-out 90ms linear both}
+::view-transition-new(lsd-bar-top),::view-transition-new(lsd-bar-bottom){animation:lsd-in 90ms linear 200ms both}
+
+@keyframes lsd-out{from{opacity:1}to{opacity:0}}
+@keyframes lsd-in{from{opacity:0}to{opacity:1}}
+
+/* PUSH-IN (?t=push): one rigid camera move. The whole window is pushed along the board's own axis until the
+   lit board fills the spot where the case's main image sits (details.js computes --lsd-dolly), so the world
+   and the board face travel as one picture. Only then does the face develop into the case image and the
+   page come up around it about 120 ms after the board lands, with a short exposure settle. */
+html:active-view-transition-type(push)::view-transition-old(root){
+  transform-origin:0 0;animation:lsd-dolly 540ms cubic-bezier(.16,1,.3,1) both}
+html:active-view-transition-type(push)::view-transition-new(root){animation:lsd-develop 290ms cubic-bezier(.2,.7,.2,1) 260ms both}
+html:active-view-transition-type(push)::view-transition-group(case-hero){
+  animation-duration:540ms;animation-timing-function:cubic-bezier(.16,1,.3,1);overflow:clip;z-index:5}
+html:active-view-transition-type(push)::view-transition-old(case-hero),
+html:active-view-transition-type(push)::view-transition-new(case-hero){height:100%;object-fit:cover}
+html:active-view-transition-type(push)::view-transition-old(case-hero){animation:lsd-out 200ms linear 190ms both}
+html:active-view-transition-type(push)::view-transition-new(case-hero){animation:lsd-hero-in 300ms cubic-bezier(.2,.7,.2,1) 140ms both}
+html:active-view-transition-type(push)::view-transition-old(lsd-bar-top),
+html:active-view-transition-type(push)::view-transition-old(lsd-bar-bottom){animation:lsd-out 90ms linear both}
+html:active-view-transition-type(push)::view-transition-new(lsd-bar-top),
+html:active-view-transition-type(push)::view-transition-new(lsd-bar-bottom){animation:lsd-in 110ms linear 400ms both}
+
+@keyframes lsd-dolly{
+  from{transform:none;filter:brightness(1)}
+  to{transform:var(--lsd-dolly,scale(1.6));filter:brightness(.5) blur(1.5px)}}
+@keyframes lsd-develop{from{opacity:0;filter:brightness(.6)}50%{opacity:1}to{opacity:1;filter:brightness(1)}}
+@keyframes lsd-hero-in{from{opacity:0;filter:brightness(1.3) saturate(.85)}60%{opacity:1}to{opacity:1;filter:brightness(1) saturate(1)}}
+
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}

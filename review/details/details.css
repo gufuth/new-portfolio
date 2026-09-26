@@ -1,0 +1,68 @@
+/* Detail pass v2 — small things (review only). Loaded by every review page in the pass. */
+
+/* A4: focus belongs to the night — cream line, a little sodium spill. Never removed, only restyled. */
+:root{--lsd-focus:#ece2c6;--lsd-sodium:rgba(233,166,74,.26)}
+a:focus-visible,button:focus-visible,[tabindex]:not([tabindex="-1"]):focus-visible{
+  outline:2px solid var(--lsd-focus)!important;outline-offset:3px;box-shadow:0 0 0 5px var(--lsd-sodium)}
+.billboard:focus-visible{outline-offset:2px}
+.row:focus-visible{outline-offset:-2px!important}
+.strip:focus-visible{outline-offset:4px}
+.crt:focus-visible{outline:2px solid var(--lsd-focus)!important;outline-offset:6px;border-radius:10px}
+/* the case title takes focus on arrival so a screen reader hears the case; it needs no ring */
+main h1[tabindex="-1"]:focus{outline:none;box-shadow:none}
+
+/* A2 support: the lifted board face exists only for the length of a click */
+.lsd-hero-clone{contain:paint}
+
+/* A7: plates arrive from a blurred placeholder, only when the plate is not already cached */
+.lsd-plate-ph{position:absolute;inset:0;pointer-events:none;background-size:100% 100%;background-repeat:no-repeat;
+  filter:blur(14px) brightness(.82);transform:scale(1.03);opacity:1;
+  transition:opacity 380ms cubic-bezier(.2,.7,.2,1),filter 380ms cubic-bezier(.2,.7,.2,1)}
+.lsd-plate-ph.is-settled{opacity:0;filter:blur(5px) brightness(1)}
+
+/* A8: the door. A dark mass crosses the lens and hides the cut: it covers the frame by ~190 ms, the browser
+   cuts to the room underneath it (navigation leaves at 200 ms), and on the arriving page the same mass carries
+   on out to the right, uncovering Work. It never catches a click on either side. */
+.tour-cut--landing.lsd-door::after{left:-160%;width:160%;animation:none;
+  background:linear-gradient(90deg,#000 0%,#010101 88%,rgba(2,2,2,.82) 94%,transparent 100%);
+  box-shadow:none;opacity:1;transform:skewX(-4deg) translateX(0)}
+.tour-cut--landing.lsd-door.is-active::after{animation:lsd-door-in 190ms cubic-bezier(.55,0,.8,.5) forwards}
+@keyframes lsd-door-in{to{transform:skewX(-4deg) translateX(100%)}}
+.lsd-door-tail{position:fixed;top:34px;bottom:34px;left:-6vw;width:160vw;z-index:46;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0%,rgba(2,2,2,.82) 6%,#010101 12%,#000 100%);
+  transform:skewX(-4deg) translateX(0);animation:lsd-door-out 340ms cubic-bezier(.25,.55,.35,1) forwards}
+@keyframes lsd-door-out{to{transform:skewX(-4deg) translateX(112vw)}}
+
+@media (prefers-reduced-motion:reduce){
+  .lsd-plate-ph{display:none}
+  .lsd-door-tail{display:none}
+}
+
+/* A6: a case page prints as a clean guest check */
+@media print{
+  @page{margin:16mm}
+  :root:has(h1.client),:root:has(h1.client) body{background:#fff!important;color:#000!important}
+  :root:has(h1.client) body::before,:root:has(h1.client) body::after,:root:has(h1.client) main::selection{display:none!important;content:none!important}
+  :root:has(h1.client) .wrap{padding:0!important;margin:0!important;max-width:none!important}
+  :root:has(h1.client) .bar,:root:has(h1.client) .media,:root:has(h1.client) .pager,
+  :root:has(h1.client) .study-note,:root:has(h1.client) main>section:not(.first),
+  :root:has(h1.client) .film,:root:has(h1.client) figure{display:none!important}
+  :root:has(h1.client) main{padding:0!important;max-width:118mm;margin:0 auto;
+    font:10.5pt/1.5 "Courier New",Courier,monospace;color:#000}
+  :root:has(h1.client) main::before{content:"GUEST CHECK";display:block;position:static;inset:auto;opacity:1;background:none;z-index:auto;height:auto;text-align:center;letter-spacing:.34em;
+    font:700 10pt "Courier New",monospace;padding:0 0 3mm;margin:0 0 5mm;border-bottom:1px dashed #000}
+  :root:has(h1.client) main::after{position:static;opacity:1;height:auto;content:"Ian Luna \00b7  Creative director \00b7  ianr.luna@gmail.com";display:block;
+    text-align:center;font:9pt "Courier New",monospace;padding:3mm 0 0;margin:6mm 0 0;border-top:1px dashed #000}
+  :root:has(h1.client) .first{display:block!important;padding:0!important;min-height:0!important}
+  :root:has(h1.client) .txt{max-width:none!important}
+  :root:has(h1.client) main *{font-family:"Courier New",Courier,monospace!important;letter-spacing:.02em;color:#000!important;background:none!important;text-shadow:none!important;box-shadow:none!important}
+  :root:has(h1.client) h1.client{font:700 17pt/1.15 "Courier New",monospace!important;text-transform:uppercase;letter-spacing:.06em;margin:0 0 3mm}
+  :root:has(h1.client) .idea{font:italic 11.5pt/1.4 "Courier New",monospace!important;margin:0 0 4mm;max-width:none!important}
+  :root:has(h1.client) .meta{display:block!important;margin:0 0 4mm;padding:3mm 0;border-top:1px dashed #000;border-bottom:1px dashed #000}
+  :root:has(h1.client) .meta>span{display:block}
+  :root:has(h1.client) .story{margin:0}
+  :root:has(h1.client) .story .lead{font:10.5pt/1.5 "Courier New",monospace!important}
+  :root:has(h1.client) .number{margin-top:4mm;display:flex;gap:4mm;align-items:baseline}
+  :root:has(h1.client) .number .fig{font:700 14pt "Courier New",monospace!important}
+  :root:has(h1.client) a{text-decoration:none}
+}
