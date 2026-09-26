@@ -90,3 +90,16 @@ Verification: `python scripts/render-billboard-review.py OUT` renders `review/bi
   larger than the 03.gif frame). Crop (0.547, 0.495, 1.34) takes the bird and flowers, so the wordmark,
   tagline and subscribe box fall outside it. Night grade with knee 0.58 and a red-hue chroma lift ×1.35
   so the hibiscus stays red.
+
+## v4 / v3 (2026-09-26, Ian: Atlantic on Work, "polish, don't settle")
+
+- Default order is now atlantic-first: Work 01 Nike, 02 Virgin, 03 Porsche, 04 The Atlantic,
+  05 MoneyLion; More Work 06 Alita, 07 Cuervo, 08 Outdoor Voices, 09 Selsun Blue, 10 SCOOBA.
+  Output: `assets/work-panorama-physical-v4.webp`, `assets/more-work-panorama-physical-v3.webp`.
+  Older plates stay on disk; `--order legacy` rebuilds the old v3/v2 order.
+- Face picks (source + crop box + per-face grade) now live in `docs/design/billboard-faces-v2.json`,
+  which the build reads. The case pages share it.
+- Haze: every face gets a small lamp-scatter veil (Work 2.5%, More Work 4.5% of the lamp's white
+  level), so no face keeps a deeper black than the night around it. `grade.falloff` / `grade.soft`
+  are per-face controls (MoneyLion uses both).
+- Phone cards on the review pages use the same picks (`review/billboards/cards/*.webp`).

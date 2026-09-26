@@ -112,7 +112,7 @@ BOARDS = {
             client="TE Connectivity × Alita",
             # Longest identity on either plate: balance the two lines (client a touch smaller, case
             # line larger, 600 weight, opened tracking, denser ink) so the case line reads like the others.
-            type=dict(cap1=0.225, cap2=0.195, gap=0.12, top=0.13, w2=600, track2=0.02, pad=0.042, ink=0.86),
+            type=dict(cap1=0.215, cap2=0.21, gap=0.115, top=0.125, w2=600, track2=0.02, pad=0.04, ink=0.88),
             title="The Science Behind Science Fiction",
             face=Q(155.5, 91.5, 346.5, 218.5),
             strip=Q(154.5, 218.5, 349, 264.5),
@@ -171,6 +171,7 @@ PLATE = {
         grain=0.010,
         veil=0.55,
         glass=0.9,
+        veil_light=0.025,
         pull=0.55,
         type=dict(top=0.12, cap1=0.33, gap=0.13, cap2=0.25, pad=0.045),
     ),
@@ -180,6 +181,7 @@ PLATE = {
         grain=0.012,
         veil=0.0,
         pull=0.55,
+        veil_light=0.045,
         glass=0.0,  # above these cabinets is lamp hardware, not open glass: no glass-texture transfer
         type=dict(top=0.12, cap1=0.245, gap=0.13, cap2=0.175, pad=0.05),
     ),
@@ -399,8 +401,9 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     yy, xx = np.mgrid[0:h, 0:w]
     xn, yn = xx / max(w - 1, 1), yy / max(h - 1, 1)
     hx = resample(colprof, w)[None, :]
-    vert = 1.10 - 0.26 * yn
-    hot = 0.60 * np.exp(-(((xn - 0.5) / 0.30) ** 2) - ((yn + 0.04) / 0.34) ** 2)
+    fo = b.get("grade", {}).get("falloff", 1.0)  # >1 = steeper top-down lamp falloff
+    vert = 1.10 - 0.26 * fo * yn
+    hot = 0.60 * fo * np.exp(-(((xn - 0.5) / 0.30) ** 2) - ((yn + 0.04) / 0.34) ** 2)
     edge = np.minimum.reduce([xn * w, (1 - xn) * w, yn * h, (1 - yn) * h])
     bezel = 0.70 + 0.30 * np.clip(edge / max(4.0, 0.045 * min(w, h) * 1.6), 0, 1)
     illum = (vert + hot) * hx * bezel  # peak ~1.5 under the lamp, ~0.8 low corners
@@ -420,9 +423,14 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     out *= g.get("exposure", 1.0)
 
     tex, _ = glass_texture(base, b["face"], w, h)
-    veil = sky_rgb(base, b["face"], h) * plate["veil"]
+    # Atmospheric haze between cabinet and camera: part sky colour, part the lamp's own scatter,
+    # so no face keeps a deeper black than the night around it (council v2: blacks too rich).
+    veil = sky_rgb(base, b["face"], h) * plate["veil"] + light * plate.get("veil_light", 0.0)
     out = out + veil[None, None, :] + tex[..., None] * plate["glass"]
-    return finish(out, w, h, plate, b["seed"])
+    face = finish(out, w, h, plate, b["seed"])
+    if g.get("soft"):
+        face = face.filter(ImageFilter.GaussianBlur(g["soft"]))
+    return face
 
 
 # ---------------------------------------------------------------- strip (step 4)
