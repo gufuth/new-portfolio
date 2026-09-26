@@ -98,3 +98,17 @@ h1.client.long{font-size:clamp(44px,5.1vw,76px)}
 }
 /* pager: 44px tap targets without moving the slim row (padding in, same margin out) */
 .pager.end a{padding-block:12px;margin-block:-12px}
+
+/* ---- council round 1 ---- */
+/* a crop of one region of an existing asset, shown as the whole face (Alita: the film still) */
+.frame.hero.crop{aspect-ratio:var(--ar)}
+.frame.hero.crop img{position:absolute;max-width:none;width:var(--w);height:var(--h);left:var(--x);top:var(--y)}
+/* SCOOBA: the framework graphic as hero art, cropped inside its own drawn border and padded in its own ground */
+.frame.hero.art{aspect-ratio:2/1;background:#061217}
+.frame.hero.art .win{position:absolute;left:6%;width:88%;top:50%;transform:translateY(-50%);aspect-ratio:1148/502;overflow:hidden;z-index:1}
+.frame.hero.art .win img{position:absolute;max-width:none;width:139.37%;height:179.28%;left:-8.014%;top:-15.538%;opacity:1;filter:none}
+/* SCOOBA: the page's own kicker, straight under the idea, says what this is */
+.idea + .what{margin:-10px 0 22px;font:italic 400 clamp(19px,1.55vw,23px)/1.25 var(--serif);color:var(--cream-soft);max-width:22em;text-wrap:balance}
+/* The Atlantic: the square poster fills a square face edge to edge */
+.film.light.square{aspect-ratio:1/1}
+.film.light.square img{object-fit:cover}
