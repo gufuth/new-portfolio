@@ -70,3 +70,18 @@ Verification: `python scripts/render-billboard-review.py OUT` renders `review/bi
   the lamp hood and printed it as a faint dark pill low on each WORK face (visible on Porsche, Virgin).
 - review/billboards/work.html: NEXT BAY control offset by the stage overflow so it keeps the film
   bar's 28 px right inset at every desktop width (live work.html still clips it; not touched).
+
+## Round 3 (2026-09-26, council fixes)
+
+- All faces: printed-ink grade under the warm lamp. Cyan/blue hues (centred 195°) desaturated to 70%,
+  soft-knee highlight compression at 62% of the lamp's white level, and a stronger (55%) pull toward
+  the plate's median face exposure.
+- MoneyLion (05): `grade` cyan 40%, knee 50%, exposure ×0.84. Face mean 25.3 → 19.8, median 22.7 → 19.3,
+  now level with Porsche (19.9 / 16.0) and Selsun (20.0 / 15.0). Virgin (02) sky: cyan 55%.
+  The Atlantic (09) came down from mean 51.7 to 40.4 against More Work neighbours at 33–35.
+- Alita strip (06): same words, rebalanced typesetting only. Client line cap 22.5% of strip height;
+  case line cap 19.5% (was 17.5%), Barlow Condensed 600 (was 500), +0.02 em tracking, ink 0.86.
+- `--order atlantic-first`: The Atlantic moves into Work cabinet 04 and Selsun Blue into More Work
+  cabinet 09. Geometry stays with the cabinet, content moves with the case. Output goes to
+  `*-physical-v3-swap.webp` / `*-physical-v2-swap.webp`, previewed by `review/billboards/*-swap.html`.
+  The default build is unchanged.

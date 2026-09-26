@@ -65,6 +65,7 @@ BOARDS = {
             # Chosen face: virgin-work-01 (carrier + spaceship + contrails). The hero's rocket is a ~20px
             # speck at billboard scale; two silhouettes read as aircraft/spacecraft at 1024 and 1440.
             src="assets/cases/virgin-work-01.webp",
+            grade=dict(cyan=0.55),  # daylight-blue sky would otherwise read as a lit screen at night
             crop=(0.47, 0.25, 1.12),
             # Rejected candidate (compare with --virgin-alt): frame 10 of zc_pull virgin-galactic/02.gif,
             # the engine firing. It read as a dark wedge at board scale.
@@ -98,6 +99,8 @@ BOARDS = {
             face=Q(1416, 310.5, 1674.5, 460.5),
             strip=Q(1416.5, 468, 1673.5, 503.5),
             src="assets/cases/moneylion-hero.webp",
+            # Council round: read pasted (too bright, cyan too saturated). Grade into the night.
+            grade=dict(cyan=0.40, knee=0.50, exposure=0.84),
             crop=(0.55, 0.68, 1.0),
             seed=15,
         ),
@@ -106,6 +109,9 @@ BOARDS = {
         dict(
             id="alita",
             client="TE Connectivity × Alita",
+            # Longest identity on either plate: balance the two lines (client a touch smaller, case
+            # line larger, 600 weight, opened tracking, denser ink) so the case line reads like the others.
+            type=dict(cap1=0.225, cap2=0.195, gap=0.12, top=0.13, w2=600, track2=0.02, pad=0.042, ink=0.86),
             title="The Science Behind Science Fiction",
             face=Q(155.5, 91.5, 346.5, 218.5),
             strip=Q(154.5, 218.5, 349, 264.5),
@@ -164,6 +170,7 @@ PLATE = {
         grain=0.010,
         veil=0.55,
         glass=0.9,
+        pull=0.55,
         type=dict(top=0.12, cap1=0.33, gap=0.13, cap2=0.25, pad=0.045),
     ),
     "more": dict(
@@ -171,6 +178,7 @@ PLATE = {
         blur=0.40,
         grain=0.012,
         veil=0.0,
+        pull=0.55,
         glass=0.0,  # above these cabinets is lamp hardware, not open glass: no glass-texture transfer
         type=dict(top=0.12, cap1=0.245, gap=0.13, cap2=0.175, pad=0.05),
     ),
@@ -361,6 +369,15 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     art = ImageEnhance.Color(art).enhance(0.86)
     art = ImageEnhance.Contrast(art).enhance(0.88)
     a = np.asarray(art, np.float32) / 255.0
+    # Printed inks under a warm sodium/tungsten lamp: cyan/blue grounds go dull and greyer, they do
+    # not glow. Hue-selective desaturation (all boards, stronger where a board sets grade.cyan).
+    g = b.get("grade", {})
+    hsv = np.asarray(Image.fromarray(np.uint8(a * 255 + 0.5)).convert("HSV"), np.float32)
+    hue = hsv[..., 0] * (360.0 / 255.0)
+    band = np.clip(1 - np.abs(hue - 195.0) / 50.0, 0, 1)  # cyan-blue centred at 195 deg
+    lum = a.mean(axis=2, keepdims=True)
+    keep = 1 - band[..., None] * (1 - g.get("cyan", 0.70))
+    a = lum + (a - lum) * keep
     a = np.power(a, 1.08)  # print on a lit face, not an emissive screen
 
     yy, xx = np.mgrid[0:h, 0:w]
@@ -372,12 +389,19 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     bezel = 0.70 + 0.30 * np.clip(edge / max(4.0, 0.045 * min(w, h) * 1.6), 0, 1)
     illum = (vert + hot) * hx * bezel  # peak ~1.5 under the lamp, ~0.8 low corners
     out = a * illum[..., None] * light[None, None, :]
+    # Soft-knee highlight compression relative to the lamp's white level: paper can't out-shine
+    # the cream plate under the same lamp.
+    wl = float(light.mean())
+    knee = g.get("knee", 0.62) * wl
+    over = np.clip(out - knee, 0, None)
+    out = np.minimum(out, knee) + over / (1 + over / max(0.35 * wl, 1e-4))
     # Neighbour harmonisation: pull each face part-way toward the plate's shared mean exposure,
     # so a bright-ground campaign (cyan, white paper) does not read as a lit screen next to a dark one.
     _RAW_MEANS.append(float(out.mean()))
     if plate.get("mean_target"):
         m = float(out.mean())
         out *= (plate["mean_target"] / max(m, 1e-4)) ** plate.get("pull", 0.35)
+    out *= g.get("exposure", 1.0)
 
     tex, _ = glass_texture(base, b["face"], w, h)
     veil = sky_rgb(base, b["face"], h) * plate["veil"]
@@ -434,7 +458,7 @@ def build_strip(base, b, plate, light, occ, vis_frac):
         (w * S, h * S), Image.Resampling.BICUBIC
     )
     ink = Image.new("L", big.size, 0)
-    t = plate["type"]
+    t = dict(plate["type"], **{k: v for k, v in b.get("type", {}).items() if k in ("top", "cap1", "gap", "cap2", "pad", "ink")})
     usable = w * vis_frac - 2 * t["pad"] * w
     lines = [("l1", b["client"], t["cap1"]), ("l2", b["title"], t["cap2"])]
     caps = [t["cap1"] * h, t["cap2"] * h]
@@ -459,8 +483,8 @@ def build_strip(base, b, plate, light, occ, vis_frac):
     inkf = np.asarray(ink, np.float32) / 255.0
     bigf = np.asarray(big, np.float32) / 255.0
     printed = (
-        bigf * (1 - 0.80 * inkf[..., None])
-        + np.array([0.06, 0.05, 0.03]) * 0.80 * inkf[..., None] * 0.5
+        bigf * (1 - t.get("ink", 0.80) * inkf[..., None])
+        + np.array([0.06, 0.05, 0.03]) * t.get("ink", 0.80) * inkf[..., None] * 0.5
     )
     lab = Image.fromarray(np.uint8(np.clip(printed, 0, 1) * 255), "RGB").resize(
         (w, h), Image.Resampling.LANCZOS
@@ -628,7 +652,7 @@ def render_type():
     SRC_DIR.mkdir(parents=True, exist_ok=True)
     html = (
         "<html><head><link rel='stylesheet' href='https://fonts.googleapis.com/css2?"
-        "family=Barlow+Condensed:wght@500;700&display=block'></head>"
+        "family=Barlow+Condensed:wght@500;600;700&display=block'></head>"
         "<body style='margin:0;background:#000'><span id=t style='font-family:\"Barlow Condensed\";"
         "color:#fff;font-size:240px;line-height:1.5;white-space:pre;padding:0 40px;display:inline-block'>H</span>"
         "</body></html>"
@@ -638,16 +662,17 @@ def render_type():
         pg = br.new_page(viewport={"width": 6000, "height": 600}, device_scale_factor=1)
         pg.set_content(html)
         pg.wait_for_function("document.fonts.ready.then(()=>true)")
-        for wt in (500, 700):
+        for wt in (500, 600, 700):
             pg.evaluate(f"document.fonts.load('{wt} 240px \"Barlow Condensed\"')")
             ok = pg.evaluate(f"document.fonts.check('{wt} 240px \"Barlow Condensed\"')")
             if not ok:
                 raise SystemExit(f"Barlow Condensed {wt} did not load")
 
-        def shot(text, wt):
+        def shot(text, wt, track=0.0):
             pg.evaluate(
-                "([t,w])=>{const e=document.getElementById('t');e.textContent=t;e.style.fontWeight=w}",
-                [text, wt],
+                "([t,w,k])=>{const e=document.getElementById('t');e.textContent=t;e.style.fontWeight=w;"
+                "e.style.letterSpacing=k+'em'}",
+                [text, wt, track],
             )
             pg.wait_for_timeout(50)
             png = pg.locator("#t").screenshot()
@@ -660,14 +685,15 @@ def render_type():
             rows = np.where(m.any(axis=1))[0]
             return int(rows[0]), int(rows[-1] - rows[0] + 1)
 
-        caps = {wt: cap_metrics(wt) for wt in (500, 700)}
+        caps = {wt: cap_metrics(wt) for wt in (500, 600, 700)}
         for plate in BOARDS.values():
             for b in plate:
-                for kind, text, wt in (
-                    ("l1", b["client"], 700),
-                    ("l2", b["title"], 500),
+                to = b.get("type", {})
+                for kind, text, wt, track in (
+                    ("l1", b["client"], to.get("w1", 700), to.get("track1", 0.0)),
+                    ("l2", b["title"], to.get("w2", 500), to.get("track2", 0.0)),
                 ):
-                    img = shot(text, wt)
+                    img = shot(text, wt, track)
                     a = np.asarray(img)
                     cols = np.where((a > 20).any(axis=0))[0]
                     img = img.crop((max(0, cols[0] - 2), 0, cols[-1] + 3, img.height))
@@ -679,6 +705,7 @@ def render_type():
                                 "text": text,
                                 "font": "Barlow Condensed",
                                 "weight": wt,
+                                "letter_spacing_em": track,
                                 "cap": cap,
                                 "cap_top": cap_top,
                                 "license": "SIL OFL 1.1",
@@ -696,6 +723,23 @@ def render_type():
     print(f"type masks + scooba raster written to {TYPE_DIR} / {SRC_DIR}")
 
 
+# Content travels between cabinets; geometry (face, strip, occluders) stays with the cabinet.
+CONTENT_KEYS = ("id", "client", "title", "src", "crop", "pre", "grade", "type", "alt")
+# Crops re-framed for the other cabinet's aspect when content moves.
+SWAP_CROPS = {"atlantic": (0.50, 0.52, 1.30), "selsun": (0.50, 0.50, 1.0)}
+
+
+def swap_boards(id_a, id_b):
+    a = next(b for pl in BOARDS.values() for b in pl if b["id"] == id_a)
+    b = next(x for pl in BOARDS.values() for x in pl if x["id"] == id_b)
+    ca = {k: a.pop(k) for k in CONTENT_KEYS if k in a}
+    cb = {k: b.pop(k) for k in CONTENT_KEYS if k in b}
+    a.update(cb)
+    b.update(ca)
+    for x in (a, b):
+        x["crop"] = SWAP_CROPS.get(x["id"], x["crop"])
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--render-type", action="store_true")
@@ -703,6 +747,14 @@ def main():
     ap.add_argument("--only", choices=["work", "more"])
     ap.add_argument("--virgin-alt", action="store_true", help="use board 02's alt face")
     ap.add_argument("--work-out", type=Path, default=WORK_OUT)
+    ap.add_argument("--more-out", type=Path, default=MORE_OUT)
+    ap.add_argument(
+        "--order",
+        choices=["default", "atlantic-first"],
+        default="default",
+        help="atlantic-first: The Atlantic takes Work board 04 (Selsun's cabinet) and Selsun Blue takes "
+        "More Work board 09 (Atlantic's cabinet). Writes the *-swap plates unless --*-out is given.",
+    )
     args = ap.parse_args()
     if args.render_type:
         render_type()
@@ -713,13 +765,19 @@ def main():
         for b in BOARDS["work"]:
             if b.get("alt"):
                 b.update(b["alt"])
+    if args.order == "atlantic-first":
+        swap_boards("selsun", "atlantic")
+        if args.work_out == WORK_OUT:
+            args.work_out = ASSETS / "work-panorama-physical-v3-swap.webp"
+        if args.more_out == MORE_OUT:
+            args.more_out = ASSETS / "more-work-panorama-physical-v2-swap.webp"
     rec = {}
     if args.only in (None, "work"):
         rec["work"] = build_plate("work", WORK_BASE, args.work_out, args.faces)
         print(f"wrote {args.work_out}")
     if args.only in (None, "more"):
-        rec["more"] = build_plate("more", MORE_BASE, MORE_OUT, args.faces)
-        print(f"wrote {MORE_OUT.relative_to(ROOT)}")
+        rec["more"] = build_plate("more", MORE_BASE, args.more_out, args.faces)
+        print(f"wrote {args.more_out}")
     if args.faces:
         (args.faces / "build-record.json").write_text(
             json.dumps(rec, indent=1, ensure_ascii=False)

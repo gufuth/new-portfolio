@@ -34,6 +34,7 @@ def main():
         else "http://localhost:8765"
     )
     out.mkdir(parents=True, exist_ok=True)
+    pages = sys.argv[sys.argv.index("--pages") + 1].split(",") if "--pages" in sys.argv else PAGES
     checks = []
     with sync_playwright() as p:
         br = p.chromium.launch()
@@ -45,7 +46,7 @@ def main():
                 has_touch=w < 700,
             )
             pg = ctx.new_page()
-            for name in PAGES:
+            for name in pages:
                 pg.goto(
                     f"{base}/review/billboards/{name}.html?v=bb1",
                     wait_until="networkidle",
