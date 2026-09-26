@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>About — lab 2 B — Ian Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Barlow:wght@400;500&family=Barlow+Condensed:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="preload" as="image" href="/about.webp" fetchpriority="high">
+<link rel="stylesheet" href="/review/about-lab-2/lab.css">
+<style>
+/* B — the bio set as end credits. The room dims to a set; the words carry the light. Static, no roll. */
+.plate{filter:brightness(.5) saturate(.9)}
+.stage::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 62% 50%,rgba(0,0,0,.28),rgba(0,0,0,.66) 100%);pointer-events:none}
+.credits{position:absolute;left:44%;top:50%;transform:translateY(-50%);width:50%;z-index:2;color:var(--cream);text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.9)}
+.credits h1{font-family:"Oswald","Barlow Condensed","Arial Narrow",sans-serif;font-weight:600;font-size:60px;line-height:.95;letter-spacing:.04em;text-transform:uppercase;color:var(--sign);margin:0 0 10px;
+  text-shadow:0 0 1px rgba(255,238,190,.5),0 0 18px rgba(255,226,150,.2),0 0 44px rgba(255,214,130,.08)}
+.credits .role{font:400 26px/1.15 var(--serif);color:var(--cream);margin:0 0 34px}
+.row{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;align-items:start;margin:0 0 22px}
+.row .k{text-align:right;font:500 12.5px/1.5 var(--caps);letter-spacing:.18em;text-transform:uppercase;color:var(--meta);padding-top:5px}
+.row .v{text-align:left;font:400 19px/1.35 var(--serif);color:var(--cream)}
+.row .v span{display:block}
+.paid{margin-top:38px;font:400 19px/1.4 var(--serif);color:var(--cream)}
+.paid::before{content:"";display:block;width:64px;height:1px;background:var(--rule);opacity:.6;margin:0 auto 22px}
+@media (min-width:761px) and (max-width:1150px){.credits{left:40%;width:56%}.credits h1{font-size:52px}}
+@media (max-width:760px){
+  .plate{filter:brightness(.5)}
+  .stage::after{display:none}
+  .credits{position:relative;left:auto;top:auto;transform:none;width:auto;padding:36px 22px 48px;background:#070706;text-shadow:none}
+  .credits h1{font-size:46px}.credits .role{font-size:24px;margin-bottom:30px}
+  .row{grid-template-columns:1fr;row-gap:6px;margin-bottom:22px}.row .k{text-align:center;padding:0}.row .v{text-align:center;font-size:20px}
+}
+</style></head>
+<body>
+<a class="skip" href="#bio">Skip to bio</a>
+<header class="bar top"><span><a class="hi" href="/">IAN LUNA</a> · CREATIVE DIRECTOR</span><span>INT. MOTEL · ROOM 3 · NIGHT</span></header>
+<main class="scenewrap" id="about">
+ <div class="stage" id="stage">
+  <img class="plate" src="/about.webp" alt="" fetchpriority="high" decoding="async">
+  <section class="credits" id="bio" tabindex="-1" aria-label="About Ian Luna">
+   <h1>Ian Luna</h1>
+   <p class="role">Creative director and copywriter</p>
+   <div class="row"><div class="k">Work has included</div><div class="v"><span>Nike SB</span><span>Virgin Galactic</span><span>Porsche × Lucasfilm</span><span>MoneyLion × Beast Games</span><span>Outdoor Voices</span><span>The Atlantic</span></div></div>
+   <div class="row"><div class="k">Works across</div><div class="v"><span>Campaign concepts</span><span>Scripts</span><span>Voice systems</span><span>The small lines that make the whole thing believable</span></div></div>
+   <div class="row"><div class="k">Likes</div><div class="v"><span>Ideas that can survive a straight face</span></div></div>
+   <p class="paid">The room is paid through Thursday.</p>
+  </section>
+ </div>
+</main>
+<footer class="bar bottom"><nav aria-label="Primary" class="rail"><a href="/">Home</a><a href="/work/">Work</a><a href="/work/more/">More work</a><a href="/about/" aria-current="page">About</a><a href="/hearsay/">Hearsay</a><a href="/about/">Contact</a></nav><span>ABOUT · IAN LUNA</span></footer>
+<div class="study-note">About lab 2 · B</div>
+<script src="/review/about-lab-2/fit.js"></script>
+</body></html>

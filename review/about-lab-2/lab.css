@@ -1,0 +1,56 @@
+/* about-lab-2 — shared chassis. Bars + rail copied from review/option-2-1/mix.css so About wears the
+   same 34px film frame as the landing and the 2.1 case pages. Palette = 2.1 tokens. Review only. */
+:root{
+  --black:#070706; --bar:#080706; --cream:#e2cfa3; --cream-soft:#b9aa87; --body:#d9ccb0;
+  --rule:#cbb68c; --meta:#8e8472; --work-green:#6ce55b; --sign:#f2e7bd;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --caps:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --sans:"Barlow",Arial,Helvetica,sans-serif;
+  --bar-h:34px; --bar-meta:#918877; --bar-cream:#ece2c6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--black);color:var(--body)}
+body{font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:1px solid var(--cream);outline-offset:4px}
+.caps{font:500 14px/1.3 var(--caps);letter-spacing:.14em;text-transform:uppercase}
+.skip{position:fixed;left:8px;top:-60px;z-index:100;background:var(--cream);color:#111;padding:10px 12px}.skip:focus{top:8px}
+
+/* FilmFrame bars: same as the landing and 2.1 (34px, mono, tracked caps) */
+.bar{position:fixed;left:0;right:0;height:var(--bar-h);background:var(--bar);z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:var(--bar-meta);font:400 10.5px/1 Consolas,"Courier New",monospace;letter-spacing:.22em;text-transform:uppercase}
+.bar.top{top:0}.bar.bottom{bottom:0}
+.bar .hi{color:var(--bar-cream)}
+.bar a{color:inherit}
+.rail{display:flex;gap:26px;align-items:center;height:100%}
+.rail a{position:relative;display:flex;align-items:center;min-height:34px;color:var(--bar-meta);padding:0 2px}
+.rail a:hover,.rail a:focus-visible{color:var(--bar-cream)}
+.rail a[aria-current=page]{color:var(--bar-cream)}
+.rail a[aria-current=page]:after{content:"";position:absolute;left:0;right:.22em;bottom:7px;height:1px;background:var(--bar-cream)}
+.bar .back:hover{color:var(--bar-cream)}
+
+/* film grain, like the plates and the 2.1 pages */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:6;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* the room, scale-to-fit stage (same mechanism as live about.html) */
+.scenewrap{position:relative;height:calc(100svh - 2*var(--bar-h));margin-top:var(--bar-h);overflow:hidden;background:#000}
+.stage{position:absolute;left:50%;top:50%;width:1536px;height:864px;transform:translate(-50%,-50%) scale(var(--fit,1));transform-origin:center;overflow:hidden;background:#000;user-select:none}
+.plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+.study-note{position:fixed;right:12px;bottom:calc(var(--bar-h) + 10px);z-index:11;font:500 10px var(--caps);letter-spacing:.16em;text-transform:uppercase;color:var(--meta);background:rgba(7,7,6,.9);padding:6px 9px;border:1px solid #1e1c18}
+
+@media (max-width:900px){
+  .bar{padding:0 14px}
+  .bar.top>span:nth-child(2),.bar.bottom>span:last-child{display:none}
+  .rail{gap:12px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail a{font-size:9px}
+}
+@media (max-width:760px){
+  .scenewrap{height:auto;min-height:calc(100svh - 2*var(--bar-h));overflow:visible}
+  .stage{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none;overflow:visible}
+  .plate{position:relative;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center;filter:brightness(.72)}
+}
+@media (max-width:520px){.bar .back{display:none}.study-note{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

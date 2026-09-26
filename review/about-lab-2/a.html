@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>About — lab 2 A — Ian Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Barlow:wght@400;500&family=Barlow+Condensed:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="preload" as="image" href="/about.webp" fetchpriority="high">
+<link rel="stylesheet" href="/review/about-lab-2/lab.css">
+<style>
+/* A — same room, the 2.1 type system. Nothing added to the set; only the words change clothes. */
+.bio{position:absolute;left:67.5%;top:22%;width:26.5%;color:var(--body);text-shadow:0 1px 2px rgba(0,0,0,.9)}
+.eyebrow{font:400 10.5px/1 Consolas,"Courier New",monospace;letter-spacing:.34em;text-transform:uppercase;color:var(--meta);margin-bottom:22px}
+.who{font:400 30px/1.12 var(--serif);color:var(--cream);margin:0 0 18px;text-wrap:balance}
+.meta{display:grid;gap:7px;margin:0 0 16px;font:500 13.5px/1.45 var(--caps);letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
+.meta .label{color:var(--meta);margin-right:.5em}
+.rule{height:1px;background:var(--rule);opacity:.7;margin:0 0 18px}
+.bio p.body{font-size:16px;line-height:1.6;margin:0 0 1.05em;color:var(--body)}
+.bio p.paid{margin-top:1.5em;color:var(--cream)}
+@media (min-width:761px) and (max-width:1150px){.bio{left:63%;width:30%}.who{font-size:27px}}
+@media (max-width:760px){
+  .bio{position:relative;left:auto;top:auto;width:auto;padding:30px 22px 44px;background:#070706;text-shadow:none}
+  .who{font-size:30px}.bio p.body{font-size:17px}
+}
+</style></head>
+<body>
+<a class="skip" href="#bio">Skip to bio</a>
+<header class="bar top"><span><a class="hi" href="/">IAN LUNA</a> · CREATIVE DIRECTOR</span><span>INT. MOTEL · ROOM 3 · NIGHT</span></header>
+<main class="scenewrap" id="about">
+ <div class="stage" id="stage">
+  <img class="plate" src="/about.webp" alt="" fetchpriority="high" decoding="async">
+  <section class="bio" id="bio" tabindex="-1">
+   <p class="eyebrow">About</p>
+   <h1 class="who">Ian Luna is a creative director and copywriter.</h1>
+   <div class="meta"><span><span class="label">Work</span>Nike SB · Virgin Galactic · Porsche × Lucasfilm · MoneyLion × Beast Games · Outdoor Voices · The Atlantic</span></div>
+   <div class="rule"></div>
+   <p class="body">He works across campaign concepts, scripts, voice systems and the small lines that make the whole thing believable. He likes ideas that can survive a straight face.</p>
+   <p class="body paid">The room is paid through Thursday.</p>
+  </section>
+ </div>
+</main>
+<footer class="bar bottom"><nav aria-label="Primary" class="rail"><a href="/">Home</a><a href="/work/">Work</a><a href="/work/more/">More work</a><a href="/about/" aria-current="page">About</a><a href="/hearsay/">Hearsay</a><a href="/about/">Contact</a></nav><span>ABOUT · IAN LUNA</span></footer>
+<div class="study-note">About lab 2 · A</div>
+<script src="/review/about-lab-2/fit.js"></script>
+</body></html>
