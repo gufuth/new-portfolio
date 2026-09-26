@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Hearsay — B · deposition — Ian Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=Barlow+Condensed:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="lab.css">
+<style>
+/* B — deposition transcript. HEARSAY in the legal sense. One column of court-reporter mono. */
+main{background:
+  radial-gradient(55% 40% at 50% 0%, rgba(255,196,120,.07), transparent 70%),
+  radial-gradient(28% 40% at 100% 70%, rgba(216,53,138,.04), transparent 70%)}
+.doc{max-width:46em;margin:0 auto;padding:clamp(48px,9vh,110px) clamp(16px,4vw,48px) clamp(64px,10vh,120px);font:400 14px/1.75 var(--mono);color:var(--body);letter-spacing:.04em}
+.cap{text-align:center;margin:0 0 clamp(36px,6vh,64px)}
+.cap .t{display:block;font:400 clamp(44px,5.4vw,72px)/1 var(--serif);color:var(--cream);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.cap .m{display:block;font:400 11px/1.9 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--meta)}
+.cap .m b{font-weight:400;color:var(--cream-soft)}
+ol.tx{list-style:none;margin:0;padding:0;counter-reset:ln}
+ol.tx li{display:grid;grid-template-columns:2.4em 1fr;column-gap:1.2em;min-height:1.75em;opacity:0}
+ol.tx li::before{counter-increment:ln;content:counter(ln);text-align:right;color:#4f493f;font-size:11px;padding-top:.35em}
+ol.tx li[data-on="1"]{opacity:1}
+.w{font:400 11.5px/1.75 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--cream-soft);padding-top:1.4em}
+.q{color:var(--meta)}
+.q i,.a i{font-style:normal;display:inline-block;width:2.2em;color:#6a6255}
+.a{font:400 clamp(21px,1.9vw,27px)/1.25 var(--serif);color:var(--cream);letter-spacing:0;padding:.1em 0 .35em}
+.a i{width:1.65em;font:400 12px/1 var(--mono);letter-spacing:.24em;vertical-align:.35em}
+.blank{min-height:.9em}
+.end{padding-top:2.2em;color:var(--meta);letter-spacing:.24em;text-transform:uppercase;font-size:11px;text-align:center;grid-column:1/-1}
+.cursor{display:inline-block;width:.6em;height:1em;background:var(--cream);vertical-align:-.15em;margin-left:.1em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+html.static ol.tx li{opacity:1}
+html.static .cursor{display:none}
+@media (max-width:600px){
+  .doc{font-size:13px}
+  ol.tx li{grid-template-columns:1.6em 1fr;column-gap:.8em}
+}
+@media (prefers-reduced-motion:reduce){ol.tx li{opacity:1}.cursor{display:none}}
+</style></head>
+<body>
+<a class="skip" href="#doc">Skip to testimony</a>
+<header class="bar top"><span><a class="hi" href="/">IAN LUNA</a> · CREATIVE DIRECTOR</span><span>INT. · DINER · BACK ROOM · NIGHT</span></header>
+<main>
+ <article class="doc" id="doc" tabindex="-1" aria-labelledby="h">
+  <header class="cap">
+   <h1 class="t" id="h">Hearsay</h1>
+   <span class="m">In the matter of <b>Ian Luna</b></span>
+   <span class="m">Statements taken · diner · back room · after close</span>
+  </header>
+  <ol class="tx" id="tx">
+   <li><span class="w">Witness: Ex girlfriend</span></li>
+   <li><span class="q"><i>Q.</i>How would you describe him?</span></li>
+   <li><span class="a"><i>A.</i>Five stars.</span></li>
+   <li class="blank"></li>
+   <li><span class="w">Witness: Neighbor</span></li>
+   <li><span class="q"><i>Q.</i>Go ahead.</span></li>
+   <li><span class="a"><i>A.</i>He's never caused any problems in the building.</span></li>
+   <li class="blank"></li>
+   <li><span class="w">Witness: Sweets</span></li>
+   <li><span class="q"><i>Q.</i>In your own words.</span></li>
+   <li><span class="a"><i>A.</i>That boy good.</span></li>
+   <li class="blank"></li>
+   <li><span class="w">Witness: Gore Vidal</span></li>
+   <li><span class="q"><i>Q.</i>For the record, you never met him.</span></li>
+   <li><span class="a"><i>A.</i>A creative genius second to none.</span></li>
+   <li class="blank"></li>
+   <li><span class="w">Witness: My mother</span></li>
+   <li><span class="q"><i>Q.</i>Anything else?</span></li>
+   <li><span class="a"><i>A.</i>The sweetest boy you'll ever meet.</span></li>
+   <li class="blank"></li>
+   <li><span class="end">(End of testimony)</span></li>
+  </ol>
+ </article>
+</main>
+<footer class="bar bottom"><nav aria-label="Primary" class="rail"><a href="/">Home</a><a href="/work/">Work</a><a href="/work/more/">More work</a><a href="/about/">About</a><a href="/hearsay/" aria-current="page">Hearsay</a></nav><span>Five witnesses · none under oath</span></footer>
+<div class="study-note">Hearsay lab 2 · B</div>
+<script>
+(function(){
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches){ document.documentElement.classList.add('static'); return; }
+  // Stenographer pace: the lines arrive whole, in order, quick on Q, a beat before each A.
+  var rows=[].slice.call(document.querySelectorAll('#tx li'));
+  var i=0, cur=document.createElement('span'); cur.className='cursor'; cur.setAttribute('aria-hidden','true');
+  function step(){
+    if(i>=rows.length){ cur.remove(); return; }
+    var li=rows[i++]; li.dataset.on='1';
+    var hold = li.classList.contains('blank') ? 420 : li.querySelector('.w') ? 700 : li.querySelector('.q') ? 900 : li.querySelector('.a') ? 1500 : 500;
+    var a=li.querySelector('.a'); if(a){ a.appendChild(cur); }
+    setTimeout(step,hold);
+  }
+  setTimeout(step,600);
+})();
+</script>
+</body></html>

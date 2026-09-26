@@ -1,0 +1,47 @@
+/* HEARSAY lab 2 — shared chassis. Same film bars and rail as the case pages
+   (review/option-2-1/mix.css), same night, same grain. Review only. */
+:root{
+  --black:#070706; --bar:#080706; --cream:#e2cfa3; --cream-soft:#b9aa87; --body:#d9ccb0;
+  --rule:#cbb68c; --meta:#8e8472; --magenta:#d8358a; --magenta-soft:rgba(216,53,138,.35);
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --caps:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --sans:"Barlow",Arial,Helvetica,sans-serif;
+  --mono:Consolas,"Courier New",monospace;
+  --bar-h:34px; --bar-meta:#918877; --bar-cream:#ece2c6;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--black);color:var(--body);min-height:100%}
+body{font:400 18px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.09;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:1px solid var(--cream);outline-offset:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:8px;top:-60px;z-index:100;background:var(--cream);color:#111;padding:10px 12px;font:500 13px var(--caps);letter-spacing:.12em;text-transform:uppercase}
+.skip:focus{top:8px}
+
+/* FilmFrame bars: 34px, mono, tracked caps */
+.bar{position:fixed;left:0;right:0;height:var(--bar-h);background:var(--bar);z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 28px;color:var(--bar-meta);font:400 10.5px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase}
+.bar.top{top:0}.bar.bottom{bottom:0}
+.bar .hi{color:var(--bar-cream)}
+.bar a{color:inherit}
+.rail{display:flex;gap:26px;align-items:center;height:100%}
+.rail a{position:relative;display:flex;align-items:center;min-height:34px;color:var(--bar-meta);padding:0 2px}
+.rail a:hover,.rail a:focus-visible,.rail a[aria-current=page]{color:var(--bar-cream)}
+.rail a[aria-current=page]:after{content:"";position:absolute;left:0;right:.22em;bottom:7px;height:1px;background:var(--bar-cream)}
+.bar button{appearance:none;background:none;border:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;padding:0;cursor:pointer}
+.bar button:hover{color:var(--bar-cream)}
+
+main{position:relative;z-index:2;min-height:100svh;padding-top:var(--bar-h);padding-bottom:var(--bar-h)}
+.study-note{position:fixed;right:12px;bottom:calc(var(--bar-h) + 10px);z-index:11;font:500 10px var(--caps);letter-spacing:.16em;text-transform:uppercase;color:var(--meta);background:rgba(7,7,6,.9);padding:6px 9px;border:1px solid #1e1c18}
+
+@media (max-width:900px){
+  .bar{padding:0 14px}
+  .bar.top>span:nth-child(2){display:none}
+  .rail{gap:12px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail a{font-size:9px}
+}
+@media (max-width:600px){.bar.bottom>span:last-child{display:none}.bar.bottom>button .full{display:none}.bar.bottom>button{white-space:nowrap}}
+@media (max-width:520px){.study-note{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

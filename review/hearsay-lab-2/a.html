@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Hearsay — A · captions — Ian Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=Barlow+Condensed:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="lab.css">
+<style>
+/* A — closed captions, sound off. The room is black. Only the caption track. */
+body{background:#000}
+html,body{height:100%}
+main{min-height:100svh;display:grid;grid-template-rows:1fr auto;background:
+  radial-gradient(70% 45% at 78% 100%, rgba(255,186,110,.06), transparent 70%),
+  radial-gradient(30% 40% at 0% 55%, rgba(216,53,138,.05), transparent 70%)}
+.room{position:relative}
+/* caption zone: lower third, film-subtitle geometry */
+.cc{position:fixed;left:0;right:0;bottom:calc(var(--bar-h) + clamp(56px,10vh,110px));display:grid;justify-items:center;padding-inline:clamp(16px,4vw,48px);pointer-events:none}
+.cue,.line{margin:0;text-align:center;max-width:34em;text-wrap:balance;opacity:0;transition:opacity .28s ease}
+.cue{font:400 12px/1.6 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--meta)}
+.line{font:400 clamp(24px,2.6vw,36px)/1.22 var(--serif);color:var(--cream)}
+.line .who{display:block;font:500 12.5px/1 var(--caps);letter-spacing:.24em;text-transform:uppercase;color:var(--cream-soft);margin-bottom:12px}
+.cc [data-on="1"]{opacity:1}
+/* resting state: the transcript, after [end] */
+.transcript{position:relative;z-index:2;max-width:38em;margin:0 auto;padding:clamp(24px,5vh,56px) clamp(16px,4vw,48px) clamp(48px,8vh,88px);opacity:0;transition:opacity .9s ease}
+.transcript[data-on="1"]{opacity:1}
+.transcript h2{font:400 12px/1 var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--meta);margin:0 0 22px}
+.transcript ol{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.transcript li{display:grid;grid-template-columns:9.5em 1fr;gap:16px;align-items:baseline}
+.transcript .who{font:500 12px/1.4 var(--caps);letter-spacing:.22em;text-transform:uppercase;color:var(--cream-soft)}
+.transcript .said{font:400 clamp(19px,1.6vw,24px)/1.25 var(--serif);color:var(--cream);margin:0}
+.transcript .sfx{grid-column:1/-1;font:400 11px/1.6 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#5f584c}
+html.static .cc{display:none}
+html.static .transcript{opacity:1;padding-top:clamp(64px,14vh,140px)}
+@media (max-width:600px){
+  .transcript li{grid-template-columns:1fr;gap:4px}
+  .cc{bottom:calc(var(--bar-h) + 64px)}
+}
+@media (prefers-reduced-motion:reduce){.cc{display:none}.transcript{opacity:1;padding-top:clamp(64px,14vh,140px)}}
+</style></head>
+<body>
+<a class="skip" href="#transcript">Skip to transcript</a>
+<header class="bar top"><span><a class="hi" href="/">IAN LUNA</a> · CREATIVE DIRECTOR</span><span>INT. · DINER · BACK ROOM · NIGHT</span></header>
+<main>
+ <h1 class="sr-only">Hearsay</h1>
+ <div class="room" aria-hidden="true">
+  <div class="cc" id="cc">
+   <p class="cue" id="cue"></p>
+   <p class="line" id="line"><span class="who" id="who"></span><span id="said"></span></p>
+  </div>
+ </div>
+ <section class="transcript" id="transcript" data-on="0" tabindex="-1" aria-label="Transcript">
+  <h2>Transcript · sound off</h2>
+  <ol>
+   <li class="sfx">[a bell over the door]</li>
+   <li><span class="who">Ex girlfriend</span><p class="said">Five stars.</p></li>
+   <li class="sfx">[a stool turns]</li>
+   <li><span class="who">Neighbor</span><p class="said">He's never caused any problems in the building.</p></li>
+   <li class="sfx">[the grill]</li>
+   <li><span class="who">Sweets</span><p class="said">That boy good.</p></li>
+   <li class="sfx">[the back room door]</li>
+   <li><span class="who">Gore Vidal</span><p class="said">A creative genius second to none.</p></li>
+   <li class="sfx">[silence]</li>
+   <li><span class="who">My mother</span><p class="said">The sweetest boy you'll ever meet.</p></li>
+   <li class="sfx">[the bell again]</li>
+  </ol>
+ </section>
+</main>
+<footer class="bar bottom"><nav aria-label="Primary" class="rail"><a href="/">Home</a><a href="/work/">Work</a><a href="/work/more/">More work</a><a href="/about/">About</a><a href="/hearsay/" aria-current="page">Hearsay</a></nav><button type="button" id="replay" aria-label="Replay the captions">CC<span class="full"> · Sound off</span></button></footer>
+<div class="study-note">Hearsay lab 2 · A</div>
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var tr = document.getElementById('transcript');
+  if (reduce){ document.documentElement.classList.add('static'); tr.dataset.on='1'; return; }
+  var cue=document.getElementById('cue'), line=document.getElementById('line'), who=document.getElementById('who'), said=document.getElementById('said');
+  // [type, text, who, hold ms]  — film-caption pacing: cue short, line held long enough to read twice
+  var track=[
+    ['gap','',null,900],
+    ['cue','[a bell over the door]',null,1500],
+    ['line','Five stars.','Ex girlfriend',2600],
+    ['gap','',null,700],
+    ['cue','[a stool turns]',null,1300],
+    ['line',"He's never caused any problems in the building.",'Neighbor',3600],
+    ['gap','',null,700],
+    ['cue','[the grill]',null,1300],
+    ['line','That boy good.','Sweets',2600],
+    ['gap','',null,900],
+    ['cue','[the back room door]',null,1600],
+    ['line','A creative genius second to none.','Gore Vidal',3600],
+    ['gap','',null,600],
+    ['cue','[silence]',null,3200],
+    ['gap','',null,600],
+    ['line',"The sweetest boy you'll ever meet.",'My mother',3600],
+    ['gap','',null,700],
+    ['cue','[the bell again]',null,1800],
+    ['gap','',null,1200]
+  ];
+  var i=0, timer=null;
+  function off(){cue.dataset.on='0';line.dataset.on='0'}
+  function step(){
+    if(i>=track.length){ off(); tr.dataset.on='1'; return; }
+    var s=track[i++]; off();
+    if(s[0]==='cue'){ cue.textContent=s[1]; cue.dataset.on='1'; }
+    else if(s[0]==='line'){ who.textContent=s[2]; said.textContent=s[1]; line.dataset.on='1'; }
+    timer=setTimeout(step,s[3]);
+  }
+  function play(){ clearTimeout(timer); i=0; tr.dataset.on='0'; step(); }
+  document.getElementById('replay').addEventListener('click',play);
+  play();
+})();
+</script>
+</body></html>
