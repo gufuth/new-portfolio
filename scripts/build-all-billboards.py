@@ -62,10 +62,13 @@ BOARDS = {
             strip=Q(506.5, 462.5, 766, 500.5),
             face_occ=[(689.5, 0, 9999, 9999)],
             strip_occ=[(688.5, 0, 9999, 9999)],
-            # Alt face: frame 10 of zacharyconnolly.com virgin-galactic/02.gif (motor firing). The hero's
-            # rocket is a ~20px speck at billboard scale; this is one object that reads from the booth.
-            src="scripts/billboard-src/virgin-face.png",
-            crop=(0.58, 0.50, 1.25),
+            # Chosen face: virgin-work-01 (carrier + spaceship + contrails). The hero's rocket is a ~20px
+            # speck at billboard scale; two silhouettes read as aircraft/spacecraft at 1024 and 1440.
+            src="assets/cases/virgin-work-01.webp",
+            crop=(0.47, 0.25, 1.12),
+            # Rejected candidate (compare with --virgin-alt): frame 10 of zc_pull virgin-galactic/02.gif,
+            # the engine firing. It read as a dark wedge at board scale.
+            alt=dict(src="scripts/billboard-src/virgin-face.png", crop=(0.58, 0.50, 1.25)),
             seed=12,
         ),
         dict(
@@ -263,7 +266,7 @@ def glass_texture(base, quad, w, h):
     """High-pass of the sky/glass directly above the cabinet: the same window glass (rain, smear,
     compression grain) sits between the camera and the board face."""
     q = np.asarray(quad, float)
-    lift = min(h + 26, float(q[:, 1].min()) - 2)
+    lift = min(h + 48, float(q[:, 1].min()) - 2)  # clear the lamp hoods (they sit ~20-35px above each face)
     sky = [[x, y - lift] for x, y in quad]
     patch = rectify(base, sky, w, h).convert("L")
     a = np.asarray(patch, np.float32) / 255.0
@@ -278,7 +281,7 @@ def glass_texture(base, quad, w, h):
 def sky_rgb(base, quad, h):
     q = np.asarray(quad, float)
     x0, x1 = int(q[:, 0].min()), int(q[:, 0].max())
-    y1 = int(q[:, 1].min()) - 26
+    y1 = int(q[:, 1].min()) - 48
     y0 = max(0, y1 - h)
     a = np.asarray(base, np.float32)[y0:y1, x0:x1] / 255.0
     return np.median(a.reshape(-1, 3), axis=0)
@@ -512,6 +515,33 @@ def repair_work(scene):
     return scene
 
 
+def remove_motel_signs(scene):
+    """Public site law: no 'Last Stop' anywhere. Paint the '..ST OP' neon box and the vertical MOTEL
+    neon out of the far-right pane with the surrounding night. The sign pole, window frame, pendant
+    lamp and street reflections stay photographed; only a faint unreadable red spill can remain."""
+    # Fill from the plain night pane just right of the signs (row-matched, so the vertical light
+    # falloff of the pane survives), not from a boundary inpaint that would smear the SCOOBA frame.
+    a0 = np.asarray(scene, np.float32)
+    src_cols = a0[:, 1384:1398]
+    row_tone = np.median(src_cols, axis=1)
+    row_tone = cv2.GaussianBlur(row_tone[:, None, :], (1, 9), 0)[:, 0, :]
+    m = np.zeros(a0.shape[:2], np.float32)
+    m[114:188, 1307:1349] = 1.0   # ..ST OP box (glyphs + halo)
+    m[168:264, 1347:1381] = 1.0   # vertical MOTEL + halo
+    m = cv2.GaussianBlur(m, (0, 0), 1.6)
+    rng = np.random.default_rng(1377)
+    fill = np.repeat(row_tone[:, None, :], a0.shape[1], axis=1) + rng.normal(0, 1.0, a0.shape[:2])[..., None]
+    scene = Image.fromarray(np.uint8(np.clip(a0 * (1 - m[..., None]) + fill * m[..., None], 0, 255)), "RGB")
+    # Knock the leftover neon halo down so it cannot read as a sign.
+    a = np.asarray(scene, np.float32).copy()
+    y0, y1, x0, x1 = 100, 275, 1292, 1392
+    reg = a[y0:y1, x0:x1]
+    red = np.clip(reg[..., 0] - reg[..., 1:].mean(axis=2) - 6, 0, None)
+    reg[..., 0] -= red * 0.8
+    a[y0:y1, x0:x1] = reg
+    return Image.fromarray(np.uint8(np.clip(a, 0, 255)), "RGB")
+
+
 def reclone_scooba_cabinet(scene):
     """Re-seat the fifth cabinet with the recipe of build-work-visual-lock-20260909.py, minus its
     mis-registered face/band, so the new face lands on real (cloned) cabinet geometry."""
@@ -548,6 +578,7 @@ def build_plate(name, base_path, out_path, faces_dir=None):
         if base.size != (1440, 447):
             raise SystemExit(f"unexpected MORE WORK plate size {base.size}")
         scene = reclone_scooba_cabinet(scene)
+        scene = remove_motel_signs(scene)
     light_ref = scene  # measure light after repairs (strips are untouched by them)
     record = {}
     # First pass: raw mean exposure of every face under its own lamp -> shared plate target.
@@ -670,16 +701,22 @@ def main():
     ap.add_argument("--render-type", action="store_true")
     ap.add_argument("--faces", type=Path)
     ap.add_argument("--only", choices=["work", "more"])
+    ap.add_argument("--virgin-alt", action="store_true", help="use board 02's alt face")
+    ap.add_argument("--work-out", type=Path, default=WORK_OUT)
     args = ap.parse_args()
     if args.render_type:
         render_type()
         return
     if args.faces:
         args.faces.mkdir(parents=True, exist_ok=True)
+    if args.virgin_alt:
+        for b in BOARDS["work"]:
+            if b.get("alt"):
+                b.update(b["alt"])
     rec = {}
     if args.only in (None, "work"):
-        rec["work"] = build_plate("work", WORK_BASE, WORK_OUT, args.faces)
-        print(f"wrote {WORK_OUT.relative_to(ROOT)}")
+        rec["work"] = build_plate("work", WORK_BASE, args.work_out, args.faces)
+        print(f"wrote {args.work_out}")
     if args.only in (None, "more"):
         rec["more"] = build_plate("more", MORE_BASE, MORE_OUT, args.faces)
         print(f"wrote {MORE_OUT.relative_to(ROOT)}")

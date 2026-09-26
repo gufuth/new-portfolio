@@ -36,7 +36,7 @@ the areas inside these quads (and the named frame repairs) are rebuilt.
 | # | Face source | Crop (focus x, focus y, zoom) | Strip, line 1 / line 2 |
 |---|---|---|---|
 | 01 | `assets/cases/nike-hero.webp`, right edge trimmed at x 796 to drop a cut-off red swatch | 0.47, 0.54, 1.0 | Nike SB × Staple / Panda Pigeon |
-| 02 | **Alt:** frame 10 of `zc_pull_20260925/virgin-galactic/02.gif`, copied to `scripts/billboard-src/virgin-face.png`. The hero's rocket is a ~20 px speck at billboard scale; the motor-firing frame is one object that reads from the booth. Framed so the nozzle sits in the part of the cabinet not hidden by the mullion. | 0.58, 0.50, 1.25 | Virgin Galactic / Unity 22 |
+| 02 | **Alt:** `assets/cases/virgin-work-01.webp` (carrier + spaceship + contrails), framed so the ship sits left of the mullion. The hero's rocket is a ~20 px speck at billboard scale. A second candidate, the engine-firing frame from `zc_pull_20260925/virgin-galactic/02.gif` (`scripts/billboard-src/virgin-face.png`, `--virgin-alt`), read as a dark wedge at 1440 and 1024 and was rejected; side-by-side crops in the run folder as `board02-compare-*.png`. | 0.47, 0.25, 1.12 | Virgin Galactic / Unity 22 |
 | 03 | `assets/cases/porsche-hero.webp` (accepted master approach) | 0.50, 0.50, 1.0 | Porsche × Lucasfilm / The Designer Alliance |
 | 04 | `assets/cases/selsun-hero.webp` | 0.50, 0.50, 1.0 | Selsun Blue / Dan Driff |
 | 05 | `assets/cases/moneylion-hero.webp`, cropped below the baked GIVEAWAY headline (vault + MrBeast) | 0.55, 0.68, 1.0 | MoneyLion × Beast Games / Beast Games Giveaway |
@@ -59,3 +59,14 @@ does not read as a lit screen beside a dark one.
 
 Verification: `python scripts/render-billboard-review.py OUT` renders `review/billboards/*.html` at
 1440×900, 1366×768, 1024×768 and 390×844, crops every board 1:1, and hit-tests every billboard link.
+
+## Round 2 fixes (2026-09-26)
+
+- MORE WORK: the far-right "..ST OP" neon box and the vertical MOTEL neon (the internal name) are
+  painted out with row-matched night from the plain pane beside them (`remove_motel_signs`), then the
+  remaining red halo is knocked down. The pendant lamp, sign pole, window frame and wet-street
+  reflections stay photographed.
+- Glass-texture patch now sits 48 px above each face, clear of the lamp hoods. At 26 px it picked up
+  the lamp hood and printed it as a faint dark pill low on each WORK face (visible on Porsche, Virgin).
+- review/billboards/work.html: NEXT BAY control offset by the stage overflow so it keeps the film
+  bar's 28 px right inset at every desktop width (live work.html still clips it; not touched).
