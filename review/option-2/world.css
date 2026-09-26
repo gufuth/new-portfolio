@@ -1,0 +1,36 @@
+/* OPTION 2 — the case page lives inside the diner's night (Grok + council round 2).
+   Same grid and content as Option 1. Changes the world, not the layout. */
+:root{--night:#070b0b;--lamp:rgba(255,196,120,.16);--teal:rgba(40,120,120,.14);--green-spill:rgba(108,229,91,.07);--board-cream:#d9cba3;--sign:#f3e6bf}
+html,body{background:var(--night)}
+/* practical light: a warm hanging-lamp pool top-left, cool wet-street bounce along the bottom, a faint WORK-window green at the edge */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(60% 55% at 22% 8%, var(--lamp), transparent 70%),
+    radial-gradient(90% 40% at 55% 110%, var(--teal), transparent 70%),
+    radial-gradient(30% 50% at 102% 70%, var(--green-spill), transparent 70%),
+    radial-gradient(140% 100% at 50% 40%, transparent 55%, rgba(0,0,0,.55) 100%)}
+/* heavier grain, like the plates */
+body::before{opacity:.12}
+/* the glass: static rain streaks, barely there (no animation) */
+main::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.05;
+  background:
+    repeating-linear-gradient(97deg, transparent 0 37px, rgba(255,255,255,.9) 37px 38px, transparent 38px 91px),
+    repeating-linear-gradient(94deg, transparent 0 61px, rgba(255,255,255,.7) 61px 62px, transparent 62px 143px);
+  -webkit-mask:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 60%,#000 100%);mask:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 60%,#000 100%);filter:blur(.6px)}
+/* sign type: the client name is a backlit roadside letterform, like the IAN LUNA roof box */
+h1.client{font-family:"Oswald","Barlow Condensed","Arial Narrow",sans-serif;font-weight:600;letter-spacing:.02em;line-height:.95;color:var(--sign);
+  text-shadow:0 0 1px rgba(255,240,200,.6),0 0 18px rgba(255,214,140,.28),0 0 46px rgba(255,190,110,.12)}
+/* media becomes a lit billboard: lamp above, cream plywood footer under the face */
+.film,.frame{border:0;box-shadow:0 0 0 1px rgba(0,0,0,.8),0 18px 40px rgba(0,0,0,.55)}
+.first .media{position:relative;padding-top:18px}
+.first .media::before{content:"";position:absolute;left:50%;top:0;width:64px;height:8px;transform:translateX(-50%);background:#1c1a16;border-radius:2px;box-shadow:0 2px 0 #000}
+.first .media::after{content:"";position:absolute;left:8%;right:8%;top:6px;height:46%;pointer-events:none;z-index:2;
+  background:radial-gradient(55% 100% at 50% 0, rgba(255,214,150,.22), transparent 70%);mix-blend-mode:screen}
+.film img{opacity:.92;filter:contrast(1.04) saturate(.92)}
+.film-cap{margin:0;padding:10px 14px;background:linear-gradient(180deg,#dccfa8,#cdbf96);color:#2a2419;font-weight:600;letter-spacing:.16em;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.12)}
+.well .frame{outline:6px solid #14120e;outline-offset:0}
+/* keep the play control legible over the lamp */
+.film .play{z-index:3}
+.first .media::before{width:96px;height:9px;background:linear-gradient(#2a2620,#0e0d0b);box-shadow:0 3px 10px rgba(255,200,120,.35)}
+.first .media::after{background:radial-gradient(50% 100% at 50% 0, rgba(255,214,150,.34), transparent 72%)}
