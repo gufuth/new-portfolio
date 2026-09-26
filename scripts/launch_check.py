@@ -126,6 +126,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base-url")
     ap.add_argument("--lighthouse", action="store_true")
+    ap.add_argument("--paths", nargs="+", help="check exactly these paths (e.g. /review/cases-2-1/nike.html); written to the report as the coverage manifest")
     a = ap.parse_args()
     httpd = None
     base = a.base_url.rstrip("/") if a.base_url else None
@@ -141,7 +142,7 @@ def main() -> int:
                 ctx = browser.new_context(
                     viewport={"width": w, "height": h}, reduced_motion=motion
                 )
-                for r in routes():
+                for r in (a.paths or routes()):
                     page = ctx.new_page()
                     key = f"{w}px{' reduced-motion' if motion == 'reduce' else ''}"
                     results.setdefault(r, {})[key] = check_page(page, base + r)
@@ -198,6 +199,7 @@ def main() -> int:
         f"# Launch check {stamp}",
         "",
         f"Base: {base}",
+        f"Checked paths (manifest): {', '.join(results)}",
         f"Pages: {len(results)} · widths: {', '.join(str(w) for w, _ in WIDTHS)} (+ reduced motion at 1440)",
         "",
     ]

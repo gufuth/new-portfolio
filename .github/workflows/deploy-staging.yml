@@ -32,6 +32,10 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+      - name: Rights gate (main only; blocks production while any client asset is unconfirmed)
+        if: github.ref_name == 'main'
+        shell: bash
+        run: python3 scripts/rights_gate.py
       - name: Check Netlify credential
         id: credential
         shell: bash
