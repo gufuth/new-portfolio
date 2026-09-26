@@ -118,3 +118,7 @@ h1.client.long{font-size:clamp(44px,5.1vw,76px)}
 .first .media .well .frame.sq{aspect-ratio:1/1}
 .first .media .well .frame.portrait{aspect-ratio:4/5}
 .first .media .well.three .frame{grid-column:auto}
+/* final board picks (26 Sep): Cuervo leads with the Cristalino close-up; OV group shot as one full-width support */
+.frame.hero.diptych.flip{grid-template-columns:.555fr .798fr}
+.first .media .well.one{display:block;margin-top:25px}
+.first .media .well.one .frame{aspect-ratio:1600/1069}
