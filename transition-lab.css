@@ -1,4 +1,4 @@
-/* Last Stop transition lab — persistent A/B/C trials for Landing -> WORK.
+/* Transition lab — persistent A/B/C trials for Landing -> WORK.
    These are edits, not travel simulation. Query with ?cut=a, ?cut=b or ?cut=c. */
 
 .lab-cut{position:fixed;left:0;right:0;top:34px;bottom:34px;z-index:48;pointer-events:none;overflow:hidden}

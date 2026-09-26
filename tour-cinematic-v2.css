@@ -1,4 +1,4 @@
-/* Last Stop cinematic edit override. The edit is the effect.
+/* Cinematic edit override. The edit is the effect.
    The page does not animate into another page. Physical light and occlusion motivate the cut. */
 .tour-cut--landing{background:transparent;opacity:1;overflow:hidden}
 .tour-cut--landing::before{

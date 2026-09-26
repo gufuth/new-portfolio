@@ -1,4 +1,4 @@
-/* Last Stop transition lab.
+/* Transition lab.
    Stable trial URLs: /?cut=a, /?cut=b, /?cut=c
    Default is B: hard editorial cut / electrical catch.
    detailTest=1 accelerates the one-time electrical imperfection for QA. */

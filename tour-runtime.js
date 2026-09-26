@@ -1,4 +1,4 @@
-/* Last Stop shared tour runtime.
+/* Shared tour runtime.
    One job: make the existing rooms behave like one restrained physical tour.
    No camera flights, no looping ambience, no navigation delays longer than the edit earns. */
 (function(){

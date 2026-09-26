@@ -1,4 +1,4 @@
-/* Last Stop shared tour runtime — transitions, rails, ambient road life. */
+/* Shared tour runtime — transitions, rails, ambient road life. */
 :root{--tour-bar-h:34px;--tour-cream:#ece2c6;--tour-meta:#918877;--tour-black:#050504}
 
 /* Global rail additions. The rails orient; they never participate in scene motion. */
