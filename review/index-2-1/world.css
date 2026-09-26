@@ -1,0 +1,85 @@
+/* OPTION 2 — the case page lives inside the diner's night (Grok + council round 2).
+   Same grid and content as Option 1. Changes the world, not the layout. */
+:root{--night:#070b0b;--lamp:rgba(255,196,120,.135);--teal:rgba(40,120,120,.12);--green-spill:rgba(108,229,91,.06);--board-cream:#d9cba3;--sign:#f3e6bf}
+html,body{background:var(--night)}
+/* practical light: a warm hanging-lamp pool top-left, cool wet-street bounce along the bottom, a faint WORK-window green at the edge */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(60% 55% at 22% 8%, var(--lamp), transparent 70%),
+    radial-gradient(90% 40% at 55% 110%, var(--teal), transparent 70%),
+    radial-gradient(30% 50% at 102% 70%, var(--green-spill), transparent 70%),
+    radial-gradient(140% 100% at 50% 40%, transparent 55%, rgba(0,0,0,.47) 100%)}
+/* heavier grain, like the plates */
+body::before{opacity:.12}
+/* the glass: static rain streaks, barely there (no animation) */
+main::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.05;
+  background:
+    repeating-linear-gradient(97deg, transparent 0 37px, rgba(255,255,255,.9) 37px 38px, transparent 38px 91px),
+    repeating-linear-gradient(94deg, transparent 0 61px, rgba(255,255,255,.7) 61px 62px, transparent 62px 143px);
+  -webkit-mask:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 60%,#000 100%);mask:linear-gradient(180deg,#000 0,rgba(0,0,0,.35) 60%,#000 100%);filter:blur(.6px)}
+/* sign type: the client name is a backlit roadside letterform, like the IAN LUNA roof box */
+h1.client{font-family:"Oswald","Barlow Condensed","Arial Narrow",sans-serif;font-weight:600;letter-spacing:.02em;line-height:.95;color:var(--sign);
+  text-shadow:0 0 1px rgba(255,240,200,.6),0 0 18px rgba(255,214,140,.24),0 0 46px rgba(255,190,110,.1)}
+/* media becomes a lit billboard: lamp above, cream plywood footer under the face */
+.film,.frame{border:0;box-shadow:0 0 0 1px rgba(0,0,0,.8),0 18px 40px rgba(0,0,0,.55)}
+.first .media{position:relative;padding-top:18px}
+.first .media::before{content:"";position:absolute;left:50%;top:0;width:64px;height:8px;transform:translateX(-50%);background:#1c1a16;border-radius:2px;box-shadow:0 2px 0 #000}
+.first .media::after{content:"";position:absolute;left:8%;right:8%;top:6px;height:46%;pointer-events:none;z-index:2;
+  background:radial-gradient(55% 100% at 50% 0, rgba(255,214,150,.22), transparent 70%);mix-blend-mode:screen}
+.film img{opacity:.92;filter:contrast(1.04) saturate(.92)}
+.film-cap{margin:0;padding:10px 14px;background:linear-gradient(180deg,#dccfa8,#cdbf96);color:#2a2419;font-weight:600;letter-spacing:.16em;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.12)}
+.well .frame{outline:6px solid #14120e;outline-offset:0}
+/* keep the play control legible over the lamp */
+.film .play{z-index:3}
+.first .media::before{width:96px;height:9px;background:linear-gradient(#2a2620,#0e0d0b);box-shadow:0 3px 10px rgba(255,200,120,.3)}
+.first .media::after{background:radial-gradient(50% 100% at 50% 0, rgba(255,214,150,.29), transparent 72%)}
+
+/* tighter hand-off from the first screen to What happened */
+.first{padding-bottom:30px}
+
+/* OPTION 2.1 — three fixes from the judges */
+/* 1. title glow ~18% lower, warmed to the IAN LUNA roof-box cream-yellow */
+h1.client{color:#f2e7bd;text-shadow:0 0 1px rgba(255,238,190,.5),0 0 18px rgba(255,226,150,.2),0 0 44px rgba(255,214,130,.08)}
+/* 2. flat cream footer, like the Work-page board footers (no gradient, no bevel) */
+.film-cap{background:#d4c69d;box-shadow:none}
+/* 3. tame the white sketch tile so the film stays the brightest thing */
+.well img[src*="porsche-work-02"]{filter:brightness(.74) sepia(.18) contrast(.96)}
+/* flowing columns: text keeps going under the credits, photos stack under the film (no dead band) */
+.story{margin-top:56px}
+.first .media .well.two{margin-top:28px}
+.first{padding-bottom:clamp(48px,7vh,80px)}
+@media (max-width:900px){
+  .grid12.first{display:flex;flex-direction:column;row-gap:0}
+  .grid12.first .txt{display:contents}
+  .grid12.first .txt > *{order:1}
+  .grid12.first .media{order:2;margin-top:28px}
+  .grid12.first .txt > .story{order:3;margin-top:44px}
+}
+/* spacing: split the difference between the old 120px and the tight 56px */
+.story{margin-top:88px}
+/* pin 1.5 m to the bottom of the photos: the left column stretches to the row, the number sits at its foot */
+@media (min-width:901px){
+  .grid12.first{align-items:stretch}
+  .grid12.first .txt{display:flex;flex-direction:column}
+  .grid12.first .txt .story{flex:1;display:flex;flex-direction:column}
+  .grid12.first .txt .story .number{margin-top:auto;padding-top:32px}
+  .grid12.first .txt .story .number .cap{margin-bottom:-.3em}
+}
+/* a real ending: hairline across the grid, neighbours named, then air before the bar */
+.first{padding-bottom:0}
+.pager.end{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;margin-top:clamp(64px,9vh,96px);padding:22px 0 clamp(48px,7vh,72px);border-top:1px solid rgba(217,203,163,.22)}
+.pager.end a{display:flex;flex-direction:column;gap:6px;padding:0}
+.pager.end .next{text-align:right;align-items:flex-end}
+.pager.end .all{align-self:end}
+.pager.end .dir{font-size:11px;letter-spacing:.2em;color:var(--meta)}
+@media (min-width:901px){
+  .first .media .well.two{margin-top:25px}
+  .first .media .well.two .frame{aspect-ratio:1.2}
+}
+/* ending, slimmed: one row, sized to what it is */
+.pager.end{margin-top:56px;padding:16px 0 22px;align-items:center}
+.pager.end a{flex-direction:row;gap:0}
+.pager.end .all{justify-self:center}
+.pager.end .next{justify-self:end}
+.pager.end{margin-bottom:28px}

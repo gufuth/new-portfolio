@@ -1,0 +1,28 @@
+/* All work: every board on the road. A list first; the preview is a courtesy. */
+.idx{padding-top:clamp(36px,5vh,56px);padding-bottom:40px;align-items:start}
+.idx .list{grid-column:1 / span 7}
+.idx .preview{grid-column:8 / span 5;position:sticky;top:calc(var(--bar-h) + 28px)}
+.head{margin:0 0 18px;color:var(--cream);font-size:13px;letter-spacing:.2em}
+.head span{color:var(--meta)}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid rgba(217,203,163,.18)}
+.row{display:grid;grid-template-columns:88px minmax(0,1.25fr) minmax(0,1fr);grid-template-areas:"num client title" "num role role";column-gap:18px;row-gap:2px;
+  padding:13px 12px 12px;border-bottom:1px solid rgba(217,203,163,.18);color:var(--body);transition:background .15s}
+.row .num{grid-area:num;font:400 10.5px/1.9 Consolas,"Courier New",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--meta)}
+.row .client{grid-area:client;font:600 22px/1.05 "Oswald","Barlow Condensed",sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#f2e7bd}
+.row .title{grid-area:title;font:italic 400 19px/1.2 var(--serif);color:var(--cream);align-self:center}
+.row .role{grid-area:role;font:500 12px/1.4 var(--caps);letter-spacing:.14em;text-transform:uppercase;color:var(--meta)}
+.row .thumb{display:none}
+.row:hover,.row.on{background:rgba(217,203,163,.06)}
+.row.on .client{text-shadow:0 0 16px rgba(255,226,150,.2)}
+.row:focus-visible{outline:2px solid var(--cream);outline-offset:-2px;background:rgba(217,203,163,.09)}
+.preview .board{margin:0;aspect-ratio:4/3;overflow:hidden;background:#0d0c0a;box-shadow:0 0 0 1px rgba(0,0,0,.8),0 18px 40px rgba(0,0,0,.55)}
+.preview .board img{width:100%;height:100%;object-fit:cover;opacity:.95}
+.preview .film-cap{margin:0}
+@media (max-width:900px){
+  .idx .list{grid-column:1 / -1}.idx .preview{display:none}
+  .row{grid-template-columns:72px minmax(0,1fr);grid-template-areas:"thumb client" "thumb title" "thumb role";column-gap:14px;padding:12px 4px}
+  .row .num{display:none}.row .thumb{display:block;grid-area:thumb;width:72px;height:54px;object-fit:cover;align-self:center}
+  .row .client{font-size:18px}.row .title{font-size:16px}
+}
+.idx .head{grid-column:1 / -1}
+.idx .list,.idx .preview{grid-row:2}
