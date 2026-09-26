@@ -25,29 +25,41 @@
 @keyframes lsd-out{from{opacity:1}to{opacity:0}}
 @keyframes lsd-in{from{opacity:0}to{opacity:1}}
 
-/* PUSH-IN (?t=push): one rigid camera move. The whole window is pushed along the board's own axis until the
-   lit board fills the spot where the case's main image sits (details.js computes --lsd-dolly), so the world
-   and the board face travel as one picture. Only then does the face develop into the case image and the
-   page come up around it about 120 ms after the board lands, with a short exposure settle. */
+/* PUSH-IN (?t=push, and the first billboard of a session under ?t=auto, the default).
+   A dolly through the glass in ~390 ms. Three planes on one lens:
+   - our side of the glass (frame, mullion, sill, booth, mug) is nearest: it grows fastest, slides off
+     first and goes soft (a hint of rack focus);
+   - the room outside rides the camera: pushed along the board's own axis until the lit board lands
+     exactly where the case's main image sits (details.js computes --lsd-dolly / --lsd-near);
+   - the board face stays sharp, develops into the case image, and the page comes up around it.
+   Curve: a camera has weight - it eases off the mark, travels, and settles (not the front-loaded UI ease). */
 html:active-view-transition-type(push)::view-transition-old(root){
-  transform-origin:0 0;animation:lsd-dolly 540ms cubic-bezier(.16,1,.3,1) both}
-html:active-view-transition-type(push)::view-transition-new(root){animation:lsd-develop 290ms cubic-bezier(.2,.7,.2,1) 260ms both}
+  transform-origin:0 0;animation:lsd-dolly 380ms cubic-bezier(.45,0,.12,1) both}
+html:active-view-transition-type(push)::view-transition-new(root){animation:lsd-develop 190ms cubic-bezier(.2,.7,.2,1) 200ms both}
+html:active-view-transition-type(push)::view-transition-group(lsd-near){animation:none;z-index:7}
+html:active-view-transition-type(push)::view-transition-old(lsd-near){
+  transform-origin:0 0;animation:lsd-near 380ms cubic-bezier(.45,0,.12,1) both}
 html:active-view-transition-type(push)::view-transition-group(case-hero){
-  animation-duration:540ms;animation-timing-function:cubic-bezier(.16,1,.3,1);overflow:clip;z-index:5}
+  animation-duration:380ms;animation-timing-function:cubic-bezier(.45,0,.12,1);overflow:clip;z-index:5}
 html:active-view-transition-type(push)::view-transition-old(case-hero),
 html:active-view-transition-type(push)::view-transition-new(case-hero){height:100%;object-fit:cover}
-html:active-view-transition-type(push)::view-transition-old(case-hero){animation:lsd-out 200ms linear 190ms both}
-html:active-view-transition-type(push)::view-transition-new(case-hero){animation:lsd-hero-in 300ms cubic-bezier(.2,.7,.2,1) 140ms both}
+html:active-view-transition-type(push)::view-transition-old(case-hero){animation:lsd-out 150ms linear 150ms both}
+html:active-view-transition-type(push)::view-transition-new(case-hero){animation:lsd-hero-in 230ms cubic-bezier(.2,.7,.2,1) 110ms both}
 html:active-view-transition-type(push)::view-transition-old(lsd-bar-top),
-html:active-view-transition-type(push)::view-transition-old(lsd-bar-bottom){animation:lsd-out 90ms linear both}
+html:active-view-transition-type(push)::view-transition-old(lsd-bar-bottom){animation:lsd-out 80ms linear both}
 html:active-view-transition-type(push)::view-transition-new(lsd-bar-top),
-html:active-view-transition-type(push)::view-transition-new(lsd-bar-bottom){animation:lsd-in 110ms linear 400ms both}
+html:active-view-transition-type(push)::view-transition-new(lsd-bar-bottom){animation:lsd-in 90ms linear 290ms both}
 
 @keyframes lsd-dolly{
-  from{transform:none;filter:brightness(1)}
-  to{transform:var(--lsd-dolly,scale(1.6));filter:brightness(.5) blur(1.5px)}}
-@keyframes lsd-develop{from{opacity:0;filter:brightness(.6)}50%{opacity:1}to{opacity:1;filter:brightness(1)}}
-@keyframes lsd-hero-in{from{opacity:0;filter:brightness(1.3) saturate(.85)}60%{opacity:1}to{opacity:1;filter:brightness(1) saturate(1)}}
+  from{transform:none;filter:brightness(1) blur(0)}
+  to{transform:var(--lsd-dolly,scale(1.6));filter:brightness(.55) blur(1.2px)}}
+@keyframes lsd-near{
+  0%{transform:none;filter:blur(0);opacity:1}
+  55%{opacity:1}
+  80%{opacity:0}
+  100%{transform:var(--lsd-near,scale(2.4));filter:blur(7px);opacity:0}}
+@keyframes lsd-develop{from{opacity:0;filter:brightness(.62)}55%{opacity:1}to{opacity:1;filter:brightness(1)}}
+@keyframes lsd-hero-in{from{opacity:0;filter:brightness(1.28) saturate(.86)}60%{opacity:1}to{opacity:1;filter:brightness(1) saturate(1)}}
 
 @media (prefers-reduced-motion:reduce){
   ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}

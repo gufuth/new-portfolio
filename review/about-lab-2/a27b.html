@@ -3,7 +3,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>About — lab 2 A27B — Ian Luna</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Barlow:wght@400;500&family=Barlow+Condensed:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Barlow:wght@400;500&family=Barlow+Condensed:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Barlow:wght@400;500&family=Barlow+Condensed:wght@500;600&family=Instrument+Serif:ital@0;1&display=swap"></noscript>
 <link rel="preload" as="image" href="/review/about-lab-2/a27-plate.webp" imagesrcset="/review/about-lab-2/a27-plate.webp 1792w, /review/about-lab-2/a27-plate@2x.webp 3584w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="/review/about-lab-2/lab.css">
 <style>
@@ -41,8 +41,9 @@
 .crt:focus-visible~.setcap{opacity:.9;color:var(--cream-soft)}
 /* and the tube stirs on hover only: a scanline flicker over the screen glass, nothing at rest */
 .crt .tube{position:absolute;left:8%;top:7%;right:8%;bottom:14%;border-radius:8px;opacity:0;pointer-events:none;background:repeating-linear-gradient(180deg,rgba(255,255,255,.07) 0 1px,transparent 1px 3px);mix-blend-mode:screen}
-.crt:hover .tube,.crt:focus-visible .tube{opacity:1;animation:tube .9s steps(2) infinite}
-@keyframes tube{0%{opacity:.35;transform:translateY(0)}50%{opacity:.75;transform:translateY(1px)}100%{opacity:.35;transform:translateY(0)}}
+.crt:hover .tube,.crt:focus-visible .tube{opacity:.4;animation:tube 320ms steps(1,end) 1 both} /* one flicker on arrival, then still: no loop */
+@keyframes tube{0%{opacity:.2}30%{opacity:.78;transform:translateY(1px)}62%{opacity:.3;transform:translateY(0)}100%{opacity:.4;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.crt:hover .tube,.crt:focus-visible .tube{animation:none}}
 @media (max-width:760px){.setcap{display:none}} /* the lift is the focus ring, same as the landing signs */
 @media (min-width:761px) and (max-width:1150px){.copy{left:10%;width:34%}}
 @media (max-width:760px){
@@ -55,7 +56,7 @@
   .stage{width:100%;height:auto;left:auto;transform:none}
   .plate{aspect-ratio:1792/924;object-position:center}
 }
-</style><!-- detail-pass-v2 --><link rel="stylesheet" href="/review/details/details.css"><script src="/review/details/details.js"></script></head>
+</style><!-- detail-pass-v2 --><link rel="stylesheet" href="/review/details/details.css"><script src="/review/details/details.js" defer></script></head>
 <body>
 <a class="skip" href="#bio">Skip to bio</a>
 <header class="bar top"><span><a class="hi" href="/review/details/index.html">IAN LUNA</a> · CREATIVE DIRECTOR</span><span>INT. MOTEL · ROOM 3 · NIGHT</span></header>

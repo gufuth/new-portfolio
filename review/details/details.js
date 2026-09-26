@@ -1,5 +1,5 @@
 /* Detail pass v2 (review only). One file, loaded by the review pages that opt in.
-   A1 cross-document view transitions (types per route, cancel on input)
+   A1 cross-document view transitions: see vt-head.js (loaded synchronously, before first paint)
    A2 billboard -> case: CUT (default) or PUSH-IN (?t=push), compared side by side
    A4 focus lands on the case title on arrival
    A5 gesture-only WebAudio: TV thunk + static, jukebox click, door bell (sound switch must be ON)
@@ -11,7 +11,7 @@
 (function(){
   'use strict';
   var D=document,H=D.documentElement,W=window;
-  var DEFAULT_T='cut';                      /* the no-parameter variant; switch when Ian picks */
+  var DEFAULT_T='auto';                     /* no parameter: first billboard of the session pushes in, later ones cut */
   var VT_KEY='lsd_vt',T_KEY='lsd_t',DOOR_KEY='lsd_door_tail',ARRIVAL_KEY='lsd_arrival_kind';
   var CASE_RE=/\/review\/cases-2-1\/[^\/]+\.html$/;
   var BOARD_RE=/\/review\/billboards\/(work|more-work)\.html$/;
@@ -23,7 +23,7 @@
   var kind=CASE_RE.test(path)?'case':BOARD_RE.test(path)?'board':INDEX_RE.test(path)?'index':
            /\/review\/details\/(index\.html)?$/.test(path)?'landing':'';
   var PH={work:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAWACgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzhY9zKi4yfWlSGR94VCdoO72p0O7IKgZ6ZJIpybl3hVQcHuaVxWGGJ33OqkqOp9KTyX2bth2+tSR7/LYgAr35Ip++X7PjCbeme9FwsQPC6KCyEA9zRT5mdlG7GD05NFNMTRFDG0zhN2ATTljDEruOR3ooqG9TRIUxuq5D8YqHzXxjPFFFNCZLIcQxnvRRRTQj/9k=',more:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAMACgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzyGNXc5K/dGNzYp0VtGzyDdHheAC4Gfoc1X8zaR8inHqKVXwfuIc+oqdSidYItjZZeCeS4zxTTCnlKcKD3O8En8KfaokjurKMAZFNkRY5VRe46nrSuFhPMa2bfbmMEjacYfj8elFRTDy22jke9FOyFsf/2Q==',landing:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAbACgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDz5rSdIfOeGRY8Z3FeMVZ0ltKEkv8AaiyMu0eXtyOc85x7VUgTzCFlkZEyATycD1xWzbeG0uLYXEd4pQ8Zx/tbf57fzrKdRJWkyZuENSZ5PCfkrsjn8zHOS+3OT/8AWrG1JrE3X/EvDCHaOGyee/WtYeGoisjfaXAUoBlMH5vUZ61RvtKitJpojcAvG4VVxy/H3h2x/OohUjfRsUZxqOyMzK0VK1uq23mbgW3Yx7UV0XNJU5R3ATIVAZTx6HFItzOqlFkYL6BuP88CoB1rQhRSjEqDg8Vm7Izk+VXIWvrssWM8hY9TvOTUTzSu4d3ZmAwCTmrzRphztHBFQTooRyByDSTXYVKSk9CsXOzBNFKwHkg980Vobzuj/9k='};
-  var probe=W.__lsd={kind:kind,hasVT:hasVT,reduced:reduced,swap:null,reveal:null,clicks:[]};
+  var probe=W.__lsd=W.__lsd||{kind:kind,hasVT:hasVT,reduced:reduced,swap:null,reveal:null,clicks:[]};
 
   function ss(k,v){try{
     if(v===undefined) return sessionStorage.getItem(k);
@@ -31,14 +31,40 @@
   }catch(e){return null;}}
   function variant(){
     var q=null;try{q=new URLSearchParams(location.search).get('t');}catch(e){}
-    if(q==='cut'||q==='push'){ss(T_KEY,q);return q;}
-    var s=ss(T_KEY);return (s==='cut'||s==='push')?s:DEFAULT_T;
+    if(q==='cut'||q==='push'||q==='auto'){ss(T_KEY,q);return q;}
+    var s=ss(T_KEY);return (s==='cut'||s==='push'||s==='auto')?s:DEFAULT_T;
   }
   function pathOf(url){try{return new URL(url,location.href).pathname;}catch(e){return '';}}
   function plain(e){return !(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey);}
 
   /* ---------- A2: the lit board, lifted out of the plate ---------- */
   var FACE={work:{l:.038,t:.056,w:.924,h:.684},more:{l:.022,t:.055,w:.915,h:.615}};
+  /* depth planes (build_depth.py): the far plate has our side of the glass painted out; the near
+     mask is our side of the glass. Loaded quietly after the room is up, only if a push can still happen. */
+  var DEPTH={}, PUSHED_KEY='lsd_pushed';
+  function depthFor(stage){return stage.classList.contains('more-scene')?'more':'work';}
+  function preloadDepth(){
+    var stage=D.querySelector('.scene-stage');if(!stage) return;
+    var v=variant();if(v==='cut'||(v==='auto'&&ss(PUSHED_KEY))) return;
+    var n=depthFor(stage),base='/review/details/depth/'+n;
+    var far=new Image(),mask=new Image(),d=DEPTH[n]={ok:false};
+    var left=2;function one(){if(--left===0) d.ok=far.naturalWidth>0&&mask.naturalWidth>0;}
+    far.onload=far.onerror=mask.onload=mask.onerror=one;
+    far.src=d.far=base+'-far.webp';mask.src=d.mask=base+'-near-mask.png';
+  }
+  function nearLayer(stage,sr){
+    var d=DEPTH[depthFor(stage)];if(!d||!d.ok) return false;
+    var plate=getComputedStyle(stage).backgroundImage;
+    var el=D.createElement('div');el.className='lsd-near';el.setAttribute('aria-hidden','true');
+    el.style.cssText='position:fixed;left:'+sr.left+'px;top:'+sr.top+'px;width:'+sr.width+'px;height:'+sr.height+'px;'+
+      'background-image:'+plate+';background-size:100% 100%;background-repeat:no-repeat;'+
+      '-webkit-mask:url('+d.mask+') 0 0/100% 100% no-repeat;mask:url('+d.mask+') 0 0/100% 100% no-repeat;'+
+      'pointer-events:none;z-index:61;view-transition-name:lsd-near';
+    D.body.appendChild(el);
+    var prev=stage.style.backgroundImage;stage.style.backgroundImage='url('+d.far+')';
+    setTimeout(function(){if(el.isConnected) el.remove();stage.style.backgroundImage=prev;},4000);
+    return true;
+  }
   function heroClone(a){
     var stage=a.closest('.scene-stage');if(!stage) return null;
     var sr=stage.getBoundingClientRect(),br=a.getBoundingClientRect();
@@ -53,7 +79,8 @@
       'pointer-events:none;z-index:60;view-transition-name:case-hero';
     D.body.appendChild(el);
     setTimeout(function(){if(el.isConnected) el.remove();},4000);
-    return {x:x,y:y,w:w,h:h};
+    var near=nearLayer(stage,sr);
+    return {x:x,y:y,w:w,h:h,near:near,sx:sr.left,sy:sr.top};
   }
 
   function onCaseLinkClick(e){
@@ -69,87 +96,14 @@
       ss('lsd_restore_case',a.getAttribute('data-case-id')||'');
       ss('lsd_restore_pending','1');
     }
-    if(!reduced&&hasVT&&v==='push'&&a.classList.contains('billboard')){
-      var o=heroClone(a);if(o){info.v='push';info.face=o;}
+    var wantPush=v==='push'||(v==='auto'&&!ss(PUSHED_KEY));
+    if(!reduced&&hasVT&&wantPush&&a.classList.contains('billboard')){
+      var o=heroClone(a);if(o){info.v='push';info.face=o;ss(PUSHED_KEY,'1');}
     }
+    info.mode=v;
     probe.clickVariant=info.v;
     ss(VT_KEY,JSON.stringify(info));
   }
-
-  /* ---------- A1: types per route; transitions only where they mean something ---------- */
-  function kindOf(p){return CASE_RE.test(p)?'case':BOARD_RE.test(p)?'board':INDEX_RE.test(p)?'index':'';}
-  function allowed(fromP,toKind){
-    if(toKind==='case') return BOARD_RE.test(fromP)||INDEX_RE.test(fromP)||CASE_RE.test(fromP);
-    if(toKind==='board'||toKind==='index') return CASE_RE.test(fromP);
-    return false;
-  }
-
-  W.addEventListener('pageswap',function(e){
-    var to=e.activation&&e.activation.entry?pathOf(e.activation.entry.url):'';
-    probe.swap={vt:!!e.viewTransition,to:to};
-    if(!e.viewTransition) return;
-    if(reduced||!allowed(path,kindOf(to))){e.viewTransition.skipTransition();}
-  });
-
-  function heroEl(){
-    var m=D.querySelector('.first .media');if(!m) return null;
-    return m.querySelector('.film,.frame.hero,figure,img');
-  }
-
-  function armCancel(vt){
-    var off=false;
-    function skip(){if(off) return;off=true;probe.skipped=performance.now();try{vt.skipTransition();}catch(x){}}
-    ['pointerdown','keydown','wheel','touchstart'].forEach(function(t){W.addEventListener(t,skip,{capture:true,once:true,passive:true});});
-    /* while the transition paints, clicks land on the root; send them to what is under the pointer */
-    function retarget(ev){
-      if(ev.target!==H&&ev.target!==D.body) return;
-      var el=D.elementFromPoint(ev.clientX,ev.clientY),a=el&&el.closest&&el.closest('a[href]');
-      probe.clicks.push({t:performance.now(),retarget:!!a});
-      if(a&&plain(ev)){ev.preventDefault();location.href=a.href;}
-    }
-    W.addEventListener('click',retarget,{capture:true});
-    function end(){off=true;setTimeout(function(){W.removeEventListener('click',retarget,{capture:true});},300);}
-    vt.finished.then(end,end);
-  }
-
-  function focusTitle(){
-    if(kind!=='case'||location.hash) return;
-    var t=D.getElementById('t')||D.querySelector('main h1');if(!t) return;
-    if(!t.hasAttribute('tabindex')) t.setAttribute('tabindex','-1');
-    try{t.focus({preventScroll:true});}catch(x){t.focus();}
-  }
-
-  W.addEventListener('pagereveal',function(e){
-    var vt=e.viewTransition,info=null;
-    try{info=JSON.parse(ss(VT_KEY)||'null');}catch(x){}
-    ss(VT_KEY,null);
-    if(info&&Date.now()-info.at>15000) info=null;
-    var from='';try{from=navigation.activation&&navigation.activation.from?navigation.activation.from.url:'';}catch(x){}
-    var fromP=pathOf(from);
-    probe.reveal={vt:!!vt,from:fromP,info:info,t:performance.now(),types:[]};
-    focusTitle();
-    if(!vt) return;
-    if(reduced||!allowed(fromP,kind)){vt.skipTransition();return;}
-    var type='cut';
-    if(kind==='case'&&BOARD_RE.test(fromP)&&info&&info.v==='push'){
-      var h=heroEl();
-      if(h&&info.face){type='push';h.style.viewTransitionName='case-hero';
-        /* one rigid camera move: the whole window is pushed so the lit board lands exactly where the
-           case's main image sits; the board face (its own layer) rides the same curve */
-        var f=info.face,r=h.getBoundingClientRect(),k=Math.max(r.width/f.w,r.height/f.h);
-        var tx=(r.left+r.width/2)-k*(f.x+f.w/2),ty=(r.top+r.height/2)-k*(f.y+f.h/2);
-        H.style.setProperty('--lsd-dolly','translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px) scale('+k.toFixed(4)+')');
-        probe.reveal.dolly={k:k,tx:tx,ty:ty};
-        var clear=function(){h.style.viewTransitionName='';};vt.finished.then(clear,clear);}
-    }
-    if((kind==='board'||kind==='index')&&CASE_RE.test(fromP)) type='back';
-    try{vt.types.add(type);}catch(x){}
-    probe.reveal.types=[type];
-    vt.finished.then(function(){probe.reveal.done=performance.now();},function(){probe.reveal.done=performance.now();});
-    armCancel(vt);
-  });
-  /* no pagereveal (older engines): still land the reader on the case name */
-  if(!('onpagereveal' in W)){D.addEventListener('DOMContentLoaded',focusTitle);}
 
   /* ---------- A5: sound. Gesture only, switch must be ON, master -18..-24 dB ---------- */
   var ctx=null;
@@ -262,7 +216,10 @@
     if(kind==='board'){var st=D.querySelector('.scene-stage');blurUp(st,st&&st.classList.contains('more-scene')?PH.more:PH.work);}
     if(kind==='landing') blurUp(D.getElementById('stage'),PH.landing);
     consoleLine();
-    W.addEventListener('pageshow',function(ev){if(ev.persisted){var c=D.querySelector('.lsd-hero-clone');if(c) c.remove();}});
+    W.addEventListener('pageshow',function(ev){if(ev.persisted){
+      D.querySelectorAll('.lsd-hero-clone,.lsd-near').forEach(function(c){c.remove();});
+      var st=D.querySelector('.scene-stage');if(st) st.style.backgroundImage='';}});
+    if(kind==='board'){if(W.requestIdleCallback) requestIdleCallback(preloadDepth,{timeout:2500});else setTimeout(preloadDepth,1200);}
   }
   if(D.readyState==='loading') D.addEventListener('DOMContentLoaded',init);else init();
 })();
