@@ -77,3 +77,9 @@ h1.client{color:#f2e7bd;text-shadow:0 0 1px rgba(255,238,190,.5),0 0 18px rgba(2
   .first .media .well.two{margin-top:25px}
   .first .media .well.two .frame{aspect-ratio:1.2}
 }
+/* ending, slimmed: one row, sized to what it is */
+.pager.end{margin-top:56px;padding:16px 0 22px;align-items:center}
+.pager.end a{flex-direction:row;gap:0}
+.pager.end .all{justify-self:center}
+.pager.end .next{justify-self:end}
+.pager.end{margin-bottom:28px}
