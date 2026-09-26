@@ -45,3 +45,14 @@ h1.client{color:#f2e7bd;text-shadow:0 0 1px rgba(255,238,190,.5),0 0 18px rgba(2
 .film-cap{background:#d4c69d;box-shadow:none}
 /* 3. tame the white sketch tile so the film stays the brightest thing */
 .well img[src*="porsche-work-02"]{filter:brightness(.74) sepia(.18) contrast(.96)}
+/* flowing columns: text keeps going under the credits, photos stack under the film (no dead band) */
+.story{margin-top:56px}
+.first .media .well.two{margin-top:28px}
+.first{padding-bottom:clamp(48px,7vh,80px)}
+@media (max-width:900px){
+  .grid12.first{display:flex;flex-direction:column;row-gap:0}
+  .grid12.first .txt{display:contents}
+  .grid12.first .txt > *{order:1}
+  .grid12.first .media{order:2;margin-top:28px}
+  .grid12.first .txt > .story{order:3;margin-top:44px}
+}
