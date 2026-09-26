@@ -30,8 +30,9 @@ SRC_DIR = ROOT / "scripts" / "billboard-src"
 WORK_BASE = ASSETS / "work-panorama-physical-v2.webp"
 MORE_BASE = ASSETS / "more-work-panorama-five-v1.webp"
 MORE_CLONE_SRC = ASSETS / "more-work-panorama-current.webp"
-WORK_OUT = ASSETS / "work-panorama-physical-v3.webp"
-MORE_OUT = ASSETS / "more-work-panorama-physical-v2.webp"
+WORK_OUT = ASSETS / "work-panorama-physical-v4.webp"
+MORE_OUT = ASSETS / "more-work-panorama-physical-v3.webp"
+FACES_JSON = ROOT / "docs" / "design" / "billboard-faces-v2.json"  # face picks (source + crop box)
 
 CREAM_ALBEDO = np.array([0.93, 0.87, 0.72], dtype=np.float32)
 
@@ -361,9 +362,18 @@ def cover_crop(src, w, h, crop):
 
 def build_face(base, b, plate, light, colprof, vis_frac):
     w, h = plane_size(b["face"])
-    src = Image.open(ROOT / b["src"]).convert("RGB")
+    src = Image.open(ROOT / b["src"])
+    if getattr(src, "n_frames", 1) > 1:
+        src.seek(b.get("frame", 0))
+    src = src.convert("RGB")
     if b.get("pre"):
         src = src.crop(b["pre"])
+    for bo in b.get("blackout", []):  # paint over stray marks with the image's own ground colour
+        x0, y0, x1, y1 = bo[:4]
+        ImageDraw.Draw(src).rectangle((x0, y0, x1, y1), fill=bo[4] if len(bo) > 4 else "#000000")
+    if b.get("box"):
+        # Crop box in source pixels; may run past the image where the ground is black (PIL fills 0).
+        src = src.crop(tuple(b["box"]))
     # For a partly occluded cabinet, frame the art on the visible part of the aperture.
     art = cover_crop(src, w, h, b["crop"])
     art = ImageEnhance.Color(art).enhance(0.86)
@@ -377,6 +387,9 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     band = np.clip(1 - np.abs(hue - 195.0) / 50.0, 0, 1)  # cyan-blue centred at 195 deg
     lum = a.mean(axis=2, keepdims=True)
     keep = 1 - band[..., None] * (1 - g.get("cyan", 0.70))
+    if g.get("green") is not None:  # tame a neon-green accent that would glow at night
+        gband = np.clip(1 - np.abs(hue - 115.0) / 40.0, 0, 1)
+        keep = keep * (1 - gband[..., None] * (1 - g["green"]))
     if g.get("red"):  # keep a hero red alive after the night grade (dist. to 0/360 deg)
         rband = np.clip(1 - np.minimum(hue, 360 - hue) / 28.0, 0, 1)
         keep = keep * (1 + rband[..., None] * (g["red"] - 1))
@@ -744,6 +757,24 @@ SWAP_FACES = {
 }
 
 
+def apply_face_picks(path=FACES_JSON):
+    """Default build: faces come from docs/design/billboard-faces-v2.json (shared with the case pages)."""
+    picks = {f["id"]: f for f in json.loads(Path(path).read_text(encoding="utf-8"))["faces"]}
+    for b in (x for pl in BOARDS.values() for x in pl):
+        f = picks.get(b["id"])
+        if not f:
+            continue
+        b["src"] = f["build_source"]
+        b["box"] = f["crop_box"]
+        b["crop"] = (0.5, 0.5, 1.0)
+        b.pop("pre", None)
+        for k in ("frame", "blackout"):
+            if k in f:
+                b[k] = f[k]
+        if "grade" in f:
+            b["grade"] = f["grade"]
+
+
 def swap_boards(id_a, id_b):
     a = next(b for pl in BOARDS.values() for b in pl if b["id"] == id_a)
     b = next(x for pl in BOARDS.values() for x in pl if x["id"] == id_b)
@@ -766,11 +797,13 @@ def main():
     ap.add_argument("--more-out", type=Path, default=MORE_OUT)
     ap.add_argument(
         "--order",
-        choices=["default", "atlantic-first"],
-        default="default",
-        help="atlantic-first: The Atlantic takes Work board 04 (Selsun's cabinet) and Selsun Blue takes "
-        "More Work board 09 (Atlantic's cabinet). Writes the *-swap plates unless --*-out is given.",
+        choices=["atlantic-first", "legacy"],
+        default="atlantic-first",
+        help="atlantic-first (default since 2026-09-26, Ian): The Atlantic on Work board 04, Selsun Blue on "
+        "More Work board 09, faces from billboard-faces-v2.json. legacy: the v3/v2 order and faces.",
     )
+    ap.add_argument("--face", action="append", default=[],
+                    help="candidate override id=path|x0,y0,x1,y1 (testing only)")
     args = ap.parse_args()
     if args.render_type:
         render_type()
@@ -783,10 +816,19 @@ def main():
                 b.update(b["alt"])
     if args.order == "atlantic-first":
         swap_boards("selsun", "atlantic")
+        apply_face_picks()
+    else:
         if args.work_out == WORK_OUT:
-            args.work_out = ASSETS / "work-panorama-physical-v3-swap.webp"
+            args.work_out = ASSETS / "work-panorama-physical-v3.webp"
         if args.more_out == MORE_OUT:
-            args.more_out = ASSETS / "more-work-panorama-physical-v2-swap.webp"
+            args.more_out = ASSETS / "more-work-panorama-physical-v2.webp"
+    for spec in args.face:
+        fid, rest = spec.split("=", 1)
+        path, box = rest.split("|")
+        b = next(x for pl in BOARDS.values() for x in pl if x["id"] == fid)
+        b.update(src=path, box=[int(v) for v in box.split(",")], crop=(0.5, 0.5, 1.0))
+        b.pop("pre", None)
+        b.pop("blackout", None)
     rec = {}
     if args.only in (None, "work"):
         rec["work"] = build_plate("work", WORK_BASE, args.work_out, args.faces)

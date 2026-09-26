@@ -1,0 +1,194 @@
+{
+ "version": "v2",
+ "status": "picked; final grade in progress",
+ "crop_box_units": "source pixels [x0,y0,x1,y1]; a box may run past the image only where the ground is black (Nike)",
+ "note": "Read by scripts/build-all-billboards.py (default order). Case pages may reuse source + crop_box as the case hero.",
+ "faces": [
+  {
+   "board": "01",
+   "page": "work",
+   "id": "nike",
+   "case": "nike-sb-panda-pigeon",
+   "source": "assets/cases/nike-hero.webp",
+   "crop_box": [
+    -167,
+    250,
+    1013,
+    895
+   ],
+   "blackout": [
+    [
+     795,
+     470,
+     925,
+     610
+    ]
+   ],
+   "grade": {
+    "green": 0.45
+   },
+   "why": "The whole shoe, on its own black ground, reads as a sneaker in under a second. Its neon-green tongue tag is toned down (not removed) so it does not glow. The box runs past the image's left and right edges, filled black. A cut-off red swatch at the hero's right edge is blacked out first.",
+   "build_source": "assets/cases/nike-hero.webp"
+  },
+  {
+   "board": "02",
+   "page": "work",
+   "id": "virgin",
+   "case": "virgin-galactic-unity-22",
+   "source": "assets/cases/virgin-work-01.webp",
+   "crop_box": [
+    33,
+    50,
+    1273,
+    751
+   ],
+   "grade": {
+    "cyan": 0.55
+   },
+   "why": "Carrier plane + spaceship silhouettes with contrails. The hero's rocket is a ~20px speck at board size. The engine-firing frame read as a dark wedge. The ship sits left of the diner mullion that hides the right third of this cabinet.",
+   "build_source": "assets/cases/virgin-work-01.webp"
+  },
+  {
+   "board": "03",
+   "page": "work",
+   "id": "porsche",
+   "case": "porsche-lucasfilm-designer-alliance",
+   "source": "assets/cases/porsche-hero.webp",
+   "crop_box": [
+    37,
+    0,
+    1562,
+    900
+   ],
+   "why": "The starship itself, whole, on its dark floor. It is the Designer Alliance work. The Taycan + stormtroopers photo (zc_pull porsche/02.jpg) reads faster but is a different Porsche x Star Wars activation.",
+   "build_source": "assets/cases/porsche-hero.webp"
+  },
+  {
+   "board": "04",
+   "page": "work",
+   "id": "atlantic",
+   "case": "the-atlantic",
+   "source": "scripts/billboard-src/atlantic-swap-face.jpg",
+   "origin": "zacharyconnolly.com via zc_pull_20260925/the-atlantic/01.jpg",
+   "crop_box": [
+    130,
+    205,
+    690,
+    538
+   ],
+   "grade": {
+    "knee": 0.58,
+    "red": 1.35
+   },
+   "why": "Hummingbird + red hibiscus: colour, one subject, survives the night grade. The sunglasses hero graded to a grey blank at Work scale. Wordmark, tagline and subscribe box fall outside the crop.",
+   "build_source": "scripts/billboard-src/atlantic-swap-face.jpg"
+  },
+  {
+   "board": "05",
+   "page": "work",
+   "id": "moneylion",
+   "case": "moneylion-beast-games",
+   "source": "assets/cases/moneylion-hero.webp",
+   "crop_box": [
+    0,
+    399,
+    1024,
+    994
+   ],
+   "grade": {
+    "cyan": 0.4,
+    "knee": 0.5,
+    "exposure": 0.84
+   },
+   "why": "Vault of cash + MrBeast's face: the campaign in one frame. The baked GIVEAWAY headline is cropped off. The only image for this case.",
+   "build_source": "assets/cases/moneylion-hero.webp"
+  },
+  {
+   "board": "06",
+   "page": "more",
+   "id": "alita",
+   "case": "alita-te-connectivity",
+   "source": "assets/cases/alita-work-01.webp",
+   "crop_box": [
+    285,
+    150,
+    605,
+    363
+   ],
+   "why": "Alita head-and-shoulders from the TE key visual, framed between the callout boxes. The other two Alita images are Facebook screenshots; this crop has no social-media chrome and no tiny callout text.",
+   "build_source": "assets/cases/alita-work-01.webp"
+  },
+  {
+   "board": "07",
+   "page": "more",
+   "id": "cuervo",
+   "case": "jose-cuervo",
+   "source": "assets/cases/cuervo-work-02.webp",
+   "frame": 0,
+   "crop_box": [
+    0,
+    128,
+    232,
+    290
+   ],
+   "why": "The Tradicional Cristalino label, close, on a dark ground of ice sparkle. The bottle-in-hand poster washed out to a pale smear once graded to the night. The other candidates carry baked headlines or Instagram chrome.",
+   "build_source": "assets/cases/cuervo-work-02.webp"
+  },
+  {
+   "board": "08",
+   "page": "more",
+   "id": "outdoor",
+   "case": "outdoor-voices",
+   "source": "assets/cases/outdoor-voices-work-02.webp",
+   "crop_box": [
+    0,
+    40,
+    592,
+    445
+   ],
+   "why": "One face, round sunglasses, warm red rock: reads in a second and holds colour at night. The 'Let's Play' group shot turned into small grey figures at board size, even cropped tight.",
+   "build_source": "assets/cases/outdoor-voices-work-02.webp"
+  },
+  {
+   "board": "09",
+   "page": "more",
+   "id": "selsun",
+   "case": "selsun-blue-dan-driff",
+   "source": "docs/renders/archive/10_Chat_Session_Renders/selsun_zach_2.jpg",
+   "origin": "Selsun Blue 'Dan Driff' film still (Zach Connolly site pull, 1920x1080)",
+   "crop_box": [
+    188,
+    0,
+    1732,
+    1080
+   ],
+   "why": "Dan Driff, white suit, wedging himself between the couple on the couch: the 'worst wingman' joke in one frame, at 3x the hero's resolution. The restaurant hero is darker and busier.",
+   "build_source": "docs/renders/archive/10_Chat_Session_Renders/selsun_zach_2.jpg"
+  },
+  {
+   "board": "10",
+   "page": "more",
+   "id": "scooba",
+   "case": "scooba-love",
+   "source": "scripts/billboard-src/scooba-hero.png",
+   "origin": "assets/cases/scooba-hero.svg rasterised 1600x900",
+   "crop_box": [
+    70,
+    40,
+    960,
+    667
+   ],
+   "blackout": [
+    [
+     800,
+     270,
+     1300,
+     520,
+     "#061217"
+    ]
+   ],
+   "why": "The SCOOBA LOVE title over the S-C-O-O column, large enough to read as an acrostic. The right-hand B-A-LOVE column is painted to the ground colour so no word is cut at the crop edge. The full layout left every criterion as unreadable small text.",
+   "build_source": "scripts/billboard-src/scooba-hero.png"
+  }
+ ]
+}
