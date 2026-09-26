@@ -37,3 +37,6 @@ h1.client{font-family:"Oswald","Barlow Condensed","Arial Narrow",sans-serif;font
 
 /* tighter hand-off from the first screen to What happened */
 .first{padding-bottom:30px}
+
+/* OPTION 3 — middle path: Option 2's light and lit billboard, Option 1's cream serif title (no sign face, no glow) */
+h1.client{font-family:var(--serif);font-weight:400;letter-spacing:.005em;line-height:.92;color:var(--cream);text-shadow:none}
