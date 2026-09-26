@@ -56,3 +56,24 @@ h1.client{color:#f2e7bd;text-shadow:0 0 1px rgba(255,238,190,.5),0 0 18px rgba(2
   .grid12.first .media{order:2;margin-top:28px}
   .grid12.first .txt > .story{order:3;margin-top:44px}
 }
+/* spacing: split the difference between the old 120px and the tight 56px */
+.story{margin-top:88px}
+/* pin 1.5 m to the bottom of the photos: the left column stretches to the row, the number sits at its foot */
+@media (min-width:901px){
+  .grid12.first{align-items:stretch}
+  .grid12.first .txt{display:flex;flex-direction:column}
+  .grid12.first .txt .story{flex:1;display:flex;flex-direction:column}
+  .grid12.first .txt .story .number{margin-top:auto;padding-top:32px}
+  .grid12.first .txt .story .number .cap{margin-bottom:-.3em}
+}
+/* a real ending: hairline across the grid, neighbours named, then air before the bar */
+.first{padding-bottom:0}
+.pager.end{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;margin-top:clamp(64px,9vh,96px);padding:22px 0 clamp(48px,7vh,72px);border-top:1px solid rgba(217,203,163,.22)}
+.pager.end a{display:flex;flex-direction:column;gap:6px;padding:0}
+.pager.end .next{text-align:right;align-items:flex-end}
+.pager.end .all{align-self:end}
+.pager.end .dir{font-size:11px;letter-spacing:.2em;color:var(--meta)}
+@media (min-width:901px){
+  .first .media .well.two{margin-top:25px}
+  .first .media .well.two .frame{aspect-ratio:1.2}
+}
