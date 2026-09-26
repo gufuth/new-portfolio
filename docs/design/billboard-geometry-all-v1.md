@@ -103,3 +103,9 @@ Verification: `python scripts/render-billboard-review.py OUT` renders `review/bi
   level), so no face keeps a deeper black than the night around it. `grade.falloff` / `grade.soft`
   are per-face controls (MoneyLion uses both).
 - Phone cards on the review pages use the same picks (`review/billboards/cards/*.webp`).
+- r5 (Work plate only): the r3/r4 teal veil + haze flattened the Work faces. Replaced by a lit
+  lamp-pool grade: the art keeps its own colour (lamp tint 40% because the eye white-balances to the
+  lamp), saturation 1.12, contrast 1.05, key ×1.95 of the strip-derived white level, a stronger,
+  narrower top-centre pool, a lower-corner vignette, 8% sky veil, glass texture at 0.35, and one faint
+  lamp-coloured reflection streak. MoneyLion keeps only a mild cyan cut (0.75), with no darkening.
+  More Work is unchanged.

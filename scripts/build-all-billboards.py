@@ -169,10 +169,24 @@ PLATE = {
         soft=0.62,
         blur=0.45,
         grain=0.010,
-        veil=0.55,
-        glass=0.9,
-        veil_light=0.025,
-        pull=0.55,
+        # r5 (Ian: "polish, don't settle"): lit boards read BRIGHTER than the night, in a warm lamp
+        # pool with real blacks and their own colour. The r3/r4 teal veil + haze flattened them.
+        veil=0.08,
+        glass=0.35,
+        veil_light=0.0,
+        pull=0.15,
+        knee=0.95,
+        sat=1.12,
+        contrast=1.05,
+        warmth=0.40,  # <1: the eye white-balances to the lamp, so art keeps its own colour
+        gamma=1.0,
+        lamp_gain=1.95,
+        cyan=0.92,
+        pool=1.5,
+        pool_sigma=(0.30, 0.38),
+        slope=0.42,
+        vignette=0.40,
+        streak=0.035,
         type=dict(top=0.12, cap1=0.33, gap=0.13, cap2=0.25, pad=0.045),
     ),
     "more": dict(
@@ -378,8 +392,8 @@ def build_face(base, b, plate, light, colprof, vis_frac):
         src = src.crop(tuple(b["box"]))
     # For a partly occluded cabinet, frame the art on the visible part of the aperture.
     art = cover_crop(src, w, h, b["crop"])
-    art = ImageEnhance.Color(art).enhance(0.86)
-    art = ImageEnhance.Contrast(art).enhance(0.88)
+    art = ImageEnhance.Color(art).enhance(plate.get("sat", 0.86))
+    art = ImageEnhance.Contrast(art).enhance(plate.get("contrast", 0.88))
     a = np.asarray(art, np.float32) / 255.0
     # Printed inks under a warm sodium/tungsten lamp: cyan/blue grounds go dull and greyer, they do
     # not glow. Hue-selective desaturation (all boards, stronger where a board sets grade.cyan).
@@ -388,7 +402,7 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     hue = hsv[..., 0] * (360.0 / 255.0)
     band = np.clip(1 - np.abs(hue - 195.0) / 50.0, 0, 1)  # cyan-blue centred at 195 deg
     lum = a.mean(axis=2, keepdims=True)
-    keep = 1 - band[..., None] * (1 - g.get("cyan", 0.70))
+    keep = 1 - band[..., None] * (1 - g.get("cyan", plate.get("cyan", 0.70)))
     if g.get("green") is not None:  # tame a neon-green accent that would glow at night
         gband = np.clip(1 - np.abs(hue - 115.0) / 40.0, 0, 1)
         keep = keep * (1 - gband[..., None] * (1 - g["green"]))
@@ -396,22 +410,29 @@ def build_face(base, b, plate, light, colprof, vis_frac):
         rband = np.clip(1 - np.minimum(hue, 360 - hue) / 28.0, 0, 1)
         keep = keep * (1 + rband[..., None] * (g["red"] - 1))
     a = lum + (a - lum) * keep
-    a = np.power(a, 1.08)  # print on a lit face, not an emissive screen
+    a = np.power(a, plate.get("gamma", 1.08))  # print on a lit face, not an emissive screen
 
     yy, xx = np.mgrid[0:h, 0:w]
     xn, yn = xx / max(w - 1, 1), yy / max(h - 1, 1)
     hx = resample(colprof, w)[None, :]
     fo = b.get("grade", {}).get("falloff", 1.0)  # >1 = steeper top-down lamp falloff
-    vert = 1.10 - 0.26 * fo * yn
-    hot = 0.60 * fo * np.exp(-(((xn - 0.5) / 0.30) ** 2) - ((yn + 0.04) / 0.34) ** 2)
+    vert = 1.10 - plate.get("slope", 0.26) * fo * yn
+    px, py = plate.get("pool_sigma", (0.30, 0.34))
+    hot = plate.get("pool", 0.60) * fo * np.exp(-(((xn - 0.5) / px) ** 2) - ((yn + 0.04) / py) ** 2)
     edge = np.minimum.reduce([xn * w, (1 - xn) * w, yn * h, (1 - yn) * h])
     bezel = 0.70 + 0.30 * np.clip(edge / max(4.0, 0.045 * min(w, h) * 1.6), 0, 1)
-    illum = (vert + hot) * hx * bezel  # peak ~1.5 under the lamp, ~0.8 low corners
-    out = a * illum[..., None] * light[None, None, :]
+    # Lamp-pool vignette: a hooded lamp throws an elliptical pool, so the lower corners fall off.
+    vig = 1 - plate.get("vignette", 0.0) * np.clip(((xn - 0.5) / 0.62) ** 2 + ((yn - 0.15) / 1.0) ** 2, 0, 1)
+    illum = (vert + hot) * hx * bezel * vig  # peak under the lamp head, lower corners darkest
+    lamp = light
+    if plate.get("warmth"):  # push the key light further toward the lamp's own colour
+        lm = float(light.mean())
+        lamp = np.clip(lm + plate["warmth"] * (light - lm), 0, None).astype(np.float32)
+    out = a * illum[..., None] * lamp[None, None, :] * plate.get("lamp_gain", 1.0)
     # Soft-knee highlight compression relative to the lamp's white level: paper can't out-shine
     # the cream plate under the same lamp.
     wl = float(light.mean())
-    knee = g.get("knee", 0.62) * wl
+    knee = g.get("knee", plate.get("knee", 0.62)) * wl
     over = np.clip(out - knee, 0, None)
     out = np.minimum(out, knee) + over / (1 + over / max(0.35 * wl, 1e-4))
     # Neighbour harmonisation: pull each face part-way toward the plate's shared mean exposure,
@@ -427,6 +448,10 @@ def build_face(base, b, plate, light, colprof, vis_frac):
     # so no face keeps a deeper black than the night around it (council v2: blacks too rich).
     veil = sky_rgb(base, b["face"], h) * plate["veil"] + light * plate.get("veil_light", 0.0)
     out = out + veil[None, None, :] + tex[..., None] * plate["glass"]
+    if plate.get("streak"):
+        # One faint diagonal reflection streak on the cover glass (lamp-coloured), off-centre.
+        st = np.exp(-(((xn * 0.9 - yn * 0.55 - 0.18) / 0.045) ** 2)) * plate["streak"]
+        out = out + st[..., None] * light[None, None, :]
     face = finish(out, w, h, plate, b["seed"])
     if g.get("soft"):
         face = face.filter(ImageFilter.GaussianBlur(g["soft"]))

@@ -42,9 +42,7 @@
     1273,
     751
    ],
-   "grade": {
-    "cyan": 0.55
-   },
+   "grade": {},
    "why": "Carrier plane + spaceship silhouettes with contrails. The hero's rocket is a ~20px speck at board size. The engine-firing frame read as a dark wedge. The ship sits left of the diner mullion that hides the right third of this cabinet.",
    "build_source": "assets/cases/virgin-work-01.webp"
   },
@@ -96,13 +94,9 @@
     994
    ],
    "grade": {
-    "cyan": 0.4,
-    "knee": 0.46,
-    "exposure": 0.76,
-    "falloff": 1.6,
-    "soft": 0.45
+    "cyan": 0.75
    },
-   "why": "Vault of cash + MrBeast's face: the campaign in one frame. The baked GIVEAWAY headline is cropped off. The only image for this case. Council v2 still read it as front-lit, so it takes a steeper lamp falloff, lower exposure and extra softness.",
+   "why": "Vault of cash + MrBeast's face: the campaign in one frame. The baked GIVEAWAY headline is cropped off. The only image for this case. Graded like its neighbours (lamp pool, edge falloff, glass streak) rather than darkened.",
    "build_source": "assets/cases/moneylion-hero.webp"
   },
   {
