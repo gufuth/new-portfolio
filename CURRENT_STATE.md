@@ -73,3 +73,7 @@ Built 2026-09-24: INDEX / All work page at `/work/all/` (step 2); INDEX link in 
 **Live 2026-09-25:** Netlify upgraded to Pro. Mock site https://last-stop-diner-staging.netlify.app is published from `integration` (manual publishes by the agent; each costs 15 credits of 3,000/month). It sends noindex + Disallow so search engines skip it. Auto-publish on push still needs a NETLIFY_AUTH_TOKEN secret in GitHub.
 
 Every push to `integration` should update the mock site. The GitHub workflow `deploy-staging.yml` does this once a `NETLIFY_AUTH_TOKEN` secret exists in the repo; until then the agent deploys by hand after each push. The workflow skips quietly without the secret.
+
+
+## 2026-09-26 build (review pages, not public)
+All new work lives under /review/ on branch `integration`; hub: /review/ (top section). Case template locked = review/option-2-1 (tag option-2.1-locked). Built: review/cases-2-1 (10 cases), review/index-2-1 (All work), review/billboards (10 baked faces; new plates assets/work-panorama-physical-v3.webp + more-work-panorama-physical-v2.webp; motel sign + Stella removed; swap option with The Atlantic on Work), review/about-lab-2/a27.html (second-floor room, A27d1 plate, needs polish), review/hearsay-lab-2/c2.html|c3.html (jukebox; stamp wording is Ian's call). Gates: scripts/rights_gate.py blocks main deploys until client images are confirmed (docs/rights/rights_register.csv); launch_check.py --paths. Run ledger: PROJECT ZERO drafts/pz_portfolio_last_stop_diner/riy_runs/20260925_fire/.
